@@ -29,7 +29,7 @@
 
 #include <glib.h>
 #include <gdk/gdk.h>
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 #include <sys/time.h>
 #include <string.h>
 #define LDAP_DEPRECATED 1

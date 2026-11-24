@@ -25,9 +25,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <string.h>
 

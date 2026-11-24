@@ -22,11 +22,7 @@
 
 #include <glib.h>
 #include <gdk/gdk.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkdnd.h>
+#include <gtk/gtk.h>
 
 typedef struct _SummaryView		SummaryView;
 typedef struct _SummaryColumnState	SummaryColumnState;

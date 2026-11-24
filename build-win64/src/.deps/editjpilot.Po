@@ -1,0 +1,2 @@
+editjpilot.o: ../../src/editjpilot.c ../config.h
+../config.h:

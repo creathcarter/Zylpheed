@@ -24,19 +24,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include "inputdialog.h"
 #include "manage_window.h"
@@ -180,7 +168,7 @@ static void input_dialog_create(InputDialogType dialog_type)
 	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 	gtk_widget_set_size_request(dialog, DIALOG_WIDTH * gtkut_get_dpi_multiplier(), -1);
 	gtk_container_set_border_width
-		(GTK_CONTAINER(GTK_DIALOG(dialog)->action_area), 5 * gtkut_get_dpi_multiplier());
+		(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), 5 * gtkut_get_dpi_multiplier());
 	gtk_window_set_position(GTK_WINDOW(dialog),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
@@ -194,7 +182,7 @@ static void input_dialog_create(InputDialogType dialog_type)
 	MANAGE_WINDOW_SIGNALS_CONNECT(dialog);
 
 	vbox = gtk_vbox_new(FALSE, 8 * gtkut_get_dpi_multiplier());
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), vbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), vbox);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -234,7 +222,7 @@ static void input_dialog_create(InputDialogType dialog_type)
 				      &ok_button, GTK_STOCK_OK,
 				      &cancel_button, GTK_STOCK_CANCEL,
 				      NULL, NULL);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->action_area),
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(dialog))),
 			  confirm_area);
 	gtk_widget_grab_default(ok_button);
 
@@ -243,7 +231,7 @@ static void input_dialog_create(InputDialogType dialog_type)
 	g_signal_connect(G_OBJECT(cancel_button), "clicked",
 			 G_CALLBACK(cancel_clicked), NULL);
 
-	gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
+	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(dialog)));
 }
 
 static gchar *input_dialog_open(const gchar *title, const gchar *message,
@@ -339,7 +327,7 @@ static gint delete_event(GtkWidget *widget, GdkEventAny *event, gpointer data)
 
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		ack = FALSE;
 		fin = TRUE;
 	}

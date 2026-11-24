@@ -1,0 +1,276 @@
+Making install in ac
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+make[2]: Nothing to be done for 'install-exec-am'.
+make[2]: Nothing to be done for 'install-data-am'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+Making install in libsylph
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make  install-am
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib'
+ /bin/sh ../libtool   --mode=install /usr/bin/install -c   libsylph-0.la '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib'
+libtool: install: /usr/bin/install -c .libs/libsylph-0.dll.a /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/libsylph-0.dll.a
+libtool: install: base_file=`basename libsylph-0.la`
+libtool: install:  dlpath=`/bin/sh 2>&1 -c '. .libs/'libsylph-0.la'i; echo libsylph-0-1.dll'`
+libtool: install:  dldir=/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/`dirname ../bin/libsylph-0-1.dll`
+libtool: install:  test -d /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin || mkdir -p /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin
+libtool: install:  /usr/bin/install -c .libs/libsylph-0-1.dll /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin/libsylph-0-1.dll
+libtool: install:  chmod a+x /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin/libsylph-0-1.dll
+libtool: install:  if test -n '' && test -n 'strip --strip-unneeded'; then eval 'strip --strip-unneeded /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin/libsylph-0-1.dll' || exit 0; fi
+libtool: install: /usr/bin/install -c .libs/libsylph-0.lai /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/libsylph-0.la
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/include/sylpheed/sylph'
+ /usr/bin/install -c -m 644 ../../libsylph/defs.h ../../libsylph/enums.h ../../libsylph/account.h ../../libsylph/base64.h ../../libsylph/codeconv.h ../../libsylph/customheader.h ../../libsylph/displayheader.h ../../libsylph/filter.h ../../libsylph/folder.h ../../libsylph/html.h ../../libsylph/imap.h ../../libsylph/mbox.h ../../libsylph/md5.h ../../libsylph/md5_hmac.h ../../libsylph/mh.h ../../libsylph/news.h ../../libsylph/nntp.h ../../libsylph/oauth2.h ../../libsylph/pop.h ../../libsylph/prefs.h ../../libsylph/prefs_account.h ../../libsylph/prefs_common.h ../../libsylph/procheader.h ../../libsylph/procmime.h ../../libsylph/procmsg.h ../../libsylph/quoted-printable.h ../../libsylph/recv.h ../../libsylph/session.h ../../libsylph/smtp.h ../../libsylph/socket.h ../../libsylph/socks.h ../../libsylph/ssl.h ../../libsylph/ssl_hostname_validation.h ../../libsylph/stringtable.h ../../libsylph/sylmain.h ../../libsylph/unmime.h ../../libsylph/utils.h ../../libsylph/uuencode.h ../../libsylph/virtual.h ../../libsylph/xml.h '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/include/sylpheed/sylph'
+ /usr/bin/install -c -m 644 ../../libsylph/syl-marshal.h '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/include/sylpheed/sylph'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+Making install in src
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make  install-recursive
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making install in icons
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make  install-am
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[5]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[5]: Nothing to be done for 'install-exec-am'.
+make[5]: Nothing to be done for 'install-data-am'.
+make[5]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib'
+ /bin/sh ../libtool   --mode=install /usr/bin/install -c   libsylpheed-plugin-0.la '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib'
+libtool: install: /usr/bin/install -c .libs/libsylpheed-plugin-0.dll.a /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/libsylpheed-plugin-0.dll.a
+libtool: install: base_file=`basename libsylpheed-plugin-0.la`
+libtool: install:  dlpath=`/bin/sh 2>&1 -c '. .libs/'libsylpheed-plugin-0.la'i; echo libsylpheed-plugin-0-1.dll'`
+libtool: install:  dldir=/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/`dirname ../bin/libsylpheed-plugin-0-1.dll`
+libtool: install:  test -d /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin || mkdir -p /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin
+libtool: install:  /usr/bin/install -c .libs/libsylpheed-plugin-0-1.dll /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin/libsylpheed-plugin-0-1.dll
+libtool: install:  chmod a+x /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin/libsylpheed-plugin-0-1.dll
+libtool: install:  if test -n '' && test -n 'strip --strip-unneeded'; then eval 'strip --strip-unneeded /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/../bin/libsylpheed-plugin-0-1.dll' || exit 0; fi
+libtool: install: /usr/bin/install -c .libs/libsylpheed-plugin-0.lai /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/libsylpheed-plugin-0.la
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/bin'
+  /bin/sh ../libtool   --mode=install /usr/bin/install -c sylpheed.exe syl-auth-helper.exe '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/bin'
+libtool: install: /usr/bin/install -c .libs/sylpheed.exe /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/bin/sylpheed.exe
+libtool: install: /usr/bin/install -c .libs/syl-auth-helper.exe /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/bin/syl-auth-helper.exe
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/include/sylpheed'
+ /usr/bin/install -c -m 644 ../../src/plugin.h ../../src/plugin-types.h '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/include/sylpheed'
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making install in plugin
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making install in attachment_tool
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+make[2]: Nothing to be done for 'install'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+Making install in test
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[2]: Nothing to be done for 'install'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making install in po
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+if test -r "../../..//mkinstalldirs"; then \
+  ../../..//mkinstalldirs /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share; \
+else \
+  /bin/sh ../../mkinstalldirs /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share; \
+fi
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/be/LC_MESSAGES
+installing ../../po/be.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/be/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/bg/LC_MESSAGES
+installing ../../po/bg.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/bg/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/cs/LC_MESSAGES
+installing ../../po/cs.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/cs/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/da/LC_MESSAGES
+installing ../../po/da.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/da/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/de/LC_MESSAGES
+installing ../../po/de.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/de/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/el/LC_MESSAGES
+installing ../../po/el.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/el/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/es/LC_MESSAGES
+installing ../../po/es.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/es/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/et/LC_MESSAGES
+installing ../../po/et.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/et/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/eu/LC_MESSAGES
+installing ../../po/eu.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/eu/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/fi/LC_MESSAGES
+installing ../../po/fi.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/fi/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/fr/LC_MESSAGES
+installing ../../po/fr.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/fr/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/gl/LC_MESSAGES
+installing ../../po/gl.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/gl/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/he/LC_MESSAGES
+installing ../../po/he.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/he/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/hr/LC_MESSAGES
+installing ../../po/hr.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/hr/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/hu/LC_MESSAGES
+installing ../../po/hu.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/hu/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/it/LC_MESSAGES
+installing ../../po/it.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/it/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ja/LC_MESSAGES
+installing ../../po/ja.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ja/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ko/LC_MESSAGES
+installing ../../po/ko.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ko/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/lt/LC_MESSAGES
+installing ../../po/lt.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/lt/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/nl/LC_MESSAGES
+installing ../../po/nl.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/nl/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/pl/LC_MESSAGES
+installing ../../po/pl.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/pl/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/pt_BR/LC_MESSAGES
+installing ../../po/pt_BR.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/pt_BR/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ro/LC_MESSAGES
+installing ../../po/ro.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ro/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ru/LC_MESSAGES
+installing ../../po/ru.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/ru/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sk/LC_MESSAGES
+installing ../../po/sk.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sk/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sl/LC_MESSAGES
+installing ../../po/sl.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sl/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sr/LC_MESSAGES
+installing ../../po/sr.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sr/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sv/LC_MESSAGES
+installing ../../po/sv.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/sv/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/tr/LC_MESSAGES
+installing ../../po/tr.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/tr/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/uk/LC_MESSAGES
+installing ../../po/uk.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/uk/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/vi/LC_MESSAGES
+installing ../../po/vi.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/vi/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/zh_CN/LC_MESSAGES
+installing ../../po/zh_CN.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/zh_CN/LC_MESSAGES/sylpheed.mo
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/zh_TW/LC_MESSAGES
+installing ../../po/zh_TW.gmo as /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/locale/zh_TW/LC_MESSAGES/sylpheed.mo
+if test "sylpheed" = "glib"; then \
+  if test -r "../../..//mkinstalldirs"; then \
+    ../../..//mkinstalldirs /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/glib-2.0/gettext/po; \
+  else \
+    /bin/sh ../../mkinstalldirs /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/glib-2.0/gettext/po; \
+  fi; \
+  /usr/bin/install -c -m 644 ../../po/Makefile.in.in \
+		  /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/glib-2.0/gettext/po/Makefile.in.in; \
+else \
+  : ; \
+fi
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+Making install in manual
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making install in en
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/manual/en'
+ /usr/bin/install -c -m 644 ../../../manual/en/sylpheed-1.html ../../../manual/en/sylpheed-10.html ../../../manual/en/sylpheed-11.html ../../../manual/en/sylpheed-12.html ../../../manual/en/sylpheed-13.html ../../../manual/en/sylpheed-14.html ../../../manual/en/sylpheed-15.html ../../../manual/en/sylpheed-16.html ../../../manual/en/sylpheed-17.html ../../../manual/en/sylpheed-18.html ../../../manual/en/sylpheed-19.html ../../../manual/en/sylpheed-2.html ../../../manual/en/sylpheed-20.html ../../../manual/en/sylpheed-21.html ../../../manual/en/sylpheed-22.html ../../../manual/en/sylpheed-3.html ../../../manual/en/sylpheed-4.html ../../../manual/en/sylpheed-5.html ../../../manual/en/sylpheed-6.html ../../../manual/en/sylpheed-7.html ../../../manual/en/sylpheed-8.html ../../../manual/en/sylpheed-9.html ../../../manual/en/sylpheed.html '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/manual/en'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+Making install in ja
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/manual/ja'
+ /usr/bin/install -c -m 644 ../../../manual/ja/sylpheed-1.html ../../../manual/ja/sylpheed-10.html ../../../manual/ja/sylpheed-11.html ../../../manual/ja/sylpheed-12.html ../../../manual/ja/sylpheed-13.html ../../../manual/ja/sylpheed-14.html ../../../manual/ja/sylpheed-15.html ../../../manual/ja/sylpheed-16.html ../../../manual/ja/sylpheed-17.html ../../../manual/ja/sylpheed-18.html ../../../manual/ja/sylpheed-19.html ../../../manual/ja/sylpheed-20.html ../../../manual/ja/sylpheed-21.html ../../../manual/ja/sylpheed-22.html ../../../manual/ja/sylpheed-23.html ../../../manual/ja/sylpheed-24.html ../../../manual/ja/sylpheed-25.html ../../../manual/ja/sylpheed-26.html ../../../manual/ja/sylpheed-27.html ../../../manual/ja/sylpheed-2.html ../../../manual/ja/sylpheed-3.html ../../../manual/ja/sylpheed-4.html ../../../manual/ja/sylpheed-5.html ../../../manual/ja/sylpheed-6.html ../../../manual/ja/sylpheed-7.html ../../../manual/ja/sylpheed-8.html ../../../manual/ja/sylpheed-9.html ../../../manual/ja/sylpheed.html '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/manual/ja'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making install in faq
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making install in de
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/de'
+ /usr/bin/install -c -m 644 ../../../faq/de/sylpheed-faq-1.html ../../../faq/de/sylpheed-faq-2.html ../../../faq/de/sylpheed-faq-3.html ../../../faq/de/sylpheed-faq.html '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/de'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+Making install in en
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/en'
+ /usr/bin/install -c -m 644 ../../../faq/en/sylpheed-faq-1.html ../../../faq/en/sylpheed-faq-2.html ../../../faq/en/sylpheed-faq-3.html ../../../faq/en/sylpheed-faq-4.html ../../../faq/en/sylpheed-faq.html '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/en'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+Making install in es
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/es'
+ /usr/bin/install -c -m 644 ../../../faq/es/sylpheed-faq-1.html ../../../faq/es/sylpheed-faq-2.html ../../../faq/es/sylpheed-faq-3.html ../../../faq/es/sylpheed-faq.html '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/es'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+Making install in fr
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/fr'
+ /usr/bin/install -c -m 644 ../../../faq/fr/sylpheed-faq-1.html ../../../faq/fr/sylpheed-faq-2.html ../../../faq/fr/sylpheed-faq-3.html ../../../faq/fr/sylpheed-faq.html '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/fr'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+Making install in it
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/it'
+ /usr/bin/install -c -m 644 ../../../faq/it/sylpheed-faq-1.html ../../../faq/it/sylpheed-faq-2.html ../../../faq/it/sylpheed-faq-3.html ../../../faq/it/sylpheed-faq.html '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/sylpheed/faq/it'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making install in nsis
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+make[2]: Nothing to be done for 'install-exec-am'.
+make[2]: Nothing to be done for 'install-data-am'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+Making install in macosx
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+Making install in bundle
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[2]: Nothing to be done for 'install-exec-am'.
+/bin/sh ../mkinstalldirs /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/pixmaps; \
+/usr/bin/install -c -m 644 ../sylpheed-64x64.png /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/pixmaps/sylpheed.png;
+mkdir -p -- /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/pixmaps
+ /usr/bin/mkdir -p '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/applications'
+ /usr/bin/install -c -m 644 ../sylpheed.desktop '/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/share/applications'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'

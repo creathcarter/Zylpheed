@@ -133,6 +133,8 @@ gint procmsg_read_cache_data_str(FILE *fp, gchar **str)
 	if (len > G_MAXINT)
 		return -1;
 
+	*str = NULL;
+
 	while (len > 0) {
 		size_t size = MIN(len, BUFFSIZE - 1);
 
@@ -283,9 +285,11 @@ GSList *procmsg_read_cache(FolderItem *item, gboolean scan_file)
 
 		READ_CACHE_DATA_INT(refnum);
 		for (; refnum != 0; refnum--) {
-			gchar *ref;
+			gchar *ref = NULL;
 
 			READ_CACHE_DATA(ref);
+			if (!ref)
+				ref = g_strdup("");
 			msginfo->references =
 				g_slist_prepend(msginfo->references, ref);
 		}

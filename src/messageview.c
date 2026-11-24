@@ -22,17 +22,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkcontainer.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtktooltips.h>
-#include <gtk/gtkarrow.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -106,11 +96,9 @@ static gboolean key_pressed		(GtkWidget		*widget,
 static void save_as_cb			(gpointer	 data,
 					 guint		 action,
 					 GtkWidget	*widget);
-#if GTK_CHECK_VERSION(2, 10, 0)
 static void page_setup_cb		(gpointer	 data,
 					 guint		 action,
 					 GtkWidget	*widget);
-#endif
 static void print_cb			(gpointer	 data,
 					 guint		 action,
 					 GtkWidget	*widget);
@@ -166,9 +154,7 @@ static GtkItemFactoryEntry msgview_entries[] =
 	{N_("/_File"),			NULL, NULL, 0, "<Branch>"},
 	{N_("/_File/_Save as..."),	NULL, save_as_cb, 0, NULL},
 	{N_("/_File/---"),		NULL, NULL, 0, "<Separator>"},
-#if GTK_CHECK_VERSION(2, 10, 0)
 	{N_("/_File/Page set_up..."),	NULL, page_setup_cb, 0, NULL},
-#endif
 	{N_("/_File/_Print..."),	NULL, print_cb, 0, NULL},
 	{N_("/_File/---"),		NULL, NULL, 0, "<Separator>"},
 	{N_("/_File/_Close"),		NULL, close_cb, 0, NULL},
@@ -338,7 +324,6 @@ MessageView *messageview_create(void)
 	HeaderView *headerview;
 	TextView *textview;
 	MimeView *mimeview;
-	GtkTooltips *tip;
 
 	debug_print(_("Creating message view...\n"));
 	messageview = g_new0(MessageView, 1);
@@ -394,9 +379,8 @@ MessageView *messageview_create(void)
 	gtk_widget_show(image);
 	gtk_container_add(GTK_CONTAINER(mime_toggle_btn), image);
 
-	tip = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tip, mime_toggle_btn,
-			     _("Switch to attachment list view"), NULL);
+	gtk_widget_set_tooltip_text(mime_toggle_btn,
+				    _("Switch to attachment list view"));
 
 	arrow = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_OUT);
 	gtk_widget_show(arrow);
@@ -404,7 +388,7 @@ MessageView *messageview_create(void)
 
 	menu_tool_btn = gtk_button_new();
 	gtk_container_add(GTK_CONTAINER(menu_tool_btn), arrow);
-	GTK_WIDGET_UNSET_FLAGS(menu_tool_btn, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(menu_tool_btn, FALSE);
 	gtk_widget_show(menu_tool_btn);
 	gtk_box_pack_start(GTK_BOX(toolbar_hbox), menu_tool_btn,
 			   FALSE, FALSE, 0);
@@ -686,17 +670,21 @@ static void messageview_set_tool_menu(MessageView *messageview,
 	const gchar *name;
 	GtkWidget *menuitem;
 	GList *cur_item, *next = NULL;
+	GList *children;
 	gint pos = 0;
 	gboolean exist;
 
-	cur_item = GTK_MENU_SHELL(messageview->tool_menu)->children;
+	children = gtk_container_get_children
+		(GTK_CONTAINER(messageview->tool_menu));
+	cur_item = children;
 	while (cur_item != NULL) {
 		next = cur_item->next;
-		if (GTK_BIN(cur_item->data)->child == NULL)
+		if (gtk_bin_get_child(GTK_BIN(cur_item->data)) == NULL)
 			break;
 		gtk_widget_destroy(GTK_WIDGET(cur_item->data));
 		cur_item = next;
 	}
+	g_list_free(children);
 
 	for (partinfo = mimeinfo; partinfo != NULL;
 	     partinfo = procmime_mimeinfo_next(partinfo)) {
@@ -1035,7 +1023,7 @@ static void messageview_save_all_cb(GtkWidget *widget, MessageView *messageview)
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    MessageView *messageview)
 {
-	if (event && event->keyval == GDK_Escape && messageview->window) {
+	if (event && event->keyval == GDK_KEY_Escape && messageview->window) {
 		messageview_destroy(messageview);
 		return TRUE;
 	}
@@ -1048,12 +1036,10 @@ static void save_as_cb(gpointer data, guint action, GtkWidget *widget)
 	messageview_save_as(messageview);
 }
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 static void page_setup_cb(gpointer data, guint action, GtkWidget *widget)
 {
 	printing_page_setup_gtk();
 }
-#endif
 
 static void print_cb(gpointer data, guint action, GtkWidget *widget)
 {
@@ -1094,7 +1080,7 @@ static void set_charset_cb(gpointer data, guint action, GtkWidget *widget)
 	MessageView *messageview = (MessageView *)data;
 	const gchar *charset;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		charset = conv_get_charset_str((CharSet)action);
 		g_free(messageview->forced_charset);
 		messageview->forced_charset = g_strdup(charset);
@@ -1126,7 +1112,7 @@ static void show_all_header_cb(gpointer data, guint action, GtkWidget *widget)
 
 	messageview->msginfo = NULL;
 	messageview_show(messageview, msginfo,
-			 GTK_CHECK_MENU_ITEM(widget)->active);
+			 gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)));
 	procmsg_msginfo_free(msginfo);
 }
 

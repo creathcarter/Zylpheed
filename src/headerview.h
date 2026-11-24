@@ -21,8 +21,7 @@
 #define __HEADERVIEW_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 
 #include "procmsg.h"
 
@@ -45,7 +44,6 @@ struct _HeaderView
 
 	GtkWidget *image;
 
-	GtkTooltips *tip;
 };
 
 HeaderView *headerview_create	(void);

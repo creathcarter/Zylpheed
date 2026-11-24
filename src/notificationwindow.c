@@ -64,9 +64,7 @@ static NotificationWindow notify_window;
 
 static void notification_window_destroy(void);
 
-#if GTK_CHECK_VERSION(2, 12, 0)
 static gboolean notify_fadein_timeout_cb(gpointer	 data);
-#endif
 
 static gboolean notify_timeout_cb	(gpointer	 data);
 
@@ -130,11 +128,9 @@ gint notification_window_open(const gchar *message, const gchar *submessage,
 	gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), TRUE);
 	gtk_window_set_gravity(GTK_WINDOW(window), GDK_GRAVITY_SOUTH_EAST);
 	gtk_widget_set_size_request(window, window_width, -1);
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gtk_window_set_opacity(GTK_WINDOW(window), 0.0);
-#endif
 	gtk_widget_realize(window);
-	gdk_window_set_type_hint(window->window, GDK_WINDOW_TYPE_HINT_NOTIFICATION);
+	gdk_window_set_type_hint(gtk_widget_get_window(window), GDK_WINDOW_TYPE_HINT_NOTIFICATION);
 
 	/* move window bottom-right */
 	get_work_area(&rect);
@@ -177,16 +173,9 @@ gint notification_window_open(const gchar *message, const gchar *submessage,
 	if (y < 0) y = 0;
 	gtk_window_move(GTK_WINDOW(window), x, y);
 
-#if GTK_CHECK_VERSION(2, 12, 0)
 	notify_window.notify_tag = g_timeout_add(FADE_REFRESH_RATE,
 						 notify_fadein_timeout_cb,
 						 NULL);
-#else
-	if (timeout > 0) {
-		notify_window.notify_tag = g_timeout_add(timeout * 1000,
-							 notify_timeout_cb, NULL);
-	}
-#endif
 
 	debug_print("notification window created\n");
 
@@ -235,7 +224,6 @@ static void notification_window_destroy(void)
 	}
 }
 
-#if GTK_CHECK_VERSION(2, 12, 0)
 static gboolean notify_fadein_timeout_cb(gpointer data)
 {
 	gdk_threads_enter();
@@ -259,7 +247,6 @@ static gboolean notify_fadein_timeout_cb(gpointer data)
 	gdk_threads_leave();
 	return TRUE;
 }
-#endif
 
 static gboolean notify_fadeout_timeout_cb(gpointer data)
 {
@@ -269,10 +256,8 @@ static gboolean notify_fadeout_timeout_cb(gpointer data)
 
 	gtk_window_move(GTK_WINDOW(notify_window.window),
 			notify_window.x, notify_window.y + notify_window.fade_count * FADE_SPEED);
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gtk_window_set_opacity(GTK_WINDOW(notify_window.window),
 			       (gdouble)notify_window.fade_length / (gdk_screen_height() - notify_window.y));
-#endif
 
 	if (notify_window.fade_length <= 0) {
 		notification_window_destroy();
@@ -328,9 +313,7 @@ static gboolean nwin_motion_notify(GtkWidget *widget, GdkEventMotion *event,
 	}
 	notify_window.fade_count = 0;
 	notify_window.notify_event_count = 0;
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gtk_window_set_opacity(GTK_WINDOW(notify_window.window), 1.0);
-#endif
 	gtk_window_move(GTK_WINDOW(notify_window.window),
 			notify_window.x, notify_window.y);
 	if (notify_window.timeout > 0) {

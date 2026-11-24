@@ -26,24 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #include "subscribedialog.h"
@@ -130,7 +113,7 @@ GSList *subscribe_dialog(Folder *folder)
 	GNode *node;
 	FolderItem *item;
 
-	if (dialog && GTK_WIDGET_VISIBLE(dialog)) return NULL;
+	if (dialog && gtk_widget_get_visible(dialog)) return NULL;
 
 	if (!dialog)
 		subscribe_dialog_create();
@@ -198,7 +181,7 @@ static void subscribe_dialog_create(void)
 				    SUBSCRIBE_DIALOG_WIDTH * gtkut_get_dpi_multiplier(),
 				    SUBSCRIBE_DIALOG_HEIGHT * gtkut_get_dpi_multiplier());
 	gtk_container_set_border_width
-		(GTK_CONTAINER(GTK_DIALOG(dialog)->action_area), 5);
+		(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), 5);
 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Subscribe to newsgroup"));
 	g_signal_connect(G_OBJECT(dialog), "delete_event",
@@ -210,7 +193,7 @@ static void subscribe_dialog_create(void)
 	gtk_widget_realize(dialog);
 
 	vbox = gtk_vbox_new(FALSE, 8);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), vbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), vbox);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -304,7 +287,7 @@ static void subscribe_dialog_create(void)
 				      &ok_button, GTK_STOCK_OK,
 				      &cancel_button, GTK_STOCK_CANCEL,
 				      &refresh_button, GTK_STOCK_REFRESH);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->action_area),
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(dialog))),
 			  confirm_area);
 	gtk_widget_grab_default(ok_button);
 
@@ -315,7 +298,7 @@ static void subscribe_dialog_create(void)
 	g_signal_connect(G_OBJECT(refresh_button), "clicked",
 			 G_CALLBACK(refresh_clicked), NULL);
 
-	gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
+	gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(dialog)));
 }
 
 static GHashTable *branch_node_table;
@@ -602,7 +585,7 @@ static void refresh_clicked(GtkWidget *widget, gpointer data)
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		cancel_clicked(NULL, NULL);
 	return FALSE;
 }

@@ -229,7 +229,7 @@ gint fd_connect_inet(gushort port)
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (!SOCKET_IS_VALID(sock)) {
 #ifdef G_OS_WIN32
-		g_warning("fd_connect_inet(): socket() failed: %ld\n",
+		g_warning("fd_connect_inet(): socket() failed: %d\n",
 			  WSAGetLastError());
 #else
 		perror("fd_connect_inet(): socket");
@@ -259,7 +259,7 @@ gint fd_open_inet(gushort port)
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (!SOCKET_IS_VALID(sock)) {
 #ifdef G_OS_WIN32
-		g_warning("fd_open_inet(): socket() failed: %ld\n",
+		g_warning("fd_open_inet(): socket() failed: %d\n",
 			  WSAGetLastError());
 #else
 		perror("fd_open_inet(): socket");
@@ -380,7 +380,7 @@ SockInfo *sock_new(const gchar *hostname, gushort port)
 	SockInfo *sockinfo;
 
 	sockinfo = g_new0(SockInfo, 1);
-	sockinfo->sock = INVALID_SOCKET;
+	sockinfo->sock = (gint)INVALID_SOCKET;
 	sockinfo->sock_ch = NULL;
 	sockinfo->hostname = g_strdup(hostname);
 	sockinfo->port = port;
@@ -412,7 +412,7 @@ static gint set_nonblocking_mode(gint fd, gboolean nonblock)
 	if (!nonblock)
 		WSAEventSelect(fd, NULL, 0);
 	if (ioctlsocket(fd, FIONBIO, &val) == SOCKET_ERROR) {
-		g_warning("set_nonblocking_mode(): ioctlsocket() failed: %ld\n",
+		g_warning("set_nonblocking_mode(): ioctlsocket() failed: %d\n",
 			  WSAGetLastError());
 		return -1;
 	}
@@ -509,7 +509,7 @@ gboolean sock_has_read_data(SockInfo *sock)
 		return TRUE;
 #endif
 	if (ioctlsocket(sock->sock, FIONREAD, &val) < 0) {
-		g_warning("sock_has_read_data(): ioctlsocket() failed: %ld\n",
+		g_warning("sock_has_read_data(): ioctlsocket() failed: %d\n",
 			  WSAGetLastError());
 		return TRUE;
 	}
@@ -707,7 +707,7 @@ static gint sock_connect_with_timeout(gint sock,
 		ret = -1;
 		goto end;
 	} else if (dwret != WSA_WAIT_EVENT_0) {
-		g_warning("sock_connect_with_timeout: WSAWaitForMultipleEvents (%d)", dwret);
+		g_warning("sock_connect_with_timeout: WSAWaitForMultipleEvents (%lu)", dwret);
 		ret = -1;
 		goto end;
 	}
@@ -1151,7 +1151,7 @@ gint sock_info_connect(SockInfo *sockinfo)
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (!SOCKET_IS_VALID(sock)) {
 #ifdef G_OS_WIN32
-		g_warning("socket() failed: %ld\n", WSAGetLastError());
+		g_warning("socket() failed: %d\n", WSAGetLastError());
 #else
 		perror("socket");
 #endif /* G_OS_WIN32 */

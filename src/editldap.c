@@ -32,17 +32,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtk.h>
 
 #include "addressbook.h"
 #include "prefs_common.h"
@@ -107,7 +97,7 @@ static gint edit_ldap_delete_event( GtkWidget *widget, GdkEventAny *event, gbool
 }
 
 static gboolean edit_ldap_key_pressed( GtkWidget *widget, GdkEventKey *event, gboolean *cancelled ) {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		*cancelled = TRUE;
 		gtk_main_quit();
 	}
@@ -278,7 +268,7 @@ void addressbook_edit_ldap_page_basic( gint pageNum, gchar *pageLbl ) {
 	GtkWidget *entry_name;
 	GtkWidget *entry_server;
 	GtkWidget *hbox_spin;
-	GtkObject *spinbtn_port_adj;
+	GtkAdjustment *spinbtn_port_adj;
 	GtkWidget *spinbtn_port;
 	GtkWidget *entry_baseDN;
 	GtkWidget *check_btn;
@@ -327,7 +317,7 @@ void addressbook_edit_ldap_page_basic( gint pageNum, gchar *pageLbl ) {
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
 	hbox_spin = gtk_hbox_new (FALSE, 8);
-	spinbtn_port_adj = gtk_adjustment_new (389, 1, 65535, 100, 1000, 0);
+	spinbtn_port_adj = GTK_ADJUSTMENT(gtk_adjustment_new (389, 1, 65535, 100, 1000, 0));
 	spinbtn_port = gtk_spin_button_new(GTK_ADJUSTMENT (spinbtn_port_adj), 1, 0);
 	gtk_box_pack_start (GTK_BOX (hbox_spin), spinbtn_port, FALSE, FALSE, 0);
 	gtk_widget_set_size_request (spinbtn_port, 64, -1);
@@ -370,9 +360,9 @@ void addressbook_edit_ldap_page_extended( gint pageNum, gchar *pageLbl ) {
 	GtkWidget *entry_bindPW;
 	GtkWidget *entry_criteria;
 	GtkWidget *hbox_spin;
-	GtkObject *spinbtn_timeout_adj;
+	GtkAdjustment *spinbtn_timeout_adj;
 	GtkWidget *spinbtn_timeout;
-	GtkObject *spinbtn_maxentry_adj;
+	GtkAdjustment *spinbtn_maxentry_adj;
 	GtkWidget *spinbtn_maxentry;
 	GtkWidget *reset_btn;
 	gint top;
@@ -432,7 +422,7 @@ void addressbook_edit_ldap_page_extended( gint pageNum, gchar *pageLbl ) {
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
 	hbox_spin = gtk_hbox_new (FALSE, 8);
-	spinbtn_timeout_adj = gtk_adjustment_new (0, 0, 300, 1, 10, 0);
+	spinbtn_timeout_adj = GTK_ADJUSTMENT(gtk_adjustment_new (0, 0, 300, 1, 10, 0));
 	spinbtn_timeout = gtk_spin_button_new(GTK_ADJUSTMENT (spinbtn_timeout_adj), 1, 0);
 	gtk_box_pack_start (GTK_BOX (hbox_spin), spinbtn_timeout, FALSE, FALSE, 0);
 	gtk_widget_set_size_request (spinbtn_timeout, 64, -1);
@@ -446,7 +436,7 @@ void addressbook_edit_ldap_page_extended( gint pageNum, gchar *pageLbl ) {
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
 	hbox_spin = gtk_hbox_new (FALSE, 8);
-	spinbtn_maxentry_adj = gtk_adjustment_new (0, 0, 500, 1, 10, 0);
+	spinbtn_maxentry_adj = GTK_ADJUSTMENT(gtk_adjustment_new (0, 0, 500, 1, 10, 0));
 	spinbtn_maxentry = gtk_spin_button_new(GTK_ADJUSTMENT (spinbtn_maxentry_adj), 1, 0);
 	gtk_box_pack_start (GTK_BOX (hbox_spin), spinbtn_maxentry, FALSE, FALSE, 0);
 	gtk_widget_set_size_request (spinbtn_maxentry, 64, -1);

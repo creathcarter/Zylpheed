@@ -30,45 +30,10 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkvpaned.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkeditable.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkcontainer.h>
-#include <gtk/gtktoolbar.h>
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtktoolbutton.h>
-#include <gtk/gtkseparatortoolitem.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkclipboard.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 #include <pango/pango-break.h>
 
 #if USE_GTKSPELL
-#  include <gtk/gtkradiomenuitem.h>
 #  include <gtkspell/gtkspell.h>
 #if USE_ENCHANT
 #  include <enchant/enchant.h>
@@ -1362,13 +1327,13 @@ void compose_entry_append(Compose *compose, const gchar *text,
 	if (type != COMPOSE_ENTRY_SUBJECT) {
 		str = gtk_entry_get_text(entry);
 		if (*str != '\0') {
-			pos = entry->text_length;
+			pos = gtk_entry_get_text_length(entry);
 			gtk_editable_insert_text(GTK_EDITABLE(entry),
 						 ", ", -1, &pos);
 		}
 	}
 
-	pos = entry->text_length;
+	pos = gtk_entry_get_text_length(entry);
 	gtk_editable_insert_text(GTK_EDITABLE(entry), text, -1, &pos);
 }
 
@@ -3171,7 +3136,7 @@ static gint check_recp_delete_event(GtkWidget *widget, GdkEventAny *event,
 static gboolean check_recp_key_pressed(GtkWidget *widget, GdkEventKey *event,
 				       gint *state)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		*state = GTK_RESPONSE_CANCEL;
 		return TRUE;
 	}
@@ -3304,7 +3269,7 @@ static gboolean compose_check_recipients(Compose *compose)
 		gint size;
 
 		size = pango_font_description_get_size
-			(label->style->font_desc);
+			(gtk_widget_get_style(label)->font_desc);
 		font_desc = pango_font_description_new();
 		pango_font_description_set_weight
 			(font_desc, PANGO_WEIGHT_BOLD);
@@ -3320,7 +3285,7 @@ static gboolean compose_check_recipients(Compose *compose)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(label, FALSE);
 
 	table = gtk_table_new(2, 2, FALSE);
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
@@ -5303,8 +5268,10 @@ static void compose_add_entry_field(GtkWidget *table, GtkWidget **hbox,
 				    gboolean is_addr_entry)
 {
 	GtkWidget *label;
+	guint rows;
 
-	if (GTK_TABLE(table)->nrows < (*count) + 1)
+	gtk_table_get_size(GTK_TABLE(table), &rows, NULL);
+	if (rows < (*count) + 1)
 		gtk_table_resize(GTK_TABLE(table), (*count) + 1, 2);
 
 	*hbox = gtk_hbox_new(FALSE, 0);
@@ -5317,7 +5284,8 @@ static void compose_add_entry_field(GtkWidget *table, GtkWidget **hbox,
 	gtk_entry_set_max_length(GTK_ENTRY(*entry), MAX_ENTRY_LENGTH);
 	gtk_table_attach_defaults
 		(GTK_TABLE(table), *entry, 1, 2, *count, (*count) + 1);
-	if (GTK_TABLE(table)->nrows > (*count) + 1)
+	gtk_table_get_size(GTK_TABLE(table), &rows, NULL);
+	if (rows > (*count) + 1)
 		gtk_table_set_row_spacing(GTK_TABLE(table), *count, 4);
 
 	if (is_addr_entry && prefs_common.enable_address_completion)
@@ -5442,8 +5410,6 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	gtk_widget_set_size_request(menubar, 300, -1);
 	gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, TRUE, 0);
 
-	compose->toolbar_tip = gtk_tooltips_new();
-	g_object_ref_sink(compose->toolbar_tip);
 	toolbar = compose_toolbar_create(compose);
 	gtk_widget_set_size_request(toolbar, 300, -1);
 	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
@@ -5530,7 +5496,7 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 #if 0
 	attach_img = stock_pixbuf_widget(window, STOCK_PIXMAP_CLIP);
 	attach_toggle = gtk_toggle_button_new();
-	GTK_WIDGET_UNSET_FLAGS(attach_toggle, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(attach_toggle, FALSE);
 	gtk_container_add(GTK_CONTAINER(attach_toggle), attach_img);
 	gtk_box_pack_start(GTK_BOX(misc_hbox), attach_toggle, FALSE, FALSE, 8);
 	g_signal_connect(G_OBJECT(attach_toggle), "toggled",
@@ -5542,10 +5508,10 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	gtk_box_pack_start(GTK_BOX(vbox2), misc_hbox, FALSE, FALSE, 0);
 
 	signing_chkbtn = gtk_check_button_new_with_label(_("PGP Sign"));
-	GTK_WIDGET_UNSET_FLAGS(signing_chkbtn, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(signing_chkbtn, FALSE);
 	gtk_box_pack_start(GTK_BOX(misc_hbox), signing_chkbtn, FALSE, FALSE, 8);
 	encrypt_chkbtn = gtk_check_button_new_with_label(_("PGP Encrypt"));
-	GTK_WIDGET_UNSET_FLAGS(encrypt_chkbtn, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(encrypt_chkbtn, FALSE);
 	gtk_box_pack_start(GTK_BOX(misc_hbox), encrypt_chkbtn, FALSE, FALSE, 8);
 
 	g_signal_connect(G_OBJECT(signing_chkbtn), "toggled",
@@ -5661,7 +5627,7 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	gtk_container_add(GTK_CONTAINER(scrolledwin), text);
 
 	gtk_shruler_set_start_pos(GTK_SHRULER(ruler),
-				  text->style->xthickness + TEXTVIEW_MARGIN);
+				  gtk_widget_get_style(text)->xthickness + TEXTVIEW_MARGIN);
 
 	g_signal_connect(G_OBJECT(text), "grab_focus",
 			 G_CALLBACK(compose_grab_focus_cb), compose);
@@ -5948,7 +5914,7 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	gtk_widget_show(window);
 
 	color[0] = quote_color;
-	cmap = gdk_window_get_colormap(window->window);
+	cmap = gdk_window_get_colormap(gtk_widget_get_window(window));
 	gdk_colormap_alloc_colors(cmap, color, 1, FALSE, TRUE, success);
 	if (success[0] == FALSE) {
 		GtkStyle *style;
@@ -6105,10 +6071,8 @@ static GtkWidget *compose_toolbar_create_from_list(Compose *compose,
 		icon_wid = stock_pixbuf_widget_for_toolbar(ditem->icon);
 		toolitem = gtk_tool_button_new(icon_wid, gettext(ditem->label));
 		if (ditem->description) {
-			gtk_tool_item_set_tooltip(toolitem,
-						  compose->toolbar_tip,
-						  gettext(ditem->description),
-						  ditem->name);
+			gtk_tool_item_set_tooltip_text(toolitem,
+						       gettext(ditem->description));
 		}
 
 		gtkut_get_str_size(GTK_WIDGET(toolitem), gettext(ditem->label),
@@ -6121,7 +6085,7 @@ static GtkWidget *compose_toolbar_create_from_list(Compose *compose,
 
 		g_signal_connect(G_OBJECT(toolitem), "clicked",
 				 G_CALLBACK(item->callback), compose);
-		g_signal_connect(G_OBJECT(GTK_BIN(toolitem)->child),
+		g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(toolitem))),
 				 "button_press_event",
 				 G_CALLBACK(toolbar_button_pressed), compose);
 
@@ -6556,6 +6520,7 @@ static void compose_destroy(Compose *compose)
 	AttachInfo *ainfo;
 	GtkTextBuffer *buffer;
 	GtkClipboard *clipboard;
+	GtkAllocation allocation;
 
 	compose_list = g_list_remove(compose_list, compose);
 
@@ -6617,10 +6582,10 @@ static void compose_destroy(Compose *compose)
 		gtkut_widget_get_uposition(compose->window,
 					   &prefs_common.compose_x,
 					   &prefs_common.compose_y);
-		prefs_common.compose_width =
-			compose->scrolledwin->allocation.width;
-		prefs_common.compose_height =
-			compose->window->allocation.height;
+		gtk_widget_get_allocation(compose->scrolledwin, &allocation);
+		prefs_common.compose_width = allocation.width;
+		gtk_widget_get_allocation(compose->window, &allocation);
+		prefs_common.compose_height = allocation.height;
 	}
 
 	if (!gtk_widget_get_parent(compose->paned))
@@ -6630,8 +6595,6 @@ static void compose_destroy(Compose *compose)
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(compose->text));
 	clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 	gtk_text_buffer_remove_selection_clipboard(buffer, clipboard);
-
-	g_object_unref(compose->toolbar_tip);
 
 	gtk_widget_destroy(compose->window);
 
@@ -6984,7 +6947,7 @@ static gboolean attach_property_key_pressed(GtkWidget *widget,
 					    GdkEventKey *event,
 					    gboolean *cancelled)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		*cancelled = TRUE;
 		gtk_main_quit();
 	}
@@ -7105,7 +7068,8 @@ static void compose_exec_ext_editor(Compose *compose)
 
 	compose_set_ext_editor_sensitive(compose, FALSE);
 
-	debug_print("compose_exec_ext_editor(): pid: %d file: %s\n", pid, tmp);
+	debug_print("compose_exec_ext_editor(): pid: %d file: %s\n",
+		    (gint)(gintptr)pid, tmp);
 
 	compose->exteditor_file = tmp;
 	compose->exteditor_pid = pid;
@@ -7137,7 +7101,7 @@ static gboolean compose_ext_editor_kill(Compose *compose)
 		msg = g_strdup_printf
 			(_("The external editor is still working.\n"
 			   "Force terminating the process (pid: %d)?\n"),
-			 compose->exteditor_pid);
+			 (gint)(gintptr)compose->exteditor_pid);
 		val = alertpanel_full(_("Notice"), msg, ALERT_NOTICE,
 				      G_ALERTALTERNATE, FALSE,
 				      GTK_STOCK_YES, GTK_STOCK_NO, NULL);
@@ -7155,14 +7119,14 @@ static gboolean compose_ext_editor_kill(Compose *compose)
 	if (compose->exteditor_pid != 0) {
 #ifdef G_OS_WIN32
 		if (TerminateProcess(compose->exteditor_pid, 1) == 0)
-			g_warning("TerminateProcess() failed: %d\n",
+			g_warning("TerminateProcess() failed: %lu\n",
 				  GetLastError());
 #else
 		if (kill(compose->exteditor_pid, SIGTERM) < 0)
 			perror("kill");
 #endif
 		g_message("Terminated process group id: %d\n",
-			  compose->exteditor_pid);
+			  (gint)(gintptr)compose->exteditor_pid);
 		g_message("Temporary file: %s\n",
 			  compose->exteditor_file);
 		compose->exteditor_pid = 0;
@@ -7187,7 +7151,8 @@ static void compose_ext_editor_child_exit(GPid pid, gint status, gpointer data)
 	GtkTextMark *mark;
 	GtkTextIter iter;
 
-	debug_print("Compose: child exit (pid: %d status: %d)\n", pid, status);
+	debug_print("Compose: child exit (pid: %d status: %d)\n",
+		    (gint)(gintptr)pid, status);
 
 	compose_lock(compose);
 
@@ -7570,7 +7535,7 @@ static gboolean attach_key_pressed(GtkWidget *widget, GdkEventKey *event,
 	if (!event) return FALSE;
 
 	switch (event->keyval) {
-	case GDK_Delete:
+	case GDK_KEY_Delete:
 		compose_attach_remove_selected(compose);
 		break;
 	}
@@ -7902,7 +7867,7 @@ static void compose_set_encoding_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		compose->out_encoding = (CharSet)action;
 }
 
@@ -7964,7 +7929,7 @@ static void compose_redo_cb(Compose *compose)
 static void compose_cut_cb(Compose *compose)
 {
 	if (compose->focused_editable &&
-	    GTK_WIDGET_HAS_FOCUS(compose->focused_editable)) {
+	    gtk_widget_has_focus(compose->focused_editable)) {
 		if (GTK_IS_EDITABLE(compose->focused_editable)) {
 			gtk_editable_cut_clipboard
 				(GTK_EDITABLE(compose->focused_editable));
@@ -7984,7 +7949,7 @@ static void compose_cut_cb(Compose *compose)
 static void compose_copy_cb(Compose *compose)
 {
 	if (compose->focused_editable &&
-	    GTK_WIDGET_HAS_FOCUS(compose->focused_editable)) {
+	    gtk_widget_has_focus(compose->focused_editable)) {
 		if (GTK_IS_EDITABLE(compose->focused_editable)) {
 			gtk_editable_copy_clipboard
 				(GTK_EDITABLE(compose->focused_editable));
@@ -8004,7 +7969,7 @@ static void compose_copy_cb(Compose *compose)
 static void compose_paste_cb(Compose *compose)
 {
 	if (compose->focused_editable &&
-	    GTK_WIDGET_HAS_FOCUS(compose->focused_editable)) {
+	    gtk_widget_has_focus(compose->focused_editable)) {
 		if (GTK_IS_EDITABLE(compose->focused_editable)) {
 			gtk_editable_paste_clipboard
 				(GTK_EDITABLE(compose->focused_editable));
@@ -8035,7 +8000,7 @@ static void compose_paste_as_quote_cb(Compose *compose)
 	gchar *str = NULL;
 
 	if (!compose->focused_editable ||
-	    !GTK_WIDGET_HAS_FOCUS(compose->focused_editable) ||
+	    !gtk_widget_has_focus(compose->focused_editable) ||
 	    !GTK_IS_TEXT_VIEW(compose->focused_editable))
 			return;
 
@@ -8056,7 +8021,7 @@ static void compose_paste_as_quote_cb(Compose *compose)
 static void compose_allsel_cb(Compose *compose)
 {
 	if (compose->focused_editable &&
-	    GTK_WIDGET_HAS_FOCUS(compose->focused_editable)) {
+	    gtk_widget_has_focus(compose->focused_editable)) {
 		if (GTK_IS_EDITABLE(compose->focused_editable)) {
 			gtk_editable_select_region
 				(GTK_EDITABLE(compose->focused_editable),
@@ -8165,7 +8130,7 @@ static void compose_toggle_autowrap_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	compose->autowrap = GTK_CHECK_MENU_ITEM(widget)->active;
+	compose->autowrap = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
 	if (compose->autowrap)
 		compose_wrap_all_full(compose, TRUE);
 }
@@ -8175,7 +8140,7 @@ static void compose_toggle_to_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(compose->to_hbox);
 		gtk_widget_show(compose->to_entry);
 		gtk_table_set_row_spacing(GTK_TABLE(compose->table), 1, 4);
@@ -8194,7 +8159,7 @@ static void compose_toggle_cc_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(compose->cc_hbox);
 		gtk_widget_show(compose->cc_entry);
 		gtk_table_set_row_spacing(GTK_TABLE(compose->table), 3, 4);
@@ -8213,7 +8178,7 @@ static void compose_toggle_bcc_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(compose->bcc_hbox);
 		gtk_widget_show(compose->bcc_entry);
 		gtk_table_set_row_spacing(GTK_TABLE(compose->table), 4, 4);
@@ -8232,7 +8197,7 @@ static void compose_toggle_replyto_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(compose->reply_hbox);
 		gtk_widget_show(compose->reply_entry);
 		gtk_table_set_row_spacing(GTK_TABLE(compose->table), 5, 4);
@@ -8251,7 +8216,7 @@ static void compose_toggle_followupto_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(compose->followup_hbox);
 		gtk_widget_show(compose->followup_entry);
 		gtk_table_set_row_spacing(GTK_TABLE(compose->table), 6, 4);
@@ -8270,7 +8235,7 @@ static void compose_toggle_attach_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_ref(compose->edit_vbox);
 
 		gtkut_container_remove(GTK_CONTAINER(compose->vbox2),
@@ -8319,7 +8284,7 @@ static void compose_toggle_mdn_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		compose->use_mdn = TRUE;
 	else
 		compose->use_mdn = FALSE;
@@ -8334,7 +8299,7 @@ static void compose_toggle_sign_cb(gpointer data, guint action,
 	if (!rfc2015_is_available())
 		return;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		compose->use_signing = TRUE;
 	else
 		compose->use_signing = FALSE;
@@ -8351,7 +8316,7 @@ static void compose_toggle_encrypt_cb(gpointer data, guint action,
 	if (!rfc2015_is_available())
 		return;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		compose->use_encryption = TRUE;
 	else
 		compose->use_encryption = FALSE;
@@ -8412,7 +8377,7 @@ static void compose_toggle_ruler_cb(gpointer data, guint action,
 {
 	Compose *compose = (Compose *)data;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(compose->ruler_hbox);
 		prefs_common.show_ruler = TRUE;
 	} else {
@@ -8440,9 +8405,9 @@ static void compose_attach_drag_received_cb (GtkWidget		*widget,
 		content_type = "message/rfc822";
 
 	debug_print("compose_attach_drag_received_cb(): received %s\n",
-		    (const gchar *)data->data);
+		    (const gchar *)gtk_selection_data_get_data(data));
 
-	list = uri_list_extract_filenames((const gchar *)data->data);
+	list = uri_list_extract_filenames((const gchar *)gtk_selection_data_get_data(data));
 	for (cur = list; cur != NULL; cur = cur->next) {
 		path = (gchar *)cur->data;
 		filename = conv_filename_to_utf8(path);
@@ -8454,7 +8419,7 @@ static void compose_attach_drag_received_cb (GtkWidget		*widget,
 	if (list) compose_changed_cb(NULL, compose);
 	g_list_free(list);
 
-	if ((drag_context->actions & GDK_ACTION_MOVE) != 0)
+	if ((gdk_drag_context_get_actions(drag_context) & GDK_ACTION_MOVE) != 0)
 		drag_context->action = 0;
 	gtk_drag_finish(drag_context, TRUE, FALSE, time);
 }
@@ -8474,7 +8439,7 @@ static void compose_insert_drag_received_cb (GtkWidget		*widget,
 	static guint time_ = G_MAXUINT;
 
 	debug_print("compose_insert_drag_received_cb(): received %s\n",
-		    (const gchar *)data->data);
+		    (const gchar *)gtk_selection_data_get_data(data));
 
 	/* FIXME: somehow drag-data-received signal is emitted twice.
 	 * This hack prevents duplicated insertion. */
@@ -8499,15 +8464,15 @@ static void compose_insert_drag_received_cb (GtkWidget		*widget,
 
 static void to_activated(GtkWidget *widget, Compose *compose)
 {
-	if (GTK_WIDGET_VISIBLE(compose->newsgroups_entry))
+	if (gtk_widget_get_visible(compose->newsgroups_entry))
 		gtk_widget_grab_focus(compose->newsgroups_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->cc_entry))
+	else if (gtk_widget_get_visible(compose->cc_entry))
 		gtk_widget_grab_focus(compose->cc_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->bcc_entry))
+	else if (gtk_widget_get_visible(compose->bcc_entry))
 		gtk_widget_grab_focus(compose->bcc_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->reply_entry))
+	else if (gtk_widget_get_visible(compose->reply_entry))
 		gtk_widget_grab_focus(compose->reply_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->followup_entry))
+	else if (gtk_widget_get_visible(compose->followup_entry))
 		gtk_widget_grab_focus(compose->followup_entry);
 	else
 		gtk_widget_grab_focus(compose->subject_entry);
@@ -8515,13 +8480,13 @@ static void to_activated(GtkWidget *widget, Compose *compose)
 
 static void newsgroups_activated(GtkWidget *widget, Compose *compose)
 {
-	if (GTK_WIDGET_VISIBLE(compose->cc_entry))
+	if (gtk_widget_get_visible(compose->cc_entry))
 		gtk_widget_grab_focus(compose->cc_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->bcc_entry))
+	else if (gtk_widget_get_visible(compose->bcc_entry))
 		gtk_widget_grab_focus(compose->bcc_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->reply_entry))
+	else if (gtk_widget_get_visible(compose->reply_entry))
 		gtk_widget_grab_focus(compose->reply_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->followup_entry))
+	else if (gtk_widget_get_visible(compose->followup_entry))
 		gtk_widget_grab_focus(compose->followup_entry);
 	else
 		gtk_widget_grab_focus(compose->subject_entry);
@@ -8529,11 +8494,11 @@ static void newsgroups_activated(GtkWidget *widget, Compose *compose)
 
 static void cc_activated(GtkWidget *widget, Compose *compose)
 {
-	if (GTK_WIDGET_VISIBLE(compose->bcc_entry))
+	if (gtk_widget_get_visible(compose->bcc_entry))
 		gtk_widget_grab_focus(compose->bcc_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->reply_entry))
+	else if (gtk_widget_get_visible(compose->reply_entry))
 		gtk_widget_grab_focus(compose->reply_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->followup_entry))
+	else if (gtk_widget_get_visible(compose->followup_entry))
 		gtk_widget_grab_focus(compose->followup_entry);
 	else
 		gtk_widget_grab_focus(compose->subject_entry);
@@ -8541,9 +8506,9 @@ static void cc_activated(GtkWidget *widget, Compose *compose)
 
 static void bcc_activated(GtkWidget *widget, Compose *compose)
 {
-	if (GTK_WIDGET_VISIBLE(compose->reply_entry))
+	if (gtk_widget_get_visible(compose->reply_entry))
 		gtk_widget_grab_focus(compose->reply_entry);
-	else if (GTK_WIDGET_VISIBLE(compose->followup_entry))
+	else if (gtk_widget_get_visible(compose->followup_entry))
 		gtk_widget_grab_focus(compose->followup_entry);
 	else
 		gtk_widget_grab_focus(compose->subject_entry);
@@ -8551,7 +8516,7 @@ static void bcc_activated(GtkWidget *widget, Compose *compose)
 
 static void replyto_activated(GtkWidget *widget, Compose *compose)
 {
-	if (GTK_WIDGET_VISIBLE(compose->followup_entry))
+	if (gtk_widget_get_visible(compose->followup_entry))
 		gtk_widget_grab_focus(compose->followup_entry);
 	else
 		gtk_widget_grab_focus(compose->subject_entry);

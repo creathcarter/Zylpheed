@@ -44,6 +44,7 @@
 #include "utils.h"
 #include "version.h"
 #include "plugin.h"
+#include "main.h"
 
 #ifdef G_OS_WIN32
 #  include <windows.h>
@@ -159,8 +160,8 @@ static gboolean spawn_command(const gchar *exe, const gchar *args)
 	g_free(wargs);
 	g_free(wpath);
 
-	if ((gint)h <= 32) {
-		g_warning("Couldn't execute %s %s: (%d)", exe, args, (gint)h);
+	if ((INT_PTR)h <= 32) {
+		g_warning("Couldn't execute %s %s: (%d)", exe, args, (gint)(INT_PTR)h);
 		return FALSE;
 	}
 

@@ -699,9 +699,7 @@ static void addressbook_create(void)
 
 	renderer = gtk_cell_renderer_text_new();
 	g_object_set(renderer,
-#if GTK_CHECK_VERSION(2, 6, 0)
 		     "ellipsize", PANGO_ELLIPSIZE_END,
-#endif
 		     "ypad", 0, NULL);
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, renderer,
@@ -786,9 +784,7 @@ static void addressbook_create(void)
 		(column, prefs_common.addressbook_col_name);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_column_set_title(column, _("Name"));
-#if GTK_CHECK_VERSION(2, 14, 0)
 	/* gtk_tree_view_column_set_expand(column, TRUE); */
-#endif
 
 	renderer = gtk_cell_renderer_pixbuf_new();
 	g_object_set(renderer, "ypad", 0, NULL);
@@ -798,9 +794,7 @@ static void addressbook_create(void)
 
 	renderer = gtk_cell_renderer_text_new();
 	g_object_set(renderer,
-#if GTK_CHECK_VERSION(2, 6, 0)
 		     "ellipsize", PANGO_ELLIPSIZE_END,
-#endif
 		     "ypad", 0, NULL);
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, renderer,
@@ -815,9 +809,7 @@ static void addressbook_create(void)
 
 	renderer = gtk_cell_renderer_text_new();
 	g_object_set(renderer,
-#if GTK_CHECK_VERSION(2, 6, 0)
 		     "ellipsize", PANGO_ELLIPSIZE_END,
-#endif
 		     "ypad", 0, NULL);
 	column = gtk_tree_view_column_new_with_attributes
 		(_("E-Mail address"), renderer, "text", COL_ADDRESS, NULL);
@@ -825,9 +817,7 @@ static void addressbook_create(void)
 	gtk_tree_view_column_set_fixed_width
 		(column, prefs_common.addressbook_col_addr);
 	gtk_tree_view_column_set_resizable(column, TRUE);
-#if GTK_CHECK_VERSION(2, 14, 0)
 	/* gtk_tree_view_column_set_expand(column, TRUE); */
-#endif
 	gtk_tree_view_column_set_sort_column_id(column, COL_ADDRESS);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
 	g_signal_connect(G_OBJECT(column->button), "size-allocate",
@@ -836,9 +826,7 @@ static void addressbook_create(void)
 
 	renderer = gtk_cell_renderer_text_new();
 	g_object_set(renderer,
-#if GTK_CHECK_VERSION(2, 6, 0)
 		     "ellipsize", PANGO_ELLIPSIZE_END,
-#endif
 		     "ypad", 0, NULL);
 	column = gtk_tree_view_column_new_with_attributes
 		(_("Nick Name"), renderer, "text", COL_NICKNAME, NULL);
@@ -846,9 +834,7 @@ static void addressbook_create(void)
 	gtk_tree_view_column_set_fixed_width
 		(column, prefs_common.addressbook_col_nickname);
 	gtk_tree_view_column_set_resizable(column, TRUE);
-#if GTK_CHECK_VERSION(2, 14, 0)
 	/* gtk_tree_view_column_set_expand(column, TRUE); */
-#endif
 	gtk_tree_view_column_set_sort_column_id(column, COL_NICKNAME);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
 	g_signal_connect(G_OBJECT(column->button), "size-allocate",
@@ -857,17 +843,13 @@ static void addressbook_create(void)
 
 	renderer = gtk_cell_renderer_text_new();
 	g_object_set(renderer,
-#if GTK_CHECK_VERSION(2, 6, 0)
 		     "ellipsize", PANGO_ELLIPSIZE_END,
-#endif
 		     "ypad", 0, NULL);
 	column = gtk_tree_view_column_new_with_attributes
 		(_("Remarks"), renderer, "text", COL_REMARKS, NULL);
 	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_resizable(column, TRUE);
-#if GTK_CHECK_VERSION(2, 14, 0)
 	/* gtk_tree_view_column_set_expand(column, TRUE); */
-#endif
 	gtk_tree_view_column_set_sort_column_id(column, COL_REMARKS);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
 	g_signal_connect(G_OBJECT(column->button), "size-allocate",
@@ -944,15 +926,15 @@ static void addressbook_create(void)
 
 	to_btn = gtk_button_new_with_label
 		(prefs_common.trans_hdr ? _("To:") : "To:");
-	GTK_WIDGET_SET_FLAGS(to_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(to_btn, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbbox1), to_btn, TRUE, TRUE, 0);
 	cc_btn = gtk_button_new_with_label
 		(prefs_common.trans_hdr ? _("Cc:") : "Cc:");
-	GTK_WIDGET_SET_FLAGS(cc_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(cc_btn, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbbox1), cc_btn, TRUE, TRUE, 0);
 	bcc_btn = gtk_button_new_with_label
 		(prefs_common.trans_hdr ? _("Bcc:") : "Bcc:");
-	GTK_WIDGET_SET_FLAGS(bcc_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(bcc_btn, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbbox1), bcc_btn, TRUE, TRUE, 0);
 
 	g_signal_connect(G_OBJECT(to_btn), "clicked",
@@ -973,16 +955,16 @@ static void addressbook_create(void)
 	gtk_box_pack_end(GTK_BOX(hbbox), hbbox2, TRUE, TRUE, 0);
 
 	del_btn = gtk_button_new_with_label(_("Delete"));
-	GTK_WIDGET_SET_FLAGS(del_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(del_btn, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbbox2), del_btn, TRUE, TRUE, 0);
 	reg_btn = gtk_button_new_with_label(_("Add"));
-	GTK_WIDGET_SET_FLAGS(reg_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(reg_btn, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbbox2), reg_btn, TRUE, TRUE, 0);
 	lup_btn = gtk_button_new_with_label(_("Search"));
-	GTK_WIDGET_SET_FLAGS(lup_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(lup_btn, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbbox2), lup_btn, TRUE, TRUE, 0);
 	close_btn = gtk_button_new_with_mnemonic(_("_Close"));
-	GTK_WIDGET_SET_FLAGS(close_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(close_btn, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbbox2), close_btn, TRUE, TRUE, 0);
 	gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(hbbox2), close_btn,
 					   TRUE);
@@ -1879,7 +1861,7 @@ static gboolean addressbook_drag_motion(GtkWidget *widget,
 	{
 		GdkModifierType state = 0;
 
-		gdk_window_get_pointer(widget->window, NULL, NULL, &state);
+		gdk_window_get_pointer(gtk_widget_get_window(widget), NULL, NULL, &state);
 		if ((state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) == 0)
 			context->actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
 	}
@@ -1890,7 +1872,7 @@ static gboolean addressbook_drag_motion(GtkWidget *widget,
 		context->actions &= ~GDK_ACTION_MOVE;
 
 	acceptable = addressbook_obj_is_droppable(model, obj);
-	if ((context->actions & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
+	if ((gdk_drag_context_get_actions(context) & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
 		acceptable = FALSE;
 
 	if (!acceptable) {
@@ -1901,9 +1883,9 @@ static gboolean addressbook_drag_motion(GtkWidget *widget,
 	} else {
 		GdkDragAction action = 0;
 
-		if ((context->actions & GDK_ACTION_MOVE) != 0)
+		if ((gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0)
 			action = GDK_ACTION_MOVE;
-		else if ((context->actions & GDK_ACTION_COPY) != 0)
+		else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_COPY) != 0)
 			action = GDK_ACTION_COPY;
 		gtk_tree_view_set_drag_dest_row
 			(GTK_TREE_VIEW(widget), path,
@@ -1970,9 +1952,9 @@ static void addressbook_drag_received(GtkWidget	*widget,
 	if (!abf)
 		acceptable = FALSE;
 
-	if ((context->actions & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
+	if ((gdk_drag_context_get_actions(context) & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
 		acceptable = FALSE;
-	is_move = (context->actions & GDK_ACTION_MOVE) != 0;
+	is_move = (gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0;
 
 	if (!src_ds->iface ||
 	    (src_ds->iface->readOnly || !src_ds->iface->haveLibrary))
@@ -2049,7 +2031,7 @@ static void addressbook_folder_resized(GtkWidget *widget,
 static void addressbook_col_resized(GtkWidget *widget,
 				    GtkAllocation *allocation, gpointer data)
 {
-	AddressBookListColumnPos type = (gint)data;
+	AddressBookListColumnPos type = GPOINTER_TO_INT(data);
 	gint width = allocation->width;
 
 	if (width < 8)
@@ -2857,7 +2839,7 @@ static void addressbook_drag_data_get(GtkWidget *widget,
 				      guint info, guint time, gpointer data)
 {
 	if (info == DRAG_TYPE_OBJ) {
-		gtk_selection_data_set(selection_data, selection_data->target,
+		gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 				       8, (guchar *)"drag-from-list", 14);
 	}
 }
@@ -3768,7 +3750,7 @@ void addressbook_export_to_file( void ) {
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		addressbook_close();
 	return FALSE;
 }

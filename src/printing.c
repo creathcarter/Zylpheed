@@ -26,9 +26,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#if GTK_CHECK_VERSION(2, 10, 0)
-#include <gtk/gtkprintoperation.h>
-#endif
+#include <gtk/gtk.h>
 
 #include <stdio.h>
 
@@ -38,8 +36,6 @@
 #include "prefs_common.h"
 #include "alertpanel.h"
 #include "utils.h"
-
-#if GTK_CHECK_VERSION(2, 10, 0)
 
 #define SPACING	2.0
 
@@ -448,7 +444,6 @@ static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 
 static gboolean printing_load_settings(void)
 {
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gchar *file;
 	GtkPrintSettings *new_settings;
 
@@ -473,14 +468,10 @@ static gboolean printing_load_settings(void)
 	settings = new_settings;
 
 	return TRUE;
-#else
-	return FALSE;
-#endif /* GTK_CHECK_VERSION(2, 12, 0) */
 }
 
 static gboolean printing_save_settings(void)
 {
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gchar *file;
 	gboolean ret = TRUE;
 
@@ -496,14 +487,10 @@ static gboolean printing_save_settings(void)
 	g_free(file);
 
 	return ret;
-#else
-	return FALSE;
-#endif /* GTK_CHECK_VERSION(2, 12, 0) */
 }
 
 static gboolean printing_load_page_setup(void)
 {
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gchar *file;
 	GtkPageSetup *new_setup;
 
@@ -528,14 +515,10 @@ static gboolean printing_load_page_setup(void)
 	page_setup = new_setup;
 
 	return TRUE;
-#else
-	return FALSE;
-#endif /* GTK_CHECK_VERSION(2, 12, 0) */
 }
 
 static gboolean printing_save_page_setup(void)
 {
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gchar *file;
 	gboolean ret = TRUE;
 
@@ -551,9 +534,6 @@ static gboolean printing_save_page_setup(void)
 	g_free(file);
 
 	return ret;
-#else
-	return FALSE;
-#endif /* GTK_CHECK_VERSION(2, 12, 0) */
 }
 
 gint printing_print_messages_gtk(GSList *mlist, MimeInfo *partinfo,
@@ -662,8 +642,6 @@ void printing_page_setup_gtk(void)
 	printing_save_page_setup();
 }
 
-#endif /* GTK_CHECK_VERSION(2, 10, 0) */
-
 static gint check_command_line(const gchar *cmdline)
 {
 	gchar *msg;
@@ -710,11 +688,9 @@ gint printing_print_messages_with_command(GSList *mlist, gboolean all_headers,
 
 gint printing_print_messages(GSList *mlist, gboolean all_headers)
 {
-#if GTK_CHECK_VERSION(2, 10, 0)
 	if (!prefs_common.use_print_cmd)
 		return printing_print_messages_gtk(mlist, NULL, all_headers);
 	else
-#endif /* GTK_CHECK_VERSION(2, 10, 0) */
 		return printing_print_messages_with_command
 			(mlist, all_headers, prefs_common.print_cmd);
 }
@@ -730,7 +706,6 @@ gint printing_print_message(MsgInfo *msginfo, gboolean all_headers)
 
 gint printing_print_message_part(MsgInfo *msginfo, MimeInfo *partinfo)
 {
-#if GTK_CHECK_VERSION(2, 10, 0)
 	if (!prefs_common.use_print_cmd) {
 		GSList mlist;
 
@@ -738,7 +713,6 @@ gint printing_print_message_part(MsgInfo *msginfo, MimeInfo *partinfo)
 		mlist.next = NULL;
 		return printing_print_messages_gtk(&mlist, partinfo, FALSE);
 	}
-#endif /* GTK_CHECK_VERSION(2, 10, 0) */
 	if (check_command_line(prefs_common.print_cmd) < 0)
 		return -1;
 	procmsg_print_message_part(msginfo, partinfo, prefs_common.print_cmd,

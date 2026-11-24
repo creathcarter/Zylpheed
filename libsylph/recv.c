@@ -42,7 +42,7 @@ gchar *recv_bytes(SockInfo *sock, glong size)
 	gchar *buf;
 	glong count = 0;
 
-	if (size == 0)
+	if (size <= 0 || size == G_MAXLONG)
 		return NULL;
 
 	buf = g_malloc(size + 1);

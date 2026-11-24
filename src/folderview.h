@@ -21,9 +21,7 @@
 #define __FOLDERVIEW_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
+#include <gtk/gtk.h>
 
 #include "folder.h"
 

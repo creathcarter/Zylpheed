@@ -21,7 +21,7 @@
 #define __INPUTDIALOG_H__
 
 #include <glib.h>
-#include <gtk/gtkfilechooser.h>
+#include <gtk/gtk.h>
 
 gchar *input_dialog			(const gchar	*title,
 					 const gchar	*message,

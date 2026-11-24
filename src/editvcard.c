@@ -30,16 +30,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtkhseparator.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include "addressbook.h"
 #include "prefs_common.h"
@@ -131,7 +122,7 @@ static gint edit_vcard_delete_event( GtkWidget *widget, GdkEventAny *event, gboo
 }
 
 static gboolean edit_vcard_key_pressed( GtkWidget *widget, GdkEventKey *event, gboolean *cancelled ) {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		*cancelled = TRUE;
 		gtk_main_quit();
 	}

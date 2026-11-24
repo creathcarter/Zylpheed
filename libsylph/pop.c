@@ -540,6 +540,7 @@ GHashTable *pop3_get_uidl_table(PrefsAccount *ac_prefs)
 	gchar buf[POPBUFSIZE];
 	gchar uidl[POPBUFSIZE];
 	time_t recv_time;
+	gint64 recv_time_val;
 	time_t now;
 	gchar *uid;
 
@@ -562,12 +563,14 @@ GHashTable *pop3_get_uidl_table(PrefsAccount *ac_prefs)
 	while (fgets(buf, sizeof(buf), fp) != NULL) {
 		strretchomp(buf);
 		recv_time = RECV_TIME_NONE;
-		if (sscanf(buf, "%s\t%ld", uidl, &recv_time) != 2) {
+		if (sscanf(buf, "%s\t%" G_GINT64_MODIFIER "d", uidl,
+			   &recv_time_val) != 2) {
 			if (sscanf(buf, "%s", uidl) != 1)
 				continue;
 			else
 				recv_time = now;
-		}
+		} else
+			recv_time = (time_t)recv_time_val;
 		if (recv_time == RECV_TIME_NONE)
 			recv_time = RECV_TIME_RECEIVED;
 		g_hash_table_insert(table, g_strdup(uidl),
@@ -606,7 +609,8 @@ gint pop3_write_uidl_list(Pop3Session *session)
 			continue;
 		if (session->state == POP3_DONE && msg->deleted)
 			continue;
-		fprintf(pfile->fp, "%s\t%ld\n", msg->uidl, msg->recv_time);
+		fprintf(pfile->fp, "%s\t%" G_GINT64_MODIFIER "d\n", msg->uidl,
+			(gint64)msg->recv_time);
 	}
 
 	if (prefs_file_close(pfile) < 0)

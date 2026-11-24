@@ -26,20 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <stdio.h>
 
@@ -635,7 +622,7 @@ static gint imp_csv_delete_event( GtkWidget *widget, GdkEventAny *event, gpointe
 }
 
 static gboolean imp_csv_key_pressed( GtkWidget *widget, GdkEventKey *event, gpointer data ) {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		imp_csv_cancel( widget, data );
 	}
 	return FALSE;
@@ -782,7 +769,7 @@ static void imp_csv_page_fields( gint pageNum, gchar *pageLbl ) {
 	gtkut_clist_set_redraw( GTK_CLIST(clist_field) );
 
 	for( i = 0; i < FIELDS_N_COLS; i++ )
-		GTK_WIDGET_UNSET_FLAGS(GTK_CLIST(clist_field)->column[i].button, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus(GTK_CLIST(clist_field)->column[i].button, FALSE);
 
 	btn_vbox = gtk_vbox_new( FALSE, 0 );
 	gtk_box_pack_start( GTK_BOX( hbox ), btn_vbox, FALSE, FALSE, 0 );

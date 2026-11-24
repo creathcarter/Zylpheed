@@ -21,9 +21,7 @@
 #define __PROGRESS_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkliststore.h>
-#include <gdk/gdkpixbuf.h>
+#include <gtk/gtk.h>
 
 typedef struct _ProgressDialog	ProgressDialog;
 

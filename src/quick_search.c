@@ -22,12 +22,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkentry.h>
+#include <gtk/gtk.h>
 
 #include "summaryview.h"
 #include "quick_search.h"
@@ -83,7 +78,6 @@ QuickSearch *quick_search_create(SummaryView *summaryview)
 	GtkWidget *hbox2;
 	GtkWidget *label;
 	GtkWidget *entry;
-	GtkTooltips *tip;
 	GtkWidget *vbox;
 	GtkWidget *clear_btn;
 	GtkWidget *image;
@@ -146,8 +140,7 @@ QuickSearch *quick_search_create(SummaryView *summaryview)
         g_signal_connect(G_OBJECT(entry), "key_press_event",
                          G_CALLBACK(entry_key_pressed), qsearch);
 
-	tip = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tip, entry, _("Search for Subject or From"), NULL);
+	gtk_widget_set_tooltip_text(entry, _("Search for Subject or From"));
 
 	hbox2 = gtk_hbox_new(FALSE, 0);
 	gtk_widget_set_size_request(hbox2, 2, -1);
@@ -161,7 +154,7 @@ QuickSearch *quick_search_create(SummaryView *summaryview)
         gtk_widget_set_size_request(clear_btn, 20, 20);
         image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
         gtk_container_add(GTK_CONTAINER(clear_btn), image);
-        GTK_WIDGET_UNSET_FLAGS(clear_btn, GTK_CAN_FOCUS);
+        gtk_widget_set_can_focus(clear_btn, FALSE);
         gtk_box_pack_start(GTK_BOX(vbox), clear_btn, TRUE, FALSE, 0);
         g_signal_connect(G_OBJECT(clear_btn), "clicked",
                          G_CALLBACK(clear_clicked), qsearch);
@@ -195,7 +188,7 @@ QuickSearch *quick_search_create(SummaryView *summaryview)
 void quick_search_clear_entry(QuickSearch *qsearch)
 {
 	qsearch->entry_entered = FALSE;
-	if (GTK_WIDGET_HAS_FOCUS(qsearch->entry))
+	if (gtk_widget_has_focus(qsearch->entry))
 		entry_focus_in(qsearch->entry, NULL, qsearch);
 	else
 		entry_focus_out(qsearch->entry, NULL, qsearch);
@@ -434,7 +427,7 @@ static void entry_activated(GtkWidget *entry, QuickSearch *qsearch)
 static gboolean entry_key_pressed(GtkWidget *treeview, GdkEventKey *event,
 				  QuickSearch *qsearch)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		summary_qsearch_clear_entry(qsearch->summaryview);
 		return TRUE;
 	}

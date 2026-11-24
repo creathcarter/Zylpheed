@@ -760,14 +760,14 @@ static gboolean address_completion_entry_key_pressed(GtkEntry    *entry,
 						     GdkEventKey *ev,
 						     gpointer     data)
 {
-	if (!prefs_common.fullauto_completion_mode && ev->keyval == GDK_Tab &&
+	if (!prefs_common.fullauto_completion_mode && ev->keyval == GDK_KEY_Tab &&
 	    !completion_window) {
 		if (address_completion_complete_address_in_entry(entry, TRUE)) {
 			address_completion_create_completion_window(entry, TRUE);
 			/* route a void character to the default handler */
 			/* this is a dirty hack; we're actually changing a key
 			 * reported by the system. */
-			ev->keyval = GDK_AudibleBell_Enable;
+			ev->keyval = GDK_KEY_AudibleBell_Enable;
 			ev->state &= ~GDK_SHIFT_MASK;
 			return TRUE;
 		}
@@ -776,26 +776,26 @@ static gboolean address_completion_entry_key_pressed(GtkEntry    *entry,
 	if (!completion_window)
 		return FALSE;
 
-	if (       ev->keyval == GDK_Up
-		|| ev->keyval == GDK_Down
-		|| ev->keyval == GDK_Page_Up
-		|| ev->keyval == GDK_Page_Down
-		|| ev->keyval == GDK_Return
-		|| ev->keyval == GDK_Escape
-		|| ev->keyval == GDK_Tab
-		|| ev->keyval == GDK_ISO_Left_Tab) {
+	if (       ev->keyval == GDK_KEY_Up
+		|| ev->keyval == GDK_KEY_Down
+		|| ev->keyval == GDK_KEY_Page_Up
+		|| ev->keyval == GDK_KEY_Page_Down
+		|| ev->keyval == GDK_KEY_Return
+		|| ev->keyval == GDK_KEY_Escape
+		|| ev->keyval == GDK_KEY_Tab
+		|| ev->keyval == GDK_KEY_ISO_Left_Tab) {
 		completion_window_key_press(completion_window, ev, &completion_window);
 		return TRUE;
-	} else if (ev->keyval == GDK_Shift_L
-		|| ev->keyval == GDK_Shift_R
-		|| ev->keyval == GDK_Control_L
-		|| ev->keyval == GDK_Control_R
-		|| ev->keyval == GDK_Caps_Lock
-		|| ev->keyval == GDK_Shift_Lock
-		|| ev->keyval == GDK_Meta_L
-		|| ev->keyval == GDK_Meta_R
-		|| ev->keyval == GDK_Alt_L
-		|| ev->keyval == GDK_Alt_R) {
+	} else if (ev->keyval == GDK_KEY_Shift_L
+		|| ev->keyval == GDK_KEY_Shift_R
+		|| ev->keyval == GDK_KEY_Control_L
+		|| ev->keyval == GDK_KEY_Control_R
+		|| ev->keyval == GDK_KEY_Caps_Lock
+		|| ev->keyval == GDK_KEY_Shift_Lock
+		|| ev->keyval == GDK_KEY_Meta_L
+		|| ev->keyval == GDK_KEY_Meta_R
+		|| ev->keyval == GDK_KEY_Alt_L
+		|| ev->keyval == GDK_KEY_Alt_R) {
 		/* these buttons should not clear the cache... */
 	} else {
 		clear_completion_cache();
@@ -843,7 +843,7 @@ static gboolean address_completion_complete_address_in_entry(GtkEntry *entry,
 
 	g_return_val_if_fail(entry != NULL, FALSE);
 
-	if (!GTK_WIDGET_HAS_FOCUS(entry)) return FALSE;
+	if (!gtk_widget_has_focus(GTK_WIDGET(entry))) return FALSE;
 
 	/* get an address component from the cursor */
 	address = get_address_from_edit(entry, &cursor_pos);
@@ -881,6 +881,7 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 	gint x, y, width;
 	GtkWidget *scroll, *clist;
 	GtkRequisition r;
+	GtkAllocation allocation;
 	guint count = 0;
 	GtkWidget *entry = GTK_WIDGET(entry_);
 
@@ -921,9 +922,10 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 		g_free(text[0]);
 	}
 
-	gdk_window_get_origin(entry->window, &x, &y);
+	gdk_window_get_origin(gtk_widget_get_window(entry), &x, &y);
 	gtk_widget_size_request(entry, &r);
-	width = entry->allocation.width;
+	gtk_widget_get_allocation(entry, &allocation);
+	width = allocation.width;
 	y += r.height;
 	gtk_window_move(GTK_WINDOW(completion_window), x, y);
 
@@ -947,7 +949,7 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 			 "key-press-event",
 			 G_CALLBACK(completion_window_key_press),
 			 &completion_window);
-	gdk_pointer_grab(completion_window->window, TRUE,
+	gdk_pointer_grab(gtk_widget_get_window(completion_window), TRUE,
 			 GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK |
 			 GDK_BUTTON_RELEASE_MASK,
 			 NULL, NULL, GDK_CURRENT_TIME);
@@ -955,7 +957,7 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 
 	/* this gets rid of the irritating focus rectangle that doesn't
 	 * follow the selection */
-	GTK_WIDGET_UNSET_FLAGS(clist, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(clist, FALSE);
 	gtk_clist_select_row(GTK_CLIST(clist), select_next ? 1 : 0, 0);
 
 	debug_print("address_completion_create_completion_window done\n");
@@ -1015,7 +1017,7 @@ static gboolean completion_window_button_press(GtkWidget *widget,
 				restore = FALSE;
 				break;
 			}
-		    event_widget = event_widget->parent;
+		    event_widget = gtk_widget_get_parent(event_widget);
 		}
 	}
 
@@ -1055,32 +1057,32 @@ static gboolean completion_window_key_press(GtkWidget *widget,
 	g_return_val_if_fail(entry != NULL, FALSE);
 
 	/* allow keyboard navigation in the alternatives clist */
-	if (event->keyval == GDK_Up || event->keyval == GDK_Down ||
-	    event->keyval == GDK_Page_Up || event->keyval == GDK_Page_Down) {
+	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down ||
+	    event->keyval == GDK_KEY_Page_Up || event->keyval == GDK_KEY_Page_Down) {
 		completion_window_advance_selection
 			(GTK_CLIST(clist),
-			 event->keyval == GDK_Down ||
-			 event->keyval == GDK_Page_Down ? TRUE : FALSE);
+			 event->keyval == GDK_KEY_Down ||
+			 event->keyval == GDK_KEY_Page_Down ? TRUE : FALSE);
 		return FALSE;
 	}		
 
 	/* also make tab / shift tab go to next previous completion entry. we're
 	 * changing the key value */
-	if (event->keyval == GDK_Tab || event->keyval == GDK_ISO_Left_Tab) {
+	if (event->keyval == GDK_KEY_Tab || event->keyval == GDK_KEY_ISO_Left_Tab) {
 		event->keyval = (event->state & GDK_SHIFT_MASK)
-			? GDK_Up : GDK_Down;
+			? GDK_KEY_Up : GDK_KEY_Down;
 		/* need to reset shift state if going up */
 		if (event->state & GDK_SHIFT_MASK)
 			event->state &= ~GDK_SHIFT_MASK;
 		completion_window_advance_selection(GTK_CLIST(clist), 
-			event->keyval == GDK_Down ? TRUE : FALSE);
+			event->keyval == GDK_KEY_Down ? TRUE : FALSE);
 		return FALSE;
 	}
 
 	/* look for presses that accept the selection */
-	if (event->keyval == GDK_Return ||
+	if (event->keyval == GDK_KEY_Return ||
 	    (!prefs_common.fullauto_completion_mode &&
-	     event->keyval == GDK_space)) {
+	     event->keyval == GDK_KEY_space)) {
 		/* insert address only if shift or control is pressed */
 		if (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK) ||
 		    prefs_common.always_add_address_only) {
@@ -1094,22 +1096,22 @@ static gboolean completion_window_key_press(GtkWidget *widget,
 	}
 
 	/* key state keys should never be handled */
-	if (event->keyval == GDK_Shift_L
-		 || event->keyval == GDK_Shift_R
-		 || event->keyval == GDK_Control_L
-		 || event->keyval == GDK_Control_R
-		 || event->keyval == GDK_Caps_Lock
-		 || event->keyval == GDK_Shift_Lock
-		 || event->keyval == GDK_Meta_L
-		 || event->keyval == GDK_Meta_R
-		 || event->keyval == GDK_Alt_L
-		 || event->keyval == GDK_Alt_R) {
+	if (event->keyval == GDK_KEY_Shift_L
+		 || event->keyval == GDK_KEY_Shift_R
+		 || event->keyval == GDK_KEY_Control_L
+		 || event->keyval == GDK_KEY_Control_R
+		 || event->keyval == GDK_KEY_Caps_Lock
+		 || event->keyval == GDK_KEY_Shift_Lock
+		 || event->keyval == GDK_KEY_Meta_L
+		 || event->keyval == GDK_KEY_Meta_R
+		 || event->keyval == GDK_KEY_Alt_L
+		 || event->keyval == GDK_KEY_Alt_R) {
 		return FALSE;
 	}
 
 	/* other key, let's restore the prefix (orignal text) */
 	if (!prefs_common.fullauto_completion_mode ||
-	    event->keyval == GDK_Escape) {
+	    event->keyval == GDK_KEY_Escape) {
 		prefix = get_complete_address(0);
 		g_free(get_address_from_edit(GTK_ENTRY(entry), &cursor_pos));
 		replace_address_in_edit(GTK_ENTRY(entry), prefix, cursor_pos);
@@ -1118,13 +1120,13 @@ static gboolean completion_window_key_press(GtkWidget *widget,
 
 	/* make sure anything we typed comes in the edit box */
 	if ((!prefs_common.fullauto_completion_mode && event->length > 0 &&
-	     event->keyval != GDK_Escape) ||
+	     event->keyval != GDK_KEY_Escape) ||
 	    (prefs_common.fullauto_completion_mode &&
-	     event->keyval != GDK_Escape)) {
+	     event->keyval != GDK_KEY_Escape)) {
 		GtkWidget *pwin = entry;
 
 		while ((pwin = gtk_widget_get_parent(pwin)) != NULL) {
-			if (GTK_WIDGET_TOPLEVEL(pwin)) {
+			if (gtk_widget_is_toplevel(pwin)) {
 				gtk_window_propagate_key_event
 					(GTK_WINDOW(pwin), event);
 				if (prefs_common.fullauto_completion_mode)

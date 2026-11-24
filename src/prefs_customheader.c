@@ -264,8 +264,8 @@ static void prefs_custom_header_create(void)
 	gtk_clist_set_reorderable (GTK_CLIST (customhdr_clist), TRUE);
 	gtk_clist_set_use_drag_icons (GTK_CLIST (customhdr_clist), FALSE);
 	gtkut_clist_set_redraw (GTK_CLIST (customhdr_clist));
-	GTK_WIDGET_UNSET_FLAGS (GTK_CLIST (customhdr_clist)->column[0].button,
-				GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(GTK_CLIST (customhdr_clist)->column[0].button,
+				FALSE);
 	g_signal_connect (G_OBJECT (customhdr_clist), "select_row",
 			  G_CALLBACK (prefs_custom_header_select), NULL);
 	g_signal_connect_after
@@ -470,7 +470,7 @@ static gboolean prefs_custom_header_key_pressed(GtkWidget *widget,
 						GdkEventKey *event,
 						gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_custom_header_cancel();
 	return FALSE;
 }

@@ -86,7 +86,6 @@ sylpheed_SOURCES = \
 	sigstatus.c sigstatus.h \
 	simple-gettext.c \
 	manual.c manual.h \
-	eggtrayicon.c eggtrayicon.h \
 	trayicon.c trayicon.h \
 	printing.c printing.h \
 	sslmanager.c sslmanager.h \
@@ -121,7 +120,7 @@ libsylpheed_plugin_0include_HEADERS = \
 
 if NATIVE_WIN32
 no_undefined = -no-undefined
-export_symbols = -export-symbols libsylpheed-plugin-0.def
+export_symbols = -export-symbols $(srcdir)/libsylpheed-plugin-0.def
 endif
 
 libsylpheed_plugin_0_la_LDFLAGS = \
@@ -152,7 +151,7 @@ INCLUDES = \
 if NATIVE_WIN32
 SYLPHEED_RES = sylpheed.res
 sylpheed.res: sylpheed.rc icons/sylpheed.ico sylpheed.exe.manifest
-	$(WINDRES) $< -O coff -o $@
+	$(WINDRES) --include-dir=$(srcdir) $< -O coff -o $@
 else
 SYLPHEED_RES = 
 endif

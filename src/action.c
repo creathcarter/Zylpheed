@@ -414,18 +414,21 @@ static void action_update_menu(GtkItemFactory *ifactory, gchar *branch_path,
 	GSList *cur;
 	gchar *action, *action_p;
 	GList *amenu;
+	GList *children;
 	GtkItemFactoryEntry ifentry = {NULL, NULL, NULL, 0, "<Branch>"};
 
 	ifentry.path = branch_path;
 	menuitem = gtk_item_factory_get_widget(ifactory, branch_path);
 	g_return_if_fail(menuitem != NULL);
 
-	amenu = GTK_MENU_SHELL(menuitem)->children;
+	children = gtk_container_get_children(GTK_CONTAINER(menuitem));
+	amenu = children;
 	while (amenu != NULL) {
 		GList *alist = amenu->next;
 		gtk_widget_destroy(GTK_WIDGET(amenu->data));
 		amenu = alist;
 	}
+	g_list_free(children);
 
 	ifentry.accelerator     = NULL;
 	ifentry.callback_action = 0;
@@ -959,7 +962,7 @@ static void hide_io_dialog_cb(GtkWidget *w, gpointer data)
 static gint io_dialog_key_pressed_cb(GtkWidget *widget, GdkEventKey *event,
 				     gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		hide_io_dialog_cb(widget, data);
 	return TRUE;
 }
@@ -1083,7 +1086,7 @@ static void create_io_dialog(Children *children)
 
 	dialog = gtk_dialog_new();
 	gtk_container_set_border_width
-		(GTK_CONTAINER(GTK_DIALOG(dialog)->action_area), 5);
+		(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), 5);
 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Action's input/output"));
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
@@ -1095,7 +1098,7 @@ static void create_io_dialog(Children *children)
 			 children);
 
 	vbox = gtk_vbox_new(FALSE, 8);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), vbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), vbox);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);
 	gtk_widget_show(vbox);
 
@@ -1171,7 +1174,7 @@ static void create_io_dialog(Children *children)
 	if (children->nb)
 		gtk_widget_set_sensitive(close_button, FALSE);
 
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->action_area), hbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), hbox);
 
 	children->dialog      = dialog;
 	children->scrolledwin = scrolledwin;
@@ -1190,7 +1193,7 @@ static void catch_status(gpointer data, gint source, GdkInputCondition cond)
 	gchar buf;
 	gint c;
 
-	debug_print("Catching child status (child PID: %d).\n", child_info->pid);
+	debug_print("Catching child status (child PID: %d).\n", (gint)child_info->pid);
 
 	gdk_threads_enter();
 
@@ -1198,9 +1201,9 @@ static void catch_status(gpointer data, gint source, GdkInputCondition cond)
 
 	c = read(source, &buf, 1);
 	if (c == 1)
-		debug_print("Child (PID: %d) returned %c\n", child_info->pid, buf);
+		debug_print("Child (PID: %d) returned %c\n", (gint)child_info->pid, buf);
 	else
-		debug_print("Could not get child (PID: %d) status\n", child_info->pid);
+		debug_print("Could not get child (PID: %d) status\n", (gint)child_info->pid);
 
 #ifdef G_OS_UNIX
 	waitpid(child_info->pid, NULL, 0);
@@ -1262,7 +1265,7 @@ static void catch_output(gpointer data, gint source, GdkInputCondition cond)
 
 	gdk_threads_enter();
 
-	debug_print("Catching grand child's output (child PID: %d).\n", child_info->pid);
+	debug_print("Catching grand child's output (child PID: %d).\n", (gint)child_info->pid);
 	if (child_info->children->action_type &
 	    (ACTION_PIPE_OUT | ACTION_INSERT)
 	    && source == child_info->chld_out) {

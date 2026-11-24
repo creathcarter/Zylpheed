@@ -1,0 +1,2 @@
+editldap.o: ../../src/editldap.c ../config.h
+../config.h:

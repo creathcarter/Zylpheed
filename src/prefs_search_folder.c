@@ -26,19 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkstyle.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -359,7 +347,7 @@ static gint prefs_search_folder_key_press_cb(GtkWidget *widget,
 					     GdkEventKey *event,
 					     PrefsSearchFolderDialog *dialog)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		prefs_search_folder_cancel_cb(widget, dialog);
 		return TRUE;
 	}

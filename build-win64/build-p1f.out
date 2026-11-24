@@ -1,0 +1,385 @@
+make  all-recursive
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+Making all in ac
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+Making all in libsylph
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make  all-am
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+Making all in src
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+  LEX      quote_fmt_lex.c
+  YACC     quote_fmt_parse.c
+make  all-recursive
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in icons
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make  all-am
+make[5]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[5]: Nothing to be done for 'all-am'.
+make[5]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+  CC       textview.o
+  CC       prefs_common_dialog.o
+  CC       prefs_filter_edit.o
+  CC       prefs_account_dialog.o
+  CC       editldap.o
+  CC       gtkutils.o
+  LEX      quote_fmt_lex.c
+  YACC     quote_fmt_parse.c
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/textview.c:31:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from ../../src/textview.c:28:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_filter_edit.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_common_dialog.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_account_dialog.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/gtkutils.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from ../../src/gtkutils.c:27:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/textview.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_filter_edit.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_common_dialog.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_account_dialog.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../src/gtkutils.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/gtkutils.c: In function 'gtkut_font_can_load':
+../../src/gtkutils.c:112:17: warning: 'pango_win32_get_context' is deprecated: Use 'pango_font_map_create_context' instead [-Wdeprecated-declarations]
+  112 |                 context = pango_win32_get_context();
+      |                 ^~~~~~~
+In file included from ../../src/gtkutils.c:34:
+C:/msys64/ucrt64/include/pango-1.0/pango/pangowin32.h:47:16: note: declared here
+   47 | PangoContext * pango_win32_get_context        (void);
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.h:31,
+                 from ../../src/textview.c:38:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.h:31,
+                 from ../../src/prefs_summary_column.h:23,
+                 from ../../src/prefs_common_dialog.c:44:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/prefs_filter.h:29,
+                 from ../../src/prefs_filter_edit.c:37:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../src/prefs_common_dialog.c:51:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/folder.h:132,
+                 from ../../libsylph/prefs_account.h:31,
+                 from ../../src/prefs_account_dialog.c:40:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../src/prefs_account_dialog.c:48:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CCLD     sylpheed.exe
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in plugin
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in attachment_tool
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+Making all in test
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in po
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+Making all in manual
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+Making all in ja
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in faq
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in de
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+Making all in es
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+Making all in fr
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+Making all in it
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in nsis
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+Making all in macosx
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+Making all in bundle
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'

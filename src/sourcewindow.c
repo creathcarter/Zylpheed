@@ -22,12 +22,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkstyle.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -99,7 +94,7 @@ SourceWindow *source_window_create(void)
 	gtk_container_add(GTK_CONTAINER(scrolledwin), text);
 	gtk_widget_show(text);
 
-	g_signal_connect(G_OBJECT(GTK_TEXT_VIEW(text)->vadjustment),
+	g_signal_connect(G_OBJECT(gtk_text_view_get_vadjustment(GTK_TEXT_VIEW(text))),
 			 "value-changed",
 			 G_CALLBACK(adj_value_changed), sourcewin);
 
@@ -194,7 +189,7 @@ static gint source_window_delete_cb(GtkWidget *widget, GdkEventAny *event,
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    SourceWindow *sourcewin)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		source_window_destroy(sourcewin);
 		return TRUE;
 	}

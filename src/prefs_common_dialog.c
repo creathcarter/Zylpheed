@@ -64,14 +64,14 @@ static PrefsDialog dialog;
 static struct Receive {
 	GtkWidget *checkbtn_autochk;
 	GtkWidget *spinbtn_autochk;
-	GtkObject *spinbtn_autochk_adj;
+	GtkAdjustment *spinbtn_autochk_adj;
 
 	GtkWidget *checkbtn_chkonstartup;
 	GtkWidget *checkbtn_scan_after_inc;
 
 	GtkWidget *checkbtn_newmsg_notify_window;
 	GtkWidget *spinbtn_notifywin;
-	GtkObject *spinbtn_notifywin_adj;
+	GtkAdjustment *spinbtn_notifywin_adj;
 #ifdef G_OS_WIN32
 	GtkWidget *checkbtn_newmsg_sound;
 	GtkWidget *entry_newmsg_sound;
@@ -107,15 +107,15 @@ static struct Compose {
 
 	GtkWidget *checkbtn_autoextedit;
 	GtkWidget *spinbtn_undolevel;
-	GtkObject *spinbtn_undolevel_adj;
+	GtkAdjustment *spinbtn_undolevel_adj;
 	GtkWidget *spinbtn_linewrap;
-	GtkObject *spinbtn_linewrap_adj;
+	GtkAdjustment *spinbtn_linewrap_adj;
 	GtkWidget *checkbtn_wrapquote;
 	GtkWidget *checkbtn_autowrap;
 
 	GtkWidget *checkbtn_autosave;
 	GtkWidget *spinbtn_autosave;
-	GtkObject *spinbtn_autosave_adj;
+	GtkAdjustment *spinbtn_autosave_adj;
 
 	GtkWidget *checkbtn_reply_account_autosel;
 	GtkWidget *checkbtn_quote;
@@ -148,7 +148,7 @@ static struct Display {
 	GtkWidget *chkbtn_folder_col_total;
 	GtkWidget *entry_ng_abbrev_len;
 	GtkWidget *spinbtn_ng_abbrev_len;
-	GtkObject *spinbtn_ng_abbrev_len_adj;
+	GtkAdjustment *spinbtn_ng_abbrev_len_adj;
 
 	GtkWidget *chkbtn_swapfrom;
 	GtkWidget *chkbtn_expand_thread;
@@ -167,11 +167,11 @@ static struct Message {
 	GtkWidget *chkbtn_prefer_html;
 	GtkWidget *chkbtn_htmlonly;
 	GtkWidget *spinbtn_linespc;
-	GtkObject *spinbtn_linespc_adj;
+	GtkAdjustment *spinbtn_linespc_adj;
 
 	GtkWidget *chkbtn_smoothscroll;
 	GtkWidget *spinbtn_scrollstep;
-	GtkObject *spinbtn_scrollstep_adj;
+	GtkAdjustment *spinbtn_scrollstep_adj;
 	GtkWidget *chkbtn_halfpage;
 } message;
 
@@ -207,7 +207,7 @@ static struct Privacy {
 	GtkWidget *checkbtn_gpg_signature_popup;
 	GtkWidget *checkbtn_store_passphrase;
 	GtkWidget *spinbtn_store_passphrase;
-	GtkObject *spinbtn_store_passphrase_adj;
+	GtkAdjustment *spinbtn_store_passphrase_adj;
 #ifndef G_OS_WIN32
 	GtkWidget *checkbtn_passphrase_grab;
 #endif
@@ -280,7 +280,7 @@ static struct Advanced {
 	GtkWidget *checkbtn_strict_cache_check;
 
 	GtkWidget *spinbtn_iotimeout;
-	GtkObject *spinbtn_iotimeout_adj;
+	GtkAdjustment *spinbtn_iotimeout_adj;
 } advanced;
 
 static struct MessageColorButtons {
@@ -859,7 +859,7 @@ static void prefs_receive_create(void)
 	GtkWidget *hbox_autochk;
 	GtkWidget *checkbtn_autochk;
 	GtkWidget *label_autochk1;
-	GtkObject *spinbtn_autochk_adj;
+	GtkAdjustment *spinbtn_autochk_adj;
 	GtkWidget *spinbtn_autochk;
 	GtkWidget *label_autochk2;
 	GtkWidget *checkbtn_chkonstartup;
@@ -870,7 +870,7 @@ static void prefs_receive_create(void)
 	GtkWidget *hbox_notifywin;
 	GtkWidget *hbox_spc;
 	GtkWidget *label_notifywin;
-	GtkObject *spinbtn_notifywin_adj;
+	GtkAdjustment *spinbtn_notifywin_adj;
 	GtkWidget *spinbtn_notifywin;
 	GtkWidget *checkbtn_newmsg_notify;
 	GtkWidget *label_newmsg_notify;
@@ -912,7 +912,7 @@ static void prefs_receive_create(void)
 	gtk_widget_show (label_autochk1);
 	gtk_box_pack_start (GTK_BOX (hbox_autochk), label_autochk1, FALSE, FALSE, 0);
 
-	spinbtn_autochk_adj = gtk_adjustment_new (5, 1, 1000, 1, 10, 0);
+	spinbtn_autochk_adj = GTK_ADJUSTMENT(gtk_adjustment_new (5, 1, 1000, 1, 10, 0));
 	spinbtn_autochk = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_autochk_adj), 1, 0);
 	gtk_widget_show (spinbtn_autochk);
@@ -962,7 +962,7 @@ static void prefs_receive_create(void)
 	gtk_widget_show (label_notifywin);
 	gtk_box_pack_start (GTK_BOX (hbox_notifywin), label_notifywin, FALSE, FALSE, 0);
 
-	spinbtn_notifywin_adj = gtk_adjustment_new (10, 0, 1000, 1, 10, 0);
+	spinbtn_notifywin_adj = GTK_ADJUSTMENT(gtk_adjustment_new (10, 0, 1000, 1, 10, 0));
 	spinbtn_notifywin = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_notifywin_adj), 1, 0);
 	gtk_widget_show (spinbtn_notifywin);
@@ -1160,7 +1160,7 @@ static void prefs_send_create(void)
 
 	PACK_CHECK_BUTTON (vbox2, checkbtn_check_attach,
 			   _("Notify for missing attachments when the following strings (comma-separated) are found in the message body"));
-	gtk_label_set_line_wrap(GTK_LABEL(GTK_BIN(checkbtn_check_attach)->child), TRUE);
+	gtk_label_set_line_wrap(GTK_LABEL(gtk_bin_get_child(GTK_BIN(checkbtn_check_attach))), TRUE);
 
 	hbox1 = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox1);
@@ -1298,10 +1298,10 @@ static void prefs_compose_create(void)
 	GtkWidget *hbox3;
 	GtkWidget *hbox4;
 	GtkWidget *label_undolevel;
-	GtkObject *spinbtn_undolevel_adj;
+	GtkAdjustment *spinbtn_undolevel_adj;
 	GtkWidget *spinbtn_undolevel;
 	GtkWidget *label_linewrap;
-	GtkObject *spinbtn_linewrap_adj;
+	GtkAdjustment *spinbtn_linewrap_adj;
 	GtkWidget *spinbtn_linewrap;
 	GtkWidget *checkbtn_wrapquote;
 	GtkWidget *checkbtn_autowrap;
@@ -1309,7 +1309,7 @@ static void prefs_compose_create(void)
 	GtkWidget *hbox_autosave;
 	GtkWidget *checkbtn_autosave;
 	GtkWidget *label_autosave1;
-	GtkObject *spinbtn_autosave_adj;
+	GtkAdjustment *spinbtn_autosave_adj;
 	GtkWidget *spinbtn_autosave;
 	GtkWidget *label_autosave2;
 
@@ -1401,7 +1401,7 @@ static void prefs_compose_create(void)
 	gtk_widget_show (label_undolevel);
 	gtk_box_pack_start (GTK_BOX (hbox3), label_undolevel, FALSE, FALSE, 0);
 
-	spinbtn_undolevel_adj = gtk_adjustment_new (50, 0, 100, 1, 10, 0);
+	spinbtn_undolevel_adj = GTK_ADJUSTMENT(gtk_adjustment_new (50, 0, 100, 1, 10, 0));
 	spinbtn_undolevel = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_undolevel_adj), 1, 0);
 	gtk_widget_show (spinbtn_undolevel);
@@ -1421,7 +1421,7 @@ static void prefs_compose_create(void)
 	gtk_widget_show (label_linewrap);
 	gtk_box_pack_start (GTK_BOX (hbox3), label_linewrap, FALSE, FALSE, 0);
 
-	spinbtn_linewrap_adj = gtk_adjustment_new (72, 20, 1024, 1, 10, 0);
+	spinbtn_linewrap_adj = GTK_ADJUSTMENT(gtk_adjustment_new (72, 20, 1024, 1, 10, 0));
 	spinbtn_linewrap = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_linewrap_adj), 1, 0);
 	gtk_widget_show (spinbtn_linewrap);
@@ -1461,7 +1461,7 @@ static void prefs_compose_create(void)
 	gtk_box_pack_start (GTK_BOX (hbox_autosave), label_autosave1,
 			    FALSE, FALSE, 0);
 
-	spinbtn_autosave_adj = gtk_adjustment_new (5, 1, 100, 1, 10, 0);
+	spinbtn_autosave_adj = GTK_ADJUSTMENT(gtk_adjustment_new (5, 1, 100, 1, 10, 0));
 	spinbtn_autosave = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_autosave_adj), 1, 0);
 	gtk_widget_show (spinbtn_autosave);
@@ -1702,7 +1702,7 @@ static void prefs_display_create(void)
 	GtkWidget *chkbtn_folder_col_total;
 	GtkWidget *label_ng_abbrev;
 	GtkWidget *spinbtn_ng_abbrev_len;
-	GtkObject *spinbtn_ng_abbrev_len_adj;
+	GtkAdjustment *spinbtn_ng_abbrev_len_adj;
 	GtkWidget *frame_summary;
 	GtkWidget *vbox2;
 	GtkWidget *chkbtn_swapfrom;
@@ -1792,7 +1792,7 @@ static void prefs_display_create(void)
 	gtk_widget_show (label_ng_abbrev);
 	gtk_box_pack_start (GTK_BOX (hbox1), label_ng_abbrev, FALSE, FALSE, 0);
 
-	spinbtn_ng_abbrev_len_adj = gtk_adjustment_new (16, 0, 999, 1, 10, 0);
+	spinbtn_ng_abbrev_len_adj = GTK_ADJUSTMENT(gtk_adjustment_new (16, 0, 999, 1, 10, 0));
 	spinbtn_ng_abbrev_len = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_ng_abbrev_len_adj), 1, 0);
 	gtk_widget_show (spinbtn_ng_abbrev_len);
@@ -1943,7 +1943,7 @@ static GtkWidget *prefs_message_create(void)
 	GtkWidget *chkbtn_htmlonly;
 	GtkWidget *hbox_linespc;
 	GtkWidget *label_linespc;
-	GtkObject *spinbtn_linespc_adj;
+	GtkAdjustment *spinbtn_linespc_adj;
 	GtkWidget *spinbtn_linespc;
 
 	GtkWidget *frame_scr;
@@ -1951,7 +1951,7 @@ static GtkWidget *prefs_message_create(void)
 	GtkWidget *chkbtn_smoothscroll;
 	GtkWidget *hbox_scr;
 	GtkWidget *label_scr;
-	GtkObject *spinbtn_scrollstep_adj;
+	GtkAdjustment *spinbtn_scrollstep_adj;
 	GtkWidget *spinbtn_scrollstep;
 	GtkWidget *chkbtn_halfpage;
 
@@ -2034,7 +2034,7 @@ static GtkWidget *prefs_message_create(void)
 	gtk_box_pack_start (GTK_BOX (hbox_linespc), label_linespc,
 			    FALSE, FALSE, 0);
 
-	spinbtn_linespc_adj = gtk_adjustment_new (2, 0, 16, 1, 1, 0);
+	spinbtn_linespc_adj = GTK_ADJUSTMENT(gtk_adjustment_new (2, 0, 16, 1, 1, 0));
 	spinbtn_linespc = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_linespc_adj), 1, 0);
 	gtk_widget_show (spinbtn_linespc);
@@ -2071,7 +2071,7 @@ static GtkWidget *prefs_message_create(void)
 	gtk_widget_show (label_scr);
 	gtk_box_pack_start (GTK_BOX (hbox_scr), label_scr, FALSE, FALSE, 0);
 
-	spinbtn_scrollstep_adj = gtk_adjustment_new (1, 1, 100, 1, 10, 0);
+	spinbtn_scrollstep_adj = GTK_ADJUSTMENT(gtk_adjustment_new (1, 1, 100, 1, 10, 0));
 	spinbtn_scrollstep = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_scrollstep_adj), 1, 0);
 	gtk_widget_show (spinbtn_scrollstep);
@@ -2483,7 +2483,7 @@ static void prefs_privacy_create(void)
 	GtkWidget *checkbtn_auto_check_signatures;
 	GtkWidget *checkbtn_gpg_signature_popup;
 	GtkWidget *checkbtn_store_passphrase;
-	GtkObject *spinbtn_store_passphrase_adj;
+	GtkAdjustment *spinbtn_store_passphrase_adj;
 	GtkWidget *spinbtn_store_passphrase;
 #ifndef G_OS_WIN32
 	GtkWidget *checkbtn_passphrase_grab;
@@ -2525,7 +2525,7 @@ static void prefs_privacy_create(void)
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox1), label, FALSE, FALSE, 0);
 
-	spinbtn_store_passphrase_adj = gtk_adjustment_new (0, 0, 1440, 1, 5, 0);
+	spinbtn_store_passphrase_adj = GTK_ADJUSTMENT(gtk_adjustment_new (0, 0, 1440, 1, 5, 0));
 	spinbtn_store_passphrase = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_store_passphrase_adj), 1, 0);
 	gtk_widget_show (spinbtn_store_passphrase);
@@ -3203,7 +3203,7 @@ static GtkWidget *prefs_advanced_create(void)
 	GtkWidget *hbox1;
 	GtkWidget *label_iotimeout;
 	GtkWidget *spinbtn_iotimeout;
-	GtkObject *spinbtn_iotimeout_adj;
+	GtkAdjustment *spinbtn_iotimeout_adj;
 
 	vbox1 = gtk_vbox_new (FALSE, VSPACING);
 	gtk_widget_show (vbox1);
@@ -3227,7 +3227,7 @@ static GtkWidget *prefs_advanced_create(void)
 	gtk_widget_show (label_iotimeout);
 	gtk_box_pack_start (GTK_BOX (hbox1), label_iotimeout, FALSE, FALSE, 0);
 
-	spinbtn_iotimeout_adj = gtk_adjustment_new (60, 0, 1000, 1, 10, 0);
+	spinbtn_iotimeout_adj = GTK_ADJUSTMENT(gtk_adjustment_new (60, 0, 1000, 1, 10, 0));
 	spinbtn_iotimeout = gtk_spin_button_new
 		(GTK_ADJUSTMENT (spinbtn_iotimeout_adj), 1, 0);
 	gtk_widget_show (spinbtn_iotimeout);
@@ -3361,7 +3361,7 @@ static gboolean date_format_key_pressed(GtkWidget *keywidget,
 					GdkEventKey *event,
 					GtkWidget **widget)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		date_format_cancel_btn_clicked(NULL, widget);
 	return FALSE;
 }
@@ -3766,7 +3766,7 @@ static gboolean prefs_quote_colors_key_pressed(GtkWidget *widget,
 					       GdkEventKey *event,
 					       gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		gtk_main_quit();
 	return FALSE;
 }
@@ -3778,6 +3778,7 @@ static void quote_color_set_dialog(GtkWidget *widget, gpointer data)
 	gdouble color[4] = {0.0, 0.0, 0.0, 0.0};
 	gint rgbvalue = 0;
 	GtkColorSelectionDialog *dialog;
+	GtkWidget *ok_button, *cancel_button;
 
 	if(g_ascii_strcasecmp(type, "LEVEL1") == 0) {
 		title = _("Pick color for quotation level 1");
@@ -3802,10 +3803,14 @@ static void quote_color_set_dialog(GtkWidget *widget, gpointer data)
 	gtk_window_set_policy(GTK_WINDOW(color_dialog), FALSE, FALSE, FALSE);
 	manage_window_set_transient(GTK_WINDOW(color_dialog));
 
-	g_signal_connect(G_OBJECT(GTK_COLOR_SELECTION_DIALOG(color_dialog)->ok_button),
+	g_object_get(G_OBJECT(color_dialog), "ok-button", &ok_button,
+		     "cancel-button", &cancel_button, NULL);
+	g_signal_connect(G_OBJECT(ok_button),
 			 "clicked", G_CALLBACK(quote_colors_set_dialog_ok), data);
-	g_signal_connect(G_OBJECT(GTK_COLOR_SELECTION_DIALOG(color_dialog)->cancel_button),
+	g_signal_connect(G_OBJECT(cancel_button),
 			 "clicked", G_CALLBACK(quote_colors_set_dialog_cancel), data);
+	g_object_unref(ok_button);
+	g_object_unref(cancel_button);
 	g_signal_connect(G_OBJECT(color_dialog), "key_press_event",
 			 G_CALLBACK(quote_colors_set_dialog_key_pressed), data);
 
@@ -3815,7 +3820,7 @@ static void quote_color_set_dialog(GtkWidget *widget, gpointer data)
 	color[2] = (gdouble)  (rgbvalue & 0x0000ff)        / 255.0;
 	dialog = GTK_COLOR_SELECTION_DIALOG(color_dialog);
 	gtk_color_selection_set_color
-		(GTK_COLOR_SELECTION(dialog->colorsel), color);
+		(GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(dialog)), color);
 
 	gtk_widget_show(color_dialog);
 }
@@ -3823,7 +3828,7 @@ static void quote_color_set_dialog(GtkWidget *widget, gpointer data)
 static void quote_colors_set_dialog_ok(GtkWidget *widget, gpointer data)
 {
 	GtkColorSelection *colorsel = (GtkColorSelection *)
-						((GtkColorSelectionDialog *)color_dialog)->colorsel;
+						gtk_color_selection_dialog_get_color_selection(((GtkColorSelectionDialog *)color_dialog));
 	gdouble color[4];
 	gint red, green, blue, rgbvalue;
 	gchar *type = (gchar *)data;
@@ -3868,7 +3873,7 @@ static gboolean quote_colors_set_dialog_key_pressed(GtkWidget *widget,
 						    GdkEventKey *event,
 						    gpointer data)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		gtk_widget_destroy(color_dialog);
 		return TRUE;
 	}
@@ -4038,7 +4043,7 @@ static gboolean prefs_quote_description_key_pressed(GtkWidget *widget,
 						    GdkEventKey *event,
 						    gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		gtk_main_quit();
 	return FALSE;
 }
@@ -4123,7 +4128,7 @@ static void prefs_keybind_select(void)
 static gboolean prefs_keybind_key_pressed(GtkWidget *widget, GdkEventKey *event,
 					  gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_keybind_cancel();
 	return FALSE;
 }
@@ -4768,7 +4773,7 @@ static gint prefs_common_deleted(GtkWidget *widget, GdkEventAny *event,
 static gboolean prefs_common_key_pressed(GtkWidget *widget, GdkEventKey *event,
 					 gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_common_cancel();
 	return FALSE;
 }
@@ -4777,7 +4782,7 @@ static void prefs_common_ok(void)
 {
 	prefs_common_apply();
 	gtk_widget_hide(dialog.window);
-	if (quote_desc_win && GTK_WIDGET_VISIBLE(quote_desc_win))
+	if (quote_desc_win && gtk_widget_get_visible(quote_desc_win))
 		gtk_widget_hide(quote_desc_win);
 
 	main_window_popup(main_window_get());

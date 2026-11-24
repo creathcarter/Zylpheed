@@ -62,6 +62,15 @@ AC_PROG_CC
 AM_DISABLE_STATIC
 AC_ISC_POSIX
 AM_PROG_CC_STDC
+
+dnl GTK+ 2 headers declare callbacks with empty parameter lists, which
+dnl means (void) in C23 (the default of GCC 15 and later).
+if test "x$GCC" = xyes; then
+	case " $CFLAGS " in
+	*" -std="*) ;;
+	*) CFLAGS="$CFLAGS -std=gnu17" ;;
+	esac
+fi
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
@@ -102,7 +111,10 @@ AM_PATH_GLIB_2_0(2.8.0,, AC_MSG_ERROR(Test for GLib failed. See the 'INSTALL' fo
 
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 
-AM_PATH_GTK_2_0(2.8.0,, AC_MSG_ERROR(Test for Gtk failed. See the 'INSTALL' for help.))
+AM_PATH_GTK_2_0(2.24.0,, AC_MSG_ERROR(Test for Gtk failed. See the 'INSTALL' for help.))
+
+dnl only the top-level GTK+/GDK headers may be included
+GTK_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES"
 
 dnl --disable-deprecated switch for GTK2 purification
 AC_ARG_ENABLE(deprecated, [  --disable-deprecated    Disable deprecated GTK functions. ],
@@ -280,7 +292,7 @@ if test $ac_cv_enable_ssl = yes; then
 		AC_MSG_CHECKING([if openssl is available])
 		ac_save_LIBS="$LIBS"
 		if test "$native_win32" = yes; then
-			LIBS="$LIBS -lssl32 -leay32"
+			LIBS="$LIBS -lssl -lcrypto"
 		else
 			LIBS="$LIBS -lssl -lcrypto"
 		fi

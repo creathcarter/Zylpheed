@@ -21,13 +21,7 @@
 #define __MENU_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenushell.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkradiomenuitem.h>
+#include <gtk/gtk.h>
 
 #define MENU_VAL_ID "Sylpheed::Menu::ValueID"
 

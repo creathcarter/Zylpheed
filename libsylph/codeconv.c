@@ -2722,7 +2722,7 @@ CharSet conv_check_file_encoding(const gchar *file)
 	if ((size = fread(buf, 2, BUFFSIZE / 2, fp)) > 0) {
 		CharSet guess_enc = C_AUTO;
 
-		debug_print("conv_check_file_encoding: check first %d bytes of file %s\n", size * 2, file);
+		debug_print("conv_check_file_encoding: check first %" G_GSIZE_FORMAT " bytes of file %s\n", size * 2, file);
 
 		/* BOM check */
 		if ((buf[0] & 0xff) == 0xfe && (buf[1] & 0xff) == 0xff) {

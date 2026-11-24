@@ -20,18 +20,23 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkversion.h>
-#include <gtk/gtkfilechooserdialog.h>
-#include <gtk/gtkexpander.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #ifdef G_OS_WIN32
 #  define COBJMACROS
 #  include <windows.h>
 #  include <objbase.h>
 #  include <objidl.h>
+/* newer mingw-w64 shlobj.h declares names that clash with libsylph */
+#  define Folder		w32_Folder
+#  define FolderItem		w32_FolderItem
+#  define SORT_ASCENDING	w32_SORT_ASCENDING
+#  define SORT_DESCENDING	w32_SORT_DESCENDING
 #  include <shlobj.h>
+#  undef Folder
+#  undef FolderItem
+#  undef SORT_ASCENDING
+#  undef SORT_DESCENDING
 #endif
 
 #include "main.h"
@@ -64,11 +69,9 @@ static gchar *filesel_get_filename_with_ext	(const gchar	*filename,
 static void filesel_combo_changed_cb	(GtkComboBox		*combo_box,
 					 gpointer		 data);
 
-#if GTK_CHECK_VERSION(2, 8, 0)
 static GtkFileChooserConfirmation filesel_confirm_overwrite_cb
 					(GtkFileChooser		*chooser,
 					 gpointer		 data);
-#endif
 #ifdef G_OS_WIN32
 static gboolean is_ext_lnk		(const gchar		*filename);
 static gchar *filesel_get_link		(const gchar		*link_file);
@@ -201,7 +204,6 @@ static GSList *filesel_select_file_full(const gchar *title, const gchar *file,
 			(dialog, save_expander_expanded);
 	}
 
-#if GTK_CHECK_VERSION(2, 8, 0)
 	if (action == GTK_FILE_CHOOSER_ACTION_SAVE) {
 		gtk_file_chooser_set_do_overwrite_confirmation
 			(GTK_FILE_CHOOSER(dialog), TRUE);
@@ -209,7 +211,6 @@ static GSList *filesel_select_file_full(const gchar *title, const gchar *file,
 				 G_CALLBACK(filesel_confirm_overwrite_cb),
 				 NULL);
 	}
-#endif
 
 	/* create types combo box */
 	if (types) {
@@ -305,20 +306,6 @@ gchar *filesel_save_as(const gchar *file)
 	filename = filesel_select_file(_("Save as"), file,
 				       GTK_FILE_CHOOSER_ACTION_SAVE);
 
-#if !GTK_CHECK_VERSION(2, 8, 0)
-	if (filename && is_file_exist(filename)) {
-		AlertValue aval;
-
-		aval = alertpanel(_("Overwrite existing file"),
-				  _("The file already exists. Do you want to replace it?"),
-				  GTK_STOCK_YES, GTK_STOCK_NO, NULL);
-		if (G_ALERTDEFAULT != aval) {
-			g_free(filename);
-			filename = NULL;
-		}
-	}
-#endif
-
 	return filename;
 }
 
@@ -337,20 +324,6 @@ gchar *filesel_save_as_type(const gchar *file, FileselFileType *types,
 		slist_free_strings(list->next);
 	}
 	g_slist_free(list);
-
-#if !GTK_CHECK_VERSION(2, 8, 0)
-	if (filename && is_file_exist(filename)) {
-		AlertValue aval;
-
-		aval = alertpanel(_("Overwrite existing file"),
-				  _("The file already exists. Do you want to replace it?"),
-				  GTK_STOCK_YES, GTK_STOCK_NO, NULL);
-		if (G_ALERTDEFAULT != aval) {
-			g_free(filename);
-			filename = NULL;
-		}
-	}
-#endif
 
 	return filename;
 }
@@ -480,7 +453,6 @@ static void filesel_combo_changed_cb(GtkComboBox *combo_box, gpointer data)
 	g_free(filename);
 }
 
-#if GTK_CHECK_VERSION(2, 8, 0)
 static GtkFileChooserConfirmation filesel_confirm_overwrite_cb
 					(GtkFileChooser		*chooser,
 					 gpointer		 data)
@@ -521,7 +493,6 @@ static GtkFileChooserConfirmation filesel_confirm_overwrite_cb
 
 	return ret;
 }
-#endif
 
 #ifdef G_OS_WIN32
 static gboolean is_ext_lnk(const gchar *filename)

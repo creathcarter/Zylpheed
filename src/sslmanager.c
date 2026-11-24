@@ -27,12 +27,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 #include "ssl.h"
 #include "sslmanager.h"
@@ -132,7 +127,7 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 
 	hbox = gtk_hbox_new(FALSE, 12);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
 			   hbox, FALSE, FALSE, 0);
 
 	image = gtk_image_new_from_stock
@@ -153,7 +148,7 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 		gint size;
 
 		size = pango_font_description_get_size
-			(label->style->font_desc);
+			(gtk_widget_get_style(label)->font_desc);
 		font_desc = pango_font_description_new();
 		pango_font_description_set_weight
 			(font_desc, PANGO_WEIGHT_BOLD);
@@ -169,7 +164,7 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(label, FALSE);
 #ifdef G_OS_WIN32
 	{
 		GtkStyle *style;

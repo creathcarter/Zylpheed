@@ -22,10 +22,7 @@
 
 #include <glib.h>
 #include <gdk/gdk.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeselection.h>
+#include <gtk/gtk.h>
 
 typedef struct _MimeView	MimeView;
 

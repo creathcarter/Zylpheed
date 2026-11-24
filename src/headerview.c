@@ -25,22 +25,16 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkversion.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkstyle.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkpixmap.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 
 #if HAVE_LIBCOMPFACE
 #  include <compface.h>
+/* compface.h defines these as macros; they clash with <windows.h> */
+#  undef WORD
+#  undef COMP
 #endif
 
 #include "main.h"
@@ -88,7 +82,6 @@ HeaderView *headerview_create(void)
 	GtkWidget *ng_body_label;
 	GtkWidget *subject_header_label;
 	GtkWidget *subject_body_label;
-	GtkTooltips *tip;
 
 	debug_print(_("Creating header view...\n"));
 	headerview = g_new0(HeaderView, 1);
@@ -120,20 +113,17 @@ HeaderView *headerview_create(void)
 	gtk_label_set_selectable(GTK_LABEL(ng_body_label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(subject_body_label), TRUE);
 
-	GTK_WIDGET_UNSET_FLAGS(from_body_label, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS(to_body_label, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS(cc_body_label, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS(ng_body_label, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS(subject_body_label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(from_body_label, FALSE);
+	gtk_widget_set_can_focus(to_body_label, FALSE);
+	gtk_widget_set_can_focus(cc_body_label, FALSE);
+	gtk_widget_set_can_focus(ng_body_label, FALSE);
+	gtk_widget_set_can_focus(subject_body_label, FALSE);
 
 	gtk_widget_add_events(from_body_label, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gtk_widget_add_events(to_body_label, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gtk_widget_add_events(cc_body_label, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gtk_widget_add_events(ng_body_label, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gtk_widget_add_events(subject_body_label, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
-
-	tip = gtk_tooltips_new();
-	g_object_ref_sink(tip);
 
 	gtk_box_pack_start(GTK_BOX(hbox1), from_header_label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox1), from_body_label, FALSE, FALSE, 0);
@@ -160,7 +150,6 @@ HeaderView *headerview_create(void)
 
 	headerview->image = NULL;
 
-	headerview->tip = tip;
 
 	gtk_widget_show_all(hbox);
 
@@ -222,12 +211,11 @@ void headerview_init(HeaderView *headerview)
 void headerview_show(HeaderView *headerview, MsgInfo *msginfo)
 {
 	headerview_clear(headerview);
-	gtk_tooltips_enable(headerview->tip);
 
 	gtk_label_set_text(GTK_LABEL(headerview->from_body_label),
 			   msginfo->from ? msginfo->from : _("(No From)"));
 	if (msginfo->from) {
-		gtk_tooltips_set_tip(headerview->tip, headerview->from_body_label, msginfo->from, NULL);
+		gtk_widget_set_tooltip_text(headerview->from_body_label, msginfo->from);
 	}
 
 	if (msginfo->to) {
@@ -235,7 +223,7 @@ void headerview_show(HeaderView *headerview, MsgInfo *msginfo)
 				   msginfo->to);
 		gtk_widget_show(headerview->to_header_label);
 		gtk_widget_show(headerview->to_body_label);
-		gtk_tooltips_set_tip(headerview->tip, headerview->to_body_label, msginfo->to, NULL);
+		gtk_widget_set_tooltip_text(headerview->to_body_label, msginfo->to);
 	}
 
 	if (msginfo->cc) {
@@ -243,7 +231,7 @@ void headerview_show(HeaderView *headerview, MsgInfo *msginfo)
 				   msginfo->cc);
 		gtk_widget_show(headerview->cc_header_label);
 		gtk_widget_show(headerview->cc_body_label);
-		gtk_tooltips_set_tip(headerview->tip, headerview->cc_body_label, msginfo->cc, NULL);
+		gtk_widget_set_tooltip_text(headerview->cc_body_label, msginfo->cc);
 	}
 
 	if (msginfo->newsgroups) {
@@ -251,14 +239,14 @@ void headerview_show(HeaderView *headerview, MsgInfo *msginfo)
 				   msginfo->newsgroups);
 		gtk_widget_show(headerview->ng_header_label);
 		gtk_widget_show(headerview->ng_body_label);
-		gtk_tooltips_set_tip(headerview->tip, headerview->ng_body_label, msginfo->newsgroups, NULL);
+		gtk_widget_set_tooltip_text(headerview->ng_body_label, msginfo->newsgroups);
 	}
 
 	gtk_label_set_text(GTK_LABEL(headerview->subject_body_label),
 			   msginfo->subject ? msginfo->subject
 			   : _("(No Subject)"));
 	if (msginfo->subject) {
-		gtk_tooltips_set_tip(headerview->tip, headerview->subject_body_label, msginfo->subject, NULL);
+		gtk_widget_set_tooltip_text(headerview->subject_body_label, msginfo->subject);
 	}
 
 #if HAVE_LIBCOMPFACE
@@ -276,13 +264,13 @@ static void headerview_show_xface(HeaderView *headerview, MsgInfo *msginfo)
 
 	if (!msginfo->xface || strlen(msginfo->xface) < 5) {
 		if (headerview->image &&
-		    GTK_WIDGET_VISIBLE(headerview->image)) {
+		    gtk_widget_get_visible(headerview->image)) {
 			gtk_widget_hide(headerview->image);
 			gtk_widget_queue_resize(hbox);
 		}
 		return;
 	}
-	if (!GTK_WIDGET_VISIBLE(headerview->hbox)) return;
+	if (!gtk_widget_get_visible(headerview->hbox)) return;
 
 	strncpy2(xface, msginfo->xface, sizeof(xface));
 
@@ -296,7 +284,7 @@ static void headerview_show_xface(HeaderView *headerview, MsgInfo *msginfo)
 	create_xpm_from_xface(xpm_xface, xface);
 
 	pixmap = gdk_pixmap_create_from_xpm_d
-		(hbox->window, &mask, &hbox->style->white, xpm_xface);
+		(gtk_widget_get_window(hbox), &mask, &gtk_widget_get_style(hbox)->white, xpm_xface);
 
 	if (!headerview->image) {
 		GtkWidget *image;
@@ -329,13 +317,13 @@ void headerview_clear(HeaderView *headerview)
 	gtk_widget_hide(headerview->ng_header_label);
 	gtk_widget_hide(headerview->ng_body_label);
 
-#if GTK_CHECK_VERSION(2, 12, 0)
 	gtk_widget_set_tooltip_text(headerview->from_body_label, NULL);
 	gtk_widget_set_tooltip_text(headerview->subject_body_label, NULL);
-#endif
-	gtk_tooltips_disable(headerview->tip);
+	gtk_widget_set_tooltip_text(headerview->to_body_label, NULL);
+	gtk_widget_set_tooltip_text(headerview->cc_body_label, NULL);
+	gtk_widget_set_tooltip_text(headerview->ng_body_label, NULL);
 
-	if (headerview->image && GTK_WIDGET_VISIBLE(headerview->image)) {
+	if (headerview->image && gtk_widget_get_visible(headerview->image)) {
 		gtk_widget_hide(headerview->image);
 		gtk_widget_queue_resize(headerview->hbox);
 	}
@@ -351,7 +339,6 @@ void headerview_set_visibility(HeaderView *headerview, gboolean visibility)
 
 void headerview_destroy(HeaderView *headerview)
 {
-	g_object_unref(headerview->tip);
 	g_free(headerview);
 }
 

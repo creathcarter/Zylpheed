@@ -26,20 +26,7 @@
 
 #include <glib.h>
 #include <gdk/gdk.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkcontainer.h>
-#include <gtk/gtkeditable.h>
-#include <gtk/gtkctree.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <stdlib.h>
 
@@ -65,7 +52,7 @@ struct _ComboButton
 	if (!pixmap) { \
 		GtkStyle *style = gtk_widget_get_style(widget); \
 		pixmap = gdk_pixmap_create_from_xpm_d \
-			(widget->window, &mask, \
+			(gtk_widget_get_window(widget), &mask, \
 			 &style->bg[GTK_STATE_NORMAL], xpm_d); \
 	} \
 }

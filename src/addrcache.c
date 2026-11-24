@@ -263,7 +263,7 @@ void addrcache_print( AddressCache *cache, FILE *stream ) {
 	g_return_if_fail( cache != NULL );
 	fprintf( stream, "AddressCache:\n" );
 	fprintf( stream, "next id  : %d\n",  cache->nextID );
-	fprintf( stream, "mod time : %ld\n", cache->modifyTime );
+	fprintf( stream, "mod time : %" G_GINT64_MODIFIER "d\n", (gint64)cache->modifyTime );
 	fprintf( stream, "modified : %s\n",  cache->modified ? "yes" : "no" );
 	fprintf( stream, "data read: %s\n",  cache->dataRead ? "yes" : "no" );
 }

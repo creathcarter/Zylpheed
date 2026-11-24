@@ -963,7 +963,8 @@ void procheader_date_get_localtime(gchar *dest, gint len, const stime_t timer)
 
 	lt = localtime(&timer_);
 	if (!lt) {
-		g_warning("can't get localtime of %ld\n", timer);
+		g_warning("can't get localtime of %" G_GINT64_MODIFIER "d\n",
+			  (gint64)timer);
 		dest[0] = '\0';
 		return;
 	}

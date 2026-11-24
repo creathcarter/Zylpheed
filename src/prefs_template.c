@@ -298,8 +298,8 @@ static void prefs_template_window_create(void)
 	gtk_clist_set_selection_mode(GTK_CLIST(clist_tmpls),
 				     GTK_SELECTION_BROWSE);
 	gtkut_clist_set_redraw(GTK_CLIST(clist_tmpls));
-	GTK_WIDGET_UNSET_FLAGS(GTK_CLIST(clist_tmpls)->column[0].button,
-			       GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(GTK_CLIST(clist_tmpls)->column[0].button,
+			       FALSE);
 	g_signal_connect(G_OBJECT (clist_tmpls), "select_row",
 			 G_CALLBACK (prefs_template_select_cb), NULL);
 
@@ -423,7 +423,7 @@ static gint prefs_template_deleted_cb(GtkWidget *widget, GdkEventAny *event,
 static gboolean prefs_template_key_pressed_cb(GtkWidget *widget,
 					      GdkEventKey *event, gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_template_cancel_cb();
 	return FALSE;
 }

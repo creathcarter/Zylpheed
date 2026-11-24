@@ -24,23 +24,12 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gdk/gdktypes.h>
+#include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
-#include <gdk/gdkdisplay.h>
 #ifdef GDK_WINDOWING_X11
 #  include <gdk/gdkx.h>
 #endif /* GDK_WINDOWING_X11 */
-#include <gtk/gtkmain.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/types.h>
 #if HAVE_SYS_MMAN_H
@@ -146,8 +135,8 @@ passphrase_mbox(const gchar *uid_hint, const gchar *pass_hint, gint prev_bad)
 #ifdef GDK_WINDOWING_X11
 	gdk_x11_display_grab(gdk_display_get_default());
 #endif /* GDK_WINDOWING_X11 */
-        if (gdk_pointer_grab(window->window, TRUE, 0,
-                             window->window, NULL, GDK_CURRENT_TIME)) {
+        if (gdk_pointer_grab(gtk_widget_get_window(window), TRUE, 0,
+                             gtk_widget_get_window(window), NULL, GDK_CURRENT_TIME)) {
 #ifdef GDK_WINDOWING_X11
             gdk_x11_display_ungrab(gdk_display_get_default());
 #endif /* GDK_WINDOWING_X11 */
@@ -155,7 +144,7 @@ passphrase_mbox(const gchar *uid_hint, const gchar *pass_hint, gint prev_bad)
             gtk_widget_destroy(window);
             return NULL;
         }
-        if (gdk_keyboard_grab(window->window, FALSE, GDK_CURRENT_TIME)) {
+        if (gdk_keyboard_grab(gtk_widget_get_window(window), FALSE, GDK_CURRENT_TIME)) {
             gdk_display_pointer_ungrab(gdk_display_get_default(),
 			 	       GDK_CURRENT_TIME);
 #ifdef GDK_WINDOWING_X11
@@ -220,7 +209,7 @@ passphrase_deleted(GtkWidget *widget, GdkEventAny *event, gpointer data)
 static gboolean
 passphrase_key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-    if (event && event->keyval == GDK_Escape)
+    if (event && event->keyval == GDK_KEY_Escape)
         passphrase_cancel_cb(NULL, NULL);
     return FALSE;
 }

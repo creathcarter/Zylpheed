@@ -23,13 +23,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenubar.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 #include "menu.h"
 #include "utils.h"
@@ -167,10 +161,13 @@ void menu_set_sensitive(GtkItemFactory *ifactory, const gchar *path,
 
 void menu_set_sensitive_all(GtkMenuShell *menu_shell, gboolean sensitive)
 {
+	GList *children;
 	GList *cur;
 
-	for (cur = menu_shell->children; cur != NULL; cur = cur->next)
+	children = gtk_container_get_children(GTK_CONTAINER(menu_shell));
+	for (cur = children; cur != NULL; cur = cur->next)
 		gtk_widget_set_sensitive(GTK_WIDGET(cur->data), sensitive);
+	g_list_free(children);
 }
 
 void menu_set_active(GtkItemFactory *ifactory, const gchar *path,
@@ -189,6 +186,7 @@ void menu_button_position(GtkMenu *menu, gint *x, gint *y, gboolean *push_in,
 {
 	GtkWidget *button;
 	GtkRequisition requisition;
+	GtkAllocation allocation;
 	gint button_xpos, button_ypos;
 	gint xpos, ypos;
 	gint width, height;
@@ -201,10 +199,11 @@ void menu_button_position(GtkMenu *menu, gint *x, gint *y, gboolean *push_in,
 	gtk_widget_get_child_requisition(GTK_WIDGET(menu), &requisition);
 	width = requisition.width;
 	height = requisition.height;
-	gdk_window_get_origin(button->window, &button_xpos, &button_ypos);
+	gdk_window_get_origin(gtk_widget_get_window(button), &button_xpos, &button_ypos);
 
-	xpos = button_xpos + button->allocation.x;
-	ypos = button_ypos + button->allocation.y + button->allocation.height;
+	gtk_widget_get_allocation(button, &allocation);
+	xpos = button_xpos + allocation.x;
+	ypos = button_ypos + allocation.y + allocation.height;
 
 	scr_width = gdk_screen_width();
 	scr_height = gdk_screen_height();
@@ -212,7 +211,7 @@ void menu_button_position(GtkMenu *menu, gint *x, gint *y, gboolean *push_in,
 	if (xpos + width > scr_width)
 		xpos -= (xpos + width) - scr_width;
 	if (ypos + height > scr_height)
-		ypos -= button->allocation.height + height;
+		ypos -= allocation.height + height;
 	if (xpos < 0)
 		xpos = 0;
 	if (ypos < 0)
@@ -240,7 +239,7 @@ void menu_widget_position(GtkMenu *menu, gint *x, gint *y, gboolean *push_in,
 	gtk_widget_get_child_requisition(GTK_WIDGET(menu), &requisition);
 	width = requisition.width;
 	height = requisition.height;
-	gdk_window_get_origin(widget->window, &w_xpos, &w_ypos);
+	gdk_window_get_origin(gtk_widget_get_window(widget), &w_xpos, &w_ypos);
 
 	xpos = w_xpos;
 	ypos = w_ypos;

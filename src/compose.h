@@ -21,11 +21,7 @@
 #define __COMPOSE_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtktexttag.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 
 typedef struct _Compose		Compose;
 typedef struct _AttachInfo	AttachInfo;
@@ -200,7 +196,6 @@ struct _Compose
 
 	gboolean block_modified;
 
-	GtkTooltips *toolbar_tip;
 
 	GtkWidget *sig_combo;
 };

@@ -261,8 +261,8 @@ static void prefs_display_header_create(void)
 	gtk_clist_set_reorderable (GTK_CLIST (headers_clist), TRUE);
 	gtk_clist_set_use_drag_icons (GTK_CLIST (headers_clist), FALSE);
 	gtkut_clist_set_redraw (GTK_CLIST (headers_clist));
-	GTK_WIDGET_UNSET_FLAGS (GTK_CLIST (headers_clist)->column[0].button,
-				GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(GTK_CLIST (headers_clist)->column[0].button,
+				FALSE);
 	g_signal_connect_after
 		(G_OBJECT (headers_clist), "row_move",
 		 G_CALLBACK (prefs_display_header_row_moved), NULL);
@@ -320,8 +320,8 @@ static void prefs_display_header_create(void)
 				      GTK_SELECTION_BROWSE);
 	gtk_clist_set_auto_sort(GTK_CLIST (hidden_headers_clist), TRUE);
 	gtkut_clist_set_redraw (GTK_CLIST (hidden_headers_clist));
-	GTK_WIDGET_UNSET_FLAGS (GTK_CLIST (hidden_headers_clist)->
-				column[0].button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(GTK_CLIST (hidden_headers_clist)->
+				column[0].button, FALSE);
 
 	btn_vbox = gtk_vbox_new (FALSE, 8);
 	gtk_widget_show (btn_vbox);
@@ -612,7 +612,7 @@ static gboolean prefs_display_header_key_pressed(GtkWidget *widget,
 					     GdkEventKey *event,
 					     gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_display_header_cancel();
 	return FALSE;
 }

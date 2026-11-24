@@ -32,6 +32,13 @@
 #include "ssl.h"
 #include "ssl_hostname_validation.h"
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+#  define TLS_client_method()	SSLv23_client_method()
+#endif
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
+#  define SSL_get1_peer_certificate(s)	SSL_get_peer_certificate(s)
+#endif
+
 static SSL_CTX *ssl_ctx_SSLv23 = NULL;
 static SSL_CTX *ssl_ctx_TLSv1 = NULL;
 
@@ -72,8 +79,13 @@ void ssl_init(void)
 	gchar *certs_file, *certs_dir;
 	FILE *fp;
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 	SSL_library_init();
 	SSL_load_error_strings();
+#else
+	OPENSSL_init_ssl(OPENSSL_INIT_LOAD_SSL_STRINGS |
+			 OPENSSL_INIT_LOAD_CRYPTO_STRINGS, NULL);
+#endif
 
 	certs_dir = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, "certs", NULL);
 	if (!is_dir_exist(certs_dir)) {
@@ -127,7 +139,7 @@ void ssl_init(void)
 	if (certs_file)
 		debug_print("ssl_init(): certs file %s found.\n", certs_file);
 
-	ssl_ctx_SSLv23 = SSL_CTX_new(SSLv23_client_method());
+	ssl_ctx_SSLv23 = SSL_CTX_new(TLS_client_method());
 	if (ssl_ctx_SSLv23 == NULL) {
 		debug_print(_("SSLv23 not available\n"));
 	} else {
@@ -139,7 +151,7 @@ void ssl_init(void)
 	}
 
 	/* ssl_ctx_TLSv1 = SSL_CTX_new(TLSv1_client_method()); */
-	ssl_ctx_TLSv1 = SSL_CTX_new(SSLv23_client_method());
+	ssl_ctx_TLSv1 = SSL_CTX_new(TLS_client_method());
 	if (ssl_ctx_TLSv1 == NULL) {
 		debug_print(_("TLSv1 not available\n"));
 	} else {
@@ -280,7 +292,7 @@ gboolean ssl_init_socket_with_method(SockInfo *sockinfo, SSLMethod method)
 
 	/* Get server's certificate (note: beware of dynamic allocation) */
 
-	if ((server_cert = SSL_get_peer_certificate(sockinfo->ssl)) != NULL) {
+	if ((server_cert = SSL_get1_peer_certificate(sockinfo->ssl)) != NULL) {
 		glong verify_result;
 		gboolean expired = FALSE;
 

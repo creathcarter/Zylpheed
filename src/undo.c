@@ -25,7 +25,7 @@
 #endif
 
 #include <glib.h>
-#include <gtk/gtktextview.h>
+#include <gtk/gtk.h>
 
 #include "undo.h"
 #include "utils.h"
@@ -343,9 +343,9 @@ static void undo_add(const gchar *text,
 
 	undo_check_size(undostruct);
 
-	vadj = GTK_ADJUSTMENT(GTK_TEXT_VIEW(undostruct->textview)->vadjustment);
+	vadj = GTK_ADJUSTMENT(gtk_text_view_get_vadjustment(GTK_TEXT_VIEW(undostruct->textview)));
 	undoinfo = undo_object_new(g_strdup(text), start_pos, end_pos, action,
-				   vadj->value);
+				   gtk_adjustment_get_value(vadj));
 
 	if (end_pos - start_pos != 1 || text[0] == '\n')
 		undoinfo->mergeable = FALSE;
@@ -397,7 +397,7 @@ void undo_undo(UndoMain *undostruct)
 	gtk_text_buffer_place_cursor(buffer, &iter);
 
 	/* Move the view (scrollbars) to the correct position */
-	gtk_adjustment_set_value(GTK_ADJUSTMENT(textview->vadjustment),
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(gtk_text_view_get_vadjustment(textview)),
 				 undoinfo->window_position);
 
 	switch (undoinfo->action) {
@@ -493,7 +493,7 @@ void undo_redo(UndoMain *undostruct)
 	gtk_text_buffer_place_cursor(buffer, &iter);
 
 	/* Move the view to the right position. */
-	gtk_adjustment_set_value(textview->vadjustment, 
+	gtk_adjustment_set_value(gtk_text_view_get_vadjustment(textview), 
 				 redoinfo->window_position);
 
 	switch (redoinfo->action) {

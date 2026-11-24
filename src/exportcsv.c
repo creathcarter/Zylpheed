@@ -26,20 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <stdio.h>
 
@@ -358,7 +345,7 @@ static gint exp_csv_delete_event( GtkWidget *widget, GdkEventAny *event, gpointe
 }
 
 static gboolean exp_csv_key_pressed( GtkWidget *widget, GdkEventKey *event, gpointer data ) {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		exp_csv_cancel( widget, data );
 	}
 	return FALSE;

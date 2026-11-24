@@ -23,7 +23,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkstatusbar.h>
+#include <gtk/gtk.h>
 #include <stdarg.h>
 
 #include "statusbar.h"

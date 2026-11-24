@@ -1,0 +1,695 @@
+make  all-recursive
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+Making all in ac
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+Making all in libsylph
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make  all-am
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+Making all in src
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+  LEX      quote_fmt_lex.c
+  YACC     quote_fmt_parse.c
+make  all-recursive
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in icons
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make  all-am
+make[5]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[5]: Nothing to be done for 'all-am'.
+make[5]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+  CC       summaryview.o
+  CC       textview.o
+  LEX      quote_fmt_lex.c
+  YACC     quote_fmt_parse.c
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/summaryview.c:25:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/textview.c:31:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from ../../src/textview.c:28:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/summaryview.c:20:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/textview.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.h:31,
+                 from ../../src/textview.c:38:
+../../libsylph/session.h:121:2: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.c:35:
+../../libsylph/session.h:121:2: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:30:
+../../src/textview.c: In function 'textview_create':
+../../src/textview.c:301:47: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+  301 |         g_signal_connect(G_OBJECT(GTK_TEXT_VIEW(text)->vadjustment),
+      |                                                      ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/textview.c:301:19: note: in expansion of macro 'G_OBJECT'
+  301 |         g_signal_connect(G_OBJECT(GTK_TEXT_VIEW(text)->vadjustment),
+      |                          ^~~~~~~~
+In file included from ../../src/summaryview.c:60:
+../../src/inc.h:63:2: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:2: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/textview.c: In function 'part_menu_button_position':
+../../src/textview.c:677:29: error: 'GtkWidget' {aka 'struct _GtkWidget'} has no member named 'requisition'
+  677 |         ypos = button_ypos + widget->requisition.height;
+      |                                    ^~
+../../src/textview.c:685:17: error: 'GtkWidget' {aka 'struct _GtkWidget'} has no member named 'requisition'
+  685 |                 ypos -= widget->requisition.height + height;
+      |                               ^~
+../../src/textview.c: In function 'textview_part_widget_button_pressed':
+../../src/textview.c:726:33: error: 'GtkMenuShell' {aka 'struct _GtkMenuShell'} has no member named 'children'
+  726 |         for (cur = GTK_MENU_SHELL(menu)->children; cur != NULL; cur = cur->next) {
+      |                                        ^~
+../../src/textview.c: In function 'textview_part_widget_exposed':
+../../src/textview.c:758:12: error: 'GtkWidget' {aka 'struct _GtkWidget'} has no member named 'allocation'
+  758 |         w = widget->allocation.width - 1;
+      |                   ^~
+../../src/textview.c:759:12: error: 'GtkWidget' {aka 'struct _GtkWidget'} has no member named 'allocation'
+  759 |         h = widget->allocation.height - 1;
+      |                   ^~
+../../src/summaryview.c: In function 'summary_create':
+../../src/summaryview.c:562:47: error: 'GtkMenuShell' {aka 'struct _GtkMenuShell'} has no member named 'children'
+  562 |         child = g_list_find(GTK_MENU_SHELL(popupmenu)->children,
+      |                                                      ^~
+../../src/summaryview.c:571:47: error: 'GtkMenuShell' {aka 'struct _GtkMenuShell'} has no member named 'children'
+  571 |         child = g_list_find(GTK_MENU_SHELL(popupmenu)->children,
+      |                                                      ^~
+../../src/summaryview.c: In function 'summary_init':
+../../src/summaryview.c:628:37: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+  628 |         adj = GTK_TEXT_VIEW(textview->text)->vadjustment;
+      |                                            ^~
+../../src/summaryview.c:633:37: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+  633 |         adj = GTK_TEXT_VIEW(textview->text)->vadjustment;
+      |                                            ^~
+../../src/summaryview.c: In function 'get_msg_list_func':
+../../src/summaryview.c:643:2: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  643 |         static GTimeVal tv_prev = {0, 0};
+      |         ^~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/summaryview.c:644:2: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  644 |         GTimeVal tv_cur;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/summaryview.c:646:2: warning: 'g_get_current_time' is deprecated: Use 'g_get_real_time' instead [-Wdeprecated-declarations]
+  646 |         g_get_current_time(&tv_cur);
+      |         ^~~~~~~~~~~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:35,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56:
+C:/msys64/ucrt64/include/glib-2.0/glib/gmain.h:842:8: note: declared here
+  842 | void   g_get_current_time                 (GTimeVal       *result);
+      |        ^~~~~~~~~~~~~~~~~~
+../../src/textview.c: In function 'textview_clear':
+../../src/textview.c:1645:6: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+ 1645 |         text->vadjustment->value = 0.0;
+      |             ^~
+../../src/summaryview.c: In function 'summary_unset_sort_column_id':
+../../src/summaryview.c:960:9: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'sort_column_id'
+  960 |                 column->sort_column_id = -1;
+      |                       ^~
+../../src/textview.c: In function 'textview_scroll_one_line':
+../../src/textview.c:1919:28: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+ 1919 |         GtkAdjustment *vadj = text->vadjustment;
+      |                                   ^~
+../../src/textview.c: In function 'textview_scroll_page':
+../../src/textview.c:1952:28: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+ 1952 |         GtkAdjustment *vadj = text->vadjustment;
+      |                                   ^~
+../../src/textview.c: In function 'textview_smooth_scroll_do':
+../../src/textview.c:1993:28: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+ 1993 |         GtkAdjustment *vadj = text->vadjustment;
+      |                                   ^~
+../../src/textview.c: In function 'textview_smooth_scroll_one_line':
+../../src/textview.c:2030:28: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+ 2030 |         GtkAdjustment *vadj = text->vadjustment;
+      |                                   ^~
+../../src/textview.c: In function 'textview_smooth_scroll_page':
+../../src/textview.c:2062:28: error: 'GtkTextView' {aka 'struct _GtkTextView'} has no member named 'vadjustment'
+ 2062 |         GtkAdjustment *vadj = text->vadjustment;
+      |                                   ^~
+../../src/summaryview.c: In function 'summary_status_show':
+../../src/summaryview.c:2213:4: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 2213 |                         (g_basename(summaryview->folder_item->path),
+      |                         ^
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:50:
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/summaryview.c: In function 'summary_sort':
+../../src/summaryview.c:2331:9: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'sort_column_id'
+ 2331 |                 column->sort_column_id = -1;
+      |                       ^~
+../../src/summaryview.c:2337:9: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'sort_column_id'
+ 2337 |                 column->sort_column_id = col_type;
+      |                       ^~
+../../src/summaryview.c: In function 'summary_save_as':
+../../src/summaryview.c:3940:6: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 3940 |                                  g_basename(utf8_dest));
+      |                                  ^~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/summaryview.c: In function 'summary_colorlabel_menu_item_activate_item_cb':
+../../src/summaryview.c:5298:29: error: 'GtkMenuShell' {aka 'struct _GtkMenuShell'} has no member named 'children'
+ 5298 |         for (n = 0, menu_cur = menu->children; menu_cur != NULL;
+      |                                    ^~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:30:
+../../src/summaryview.c: In function 'summary_tree_view_create':
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5479:2: note: in expansion of macro 'ADD_COLUMN'
+ 5479 |         ADD_COLUMN(NULL, pixbuf, S_COL_MARK, FALSE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5479:2: note: in expansion of macro 'ADD_COLUMN'
+ 5479 |         ADD_COLUMN(NULL, pixbuf, S_COL_MARK, FALSE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5484:2: note: in expansion of macro 'ADD_COLUMN'
+ 5484 |         ADD_COLUMN(NULL, pixbuf, S_COL_UNREAD, FALSE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5484:2: note: in expansion of macro 'ADD_COLUMN'
+ 5484 |         ADD_COLUMN(NULL, pixbuf, S_COL_UNREAD, FALSE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5489:2: note: in expansion of macro 'ADD_COLUMN'
+ 5489 |         ADD_COLUMN(NULL, pixbuf, S_COL_MIME, FALSE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5489:2: note: in expansion of macro 'ADD_COLUMN'
+ 5489 |         ADD_COLUMN(NULL, pixbuf, S_COL_MIME, FALSE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5495:2: note: in expansion of macro 'ADD_COLUMN'
+ 5495 |         ADD_COLUMN(_("Subject"), text, S_COL_SUBJECT, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5495:2: note: in expansion of macro 'ADD_COLUMN'
+ 5495 |         ADD_COLUMN(_("Subject"), text, S_COL_SUBJECT, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5499:2: note: in expansion of macro 'ADD_COLUMN'
+ 5499 |         ADD_COLUMN(_("From"), text, S_COL_FROM, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5499:2: note: in expansion of macro 'ADD_COLUMN'
+ 5499 |         ADD_COLUMN(_("From"), text, S_COL_FROM, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5501:2: note: in expansion of macro 'ADD_COLUMN'
+ 5501 |         ADD_COLUMN(_("Date"), text, S_COL_DATE, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5501:2: note: in expansion of macro 'ADD_COLUMN'
+ 5501 |         ADD_COLUMN(_("Date"), text, S_COL_DATE, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5503:2: note: in expansion of macro 'ADD_COLUMN'
+ 5503 |         ADD_COLUMN(_("Size"), text, S_COL_SIZE, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5503:2: note: in expansion of macro 'ADD_COLUMN'
+ 5503 |         ADD_COLUMN(_("Size"), text, S_COL_SIZE, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5505:2: note: in expansion of macro 'ADD_COLUMN'
+ 5505 |         ADD_COLUMN(_("No."), text, S_COL_NUMBER, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5505:2: note: in expansion of macro 'ADD_COLUMN'
+ 5505 |         ADD_COLUMN(_("No."), text, S_COL_NUMBER, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5472:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5472:19: note: in expansion of macro 'G_OBJECT'
+ 5472 |         g_signal_connect(G_OBJECT(column->button), "clicked",           \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5507:2: note: in expansion of macro 'ADD_COLUMN'
+ 5507 |         ADD_COLUMN(_("To"), text, S_COL_TO, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c:5475:34: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                                         ^~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gsignal.h:555:29: note: in definition of macro 'g_signal_connect'
+  555 |     g_signal_connect_data ((instance), (detailed_signal), (c_handler), (data), NULL, (GConnectFlags) 0)
+      |                             ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:528:66: note: in expansion of macro '_G_TYPE_CIC'
+  528 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+      |                                                                  ^~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:54:38: note: in expansion of macro 'G_TYPE_CHECK_INSTANCE_CAST'
+   54 | #define G_OBJECT(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), G_TYPE_OBJECT, GObject))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/summaryview.c:5475:19: note: in expansion of macro 'G_OBJECT'
+ 5475 |         g_signal_connect(G_OBJECT(column->button), "size-allocate",     \
+      |                          ^~~~~~~~
+../../src/summaryview.c:5507:2: note: in expansion of macro 'ADD_COLUMN'
+ 5507 |         ADD_COLUMN(_("To"), text, S_COL_TO, TRUE,
+      |         ^~~~~~~~~~
+../../src/summaryview.c: In function 'summary_col_resized':
+../../src/summaryview.c:6293:33: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 6293 |                 if (summaryview->columns[type]->button == widget) {
+      |                                               ^~
+../../src/summaryview.c: In function 'summary_column_clicked':
+../../src/summaryview.c:6346:33: error: 'GtkTreeViewColumn' {aka 'struct _GtkTreeViewColumn'} has no member named 'button'
+ 6346 |                 if (summaryview->columns[type]->button == button) {
+      |                                               ^~
+../../src/summaryview.c: In function 'summary_drag_data_get':
+../../src/summaryview.c:6419:5: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 6419 |                                 filename = g_strdup(g_basename(file));
+      |                                 ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+make[4]: *** [Makefile:980: textview.o] Error 1
+make[4]: *** [Makefile:980: summaryview.o] Error 1
+make[4]: Target 'all-am' not remade because of errors.
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[3]: *** [Makefile:1040: all-recursive] Error 1
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[2]: *** [Makefile:744: all] Error 2
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in plugin
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in attachment_tool
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+Making all in test
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in po
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+Making all in manual
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+Making all in ja
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in faq
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in de
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+Making all in es
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+Making all in fr
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+Making all in it
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in nsis
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+Making all in macosx
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+Making all in bundle
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[1]: *** [Makefile:556: all-recursive] Error 1
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make: *** [Makefile:465: all] Error 2

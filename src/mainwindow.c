@@ -22,31 +22,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkversion.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkcontainer.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtkprogressbar.h>
-#include <gtk/gtkhpaned.h>
-#include <gtk/gtkvpaned.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtkeditable.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtktoolbar.h>
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtktoolbutton.h>
-#include <gtk/gtkseparatortoolitem.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtktooltips.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkimage.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #include "main.h"
@@ -267,11 +243,9 @@ static void empty_trash_cb	 (MainWindow	*mainwin,
 static void save_as_cb		 (MainWindow	*mainwin,
 				  guint		 action,
 				  GtkWidget	*widget);
-#if GTK_CHECK_VERSION(2, 10, 0)
 static void page_setup_cb	 (MainWindow	*mainwin,
 				  guint		 action,
 				  GtkWidget	*widget);
-#endif
 static void print_cb		 (MainWindow	*mainwin,
 				  guint		 action,
 				  GtkWidget	*widget);
@@ -581,9 +555,7 @@ static GtkItemFactoryEntry mainwin_entries[] =
 	{N_("/_File/---"),			NULL, NULL, 0, "<Separator>"},
 	{N_("/_File/_Save as..."),		"<control>S", save_as_cb, 0, NULL},
 	{N_("/_File/---"),			NULL, NULL, 0, "<Separator>"},
-#if GTK_CHECK_VERSION(2, 10, 0)
 	{N_("/_File/Page set_up..."),		NULL, page_setup_cb, 0, NULL},
-#endif
 	{N_("/_File/_Print..."),		NULL, print_cb, 0, NULL},
 	{N_("/_File/---"),			NULL, NULL, 0, "<Separator>"},
 	{N_("/_File/_Work offline"),		NULL, toggle_offline_cb, 0, "<ToggleItem>"},
@@ -940,10 +912,6 @@ MainWindow *main_window_create(SeparateType type)
 	GtkWidget *online_switch;
 	GtkWidget *online_pixmap;
 	GtkWidget *offline_pixmap;
-	GtkTooltips *online_tip;
-#if !GTK_CHECK_VERSION(2, 6, 0)
-	GtkWidget *spacer_hbox;
-#endif
 	GtkWidget *ac_button;
 	GtkWidget *ac_label;
 
@@ -1001,7 +969,6 @@ MainWindow *main_window_create(SeparateType type)
 	ifactory = gtk_item_factory_from_widget(menubar);
 
 	/* toolbar */
-	mainwin->toolbar_tip = gtk_tooltips_new();
 	toolbar = main_window_toolbar_create(mainwin);
 	gtk_widget_set_size_request(toolbar, 300, -1);
 	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
@@ -1038,7 +1005,7 @@ MainWindow *main_window_create(SeparateType type)
 
 	online_switch = gtk_button_new();
 	gtk_button_set_relief(GTK_BUTTON(online_switch), GTK_RELIEF_NONE);
-	GTK_WIDGET_UNSET_FLAGS(online_switch, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(online_switch, FALSE);
 #ifdef G_OS_WIN32
 	gtk_widget_set_size_request(online_switch, 34, 20);
 #else
@@ -1049,16 +1016,9 @@ MainWindow *main_window_create(SeparateType type)
 			 G_CALLBACK(online_switch_clicked), mainwin);
 	gtk_box_pack_start(GTK_BOX(statusbar), online_switch, FALSE, FALSE, 0);
 
-	online_tip = gtk_tooltips_new();
-
-#if !GTK_CHECK_VERSION(2, 6, 0)
-	spacer_hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_end(GTK_BOX(statusbar), spacer_hbox, FALSE, FALSE, 0);
-#endif
-
 	ac_button = gtk_button_new();
 	gtk_button_set_relief(GTK_BUTTON(ac_button), GTK_RELIEF_NONE);
-	GTK_WIDGET_UNSET_FLAGS(ac_button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(ac_button, FALSE);
 	gtk_widget_set_size_request(ac_button, -1, 1);
 	gtk_box_pack_end(GTK_BOX(statusbar), ac_button, FALSE, FALSE, 0);
 	g_signal_connect(G_OBJECT(ac_button), "button_press_event",
@@ -1104,7 +1064,6 @@ MainWindow *main_window_create(SeparateType type)
 	mainwin->online_switch  = online_switch;
 	mainwin->online_pixmap  = online_pixmap;
 	mainwin->offline_pixmap = offline_pixmap;
-	mainwin->online_tip     = online_tip;
 	mainwin->ac_button      = ac_button;
 	mainwin->ac_label       = ac_label;
 
@@ -1139,7 +1098,7 @@ MainWindow *main_window_create(SeparateType type)
 	color[1] = summaryview->color_dim;
 	color[2] = folderview->color_new;
 
-	colormap = gdk_window_get_colormap(window->window);
+	colormap = gdk_window_get_colormap(gtk_widget_get_window(window));
 	gdk_colormap_alloc_colors(colormap, color, 3, FALSE, TRUE, success);
 	for (i = 0; i < 3; i++) {
 		if (success[i] == FALSE)
@@ -1209,16 +1168,6 @@ MainWindow *main_window_create(SeparateType type)
 	/* show main window */
 	gtk_widget_show(mainwin->window);
 
-#if !GTK_CHECK_VERSION(2, 6, 0)
-	{
-		gint w, h;
-		gdk_drawable_get_size
-			(GDK_DRAWABLE(GTK_STATUSBAR(statusbar)->grip_window),
-			 &w, &h);
-		gtk_widget_set_size_request(spacer_hbox, w, -1);
-	}
-#endif
-
 	/* initialize views */
 	folderview_init(folderview);
 	summary_init(summaryview);
@@ -1246,7 +1195,7 @@ void main_window_cursor_wait(MainWindow *mainwin)
 {
 
 	if (mainwin->cursor_count == 0)
-		gdk_window_set_cursor(mainwin->window->window, watch_cursor);
+		gdk_window_set_cursor(gtk_widget_get_window(mainwin->window), watch_cursor);
 
 	mainwin->cursor_count++;
 
@@ -1259,7 +1208,7 @@ void main_window_cursor_normal(MainWindow *mainwin)
 		mainwin->cursor_count--;
 
 	if (mainwin->cursor_count == 0)
-		gdk_window_set_cursor(mainwin->window->window, NULL);
+		gdk_window_set_cursor(gtk_widget_get_window(mainwin->window), NULL);
 
 	gdk_flush();
 }
@@ -1341,16 +1290,19 @@ static void main_window_set_account_selector_menu(MainWindow *mainwin,
 						  GList *account_list)
 {
 	GList *cur_ac, *cur_item;
+	GList *children;
 	GtkWidget *menuitem;
 	PrefsAccount *ac_prefs;
 
 	/* destroy all previous menu item */
-	cur_item = GTK_MENU_SHELL(mainwin->ac_menu)->children;
+	children = gtk_container_get_children(GTK_CONTAINER(mainwin->ac_menu));
+	cur_item = children;
 	while (cur_item != NULL) {
 		GList *next = cur_item->next;
 		gtk_widget_destroy(GTK_WIDGET(cur_item->data));
 		cur_item = next;
 	}
+	g_list_free(children);
 
 	for (cur_ac = account_list; cur_ac != NULL; cur_ac = cur_ac->next) {
 		ac_prefs = (PrefsAccount *)cur_ac->data;
@@ -1370,6 +1322,7 @@ static void main_window_set_account_receive_menu(MainWindow *mainwin,
 						 GList *account_list)
 {
 	GList *cur_ac, *cur_item;
+	GList *children;
 	GtkWidget *menu;
 	GtkWidget *menuitem;
 	PrefsAccount *ac_prefs;
@@ -1378,9 +1331,10 @@ static void main_window_set_account_receive_menu(MainWindow *mainwin,
 					   "/Message/Receive");
 
 	/* search for separator */
-	for (cur_item = GTK_MENU_SHELL(menu)->children; cur_item != NULL;
+	children = gtk_container_get_children(GTK_CONTAINER(menu));
+	for (cur_item = children; cur_item != NULL;
 	     cur_item = cur_item->next) {
-		if (GTK_BIN(cur_item->data)->child == NULL) {
+		if (gtk_bin_get_child(GTK_BIN(cur_item->data)) == NULL) {
 			cur_item = cur_item->next;
 			break;
 		}
@@ -1392,6 +1346,7 @@ static void main_window_set_account_receive_menu(MainWindow *mainwin,
 		gtk_widget_destroy(GTK_WIDGET(cur_item->data));
 		cur_item = next;
 	}
+	g_list_free(children);
 
 	for (cur_ac = account_list; cur_ac != NULL; cur_ac = cur_ac->next) {
 		ac_prefs = (PrefsAccount *)cur_ac->data;
@@ -1487,22 +1442,22 @@ void main_window_hide(MainWindow *mainwin)
 	GtkWidget *summary_wid = GTK_WIDGET_PTR(mainwin->summaryview);
 	GtkWidget *message_wid = GTK_WIDGET_PTR(mainwin->messageview);
 	GtkWidget *qsearch_wid = GTK_WIDGET_PTR(mainwin->summaryview->qsearch);
-	GtkWidget *vbox_summary = qsearch_wid->parent;
+	GtkWidget *vbox_summary = gtk_widget_get_parent(qsearch_wid);
 
 	/* remove widgets from those containers */
 	gtkut_container_remove
-		(GTK_CONTAINER(folder_wid->parent), folder_wid);
+		(GTK_CONTAINER(gtk_widget_get_parent(folder_wid)), folder_wid);
 	gtkut_container_remove
-		(GTK_CONTAINER(summary_wid->parent), summary_wid);
+		(GTK_CONTAINER(gtk_widget_get_parent(summary_wid)), summary_wid);
 	gtkut_container_remove
-		(GTK_CONTAINER(message_wid->parent), message_wid);
+		(GTK_CONTAINER(gtk_widget_get_parent(message_wid)), message_wid);
 	gtkut_container_remove
-		(GTK_CONTAINER(qsearch_wid->parent), qsearch_wid);
+		(GTK_CONTAINER(gtk_widget_get_parent(qsearch_wid)), qsearch_wid);
 
 	/* clean containers */
 	switch (mainwin->type) {
 	case SEPARATE_NONE:
-		if (!mainwin->win.sep_none.vpaned->parent)
+		if (!gtk_widget_get_parent(mainwin->win.sep_none.vpaned))
 			gtk_widget_destroy(mainwin->win.sep_none.vpaned);
 		gtk_widget_destroy(mainwin->win.sep_none.hpaned);
 		mainwin->win.sep_none.hpaned = NULL;
@@ -1510,7 +1465,7 @@ void main_window_hide(MainWindow *mainwin)
 		break;
 	case SEPARATE_FOLDER:
 		gtk_widget_destroy(mainwin->win.sep_folder.folderwin);
-		if (!mainwin->win.sep_folder.vpaned->parent)
+		if (!gtk_widget_get_parent(mainwin->win.sep_folder.vpaned))
 			gtk_widget_destroy(mainwin->win.sep_folder.vpaned);
 		gtk_widget_destroy(vbox_summary);
 		mainwin->win.sep_folder.folderwin = NULL;
@@ -1580,11 +1535,11 @@ void main_window_toggle_message_view(MainWindow *mainwin)
 	switch (mainwin->type) {
 	case SEPARATE_NONE:
 		vpaned = cwin->sep_none.vpaned;
-		container = GTK_WIDGET_PTR(summaryview->qsearch)->parent;
+		container = gtk_widget_get_parent(GTK_WIDGET_PTR(summaryview->qsearch));
 		break;
 	case SEPARATE_FOLDER:
 		vpaned = cwin->sep_folder.vpaned;
-		container = GTK_WIDGET_PTR(summaryview->qsearch)->parent;
+		container = gtk_widget_get_parent(GTK_WIDGET_PTR(summaryview->qsearch));
 		break;
 	case SEPARATE_MESSAGE:
 		msgwin = mainwin->win.sep_message.messagewin;
@@ -1596,7 +1551,7 @@ void main_window_toggle_message_view(MainWindow *mainwin)
 
 	if (msgwin) {
 		/* separate message view */
-		if (GTK_WIDGET_VISIBLE(msgwin)) {
+		if (gtk_widget_get_visible(msgwin)) {
 			gtk_widget_hide(msgwin);
 			mainwin->messageview->visible = FALSE;
 			summaryview->displayed = NULL;
@@ -1604,7 +1559,7 @@ void main_window_toggle_message_view(MainWindow *mainwin)
 			gtk_widget_show(msgwin);
 			mainwin->messageview->visible = TRUE;
 		}
-	} else if (vpaned->parent != NULL) {
+	} else if (gtk_widget_get_parent(vpaned) != NULL) {
 		/* hide message view */
 		mainwin->messageview->visible = FALSE;
 		summaryview->displayed = NULL;
@@ -1644,10 +1599,11 @@ void main_window_toggle_message_view(MainWindow *mainwin)
 
 void main_window_get_size(MainWindow *mainwin)
 {
-	GtkAllocation *allocation;
+	GtkAllocation allocation_buf;
+	GtkAllocation *allocation = &allocation_buf;
 	gboolean vlayout = (prefs_common.layout_type == LAYOUT_VERTICAL);
 
-	allocation = &(GTK_WIDGET_PTR(mainwin->summaryview)->allocation);
+	gtk_widget_get_allocation(GTK_WIDGET_PTR(mainwin->summaryview), allocation);
 	if (allocation->width > 1 && allocation->height > 1) {
 		if (vlayout) {
 			if (!(mainwin->type & SEPARATE_MESSAGE) &&
@@ -1667,26 +1623,26 @@ void main_window_get_size(MainWindow *mainwin)
 	}
 
 	if (prefs_common.mainwin_maximized) {
-		allocation = &(GTK_WIDGET_PTR(mainwin->folderview)->allocation);
+		gtk_widget_get_allocation(GTK_WIDGET_PTR(mainwin->folderview), allocation);
 		if (allocation->width > 1 && allocation->height > 1)
 			prefs_common.folderview_width  = allocation->width;
 		return;
 	}
 
-	allocation = &mainwin->window->allocation;
+	gtk_widget_get_allocation(mainwin->window, allocation);
 	if (allocation->width > 1 && allocation->height > 1) {
 		prefs_common.mainview_height = allocation->height;
 		prefs_common.mainwin_width   = allocation->width;
 		prefs_common.mainwin_height  = allocation->height;
 	}
 
-	allocation = &(GTK_WIDGET_PTR(mainwin->folderview)->allocation);
+	gtk_widget_get_allocation(GTK_WIDGET_PTR(mainwin->folderview), allocation);
 	if (allocation->width > 1 && allocation->height > 1) {
 		prefs_common.folderview_width  = allocation->width;
 		prefs_common.folderview_height = allocation->height;
 	}
 
-	allocation = &(GTK_WIDGET_PTR(mainwin->messageview)->allocation);
+	gtk_widget_get_allocation(GTK_WIDGET_PTR(mainwin->messageview), allocation);
 	if (allocation->width > 1 && allocation->height > 1) {
 		if (vlayout) {
 			prefs_common.msgview_vwidth = allocation->width;
@@ -2069,7 +2025,7 @@ void main_window_set_toolbar_sensitive(MainWindow *mainwin)
 	for (i = 0; i < n; i++) {
 		if (entry[i].widget) {
 			prev_sensitive =
-				GTK_WIDGET_IS_SENSITIVE(entry[i].widget);
+				gtk_widget_is_sensitive(entry[i].widget);
 			sensitive = ((entry[i].cond & state) == entry[i].cond);
 			if (prev_sensitive != sensitive) {
 				/* workaround for GTK+ bug (#56070) */
@@ -2134,6 +2090,7 @@ void main_window_set_menu_sensitive(MainWindow *mainwin)
 	gchar *menu_path;
 	gint i;
 	GList *cur_item;
+	GList *children;
 
 	static const struct {
 		gchar *const entry;
@@ -2238,9 +2195,10 @@ void main_window_set_menu_sensitive(MainWindow *mainwin)
 	menu = gtk_item_factory_get_widget(ifactory, "/Message/Receive");
 
 	/* search for separator */
-	for (cur_item = GTK_MENU_SHELL(menu)->children; cur_item != NULL;
+	children = gtk_container_get_children(GTK_CONTAINER(menu));
+	for (cur_item = children; cur_item != NULL;
 	     cur_item = cur_item->next) {
-		if (GTK_BIN(cur_item->data)->child == NULL) {
+		if (gtk_bin_get_child(GTK_BIN(cur_item->data)) == NULL) {
 			cur_item = cur_item->next;
 			break;
 		}
@@ -2250,6 +2208,7 @@ void main_window_set_menu_sensitive(MainWindow *mainwin)
 		gtk_widget_set_sensitive(GTK_WIDGET(cur_item->data),
 					 (M_UNLOCKED & state) != 0);
 	}
+	g_list_free(children);
 
 	main_window_menu_callback_block(mainwin);
 
@@ -2727,10 +2686,8 @@ static GtkWidget *main_window_toolbar_create_from_list(MainWindow *mainwin,
 		icon_wid = stock_pixbuf_widget_for_toolbar(ditem->icon);
 		toolitem = gtk_tool_button_new(icon_wid, gettext(ditem->label));
 		if (ditem->description) {
-			gtk_tool_item_set_tooltip(toolitem,
-						  mainwin->toolbar_tip,
-						  gettext(ditem->description),
-						  ditem->name);
+			gtk_tool_item_set_tooltip_text(toolitem,
+						       gettext(ditem->description));
 		}
 
 		gtkut_get_str_size(GTK_WIDGET(toolitem), gettext(ditem->label),
@@ -2743,7 +2700,7 @@ static GtkWidget *main_window_toolbar_create_from_list(MainWindow *mainwin,
 
 		g_signal_connect(G_OBJECT(toolitem), "clicked",
 				 G_CALLBACK(item->callback), mainwin);
-		g_signal_connect(G_OBJECT(GTK_BIN(toolitem)->child),
+		g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(toolitem))),
 				 "button_press_event",
 				 G_CALLBACK(toolbar_button_pressed), mainwin);
 
@@ -2761,10 +2718,8 @@ static GtkWidget *main_window_toolbar_create_from_list(MainWindow *mainwin,
 			gtk_container_add(GTK_CONTAINER(comboitem),
 					  GTK_WIDGET_PTR(combo));
 			if (ditem->description) {
-				gtk_tool_item_set_tooltip
-					(comboitem, mainwin->toolbar_tip,
-					 gettext(ditem->description),
-					 ditem->name);
+				gtk_tool_item_set_tooltip_text
+					(comboitem, gettext(ditem->description));
 			}
 
 			gtk_toolbar_insert(GTK_TOOLBAR(toolbar), comboitem, -1);
@@ -2785,10 +2740,8 @@ static GtkWidget *main_window_toolbar_create_from_list(MainWindow *mainwin,
 			gtk_container_add(GTK_CONTAINER(comboitem),
 					  GTK_WIDGET_PTR(combo));
 			if (ditem->description) {
-				gtk_tool_item_set_tooltip
-					(comboitem, mainwin->toolbar_tip,
-					 gettext(ditem->description),
-					 ditem->name);
+				gtk_tool_item_set_tooltip_text
+					(comboitem, gettext(ditem->description));
 			}
 
 			gtk_toolbar_insert(GTK_TOOLBAR(toolbar), comboitem, -1);
@@ -3111,10 +3064,9 @@ static void online_switch_clicked(GtkWidget *widget, gpointer data)
 		prefs_common.online_mode = FALSE;
 		gtk_widget_hide(mainwin->online_pixmap);
 		gtk_widget_show(mainwin->offline_pixmap);
-		gtk_tooltips_set_tip
-			(mainwin->online_tip, mainwin->online_switch,
-			 _("You are offline. Click the icon to go online."),
-			 NULL);
+		gtk_widget_set_tooltip_text
+			(mainwin->online_switch,
+			 _("You are offline. Click the icon to go online."));
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 					       TRUE);
 		inc_autocheck_timer_remove();
@@ -3123,10 +3075,9 @@ static void online_switch_clicked(GtkWidget *widget, gpointer data)
 		prefs_common.online_mode = TRUE;
 		gtk_widget_hide(mainwin->offline_pixmap);
 		gtk_widget_show(mainwin->online_pixmap);
-		gtk_tooltips_set_tip
-			(mainwin->online_tip, mainwin->online_switch,
-			 _("You are online. Click the icon to go offline."),
-			 NULL);
+		gtk_widget_set_tooltip_text
+			(mainwin->online_switch,
+			 _("You are online. Click the icon to go offline."));
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 					       FALSE);
 		inc_autocheck_timer_set();
@@ -3170,14 +3121,14 @@ static gboolean main_window_key_pressed(GtkWidget *widget, GdkEventKey *event,
 	if (!mainwin)
 		return FALSE;
 
-	if (!GTK_WIDGET_HAS_FOCUS(mainwin->summaryview->qsearch->entry))
+	if (!gtk_widget_has_focus(mainwin->summaryview->qsearch->entry))
 		return FALSE;
 
 	/* g_print("keyval: %d, state: %d\n", event->keyval, event->state); */
 	if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 		return FALSE;
-	if (event->keyval == GDK_Tab || event->keyval == GDK_KP_Tab ||
-	    event->keyval == GDK_ISO_Left_Tab)
+	if (event->keyval == GDK_KEY_Tab || event->keyval == GDK_KEY_KP_Tab ||
+	    event->keyval == GDK_KEY_ISO_Left_Tab)
 		return FALSE;
 
 	gtk_window_propagate_key_event(GTK_WINDOW(widget), event);
@@ -3407,18 +3358,16 @@ static void save_as_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 	MessageView *messageview = mainwin->messageview;
 
 	if (messageview_get_selected_mime_part(messageview) &&
-	    GTK_WIDGET_HAS_FOCUS(messageview->mimeview->treeview))
+	    gtk_widget_has_focus(messageview->mimeview->treeview))
 		mimeview_save_as(messageview->mimeview);
 	else
 		summary_save_as(mainwin->summaryview);
 }
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 static void page_setup_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 {
 	printing_page_setup_gtk();
 }
-#endif
 
 static void print_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 {
@@ -3428,7 +3377,7 @@ static void print_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 static void toggle_offline_cb(MainWindow *mainwin, guint action,
 			      GtkWidget *widget)
 {
-	if (GTK_CHECK_MENU_ITEM(widget)->active &&
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)) &&
 	    folder_remote_folder_active_session_exist()) {
 		debug_print("Active session exist. Cancelling online switch.\n");
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget),
@@ -3437,7 +3386,7 @@ static void toggle_offline_cb(MainWindow *mainwin, guint action,
 	}
 
 	main_window_toggle_online
-		(mainwin, !GTK_CHECK_MENU_ITEM(widget)->active);
+		(mainwin, !gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)));
 }
 
 static void app_exit_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
@@ -3483,7 +3432,7 @@ static void toggle_folder_cb(MainWindow *mainwin, guint action,
 {
 	gboolean active;
 
-	active = GTK_CHECK_MENU_ITEM(widget)->active;
+	active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
 
 	switch (mainwin->type) {
 	case SEPARATE_NONE:
@@ -3517,7 +3466,7 @@ static void toggle_message_cb(MainWindow *mainwin, guint action,
 {
 	gboolean active;
 
-	active = GTK_CHECK_MENU_ITEM(widget)->active;
+	active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
 
 	if (active != messageview_is_visible(mainwin->messageview))
 		summary_toggle_view(mainwin->summaryview);
@@ -3535,7 +3484,7 @@ static void toggle_toolbar_cb(MainWindow *mainwin, guint action,
 static void toggle_searchbar_cb(MainWindow *mainwin, guint action,
 				GtkWidget *widget)
 {
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(mainwin->summaryview->qsearch->hbox);
 		prefs_common.show_searchbar = TRUE;
 	} else {
@@ -3548,7 +3497,7 @@ static void toggle_searchbar_cb(MainWindow *mainwin, guint action,
 static void toggle_statusbar_cb(MainWindow *mainwin, guint action,
 				GtkWidget *widget)
 {
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		gtk_widget_show(mainwin->statusbar);
 		prefs_common.show_statusbar = TRUE;
 	} else {
@@ -3568,7 +3517,7 @@ static void change_layout_cb(MainWindow *mainwin, guint action,
 {
 	LayoutType type = action;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		main_window_change_layout(mainwin, type, mainwin->type);
 }
 
@@ -3577,7 +3526,7 @@ static void separate_widget_cb(MainWindow *mainwin, guint action,
 {
 	SeparateType type;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		type = mainwin->type | action;
 	else
 		type = mainwin->type & ~action;
@@ -3679,7 +3628,7 @@ static void show_all_header_cb(MainWindow *mainwin, guint action,
 {
 	if (mainwin->menu_lock_count) return;
 	summary_display_msg_selected(mainwin->summaryview, FALSE,
-				     GTK_CHECK_MENU_ITEM(widget)->active);
+				     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)));
 }
 
 static void mark_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
@@ -3740,7 +3689,7 @@ static void set_charset_cb(MainWindow *mainwin, guint action,
 {
 	const gchar *str;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		str = conv_get_charset_str((CharSet)action);
 		g_free(prefs_common.force_charset);
 		prefs_common.force_charset = str ? g_strdup(str) : NULL;
@@ -3757,7 +3706,7 @@ static void thread_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 	if (mainwin->menu_lock_count) return;
 	if (!mainwin->summaryview->folder_item) return;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		summary_thread_build(mainwin->summaryview);
 	else
 		summary_unthread(mainwin->summaryview);
@@ -3790,11 +3739,11 @@ static void sort_summary_cb(MainWindow *mainwin, guint action,
 
 	if (mainwin->menu_lock_count) return;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active && item) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)) && item) {
 		menuitem = gtk_item_factory_get_item
 			(mainwin->menu_factory, "/View/Sort/Ascending");
 		summary_sort(mainwin->summaryview, (FolderSortKey)action,
-			     GTK_CHECK_MENU_ITEM(menuitem)->active
+			     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem))
 			     ? SORT_ASCENDING : SORT_DESCENDING);
 	}
 }
@@ -3806,7 +3755,7 @@ static void sort_summary_type_cb(MainWindow *mainwin, guint action,
 
 	if (mainwin->menu_lock_count) return;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active && item)
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)) && item)
 		summary_sort(mainwin->summaryview,
 			     item->sort_key, (FolderSortType)action);
 }
@@ -3895,7 +3844,7 @@ static void prev_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 	MessageView *messageview = mainwin->messageview;
 
 	if (messageview_get_selected_mime_part(messageview) &&
-	    GTK_WIDGET_HAS_FOCUS(messageview->mimeview->treeview) &&
+	    gtk_widget_has_focus(messageview->mimeview->treeview) &&
 	    mimeview_step(messageview->mimeview, GTK_SCROLL_STEP_BACKWARD))
 		return;
 
@@ -3908,7 +3857,7 @@ static void next_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 	MessageView *messageview = mainwin->messageview;
 
 	if (messageview_get_selected_mime_part(messageview) &&
-	    GTK_WIDGET_HAS_FOCUS(messageview->mimeview->treeview) &&
+	    gtk_widget_has_focus(messageview->mimeview->treeview) &&
 	    mimeview_step(messageview->mimeview, GTK_SCROLL_STEP_FORWARD))
 		return;
 
@@ -3983,15 +3932,15 @@ static void allsel_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 {
 	MessageView *msgview = mainwin->messageview;
 
-	if (GTK_WIDGET_HAS_FOCUS(mainwin->summaryview->treeview))
+	if (gtk_widget_has_focus(mainwin->summaryview->treeview))
 		summary_select_all(mainwin->summaryview);
-	else if (GTK_WIDGET_HAS_FOCUS(mainwin->summaryview->qsearch->entry))
+	else if (gtk_widget_has_focus(mainwin->summaryview->qsearch->entry))
 		gtk_editable_select_region
 			(GTK_EDITABLE(mainwin->summaryview->qsearch->entry),
 			 0, -1);
 	else if (messageview_is_visible(msgview) &&
-		 (GTK_WIDGET_HAS_FOCUS(msgview->textview->text) ||
-		  GTK_WIDGET_HAS_FOCUS(msgview->mimeview->textview->text)))
+		 (gtk_widget_has_focus(msgview->textview->text) ||
+		  gtk_widget_has_focus(msgview->mimeview->textview->text)))
 		messageview_select_all(msgview);
 }
 
@@ -4104,7 +4053,7 @@ static void help_cmdline_ok(GtkWidget *button)
 static gboolean help_cmdline_key_pressed(GtkWidget *widget, GdkEventKey *event,
 					 gpointer data)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		gtk_widget_destroy(widget);
 		return TRUE;
 	}

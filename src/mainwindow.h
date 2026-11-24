@@ -21,9 +21,7 @@
 #define __MAINWINDOW_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtktooltips.h>
+#include <gtk/gtk.h>
 
 typedef struct _MainWindow	MainWindow;
 
@@ -107,7 +105,6 @@ struct _MainWindow
 	GtkWidget *online_switch;
 	GtkWidget *online_pixmap;
 	GtkWidget *offline_pixmap;
-	GtkTooltips *online_tip;
 	GtkWidget *ac_button;
 	GtkWidget *ac_label;
 	GtkWidget *ac_menu;
@@ -134,7 +131,6 @@ struct _MainWindow
 	MessageView	*messageview;
 	LogWindow	*logwin;
 
-	GtkTooltips *toolbar_tip;
 };
 
 MainWindow *main_window_create		(SeparateType	 type);

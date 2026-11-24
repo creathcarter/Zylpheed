@@ -21,7 +21,7 @@
 #define __PREFS_DISPLAY_ITEMS_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 typedef struct _PrefsDisplayItem	PrefsDisplayItem;
 typedef struct _PrefsDisplayItemsDialog	PrefsDisplayItemsDialog;

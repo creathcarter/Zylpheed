@@ -853,7 +853,7 @@ static gboolean prefs_filter_key_pressed(GtkWidget *widget, GdkEventKey *event,
 	if (rule_list_window.on_init)
 		return TRUE;
 
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_filter_close();
 	return FALSE;
 }

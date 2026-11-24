@@ -1,0 +1,2 @@
+simple-gettext.o: ../../src/simple-gettext.c ../config.h
+../config.h:

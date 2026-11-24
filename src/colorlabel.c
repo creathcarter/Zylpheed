@@ -26,17 +26,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkpixmap.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkalignment.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkdrawingarea.h>
+#include <gtk/gtk.h>
 
 #include "colorlabel.h"
 #include "gtkutils.h"
@@ -133,7 +123,7 @@ void colorlabel_set_color_text(gint color_index, const gchar *label)
 static gboolean colorlabel_drawing_area_expose_event_cb
 	(GtkWidget *widget, GdkEventExpose *expose, gpointer data)
 {
-	GdkDrawable *drawable = widget->window;
+	GdkDrawable *drawable = gtk_widget_get_window(widget);
 	gulong c = (gulong) GPOINTER_TO_INT(data);
 	GdkColor color;
 	GdkGC *gc;
@@ -150,7 +140,7 @@ static gboolean colorlabel_drawing_area_expose_event_cb
 	gdk_draw_rectangle(drawable, gc,
 			   TRUE, 0, 0, widget->allocation.width - 1,
 			   widget->allocation.height - 1);
-	gdk_draw_rectangle(drawable, widget->style->black_gc,
+	gdk_draw_rectangle(drawable, gtk_widget_get_style(widget)->black_gc,
 			   FALSE, 0, 0, widget->allocation.width - 1,
 			   widget->allocation.height - 1);
 

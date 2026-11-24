@@ -76,8 +76,9 @@ PangoFontDescription *gtkut_get_default_font_desc(void)
 		window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_widget_ensure_style(window);
 		font_desc = pango_font_description_copy
-			(window->style->font_desc);
-		gtk_object_sink(GTK_OBJECT(window));
+			(gtk_widget_get_style(window)->font_desc);
+		g_object_ref_sink(window);
+		g_object_unref(window);
 	}
 
 	return pango_font_description_copy(font_desc);
@@ -89,7 +90,7 @@ void gtkut_widget_set_small_font_size(GtkWidget *widget)
 	gint size;
 
 	g_return_if_fail(widget != NULL);
-	g_return_if_fail(widget->style != NULL);
+	g_return_if_fail(gtk_widget_get_style(widget) != NULL);
 
 	font_desc = gtkut_get_default_font_desc();
 	size = pango_font_description_get_size(font_desc);
@@ -217,20 +218,20 @@ void gtkut_stock_button_set_create(GtkWidget **bbox,
 
 	if (button3) {
 		*button3 = gtk_button_new_from_stock(label3);
-		GTK_WIDGET_SET_FLAGS(*button3, GTK_CAN_DEFAULT);
+		gtk_widget_set_can_default(*button3, TRUE);
 		gtk_box_pack_start(GTK_BOX(*bbox), *button3, FALSE, FALSE, 0);
 		gtk_widget_show(*button3);
 	}
 
 	if (button2) {
 		*button2 = gtk_button_new_from_stock(label2);
-		GTK_WIDGET_SET_FLAGS(*button2, GTK_CAN_DEFAULT);
+		gtk_widget_set_can_default(*button2, TRUE);
 		gtk_box_pack_start(GTK_BOX(*bbox), *button2, FALSE, FALSE, 0);
 		gtk_widget_show(*button2);
 	}
 
 	*button1 = gtk_button_new_from_stock(label1);
-	GTK_WIDGET_SET_FLAGS(*button1, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(*button1, TRUE);
 	gtk_box_pack_start(GTK_BOX(*bbox), *button1, FALSE, FALSE, 0);
 	gtk_widget_show(*button1);
 
@@ -272,8 +273,10 @@ static void combo_button_size_request(GtkWidget *widget,
 				      gpointer data)
 {
 	ComboButton *combo = (ComboButton *)data;
+	GtkAllocation allocation;
 
-	if (combo->arrow->allocation.height != requisition->height)
+	gtk_widget_get_allocation(combo->arrow, &allocation);
+	if (allocation.height != requisition->height)
 		gtk_widget_set_size_request(combo->arrow,
 					    -1, requisition->height);
 }
@@ -282,11 +285,11 @@ static void combo_button_enter(GtkWidget *widget, gpointer data)
 {
 	ComboButton *combo = (ComboButton *)data;
 
-	if (GTK_WIDGET_STATE(combo->arrow) != GTK_STATE_PRELIGHT) {
+	if (gtk_widget_get_state(combo->arrow) != GTK_STATE_PRELIGHT) {
 		gtk_widget_set_state(combo->arrow, GTK_STATE_PRELIGHT);
 		gtk_widget_queue_draw(combo->arrow);
 	}
-	if (GTK_WIDGET_STATE(combo->button) != GTK_STATE_PRELIGHT) {
+	if (gtk_widget_get_state(combo->button) != GTK_STATE_PRELIGHT) {
 		gtk_widget_set_state(combo->button, GTK_STATE_PRELIGHT);
 		gtk_widget_queue_draw(combo->button);
 	}
@@ -296,11 +299,11 @@ static void combo_button_leave(GtkWidget *widget, gpointer data)
 {
 	ComboButton *combo = (ComboButton *)data;
 
-	if (GTK_WIDGET_STATE(combo->arrow) != GTK_STATE_NORMAL) {
+	if (gtk_widget_get_state(combo->arrow) != GTK_STATE_NORMAL) {
 		gtk_widget_set_state(combo->arrow, GTK_STATE_NORMAL);
 		gtk_widget_queue_draw(combo->arrow);
 	}
-	if (GTK_WIDGET_STATE(combo->button) != GTK_STATE_NORMAL) {
+	if (gtk_widget_get_state(combo->button) != GTK_STATE_NORMAL) {
 		gtk_widget_set_state(combo->button, GTK_STATE_NORMAL);
 		gtk_widget_queue_draw(combo->button);
 	}
@@ -342,7 +345,7 @@ ComboButton *gtkut_combo_button_create(GtkWidget *button,
 	arrow = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_OUT);
 	gtk_widget_set_size_request(arrow, 7, -1);
 	gtk_container_add(GTK_CONTAINER(combo->arrow), arrow);
-	GTK_WIDGET_UNSET_FLAGS(combo->arrow, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(combo->arrow, FALSE);
 	gtk_widget_show_all(combo->arrow);
 
 	combo->button = button;
@@ -605,23 +608,9 @@ gboolean gtkut_tree_row_reference_equal(GtkTreeRowReference *ref1,
 
 void gtkut_tree_sortable_unset_sort_column_id(GtkTreeSortable *sortable)
 {
-#if GTK_CHECK_VERSION(2, 6, 0)
 	gtk_tree_sortable_set_sort_column_id
 		(sortable, GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID,
 		 GTK_SORT_ASCENDING);
-#else
-	GtkTreeStore *store = GTK_TREE_STORE(sortable);
-
-	g_return_if_fail(GTK_IS_TREE_STORE(sortable));
-
-	if (store->sort_column_id == -2 && store->order == GTK_SORT_ASCENDING)
-		return;
-
-	store->sort_column_id = -2;
-	store->order = GTK_SORT_ASCENDING;
-
-	gtk_tree_sortable_sort_column_changed(sortable);
-#endif
 }
 
 gboolean gtkut_tree_view_find_collapsed_parent(GtkTreeView *treeview,
@@ -694,7 +683,7 @@ void gtkut_tree_view_vertical_autoscroll(GtkTreeView *treeview)
 	}
 
 	vadj = gtk_tree_view_get_vadjustment(treeview);
-	value = CLAMP(vadj->value + offset, 0.0, vadj->upper - vadj->page_size);
+	value = CLAMP(gtk_adjustment_get_value(vadj) + offset, 0.0, gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj));
 	gtk_adjustment_set_value(vadj, value);
 }
 
@@ -744,15 +733,11 @@ void gtkut_tree_view_scroll_to_cell(GtkTreeView *treeview, GtkTreePath *path,
 
 void gtkut_tree_view_fast_clear(GtkTreeView *treeview, GtkTreeStore *store)
 {
-#if GTK_CHECK_VERSION(2, 8, 0) && !GTK_CHECK_VERSION(2, 10, 0)
-	gtk_tree_store_clear(store);
-#else
 	/* this is faster than above, but it seems to trigger crashes in
 	   GTK+ 2.8.x */
 	gtk_tree_view_set_model(treeview, NULL);
 	gtk_tree_store_clear(store);
 	gtk_tree_view_set_model(treeview, GTK_TREE_MODEL(store));
-#endif
 }
 
 void gtkut_combo_set_items(GtkCombo *combo, const gchar *str1, ...)
@@ -831,9 +816,9 @@ void gtkut_scrolled_window_reset_position(GtkScrolledWindow *window)
 	GtkAdjustment *adj;
 
 	adj = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(window));
-	gtk_adjustment_set_value(adj, adj->lower);
+	gtk_adjustment_set_value(adj, gtk_adjustment_get_lower(adj));
 	adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(window));
-	gtk_adjustment_set_value(adj, adj->lower);
+	gtk_adjustment_set_value(adj, gtk_adjustment_get_lower(adj));
 }
 
 gboolean gtkut_text_buffer_match_string(GtkTextBuffer *textbuf,
@@ -999,23 +984,23 @@ void gtkut_window_popup(GtkWidget *window)
 	gint x, y, sx, sy, new_x, new_y;
 
 	g_return_if_fail(window != NULL);
-	g_return_if_fail(window->window != NULL);
+	g_return_if_fail(gtk_widget_get_window(window) != NULL);
 
 	sx = gdk_screen_width();
 	sy = gdk_screen_height();
 
-	gdk_window_get_origin(window->window, &x, &y);
+	gdk_window_get_origin(gtk_widget_get_window(window), &x, &y);
 	new_x = x % sx; if (new_x < 0) new_x = 0;
 	new_y = y % sy; if (new_y < 0) new_y = 0;
 	if (new_x != x || new_y != y)
-		gdk_window_move(window->window, new_x, new_y);
+		gdk_window_move(gtk_widget_get_window(window), new_x, new_y);
 
 	gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), FALSE);
 	gtk_widget_show(window);
 	gtk_window_present(GTK_WINDOW(window));
 #ifdef G_OS_WIN32
 	/* ensure that the window is displayed at the top */
-	gdk_window_show(window->window);
+	gdk_window_show(gtk_widget_get_window(window));
 #endif
 }
 
@@ -1028,7 +1013,7 @@ gboolean gtkut_window_modal_exist(void)
 	for (cur = window_list; cur != NULL; cur = cur->next) {
 		GtkWidget *window = GTK_WIDGET(cur->data);
 
-		if (GTK_WIDGET_VISIBLE(window) &&
+		if (gtk_widget_get_visible(window) &&
 		    gtk_window_get_modal(GTK_WINDOW(window))) {
 			exist = TRUE;
 			break;
@@ -1060,13 +1045,13 @@ void gtkut_widget_get_uposition(GtkWidget *widget, gint *px, gint *py)
 	gint sx, sy;
 
 	g_return_if_fail(widget != NULL);
-	g_return_if_fail(widget->window != NULL);
+	g_return_if_fail(gtk_widget_get_window(widget) != NULL);
 
 	sx = gdk_screen_width();
 	sy = gdk_screen_height();
 
 	/* gdk_window_get_root_origin ever return *rootwindow*'s position */
-	gdk_window_get_root_origin(widget->window, &x, &y);
+	gdk_window_get_root_origin(gtk_widget_get_window(widget), &x, &y);
 
 	x %= sx; if (x < 0) x = 0;
 	y %= sy; if (y < 0) y = 0;
@@ -1076,8 +1061,8 @@ void gtkut_widget_get_uposition(GtkWidget *widget, gint *px, gint *py)
 
 void gtkut_widget_draw_now(GtkWidget *widget)
 {
-	if (GTK_WIDGET_VISIBLE(widget) && GTK_WIDGET_DRAWABLE(widget))
-		gdk_window_process_updates(widget->window, FALSE);
+	if (gtk_widget_get_visible(widget) && gtk_widget_is_drawable(widget))
+		gdk_window_process_updates(gtk_widget_get_window(widget), FALSE);
 }
 
 static void gtkut_clist_bindings_add(GtkWidget *clist)
@@ -1086,11 +1071,11 @@ static void gtkut_clist_bindings_add(GtkWidget *clist)
 
 	binding_set = gtk_binding_set_by_class(GTK_CLIST_GET_CLASS(clist));
 
-	gtk_binding_entry_add_signal(binding_set, GDK_n, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal(binding_set, GDK_KEY_n, GDK_CONTROL_MASK,
 				     "scroll_vertical", 2,
 				     G_TYPE_ENUM, GTK_SCROLL_STEP_FORWARD,
 				     G_TYPE_FLOAT, 0.0);
-	gtk_binding_entry_add_signal(binding_set, GDK_p, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal(binding_set, GDK_KEY_p, GDK_CONTROL_MASK,
 				     "scroll_vertical", 2,
 				     G_TYPE_ENUM, GTK_SCROLL_STEP_BACKWARD,
 				     G_TYPE_FLOAT, 0.0);
@@ -1102,13 +1087,15 @@ void gtkut_widget_init(void)
 
 	clist = gtk_clist_new(1);
 	g_object_ref(G_OBJECT(clist));
-	gtk_object_sink(GTK_OBJECT(clist));
+	g_object_ref_sink(G_OBJECT(clist));
+	g_object_unref(G_OBJECT(clist));
 	gtkut_clist_bindings_add(clist);
 	g_object_unref(G_OBJECT(clist));
 
 	clist = gtk_ctree_new(1, 0);
 	g_object_ref(G_OBJECT(clist));
-	gtk_object_sink(GTK_OBJECT(clist));
+	g_object_ref_sink(G_OBJECT(clist));
+	g_object_unref(G_OBJECT(clist));
 	gtkut_clist_bindings_add(clist);
 	g_object_unref(G_OBJECT(clist));
 }

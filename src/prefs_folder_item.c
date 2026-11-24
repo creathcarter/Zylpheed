@@ -192,9 +192,7 @@ static void prefs_folder_item_general_create(PrefsFolderItemDialog *dialog)
 	gtk_label_set_selectable(GTK_LABEL(id_label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(id_label), 0, 0.5);
 	gtk_label_set_justify(GTK_LABEL(id_label), GTK_JUSTIFY_LEFT);
-#if GTK_CHECK_VERSION(2, 6, 0)
 	gtk_label_set_ellipsize(GTK_LABEL(id_label), PANGO_ELLIPSIZE_MIDDLE);
-#endif
 	gtk_table_attach(GTK_TABLE(table), id_label, 1, 2, 1, 2,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL, 0, 0);
@@ -208,9 +206,7 @@ static void prefs_folder_item_general_create(PrefsFolderItemDialog *dialog)
 	gtk_label_set_selectable(GTK_LABEL(path_label), TRUE);
 	gtk_misc_set_alignment(GTK_MISC(path_label), 0, 0.5);
 	gtk_label_set_justify(GTK_LABEL(path_label), GTK_JUSTIFY_LEFT);
-#if GTK_CHECK_VERSION(2, 6, 0)
 	gtk_label_set_ellipsize(GTK_LABEL(path_label), PANGO_ELLIPSIZE_MIDDLE);
-#endif
 	gtk_table_attach(GTK_TABLE(table), path_label, 1, 2, 2, 3,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL, 0, 0);
@@ -633,7 +629,7 @@ static gboolean prefs_folder_item_key_press_cb(GtkWidget *widget,
 					   GdkEventKey *event,
 					   PrefsFolderItemDialog *dialog)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_folder_item_cancel_cb(widget, dialog);
 	return FALSE;
 }

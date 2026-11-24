@@ -25,20 +25,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkuimanager.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #include "rpop3.h"
@@ -432,9 +419,7 @@ static void rpop3_window_create(PrefsAccount *account)
 
         APPEND_COLUMN(_("No."), COL_NUMBER, 0);
         APPEND_COLUMN(_("Subject"), COL_SUBJECT, 200);
-#if GTK_CHECK_VERSION(2, 14, 0)
 	gtk_tree_view_column_set_expand(column, TRUE);
-#endif
         APPEND_COLUMN(_("From"), COL_FROM, 160);
         APPEND_COLUMN(_("Date"), COL_DATE, 0);
         APPEND_COLUMN(_("Size"), COL_SIZE, 0);

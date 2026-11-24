@@ -21,7 +21,7 @@
 #define __IMAGEVIEW_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 typedef struct _ImageView	ImageView;

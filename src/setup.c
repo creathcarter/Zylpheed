@@ -43,6 +43,7 @@
 #include "stock_pixmap.h"
 #include "account.h"
 #include "addressbook.h"
+#include "import.h"
 #if USE_SSL
 #  include "ssl.h"
 #endif
@@ -136,7 +137,7 @@ void setup_mailbox(void)
 
 	hbox = gtk_hbox_new(FALSE, 12);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
 			   hbox, FALSE, FALSE, 0);
 
 	image = stock_pixbuf_widget(dialog, STOCK_PIXMAP_SYLPHEED);
@@ -156,7 +157,7 @@ void setup_mailbox(void)
 		gint size;
 
 		size = pango_font_description_get_size
-			(label->style->font_desc);
+			(gtk_widget_get_style(label)->font_desc);
 		font_desc = pango_font_description_new();
 		pango_font_description_set_weight
 			(font_desc, PANGO_WEIGHT_BOLD);
@@ -171,12 +172,12 @@ void setup_mailbox(void)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(label, FALSE);
 	MODIFY_LABEL_STYLE();
 
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), vbox,
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), vbox,
 			   TRUE, TRUE, 0);
 
 	radio = gtk_radio_button_new_with_label
@@ -190,11 +191,9 @@ void setup_mailbox(void)
 	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), FALSE);
-#if GTK_CHECK_VERSION(2, 6, 0)
 	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
-#endif
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(label, FALSE);
 	MODIFY_LABEL_STYLE();
 
 	g_free(fullpath);
@@ -223,7 +222,7 @@ void setup_mailbox(void)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(label, FALSE);
 	MODIFY_LABEL_STYLE();
 
 	if (prefs_common.comply_gnome_hig) {
@@ -755,7 +754,7 @@ PrefsAccount *setup_account(void)
 
 	hbox = gtk_hbox_new(FALSE, 12);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
 			   hbox, FALSE, FALSE, 0);
 
 	image = stock_pixbuf_widget(dialog, STOCK_PIXMAP_SYLPHEED);
@@ -775,7 +774,7 @@ PrefsAccount *setup_account(void)
 		gint size;
 
 		size = pango_font_description_get_size
-			(label->style->font_desc);
+			(gtk_widget_get_style(label)->font_desc);
 		font_desc = pango_font_description_new();
 		pango_font_description_set_weight
 			(font_desc, PANGO_WEIGHT_BOLD);
@@ -790,12 +789,12 @@ PrefsAccount *setup_account(void)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(label, FALSE);
 	MODIFY_LABEL_STYLE();
 
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), vbox,
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), vbox,
 			   TRUE, TRUE, 0);
 
 	setupac.notebook = gtk_notebook_new();

@@ -25,10 +25,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkrc.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkaccelmap.h>
+#include <gtk/gtk.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -98,6 +95,7 @@
 
 #ifdef G_OS_WIN32
 #  include <windows.h>
+#  include <gdk/gdkwin32.h>
 #  include <pbt.h>
 #  include <fcntl.h>
 #  include <conio.h>
@@ -408,12 +406,12 @@ static void init_console(void)
 		return;
 	}
 
-	fd = _open_osfhandle((glong)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
+	fd = _open_osfhandle((intptr_t)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
 	_dup2(fd, 1);
 	fp = _fdopen(fd, "w");
 	*stdout = *fp;
 	setvbuf(stdout, NULL, _IONBF, 0);
-	fd = _open_osfhandle((glong)GetStdHandle(STD_ERROR_HANDLE), _O_TEXT);
+	fd = _open_osfhandle((intptr_t)GetStdHandle(STD_ERROR_HANDLE), _O_TEXT);
 	_dup2(fd, 2);
 	fp = _fdopen(fd, "w");
 	*stderr = *fp;
@@ -1188,14 +1186,10 @@ static void set_log_handlers(gboolean enable)
 
 #ifdef G_OS_WIN32
 
-#if !GTK_CHECK_VERSION(2, 14, 0)
-static UINT taskbar_created_msg;
-#endif
-
 static BOOL WINAPI
 ctrl_handler(DWORD dwctrltype)
 {
-	log_print("ctrl_handler: received %d\n", dwctrltype);
+	log_print("ctrl_handler: received %lu\n", dwctrltype);
 	app_will_exit(TRUE);
 
 	return TRUE;
@@ -1207,7 +1201,7 @@ wndproc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 	switch (message) {
 	case WM_POWERBROADCAST:
 		debug_print("WM_POWERBROADCAST received: wparam = %d\n",
-			    wparam);
+			    (gint)wparam);
 		if (wparam == PBT_APMSUSPEND || wparam == PBT_APMSTANDBY) {
 			debug_print("suspend now\n");
 			inc_autocheck_timer_remove();
@@ -1224,21 +1218,6 @@ wndproc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 		}
 		break;
 	default:
-#if !GTK_CHECK_VERSION(2, 14, 0)
-		if (message == taskbar_created_msg) {
-			debug_print("TaskbarCreated received\n");
-
-			/* recreate tray icon */
-			{
-				MainWindow *mainwin = main_window_get();
-				if (mainwin && mainwin->tray_icon &&
-				    gtk_status_icon_get_visible(mainwin->tray_icon->status_icon)) {
-					trayicon_hide(mainwin->tray_icon);
-					trayicon_show(mainwin->tray_icon);
-				}
-			}
-		}
-#endif
 		break;
 	}
 
@@ -1262,10 +1241,6 @@ static void register_system_events(void)
 
 	if (hwnd)
 		return;
-
-#if !GTK_CHECK_VERSION(2, 14, 0)
-	taskbar_created_msg = RegisterWindowMessage("TaskbarCreated");
-#endif
 
 	debug_print("register_system_events(): RegisterClass\n");
 
@@ -1718,7 +1693,7 @@ static gboolean lock_socket_input_cb(GIOChannel *source, GIOCondition condition,
 		HWND hwnd;
 
 		hwnd = (HWND)gdk_win32_drawable_get_handle
-			(GDK_DRAWABLE(mainwin->window->window));
+			(GDK_DRAWABLE(gtk_widget_get_window(mainwin->window)));
 		fd_write(sock, (gchar *)&hwnd, sizeof(hwnd));
 		if (mainwin->window_hidden)
 			main_window_popup(mainwin);

@@ -22,21 +22,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
@@ -673,14 +659,14 @@ static gboolean foldersel_tree_key_pressed(GtkWidget *widget,
 		return FALSE;
 
 	switch (event->keyval) {
-	case GDK_Left:
-	case GDK_KP_Left:
+	case GDK_KEY_Left:
+	case GDK_KEY_KP_Left:
 		if ((event->state &
 		     (GDK_SHIFT_MASK|GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 			return FALSE;
 		adj = gtk_scrolled_window_get_hadjustment
 			(GTK_SCROLLED_WINDOW(scrolledwin));
-		if (adj->lower < adj->value)
+		if (gtk_adjustment_get_lower(adj) < gtk_adjustment_get_value(adj))
 			return FALSE;
 		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 		if (!gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -695,14 +681,14 @@ static gboolean foldersel_tree_key_pressed(GtkWidget *widget,
 		g_signal_emit_by_name(G_OBJECT(treeview),
 				      "select-cursor-parent", &moved);
 		return TRUE;
-	case GDK_Right:
-	case GDK_KP_Right:
+	case GDK_KEY_Right:
+	case GDK_KEY_KP_Right:
 		if ((event->state &
 		     (GDK_SHIFT_MASK|GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 			return FALSE;
 		adj = gtk_scrolled_window_get_hadjustment
 			(GTK_SCROLLED_WINDOW(scrolledwin));
-		if (adj->lower - adj->page_size > adj->value)
+		if (gtk_adjustment_get_lower(adj) - gtk_adjustment_get_page_size(adj) > gtk_adjustment_get_value(adj))
 			return FALSE;
 		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 		if (!gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -730,7 +716,7 @@ static gint delete_event(GtkWidget *widget, GdkEventAny *event, gpointer data)
 
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		foldersel_cancel(NULL, NULL);
 	return FALSE;
 }

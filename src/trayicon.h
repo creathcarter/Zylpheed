@@ -21,12 +21,8 @@
 #define __TRAYICON_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkversion.h>
+#include <gtk/gtk.h>
 
-#if GTK_CHECK_VERSION(2, 10, 0)
-#  include <gtk/gtkstatusicon.h>
-#endif
 
 typedef struct _TrayIcon	TrayIcon;
 
@@ -35,11 +31,7 @@ typedef struct _TrayIcon	TrayIcon;
 
 struct _TrayIcon
 {
-#if GTK_CHECK_VERSION(2, 10, 0)
 	GtkStatusIcon *status_icon;
-#else
-	GtkWidget *widget;
-#endif
 };
 
 TrayIcon *trayicon_create	(MainWindow	*mainwin);

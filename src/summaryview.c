@@ -22,32 +22,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkversion.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktooltips.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkhseparator.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtknotebook.h>
+#include <gtk/gtk.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -504,11 +479,11 @@ SummaryView *summary_create(void)
 	GtkWidget *statlabel_msgs;
 	GtkWidget *toggle_eventbox;
 	GtkWidget *toggle_arrow;
-	GtkTooltips *tip;
 	GtkWidget *popupmenu;
 	GtkItemFactory *popupfactory;
 	gint n_entries;
 	GList *child;
+	GList *children;
 
 	debug_print(_("Creating summary view...\n"));
 	summaryview = g_new0(SummaryView, 1);
@@ -552,16 +527,12 @@ SummaryView *summary_create(void)
 	gtk_container_add(GTK_CONTAINER(toggle_eventbox), toggle_arrow);
 	g_signal_connect(G_OBJECT(toggle_eventbox), "button_press_event",
 			 G_CALLBACK(summary_toggle_pressed), summaryview);
-	tip = gtk_tooltips_new();
-	gtk_tooltips_set_tip(tip, toggle_eventbox, _("Toggle message view"),
-			     NULL);
+	gtk_widget_set_tooltip_text(toggle_eventbox, _("Toggle message view"));
 
 	statlabel_msgs = gtk_label_new("");
 	gtk_misc_set_alignment(GTK_MISC(statlabel_msgs), 1, 0.5);
-#if GTK_CHECK_VERSION(2, 6, 0)
 	gtk_label_set_ellipsize(GTK_LABEL(statlabel_msgs),
 				PANGO_ELLIPSIZE_START);
-#endif
 	gtk_box_pack_start(GTK_BOX(hbox), statlabel_msgs, TRUE, TRUE, 2);
 
 	/* create popup menu */
@@ -589,8 +560,8 @@ SummaryView *summary_create(void)
 
 	summaryview->reedit_menuitem =
 		gtk_item_factory_get_widget(popupfactory, "/Re-edit");
-	child = g_list_find(GTK_MENU_SHELL(popupmenu)->children,
-			    summaryview->reedit_menuitem);
+	children = gtk_container_get_children(GTK_CONTAINER(popupmenu));
+	child = g_list_find(children, summaryview->reedit_menuitem);
 	summaryview->reedit_separator = GTK_WIDGET(child->next->data);
 
 	summaryview->junk_menuitem =
@@ -598,9 +569,9 @@ SummaryView *summary_create(void)
 	summaryview->nojunk_menuitem =
 		gtk_item_factory_get_widget(popupfactory,
 					    "/Set as not junk mail");
-	child = g_list_find(GTK_MENU_SHELL(popupmenu)->children,
-			    summaryview->nojunk_menuitem);
+	child = g_list_find(children, summaryview->nojunk_menuitem);
 	summaryview->junk_separator = GTK_WIDGET(child->next->data);
+	g_list_free(children);
 
 	gtk_widget_show_all(vbox);
 
@@ -636,7 +607,7 @@ void summary_init(SummaryView *summaryview)
 
 	font_desc = pango_font_description_new();
 	size = pango_font_description_get_size
-		(summaryview->statlabel_folder->style->font_desc);
+		(gtk_widget_get_style(summaryview->statlabel_folder)->font_desc);
 	pango_font_description_set_size(font_desc, size * PANGO_SCALE_SMALL);
 	gtk_widget_modify_font(summaryview->statlabel_folder, font_desc);
 	gtk_widget_modify_font(summaryview->statlabel_select, font_desc);
@@ -655,12 +626,12 @@ void summary_init(SummaryView *summaryview)
 	summary_set_menu_sensitive(summaryview);
 
 	textview = summaryview->messageview->textview;
-	adj = GTK_TEXT_VIEW(textview->text)->vadjustment;
+	adj = gtk_text_view_get_vadjustment(GTK_TEXT_VIEW(textview->text));
 	g_signal_connect(adj, "value-changed",
 			 G_CALLBACK(summary_text_adj_value_changed),
 			 summaryview);
 	textview = summaryview->messageview->mimeview->textview;
-	adj = GTK_TEXT_VIEW(textview->text)->vadjustment;
+	adj = gtk_text_view_get_vadjustment(GTK_TEXT_VIEW(textview->text));
 	g_signal_connect(adj, "value-changed",
 			 G_CALLBACK(summary_text_adj_value_changed),
 			 summaryview);
@@ -1069,7 +1040,7 @@ static void summary_clear_list_full(SummaryView *summaryview,
 
 	/* ensure that the "value-changed" signal is always emitted */
 	adj = gtk_tree_view_get_vadjustment(treeview);
-	adj->value = 0.0;
+	gtk_adjustment_set_value(adj, 0.0);
 
 	summary_unset_sort_column_id(summaryview);
 }
@@ -5307,6 +5278,7 @@ static void summary_colorlabel_menu_item_activate_item_cb(GtkMenuItem *menuitem,
 	GtkCheckMenuItem **items;
 	gint n;
 	GList *menu_cur;
+	GList *children;
 	GSList *mlist, *cur;
 
 	summaryview = (SummaryView *)data;
@@ -5325,7 +5297,8 @@ static void summary_colorlabel_menu_item_activate_item_cb(GtkMenuItem *menuitem,
 	g_object_set_data(G_OBJECT(menu), "dont_toggle", GINT_TO_POINTER(1));
 
 	/* clear items. get item pointers. */
-	for (n = 0, menu_cur = menu->children; menu_cur != NULL;
+	children = gtk_container_get_children(GTK_CONTAINER(menu));
+	for (n = 0, menu_cur = children; menu_cur != NULL;
 	     menu_cur = menu_cur->next) {
 		if (GTK_IS_CHECK_MENU_ITEM(menu_cur->data)) {
 			gtk_check_menu_item_set_active
@@ -5334,6 +5307,7 @@ static void summary_colorlabel_menu_item_activate_item_cb(GtkMenuItem *menuitem,
 			n++;
 		}
 	}
+	g_list_free(children);
 
 	if (n == (N_COLOR_LABELS + 1)) {
 		/* iterate all messages and set the state of the appropriate
@@ -5524,9 +5498,7 @@ static GtkWidget *summary_tree_view_create(SummaryView *summaryview)
 
 	ADD_COLUMN(_("Subject"), text, S_COL_SUBJECT, TRUE,
 		   prefs_common.summary_col_size[S_COL_SUBJECT], 0.0);
-#if GTK_CHECK_VERSION(2, 14, 0)
 	gtk_tree_view_column_set_expand(column, TRUE);
-#endif
 	gtk_tree_view_set_expander_column(GTK_TREE_VIEW(treeview), column);
 	ADD_COLUMN(_("From"), text, S_COL_FROM, TRUE,
 		   prefs_common.summary_col_size[S_COL_FROM], 0.0);
@@ -6079,12 +6051,12 @@ static gboolean summary_key_pressed(GtkWidget *widget, GdkEventKey *event,
 
 	if (summary_is_read_locked(summaryview)) {
 		switch (event->keyval) {
-		case GDK_Home:
-		case GDK_End:
-		case GDK_Up:
-		case GDK_Down:
-		case GDK_Page_Up:
-		case GDK_Page_Down:
+		case GDK_KEY_Home:
+		case GDK_KEY_End:
+		case GDK_KEY_Up:
+		case GDK_KEY_Down:
+		case GDK_KEY_Page_Up:
+		case GDK_KEY_Page_Down:
 			return TRUE;
 		default:
 			break;
@@ -6093,14 +6065,14 @@ static gboolean summary_key_pressed(GtkWidget *widget, GdkEventKey *event,
 	}
 
 	switch (event->keyval) {
-	case GDK_Left:		/* Move focus */
-	case GDK_KP_Left:
+	case GDK_KEY_Left:		/* Move focus */
+	case GDK_KEY_KP_Left:
 		adj = gtk_scrolled_window_get_hadjustment
 			(GTK_SCROLLED_WINDOW(summaryview->scrolledwin));
-		if (adj->lower != adj->value)
+		if (gtk_adjustment_get_lower(adj) != gtk_adjustment_get_value(adj))
 			return FALSE;
 		/* FALLTHROUGH */
-	case GDK_Escape:
+	case GDK_KEY_Escape:
 		gtk_widget_grab_focus(summaryview->folderview->treeview);
 		return TRUE;
 	default:
@@ -6122,8 +6094,8 @@ static gboolean summary_key_pressed(GtkWidget *widget, GdkEventKey *event,
 		((event->state & (GDK_SHIFT_MASK|GDK_MOD1_MASK)) != 0);
 
 	switch (event->keyval) {
-	case GDK_space:		/* Page down or go to the next */
-	case GDK_KP_Space:
+	case GDK_KEY_space:		/* Page down or go to the next */
+	case GDK_KEY_KP_Space:
 		if (summaryview->selected &&
 		    !gtkut_tree_row_reference_equal(summaryview->displayed,
 						    summaryview->selected)) {
@@ -6140,11 +6112,11 @@ static gboolean summary_key_pressed(GtkWidget *widget, GdkEventKey *event,
 				summary_select_next_unread(summaryview);
 		}
 		return TRUE;
-	case GDK_BackSpace:	/* Page up */
+	case GDK_KEY_BackSpace:	/* Page up */
 		textview_scroll_page(textview, TRUE);
 		return TRUE;
-	case GDK_Return:	/* Scroll up/down one line */
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:	/* Scroll up/down one line */
+	case GDK_KEY_KP_Enter:
 		if (summaryview->selected &&
 		    !gtkut_tree_row_reference_equal(summaryview->displayed,
 						    summaryview->selected))
@@ -6153,14 +6125,14 @@ static gboolean summary_key_pressed(GtkWidget *widget, GdkEventKey *event,
 			textview_scroll_one_line(textview, mod_pressed);
 		summary_mark_displayed_read(summaryview, NULL);
 		return TRUE;
-	case GDK_Delete:
-	case GDK_KP_Delete:
+	case GDK_KEY_Delete:
+	case GDK_KEY_KP_Delete:
 		BREAK_ON_MODIFIER_KEY();
 		summary_delete(summaryview);
 		return TRUE;
-	case GDK_F10:
-	case GDK_Menu:
-		if (event->keyval == GDK_F10 &&
+	case GDK_KEY_F10:
+	case GDK_KEY_Menu:
+		if (event->keyval == GDK_KEY_F10 &&
 		    (event->state & GDK_SHIFT_MASK) == 0)
 			break;
 		syl_plugin_signal_emit("summaryview-menu-popup",
@@ -6209,13 +6181,7 @@ static void summary_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter,
 		summary_set_bold_recursive(summaryview, iter);
 
 	/* workaround for last row expand problem */
-#if GTK_CHECK_VERSION(2, 8, 0)
 	gtk_widget_queue_resize(GTK_WIDGET(treeview));
-#else
-	g_object_set(treeview, "fixed-height-mode", FALSE, NULL);
-	gtk_widget_queue_resize(GTK_WIDGET(treeview));
-	g_object_set(treeview, "fixed-height-mode", TRUE, NULL);
-#endif
 }
 
 static void summary_row_collapsed(GtkTreeView *treeview, GtkTreeIter *iter,
@@ -6345,7 +6311,7 @@ static void summary_show_all_header_cb(SummaryView *summaryview,
 				       guint action, GtkWidget *widget)
 {
 	summary_display_msg_selected(summaryview, FALSE,
-				     GTK_CHECK_MENU_ITEM(widget)->active);
+				     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)));
 }
 
 static void summary_add_address_cb(SummaryView *summaryview,
@@ -6434,7 +6400,7 @@ static void summary_drag_data_get(GtkWidget        *widget,
 	GtkTreeIter iter;
 
 	if (info == DRAG_TYPE_TEXT) {
-		gtk_selection_data_set(selection_data, selection_data->target,
+		gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 				       8, (guchar *)"drag-from-summary", 17);
 		return;
 	}
@@ -6509,7 +6475,7 @@ static void summary_drag_data_get(GtkWidget        *widget,
 
 	if (summaryview->drag_list) {
 		gtk_selection_data_set(selection_data,
-				       selection_data->target, 8,
+				       gtk_selection_data_get_target(selection_data), 8,
 				       (guchar *)summaryview->drag_list,
 				       strlen(summaryview->drag_list));
 	}
@@ -6520,11 +6486,11 @@ static void summary_text_adj_value_changed(GtkAdjustment *adj,
 {
 	static gdouble prev_vadj = 0.0;
 
-	if (summaryview->displayed && adj->value > prev_vadj &&
+	if (summaryview->displayed && gtk_adjustment_get_value(adj) > prev_vadj &&
 	    prefs_common.always_show_msg)
 		summary_mark_displayed_read(summaryview, NULL);
 
-	prev_vadj = adj->value;
+	prev_vadj = gtk_adjustment_get_value(adj);
 }
 
 

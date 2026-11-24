@@ -25,8 +25,7 @@
 #endif
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktexttag.h>
+#include <gtk/gtk.h>
 
 typedef struct _TextView	TextView;
 

@@ -727,10 +727,13 @@ void syl_plugin_menu_set_sensitive(const gchar *path, gboolean sensitive)
 void syl_plugin_menu_set_sensitive_all(GtkMenuShell *menu_shell,
 				       gboolean sensitive)
 {
+	GList *children;
 	GList *cur;
 
-	for (cur = menu_shell->children; cur != NULL; cur = cur->next)
+	children = gtk_container_get_children(GTK_CONTAINER(menu_shell));
+	for (cur = children; cur != NULL; cur = cur->next)
 		gtk_widget_set_sensitive(GTK_WIDGET(cur->data), sensitive);
+	g_list_free(children);
 }
 
 void syl_plugin_menu_set_active(const gchar *path, gboolean is_active)

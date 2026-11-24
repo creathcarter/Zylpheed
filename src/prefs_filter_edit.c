@@ -471,7 +471,7 @@ CondHBox *prefs_filter_edit_cond_hbox_create(FilterCondEdit *cond_edit)
 	GtkWidget *menu;
 	GtkWidget *menuitem;
 	GtkWidget *key_entry;
-	GtkObject *spin_btn_adj;
+	GtkAdjustment *spin_btn_adj;
 	GtkWidget *spin_btn;
 	GtkWidget *label;
 	GtkWidget *del_btn;
@@ -587,7 +587,7 @@ CondHBox *prefs_filter_edit_cond_hbox_create(FilterCondEdit *cond_edit)
 	gtk_widget_show(key_entry);
 	gtk_box_pack_start(GTK_BOX(hbox), key_entry, TRUE, TRUE, 0);
 
-	spin_btn_adj = gtk_adjustment_new(0, 0, 99999, 1, 10, 0);
+	spin_btn_adj = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 99999, 1, 10, 0));
 	spin_btn = gtk_spin_button_new(GTK_ADJUSTMENT(spin_btn_adj), 1, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), spin_btn, FALSE, FALSE, 0);
 	gtk_widget_set_size_request(spin_btn, 64, -1);
@@ -1484,7 +1484,7 @@ static gboolean edit_header_list_dialog_key_pressed(GtkWidget *widget,
 						    GdkEventKey *event,
 						    gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		edit_header_list_dialog.finished = TRUE;
 	return FALSE;
 }
@@ -1589,8 +1589,8 @@ static void prefs_filter_edit_edit_header_list_dialog_create(void)
 	gtk_clist_set_column_width(GTK_CLIST(clist), 0, 80);
 	gtk_clist_set_selection_mode(GTK_CLIST(clist), GTK_SELECTION_BROWSE);
 	gtkut_clist_set_redraw(GTK_CLIST(clist));
-	GTK_WIDGET_UNSET_FLAGS(GTK_CLIST(clist)->column[0].button,
-			       GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(GTK_CLIST(clist)->column[0].button,
+			       FALSE);
 
 	entry_hbox = gtk_hbox_new(FALSE, 8);
 	gtk_box_pack_start(GTK_BOX(vbox), entry_hbox, FALSE, TRUE, 0);
@@ -2045,7 +2045,7 @@ static gboolean prefs_filter_edit_key_pressed(GtkWidget *widget,
 					      GdkEventKey *event,
 					      gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_filter_edit_cancel();
 	return FALSE;
 }

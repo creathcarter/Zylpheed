@@ -28,13 +28,7 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -304,7 +298,7 @@ TextView *textview_create(void)
 	g_signal_connect(G_OBJECT(text), "populate-popup",
 			 G_CALLBACK(textview_populate_popup), textview);
 
-	g_signal_connect(G_OBJECT(GTK_TEXT_VIEW(text)->vadjustment),
+	g_signal_connect(G_OBJECT(gtk_text_view_get_vadjustment(GTK_TEXT_VIEW(text))),
 			 "value-changed",
 			 G_CALLBACK(textview_adj_value_changed), textview);
 
@@ -666,6 +660,7 @@ static void part_menu_button_position(GtkMenu *menu, gint *x, gint *y,
 {
 	GtkWidget *widget;
 	GtkRequisition requisition;
+	GtkRequisition widget_req;
 	gint button_xpos, button_ypos;
 	gint xpos, ypos;
 	gint width, height;
@@ -677,10 +672,11 @@ static void part_menu_button_position(GtkMenu *menu, gint *x, gint *y,
 	gtk_widget_get_child_requisition(GTK_WIDGET(menu), &requisition);
 	width = requisition.width;
 	height = requisition.height;
-	gdk_window_get_origin(widget->window, &button_xpos, &button_ypos);
+	gdk_window_get_origin(gtk_widget_get_window(widget), &button_xpos, &button_ypos);
 
+	gtk_widget_get_requisition(widget, &widget_req);
 	xpos = button_xpos;
-	ypos = button_ypos + widget->requisition.height;
+	ypos = button_ypos + widget_req.height;
 
 	scr_width = gdk_screen_width();
 	scr_height = gdk_screen_height();
@@ -688,7 +684,7 @@ static void part_menu_button_position(GtkMenu *menu, gint *x, gint *y,
 	if (xpos + width > scr_width)
 		xpos -= (xpos + width) - scr_width;
 	if (ypos + height > scr_height)
-		ypos -= widget->requisition.height + height;
+		ypos -= widget_req.height + height;
 	if (xpos < 0)
 		xpos = 0;
 	if (ypos < 0)
@@ -721,6 +717,7 @@ static gboolean textview_part_widget_button_pressed(GtkWidget *widget,
 	TextView *textview = (TextView *)data;
 	GtkWidget *menu;
 	MimeInfo *mimeinfo;
+	GList *children;
 	GList *cur;
 
 	if (!event)
@@ -729,7 +726,8 @@ static gboolean textview_part_widget_button_pressed(GtkWidget *widget,
 	menu = textview->popup_menu;
 	mimeinfo = g_object_get_data(G_OBJECT(widget), "mimeinfo");
 
-	for (cur = GTK_MENU_SHELL(menu)->children; cur != NULL; cur = cur->next) {
+	children = gtk_container_get_children(GTK_CONTAINER(menu));
+	for (cur = children; cur != NULL; cur = cur->next) {
 		GtkWidget *menuitem = GTK_WIDGET(cur->data);
 		gint type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
 		if (type == PART_MENU_PRINT) {
@@ -746,6 +744,7 @@ static gboolean textview_part_widget_button_pressed(GtkWidget *widget,
 				gtk_widget_set_sensitive(menuitem, FALSE);
 		}
 	}
+	g_list_free(children);
 
 	g_object_set_data(G_OBJECT(menu), "part-widget", widget);
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, part_menu_button_position, widget, event->button, event->time);
@@ -766,8 +765,8 @@ static gboolean textview_part_widget_exposed(GtkWidget *widget,
 	if (w <= 0 || h <= 0)
 		return FALSE;
 
-	drawable = GDK_DRAWABLE(widget->window);
-	gc = widget->style->dark_gc[GTK_WIDGET_STATE(widget)];
+	drawable = GDK_DRAWABLE(gtk_widget_get_window(widget));
+	gc = gtk_widget_get_style(widget)->dark_gc[gtk_widget_get_state(widget)];
 	gdk_gc_set_clip_rectangle(gc, &event->area);
 	gdk_gc_set_line_attributes(gc, 1, GDK_LINE_SOLID, GDK_CAP_NOT_LAST,
 				   GDK_JOIN_MITER);
@@ -1648,7 +1647,7 @@ void textview_clear(TextView *textview)
 
 	/* workaround for the assertion failure in
 	   gtk_text_view_validate_onscreen() */
-	text->vadjustment->value = 0.0;
+	gtk_text_view_get_vadjustment(text)->value = 0.0;
 
 	STATUSBAR_POP(textview);
 	textview_uri_list_remove_all(textview->uri_list);
@@ -1740,7 +1739,7 @@ static void textview_size_allocate_cb(GtkWidget *widget,
 	gtk_widget_set_size_request(child, new_width, 16);
 }
 
-void textview_hline_destroy_cb(GtkObject *object, gpointer data)
+void textview_hline_destroy_cb(GtkWidget *object, gpointer data)
 {
 	GtkWidget *text = GTK_WIDGET(data);
 
@@ -1922,7 +1921,7 @@ gboolean textview_search_string_backward(TextView *textview, const gchar *str,
 void textview_scroll_one_line(TextView *textview, gboolean up)
 {
 	GtkTextView *text = GTK_TEXT_VIEW(textview->text);
-	GtkAdjustment *vadj = text->vadjustment;
+	GtkAdjustment *vadj = gtk_text_view_get_vadjustment(text);
 	gfloat upper;
 
 	if (prefs_common.enable_smooth_scroll) {
@@ -1931,17 +1930,21 @@ void textview_scroll_one_line(TextView *textview, gboolean up)
 	}
 
 	if (!up) {
-		upper = vadj->upper - vadj->page_size;
-		if (vadj->value < upper) {
-			vadj->value += vadj->step_increment;
-			vadj->value = MIN(vadj->value, upper);
+		upper = gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj);
+		if (gtk_adjustment_get_value(vadj) < upper) {
+			gtk_adjustment_set_value
+				(vadj, MIN(gtk_adjustment_get_value(vadj) +
+					   gtk_adjustment_get_step_increment(vadj),
+					   upper));
 			g_signal_emit_by_name(G_OBJECT(vadj),
 					      "value_changed", 0);
 		}
 	} else {
-		if (vadj->value > 0.0) {
-			vadj->value -= vadj->step_increment;
-			vadj->value = MAX(vadj->value, 0.0);
+		if (gtk_adjustment_get_value(vadj) > 0.0) {
+			gtk_adjustment_set_value
+				(vadj, MAX(gtk_adjustment_get_value(vadj) -
+					   gtk_adjustment_get_step_increment(vadj),
+					   0.0));
 			g_signal_emit_by_name(G_OBJECT(vadj),
 					      "value_changed", 0);
 		}
@@ -1951,7 +1954,7 @@ void textview_scroll_one_line(TextView *textview, gboolean up)
 gboolean textview_scroll_page(TextView *textview, gboolean up)
 {
 	GtkTextView *text = GTK_TEXT_VIEW(textview->text);
-	GtkAdjustment *vadj = text->vadjustment;
+	GtkAdjustment *vadj = gtk_text_view_get_vadjustment(text);
 	gfloat upper;
 	gfloat page_incr;
 
@@ -1959,23 +1962,25 @@ gboolean textview_scroll_page(TextView *textview, gboolean up)
 		return textview_smooth_scroll_page(textview, up);
 
 	if (prefs_common.scroll_halfpage)
-		page_incr = vadj->page_increment / 2;
+		page_incr = gtk_adjustment_get_page_increment(vadj) / 2;
 	else
-		page_incr = vadj->page_increment;
+		page_incr = gtk_adjustment_get_page_increment(vadj);
 
 	if (!up) {
-		upper = vadj->upper - vadj->page_size;
-		if (vadj->value < upper) {
-			vadj->value += page_incr;
-			vadj->value = MIN(vadj->value, upper);
+		upper = gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj);
+		if (gtk_adjustment_get_value(vadj) < upper) {
+			gtk_adjustment_set_value
+				(vadj, MIN(gtk_adjustment_get_value(vadj) + page_incr,
+					   upper));
 			g_signal_emit_by_name(G_OBJECT(vadj),
 					      "value_changed", 0);
 		} else
 			return FALSE;
 	} else {
-		if (vadj->value > 0.0) {
-			vadj->value -= page_incr;
-			vadj->value = MAX(vadj->value, 0.0);
+		if (gtk_adjustment_get_value(vadj) > 0.0) {
+			gtk_adjustment_set_value
+				(vadj, MAX(gtk_adjustment_get_value(vadj) - page_incr,
+					   0.0));
 			g_signal_emit_by_name(G_OBJECT(vadj),
 					      "value_changed", 0);
 		} else
@@ -1990,7 +1995,7 @@ static void textview_smooth_scroll_do(TextView *textview,
 				      gint step)
 {
 	GtkTextView *text = GTK_TEXT_VIEW(textview->text);
-	GtkAdjustment *vadj = text->vadjustment;
+	GtkAdjustment *vadj = gtk_text_view_get_vadjustment(text);
 	gint change_value;
 	gboolean up;
 	gint i;
@@ -2009,14 +2014,14 @@ static void textview_smooth_scroll_do(TextView *textview,
 					textview);
 
 	for (i = step; i <= change_value; i += step) {
-		vadj->value = old_value + (up ? -i : i);
+		gtk_adjustment_set_value(vadj, old_value + (up ? -i : i));
 		g_signal_emit_by_name(G_OBJECT(vadj), "value_changed", 0);
 	}
 
 	g_signal_handlers_unblock_by_func(vadj, textview_adj_value_changed,
 					  textview);
 
-	vadj->value = last_value;
+	gtk_adjustment_set_value(vadj, last_value);
 	g_signal_emit_by_name(G_OBJECT(vadj), "value_changed", 0);
 
 	/* gdk_key_repeat_restore(); */
@@ -2027,16 +2032,16 @@ static void textview_smooth_scroll_do(TextView *textview,
 static void textview_smooth_scroll_one_line(TextView *textview, gboolean up)
 {
 	GtkTextView *text = GTK_TEXT_VIEW(textview->text);
-	GtkAdjustment *vadj = text->vadjustment;
+	GtkAdjustment *vadj = gtk_text_view_get_vadjustment(text);
 	gfloat upper;
 	gfloat old_value;
 	gfloat last_value;
 
 	if (!up) {
-		upper = vadj->upper - vadj->page_size;
-		if (vadj->value < upper) {
-			old_value = vadj->value;
-			last_value = vadj->value + vadj->step_increment;
+		upper = gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj);
+		if (gtk_adjustment_get_value(vadj) < upper) {
+			old_value = gtk_adjustment_get_value(vadj);
+			last_value = gtk_adjustment_get_value(vadj) + gtk_adjustment_get_step_increment(vadj);
 			last_value = MIN(last_value, upper);
 
 			textview_smooth_scroll_do(textview, old_value,
@@ -2044,9 +2049,9 @@ static void textview_smooth_scroll_one_line(TextView *textview, gboolean up)
 						  prefs_common.scroll_step);
 		}
 	} else {
-		if (vadj->value > 0.0) {
-			old_value = vadj->value;
-			last_value = vadj->value - vadj->step_increment;
+		if (gtk_adjustment_get_value(vadj) > 0.0) {
+			old_value = gtk_adjustment_get_value(vadj);
+			last_value = gtk_adjustment_get_value(vadj) - gtk_adjustment_get_step_increment(vadj);
 			last_value = MAX(last_value, 0.0);
 
 			textview_smooth_scroll_do(textview, old_value,
@@ -2059,22 +2064,22 @@ static void textview_smooth_scroll_one_line(TextView *textview, gboolean up)
 static gboolean textview_smooth_scroll_page(TextView *textview, gboolean up)
 {
 	GtkTextView *text = GTK_TEXT_VIEW(textview->text);
-	GtkAdjustment *vadj = text->vadjustment;
+	GtkAdjustment *vadj = gtk_text_view_get_vadjustment(text);
 	gfloat upper;
 	gfloat page_incr;
 	gfloat old_value;
 	gfloat last_value;
 
 	if (prefs_common.scroll_halfpage)
-		page_incr = vadj->page_increment / 2;
+		page_incr = gtk_adjustment_get_page_increment(vadj) / 2;
 	else
-		page_incr = vadj->page_increment;
+		page_incr = gtk_adjustment_get_page_increment(vadj);
 
 	if (!up) {
-		upper = vadj->upper - vadj->page_size;
-		if (vadj->value < upper) {
-			old_value = vadj->value;
-			last_value = vadj->value + page_incr;
+		upper = gtk_adjustment_get_upper(vadj) - gtk_adjustment_get_page_size(vadj);
+		if (gtk_adjustment_get_value(vadj) < upper) {
+			old_value = gtk_adjustment_get_value(vadj);
+			last_value = gtk_adjustment_get_value(vadj) + page_incr;
 			last_value = MIN(last_value, upper);
 
 			textview_smooth_scroll_do(textview, old_value,
@@ -2083,9 +2088,9 @@ static gboolean textview_smooth_scroll_page(TextView *textview, gboolean up)
 		} else
 			return FALSE;
 	} else {
-		if (vadj->value > 0.0) {
-			old_value = vadj->value;
-			last_value = vadj->value - page_incr;
+		if (gtk_adjustment_get_value(vadj) > 0.0) {
+			old_value = gtk_adjustment_get_value(vadj);
+			last_value = gtk_adjustment_get_value(vadj) - page_incr;
 			last_value = MAX(last_value, 0.0);
 
 			textview_smooth_scroll_do(textview, old_value,
@@ -2112,29 +2117,29 @@ static gboolean textview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 		summaryview = messageview->mainwin->summaryview;
 
 	switch (event->keyval) {
-	case GDK_Tab:
-	case GDK_Home:
-	case GDK_Left:
-	case GDK_Up:
-	case GDK_Right:
-	case GDK_Down:
-	case GDK_Page_Up:
-	case GDK_Page_Down:
-	case GDK_End:
-	case GDK_Control_L:
-	case GDK_Control_R:
-	case GDK_KP_Tab:
-	case GDK_KP_Home:
-	case GDK_KP_Left:
-	case GDK_KP_Up:
-	case GDK_KP_Right:
-	case GDK_KP_Down:
-	case GDK_KP_Page_Up:
-	case GDK_KP_Page_Down:
-	case GDK_KP_End:
+	case GDK_KEY_Tab:
+	case GDK_KEY_Home:
+	case GDK_KEY_Left:
+	case GDK_KEY_Up:
+	case GDK_KEY_Right:
+	case GDK_KEY_Down:
+	case GDK_KEY_Page_Up:
+	case GDK_KEY_Page_Down:
+	case GDK_KEY_End:
+	case GDK_KEY_Control_L:
+	case GDK_KEY_Control_R:
+	case GDK_KEY_KP_Tab:
+	case GDK_KEY_KP_Home:
+	case GDK_KEY_KP_Left:
+	case GDK_KEY_KP_Up:
+	case GDK_KEY_KP_Right:
+	case GDK_KEY_KP_Down:
+	case GDK_KEY_KP_Page_Up:
+	case GDK_KEY_KP_Page_Down:
+	case GDK_KEY_KP_End:
 		break;
-	case GDK_space:
-	case GDK_KP_Space:
+	case GDK_KEY_space:
+	case GDK_KEY_KP_Space:
 		if (summaryview)
 			summary_pass_key_press_event(summaryview, event);
 		else
@@ -2143,34 +2148,34 @@ static gboolean textview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 				 (event->state &
 				  (GDK_SHIFT_MASK|GDK_MOD1_MASK)) != 0);
 		break;
-	case GDK_BackSpace:
+	case GDK_KEY_BackSpace:
 		textview_scroll_page(textview, TRUE);
 		break;
-	case GDK_Return:
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		textview_scroll_one_line
 			(textview, (event->state &
 				    (GDK_SHIFT_MASK|GDK_MOD1_MASK)) != 0);
 		break;
-	case GDK_Delete:
-	case GDK_KP_Delete:
+	case GDK_KEY_Delete:
+	case GDK_KEY_KP_Delete:
 		if (summaryview)
 			summary_pass_key_press_event(summaryview, event);
 		break;
-	case GDK_Escape:
+	case GDK_KEY_Escape:
 		if (summaryview && textview == messageview->textview)
 			gtk_widget_grab_focus(summaryview->treeview);
 		else if (messageview->type == MVIEW_MIME &&
 			 textview == messageview->mimeview->textview)
 			gtk_widget_grab_focus(messageview->mimeview->treeview);
 		break;
-	case GDK_n:
-	case GDK_N:
-	case GDK_p:
-	case GDK_P:
-	case GDK_y:
-	case GDK_t:
-	case GDK_l:
+	case GDK_KEY_n:
+	case GDK_KEY_N:
+	case GDK_KEY_p:
+	case GDK_KEY_P:
+	case GDK_KEY_y:
+	case GDK_KEY_t:
+	case GDK_KEY_l:
 		if (messageview->type == MVIEW_MIME &&
 		    textview == messageview->mimeview->textview) {
 			KEY_PRESS_EVENT_STOP();
@@ -2181,10 +2186,10 @@ static gboolean textview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 		/* fall through */
 	default:
 		if (summaryview &&
-		    event->window != messageview->mainwin->window->window) {
+		    event->window != gtk_widget_get_window(messageview->mainwin->window)) {
 			GdkEventKey tmpev = *event;
 
-			tmpev.window = messageview->mainwin->window->window;
+			tmpev.window = gtk_widget_get_window(messageview->mainwin->window);
 			KEY_PRESS_EVENT_STOP();
 			gtk_widget_event(messageview->mainwin->window,
 					 (GdkEvent *)&tmpev);
@@ -2392,7 +2397,7 @@ static gboolean textview_motion_notify(GtkWidget *widget,
 					      GTK_TEXT_WINDOW_WIDGET,
 					      event->x, event->y, &x, &y);
 	textview_set_cursor(textview, GTK_TEXT_VIEW(widget), x, y);
-	gdk_window_get_pointer(widget->window, NULL, NULL, NULL);
+	gdk_window_get_pointer(gtk_widget_get_window(widget), NULL, NULL, NULL);
 
 	return FALSE;
 }
@@ -2420,7 +2425,7 @@ static gboolean textview_visibility_notify(GtkWidget *widget,
 	if (window != event->window)
 		return FALSE;
 
-	gdk_window_get_pointer(widget->window, &wx, &wy, NULL);
+	gdk_window_get_pointer(gtk_widget_get_window(widget), &wx, &wy, NULL);
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget),
 					      GTK_TEXT_WINDOW_WIDGET,
 					      wx, wy, &bx, &by);
@@ -2460,7 +2465,7 @@ static void textview_populate_popup(GtkWidget *widget, GtkMenu *menu,
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(widget));
 
-	gdk_window_get_pointer(widget->window, &px, &py, NULL);
+	gdk_window_get_pointer(gtk_widget_get_window(widget), &px, &py, NULL);
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget),
 					      GTK_TEXT_WINDOW_WIDGET,
 					      px, py, &x, &y);

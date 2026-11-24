@@ -26,19 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkvpaned.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkselection.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkvbbox.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -176,6 +164,7 @@ MimeView *mimeview_create(void)
 	GtkWidget *reply_separator;
 	GtkWidget *reply_menuitem;
 	GList *child;
+	GList *children;
 
 	debug_print(_("Creating MIME view...\n"));
 	mimeview = g_new0(MimeView, 1);
@@ -259,9 +248,10 @@ MimeView *mimeview_create(void)
 				      "<MimeView>", &popupfactory, mimeview);
 
 	reply_menuitem = gtk_item_factory_get_item(popupfactory, "/Reply");
-	child = g_list_find(GTK_MENU_SHELL(popupmenu)->children,
-			    reply_menuitem);
+	children = gtk_container_get_children(GTK_CONTAINER(popupmenu));
+	child = g_list_find(children, reply_menuitem);
 	reply_separator = GTK_WIDGET(child->prev->data);
+	g_list_free(children);
 
 	mimeview->paned        = paned;
 	mimeview->scrolledwin  = scrolledwin;
@@ -938,8 +928,8 @@ static gint mimeview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 		((event->state & (GDK_SHIFT_MASK|GDK_MOD1_MASK)) != 0);
 
 	switch (event->keyval) {
-	case GDK_space:
-	case GDK_KP_Space:
+	case GDK_KEY_space:
+	case GDK_KEY_KP_Space:
 		if (textview_scroll_page(mimeview->textview, mod_pressed))
 			return TRUE;
 
@@ -954,26 +944,26 @@ static gint mimeview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 		if (summaryview)
 			summary_pass_key_press_event(summaryview, event);
 		break;
-	case GDK_BackSpace:
+	case GDK_KEY_BackSpace:
 		textview_scroll_page(mimeview->textview, TRUE);
 		return TRUE;
-	case GDK_Return:
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		textview_scroll_one_line(mimeview->textview, mod_pressed);
 		return TRUE;
-	case GDK_t:
+	case GDK_KEY_t:
 		BREAK_ON_MODIFIER_KEY();
 		KEY_PRESS_EVENT_STOP();
 		mimeview_display_as_text(mimeview);
 		return TRUE;
-	case GDK_Escape:
+	case GDK_KEY_Escape:
 		if (summaryview)
 			gtk_widget_grab_focus(summaryview->treeview);
 		break;
-	case GDK_Left:
-	case GDK_Delete:
-	case GDK_KP_Left:
-	case GDK_KP_Delete:
+	case GDK_KEY_Left:
+	case GDK_KEY_Delete:
+	case GDK_KEY_KP_Left:
+	case GDK_KEY_KP_Delete:
 		if (summaryview)
 			summary_pass_key_press_event(summaryview, event);
 		break;
@@ -1039,7 +1029,7 @@ static void mimeview_drag_data_get(GtkWidget	    *widget,
 {
 	if (!mimeview->drag_file) return;
 
-	gtk_selection_data_set(selection_data, selection_data->target, 8,
+	gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data), 8,
 			       (guchar *)mimeview->drag_file,
 			       strlen(mimeview->drag_file));
 }

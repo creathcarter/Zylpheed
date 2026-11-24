@@ -297,8 +297,8 @@ static void prefs_actions_create(MainWindow *mainwin)
 	gtk_clist_set_selection_mode(GTK_CLIST (cond_clist),
 				     GTK_SELECTION_BROWSE);
 	gtkut_clist_set_redraw(GTK_CLIST(cond_clist));
-	GTK_WIDGET_UNSET_FLAGS(GTK_CLIST(cond_clist)->column[0].button,
-			       GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(GTK_CLIST(cond_clist)->column[0].button,
+			       FALSE);
 	g_signal_connect(G_OBJECT(cond_clist), "select_row",
 			 G_CALLBACK(prefs_actions_select), NULL);
 	g_signal_connect_after(G_OBJECT(cond_clist), "row_move",
@@ -646,7 +646,7 @@ static gint prefs_actions_deleted(GtkWidget *widget, GdkEventAny *event,
 static gboolean prefs_actions_key_pressed(GtkWidget *widget, GdkEventKey *event,
 					  gpointer data)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		prefs_actions_cancel(widget, data);
 	return FALSE;
 }

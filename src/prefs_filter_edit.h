@@ -20,7 +20,7 @@
 #ifndef __PREFS_FILTER_EDIT_H__
 #define __PREFS_FILTER_EDIT_H__
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #include "filter.h"
 

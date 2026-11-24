@@ -22,22 +22,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkitemfactory.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkversion.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -372,9 +357,7 @@ FolderView *folderview_create(void)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),
 					COL_FOLDER_NAME);
 	gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview), FALSE);
-#if GTK_CHECK_VERSION(2, 12, 0)
 	g_object_set(treeview, "fixed-height-mode", TRUE, NULL);
-#endif
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
@@ -388,9 +371,7 @@ FolderView *folderview_create(void)
 	gtk_tree_view_column_set_fixed_width
 		(column, prefs_common.folder_col_folder);
 	gtk_tree_view_column_set_resizable(column, TRUE);
-#if GTK_CHECK_VERSION(2, 14, 0)
 	gtk_tree_view_column_set_expand(column, TRUE);
-#endif
 
 	renderer = gtk_cell_renderer_pixbuf_new();
 	g_object_set(renderer, "ypad", 0, NULL);
@@ -404,12 +385,8 @@ FolderView *folderview_create(void)
 		 NULL);
 
 	renderer = gtk_cell_renderer_text_new();
-#if GTK_CHECK_VERSION(2, 6, 0)
 	g_object_set(renderer, "ellipsize", PANGO_ELLIPSIZE_END, "ypad", 0,
 		     NULL);
-#else
-	g_object_set(renderer, "ypad", 0, NULL);
-#endif
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, renderer,
 					    "text", COL_FOLDER_NAME,
@@ -1780,13 +1757,16 @@ static gboolean folderview_menu_popup(FolderView *folderview,
 	GtkWidget *widget;					\
 	widget = gtk_item_factory_get_item(factory, name);	\
 	if (widget) {						\
+		GList *children;				\
 		GList *child;					\
 		GtkWidget *sep = NULL;				\
 								\
-		child = g_list_find				\
-			(GTK_MENU_SHELL(popup)->children, widget); \
+		children = gtk_container_get_children		\
+			(GTK_CONTAINER(popup));			\
+		child = g_list_find(children, widget);		\
 		if (child && child->next)			\
 			sep = GTK_WIDGET(child->next->data);	\
+		g_list_free(children);				\
 		if (visible) {					\
 			gtk_widget_show(widget);		\
 			gtk_widget_show(sep);			\
@@ -1959,15 +1939,15 @@ static gboolean folderview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 		return TRUE;
 
 	switch (event->keyval) {
-	case GDK_Return:
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		if (folderview->selected) {
 			folderview_select_row_ref(folderview,
 						  folderview->selected);
 		}
 		return TRUE;
-	case GDK_space:
-	case GDK_KP_Space:
+	case GDK_KEY_space:
+	case GDK_KEY_KP_Space:
 		if (folderview->selected) {
 			if (folderview->opened)
 				opened = gtk_tree_row_reference_get_path
@@ -1987,14 +1967,14 @@ static gboolean folderview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 			return TRUE;
 		}
 		break;
-	case GDK_Left:
-	case GDK_KP_Left:
+	case GDK_KEY_Left:
+	case GDK_KEY_KP_Left:
 		if ((event->state &
 		     (GDK_SHIFT_MASK|GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 			return FALSE;
 		adj = gtk_scrolled_window_get_hadjustment
 			(GTK_SCROLLED_WINDOW(folderview->scrolledwin));
-		if (adj->lower < adj->value)
+		if (gtk_adjustment_get_lower(adj) < gtk_adjustment_get_value(adj))
 			return FALSE;
 		if (folderview->selected) {
 			selected = gtk_tree_row_reference_get_path
@@ -2011,14 +1991,14 @@ static gboolean folderview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 		g_signal_emit_by_name(G_OBJECT(treeview),
 				      "select-cursor-parent", &moved);
 		return TRUE;
-	case GDK_Right:
-	case GDK_KP_Right:
+	case GDK_KEY_Right:
+	case GDK_KEY_KP_Right:
 		if ((event->state &
 		     (GDK_SHIFT_MASK|GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 			return FALSE;
 		adj = gtk_scrolled_window_get_hadjustment
 			(GTK_SCROLLED_WINDOW(folderview->scrolledwin));
-		if (adj->upper - adj->page_size > adj->value)
+		if (gtk_adjustment_get_upper(adj) - gtk_adjustment_get_page_size(adj) > gtk_adjustment_get_value(adj))
 			return FALSE;
 		if (folderview->selected) {
 			selected = gtk_tree_row_reference_get_path
@@ -2033,13 +2013,13 @@ static gboolean folderview_key_pressed(GtkWidget *widget, GdkEventKey *event,
 			}
 		}
 		break;
-	case GDK_F10:
+	case GDK_KEY_F10:
 		if ((event->state & GDK_SHIFT_MASK) != 0) {
 			folderview_menu_popup(folderview, NULL);
 			return TRUE;
 		}
 		break;
-	case GDK_Menu:
+	case GDK_KEY_Menu:
 		folderview_menu_popup(folderview, NULL);
 		return TRUE;
 	default:
@@ -2054,7 +2034,7 @@ static gboolean folderview_focus_idle_func(gpointer data)
 	FolderView *folderview = (FolderView *)data;
 
 	gdk_threads_enter();
-	GTK_WIDGET_SET_FLAGS(folderview->treeview, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(folderview->treeview, TRUE);
 	gdk_threads_leave();
 
 	return FALSE;
@@ -2130,8 +2110,8 @@ static void folderview_selection_changed(GtkTreeSelection *selection,
 		if (item->total > 0) {
 			/* don't let GtkTreeView::gtk_tree_view_button_press()
 			 * grab focus */
-			GTK_WIDGET_UNSET_FLAGS(folderview->treeview,
-					       GTK_CAN_FOCUS);
+			gtk_widget_set_can_focus(folderview->treeview,
+					       FALSE);
 			g_idle_add(folderview_focus_idle_func, folderview);
 		}
 	} else
@@ -3318,12 +3298,12 @@ static gboolean folderview_drag_motion_cb(GtkWidget      *widget,
 #endif
 
 	if (acceptable) {
-		if ((context->actions & GDK_ACTION_MOVE) != 0 &&
+		if ((gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0 &&
 		    FOLDER_ITEM_CAN_ADD(src_item))
 			gdk_drag_status(context, GDK_ACTION_MOVE, time);
-		else if ((context->actions & GDK_ACTION_COPY) != 0)
+		else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_COPY) != 0)
 			gdk_drag_status(context, GDK_ACTION_COPY, time);
-		else if ((context->actions & GDK_ACTION_LINK) != 0)
+		else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_LINK) != 0)
 			gdk_drag_status(context, GDK_ACTION_LINK, time);
 		else
 			gdk_drag_status(context, 0, time);
@@ -3376,12 +3356,12 @@ static void folderview_drag_received_cb(GtkWidget        *widget,
 	if (FOLDER_ITEM_CAN_ADD(item) && src_item && src_item != item &&
 	    src_item->stype != F_QUEUE && item->stype != F_QUEUE &&
 	    item->stype != F_VIRTUAL) {
-		if ((context->actions & GDK_ACTION_MOVE) != 0 &&
+		if ((gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0 &&
 		    FOLDER_ITEM_CAN_ADD(src_item)) {
 			summary_move_selected_to(folderview->summaryview, item);
 			context->action = 0;
 			gtk_drag_finish(context, TRUE, FALSE, time);
-		} else if ((context->actions & GDK_ACTION_COPY) != 0) {
+		} else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_COPY) != 0) {
 			summary_copy_selected_to(folderview->summaryview, item);
 			gtk_drag_finish(context, TRUE, FALSE, time);
 		} else

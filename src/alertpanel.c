@@ -171,15 +171,17 @@ void alertpanel_error(const gchar *format, ...)
 static void alertpanel_show(void)
 {
 	gint x, y, w, h, sx, sy;
+	GtkAllocation allocation;
 	value = G_ALERTWAIT;
 
 	inc_lock();
 
 	sx = gdk_screen_width();
 	sy = gdk_screen_height();
-	gdk_window_get_origin(dialog->window, &x, &y);
-	w = dialog->allocation.width;
-	h = dialog->allocation.height;
+	gdk_window_get_origin(gtk_widget_get_window(dialog), &x, &y);
+	gtk_widget_get_allocation(dialog, &allocation);
+	w = allocation.width;
+	h = allocation.height;
 	if (x < 0 || y < 0 || x + w > sx || y + h > sy) {
 		debug_print("sx, sy,  x, y,  w, h = %d, %d,  %d, %d,  %d, %d\n",
 			    sx, sy, x, y, w, h);
@@ -245,7 +247,7 @@ static void alertpanel_create(const gchar *title,
 	spacing = 12 * gtkut_get_dpi_multiplier();
 	hbox = gtk_hbox_new(FALSE, spacing);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), spacing);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
 			   hbox, FALSE, FALSE, 0);
 
 	/* title icon */
@@ -283,7 +285,7 @@ static void alertpanel_create(const gchar *title,
 		gint size;
 
 		size = pango_font_description_get_size
-			(label->style->font_desc);
+			(gtk_widget_get_style(label)->font_desc);
 		font_desc = pango_font_description_new();
 		pango_font_description_set_weight
 			(font_desc, PANGO_WEIGHT_BOLD);
@@ -299,7 +301,7 @@ static void alertpanel_create(const gchar *title,
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(label, FALSE);
 #ifdef G_OS_WIN32
 	{
 		GtkStyle *style;
@@ -313,7 +315,7 @@ static void alertpanel_create(const gchar *title,
 
 	if (can_disable) {
 		hbox = gtk_hbox_new(FALSE, 0);
-		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox,
+		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), hbox,
 				   FALSE, FALSE, 0);
 
 		disable_chkbtn = gtk_check_button_new_with_label
@@ -340,7 +342,7 @@ static void alertpanel_create(const gchar *title,
 				      button2_label ? &button2 : NULL, label2,
 				      button3_label ? &button3 : NULL, label3);
 
-	gtk_box_pack_end(GTK_BOX(GTK_DIALOG(dialog)->action_area),
+	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog))),
 			 confirm_area, FALSE, FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(confirm_area), 5 * gtkut_get_dpi_multiplier());
 	gtk_widget_grab_default(button1);
@@ -396,7 +398,7 @@ static gboolean alertpanel_close(GtkWidget *widget, GdkEventAny *event,
 				 gpointer data)
 {
 	if (event->type == GDK_KEY_PRESS)
-		if (((GdkEventKey *)event)->keyval != GDK_Escape)
+		if (((GdkEventKey *)event)->keyval != GDK_KEY_Escape)
 			return FALSE;
 
 	value = (value & ~G_ALERT_VALUE_MASK) | (AlertValue)data;

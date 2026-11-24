@@ -26,25 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkhbbox.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkuimanager.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -386,7 +368,7 @@ static void query_search_create(void)
 	gtk_box_pack_start(GTK_BOX(hbbox), clear_btn, FALSE, FALSE, 0);
 
 	search_btn = gtk_button_new_from_stock(GTK_STOCK_FIND);
-	GTK_WIDGET_SET_FLAGS(search_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(search_btn, TRUE);
 	gtk_widget_show(search_btn);
 	gtk_box_pack_start(GTK_BOX(hbbox), search_btn, FALSE, FALSE, 0);
 	gtk_widget_grab_default(search_btn);
@@ -497,9 +479,7 @@ static void query_search_create(void)
 
 	APPEND_COLUMN(_("Folder"), COL_FOLDER, 0);
 	APPEND_COLUMN(_("Subject"), COL_SUBJECT, 200);
-#if GTK_CHECK_VERSION(2, 14, 0)
 	gtk_tree_view_column_set_expand(column, TRUE);
-#endif
 	APPEND_COLUMN(_("From"), COL_FROM, 180);
 	APPEND_COLUMN(_("Date"), COL_DATE, 0);
 
@@ -1075,7 +1055,7 @@ static gint query_search_save_dialog_key_pressed(GtkWidget *widget,
 {
 	QuerySearchSaveDialog *dialog = (QuerySearchSaveDialog *)data;
 
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		dialog->cancelled = TRUE;
 		dialog->finished = TRUE;
 	}
@@ -1193,7 +1173,7 @@ static QuerySearchSaveDialog *query_search_save_dialog_create(void)
 				      &cancel_btn, GTK_STOCK_CANCEL,
 				      NULL, NULL);
 	gtk_box_pack_end(GTK_BOX(confirm_area), hbbox, FALSE, FALSE, 0);
-	GTK_WIDGET_SET_FLAGS(ok_btn, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(ok_btn, TRUE);
 	gtk_widget_grab_default(ok_btn);
 	g_signal_connect(G_OBJECT(ok_btn), "clicked",
 			 G_CALLBACK(query_search_save_ok), dialog);
@@ -1341,7 +1321,7 @@ static gint query_search_deleted(GtkWidget *widget, GdkEventAny *event,
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    gpointer data)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		if (search_window.on_search)
 			gtk_button_clicked
 				(GTK_BUTTON(search_window.search_btn));

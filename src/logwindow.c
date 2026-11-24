@@ -24,12 +24,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkstyle.h>
+#include <gtk/gtk.h>
 
 #include "logwindow.h"
 #include "prefs_common.h"
@@ -128,7 +123,7 @@ void log_window_init(LogWindow *logwin)
 	logwin->warn_color  = color[1];
 	logwin->error_color = color[2];
 
-	colormap = gdk_window_get_colormap(logwin->window->window);
+	colormap = gdk_window_get_colormap(gtk_widget_get_window(logwin->window));
 	gdk_colormap_alloc_colors(colormap, color, 3, FALSE, TRUE, success);
 
 	for (i = 0; i < 3; i++) {
@@ -247,7 +242,7 @@ static void log_window_append_real(const gchar *str, LogType type)
 			(buffer, &iter, str, -1, tag, NULL);
 	}
 
-	if (GTK_WIDGET_VISIBLE(text)) {
+	if (gtk_widget_get_visible(GTK_WIDGET(text))) {
 		GtkTextMark *mark;
 		mark = gtk_text_buffer_get_mark(buffer, "end");
 		gtk_text_view_scroll_mark_onscreen(text, mark);
@@ -335,7 +330,7 @@ static void hide_cb(GtkWidget *widget, LogWindow *logwin)
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    LogWindow *logwin)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		gtk_widget_hide(logwin->window);
 	return FALSE;
 }

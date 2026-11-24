@@ -26,16 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkstatusbar.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkvbbox.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include "mgutils.h"
 #include "addressbook.h"
@@ -144,7 +135,7 @@ static gint edit_person_delete_event(GtkWidget *widget, GdkEventAny *event, gboo
 }
 
 static gboolean edit_person_key_pressed(GtkWidget *widget, GdkEventKey *event, gboolean *cancelled) {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		*cancelled = TRUE;
 		gtk_main_quit();
 	}
@@ -663,7 +654,7 @@ void addressbook_edit_person_page_email( gint pageNum, gchar *pageLbl ) {
 	gtkut_clist_set_redraw( GTK_CLIST(clist) );
 
 	for( i = 0; i < EMAIL_N_COLS; i++ )
-		GTK_WIDGET_UNSET_FLAGS(GTK_CLIST(clist)->column[i].button, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus(GTK_CLIST(clist)->column[i].button, FALSE);
 
 	/* Data entry area */
 	table = gtk_table_new( 4, 2, FALSE);
@@ -812,7 +803,7 @@ void addressbook_edit_person_page_attrib( gint pageNum, gchar *pageLbl ) {
 	gtkut_clist_set_redraw( GTK_CLIST(clist) );
 
 	for( i = 0; i < ATTRIB_N_COLS; i++ )
-		GTK_WIDGET_UNSET_FLAGS(GTK_CLIST(clist)->column[i].button, GTK_CAN_FOCUS);
+		gtk_widget_set_can_focus(GTK_CLIST(clist)->column[i].button, FALSE);
 
 	/* Data entry area */
 	table = gtk_table_new( 4, 2, FALSE);

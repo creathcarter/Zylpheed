@@ -18,10 +18,7 @@
  */
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkpixmap.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 
 #include "stock_pixmap.h"
 #include "gtkutils.h"

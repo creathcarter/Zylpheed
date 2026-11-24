@@ -26,17 +26,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkhseparator.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #if HAVE_SYS_UTSNAME_H
 #  include <sys/utsname.h>
@@ -191,17 +181,17 @@ static void about_create(void)
 	buf[0] = ' ';
 	for (i = 1; i <= strlen(HOMEPAGE_URI); i++) buf[i] = '_';
 	strcpy(buf + i, " ");
-	gtk_label_set_pattern(GTK_LABEL(GTK_BIN(button)->child), buf);
-	cmap = gdk_window_get_colormap(window->window);
+	gtk_label_set_pattern(GTK_LABEL(gtk_bin_get_child(GTK_BIN(button))), buf);
+	cmap = gdk_window_get_colormap(gtk_widget_get_window(window));
 	gdk_colormap_alloc_colors(cmap, uri_color, 2, FALSE, TRUE, success);
 	if (success[0] == TRUE && success[1] == TRUE) {
-		gtk_widget_ensure_style(GTK_BIN(button)->child);
+		gtk_widget_ensure_style(gtk_bin_get_child(GTK_BIN(button)));
 		style = gtk_style_copy
-			(gtk_widget_get_style(GTK_BIN(button)->child));
+			(gtk_widget_get_style(gtk_bin_get_child(GTK_BIN(button))));
 		style->fg[GTK_STATE_NORMAL]   = uri_color[0];
 		style->fg[GTK_STATE_ACTIVE]   = uri_color[1];
 		style->fg[GTK_STATE_PRELIGHT] = uri_color[0];
-		gtk_widget_set_style(GTK_BIN(button)->child, style);
+		gtk_widget_set_style(gtk_bin_get_child(GTK_BIN(button)), style);
 	} else
 		g_warning("about_create(): color allocation failed.\n");
 
@@ -263,7 +253,7 @@ static void about_create(void)
 
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		gtk_widget_hide(window);
 	return FALSE;
 }

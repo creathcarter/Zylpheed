@@ -1,0 +1,1824 @@
+make  all-recursive
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+Making all in ac
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+Making all in libsylph
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make  all-am
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+  CC       account.lo
+  CC       base64.lo
+  CC       codeconv.lo
+  CC       customheader.lo
+  CC       displayheader.lo
+  CC       filter.lo
+  CC       folder.lo
+  CC       html.lo
+../../libsylph/base64.c:27:9: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (65 chars into 64 available) [-Wunterminated-string-initialization]
+   27 |         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/codeconv.c: In function 'conv_check_file_encoding':
+../../libsylph/codeconv.c:2725:69: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]
+ 2725 |                 debug_print("conv_check_file_encoding: check first %d bytes of file %s\n", size * 2, file);
+      |                                                                    ~^                      ~~~~~~~~
+      |                                                                     |                           |
+      |                                                                     int                         size_t {aka long long unsigned int}
+      |                                                                    %lld
+  CC       imap.lo
+  CC       mbox.lo
+  CC       md5.lo
+../../libsylph/account.c: In function 'account_address_exist':
+../../libsylph/account.c:279:16: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  279 |         return (gboolean)g_hash_table_lookup(address_table, address);
+      |                ^
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/md5.h:17,
+                 from ../../libsylph/md5.c:28:
+../../libsylph/md5.c: In function 'MD5Update':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/md5.c:127:11: note: in expansion of macro 'g_memmove'
+  127 |           g_memmove(p, buf, len);
+      |           ^~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/md5.c:130:7: note: in expansion of macro 'g_memmove'
+  130 |       g_memmove(p, buf, t);
+      |       ^~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/md5.c:141:7: note: in expansion of macro 'g_memmove'
+  141 |       g_memmove(ctx->in, buf, 64);
+      |       ^~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/md5.c:151:3: note: in expansion of macro 'g_memmove'
+  151 |   g_memmove(ctx->in, buf, len);
+      |   ^~~~~~~~~
+../../libsylph/md5.c: In function 'MD5Final':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/md5.c:202:3: note: in expansion of macro 'g_memmove'
+  202 |   g_memmove(digest, ctx->buf, 16);
+      |   ^~~~~~~~~
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../libsylph/folder.c:24:
+../../libsylph/folder.c: In function 'folder_get_status_full_all_func':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/folder.c:625:17: note: in expansion of macro 'g_string_sprintfa'
+  625 |                 g_string_sprintfa(status->str, "%5d %5d %5d %s\n",
+      |                 ^~~~~~~~~~~~~~~~~
+../../libsylph/folder.c: In function 'folder_get_status':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/folder.c:684:33: note: in expansion of macro 'g_string_sprintfa'
+  684 |                                 g_string_sprintfa(str, "%5d %5d %5d %s\n",
+      |                                 ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/folder.c:696:17: note: in expansion of macro 'g_string_sprintfa'
+  696 |                 g_string_sprintfa(str, "%5d %5d %5d\n", new, unread, total);
+      |                 ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/folder.c:698:17: note: in expansion of macro 'g_string_sprintfa'
+  698 |                 g_string_sprintfa(str, "%d %d %d\n", new, unread, total);
+      |                 ^~~~~~~~~~~~~~~~~
+../../libsylph/filter.c: In function 'filter_match_cond':
+../../libsylph/filter.c:569:69: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'gsize' {aka 'long long unsigned int'} [-Wformat=]
+  569 |                         debug_print("filter-log: %s: SIZE_GREATER: %u %s %d (KB)%s\n", G_STRFUNC, msginfo->size, not_match ? "<=" : ">", cond->int_value, nm);
+      |                                                                    ~^                             ~~~~~~~~~~~~~
+      |                                                                     |                                    |
+      |                                                                     unsigned int                         gsize {aka long long unsigned int}
+      |                                                                    %llu
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56:
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/folder.c:701:9: note: in expansion of macro 'g_string_free'
+  701 |         g_string_free(str, FALSE);
+      |         ^~~~~~~~~~~~~
+  CC       md5_hmac.lo
+  CC       mh.lo
+  CC       news.lo
+  CC       nntp.lo
+  CC       oauth2.lo
+../../libsylph/imap.c: In function 'imap_auth':
+../../libsylph/imap.c:616:9: warning: case value '0' not in enumerated type 'IMAPAuthType' [-Wswitch]
+  616 |         case 0:
+      |         ^~~~
+../../libsylph/imap.c: In function 'imap_get_msg_list_full':
+../../libsylph/imap.c:1041:25: warning: variable 'cache_last' set but not used [-Wunused-but-set-variable=]
+ 1041 |                 guint32 cache_last;
+      |                         ^~~~~~~~~~
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../libsylph/imap.c:24:
+../../libsylph/imap.c: In function 'imap_rename_folder_real':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_path_get_dirname"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:208:38: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  208 | #define g_dirname g_path_get_dirname GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_path_get_dirname)
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/imap.c:2599:35: note: in expansion of macro 'g_dirname'
+ 2599 |                         dirpath = g_dirname(item->path);
+      |                                   ^~~~~~~~~
+../../libsylph/imap.c: In function 'imap_get_uncached_messages':
+../../libsylph/imap.c:2846:14: warning: variable 'ok' set but not used [-Wunused-but-set-variable=]
+ 2846 |         gint ok;
+      |              ^~
+../../libsylph/imap.c: In function 'imap_parse_envelope':
+../../libsylph/imap.c:3403:14: warning: variable 'msgnum' set but not used [-Wunused-but-set-variable=]
+ 3403 |         gint msgnum;
+      |              ^~~~~~
+../../libsylph/imap.c: In function 'imap_cmd_auth_oauth2':
+../../libsylph/imap.c:3844:16: warning: unused variable 'p' [-Wunused-variable]
+ 3844 |         gchar *p;
+      |                ^
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../libsylph/mbox.c:24:
+../../libsylph/mbox.c: In function 'proc_mbox_full':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/mbox.c:195:41: note: in expansion of macro 'g_memmove'
+  195 |                                         g_memmove(buf, buf + 1, strlen(buf));
+      |                                         ^~~~~~~~~
+../../libsylph/imap.c: In function 'imap_get_seq_set_from_msglist':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/imap.c:5013:33: note: in expansion of macro 'g_string_sprintfa'
+ 5013 |                                 g_string_sprintfa(str, "%u", first);
+      |                                 ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/imap.c:5015:33: note: in expansion of macro 'g_string_sprintfa'
+ 5015 |                                 g_string_sprintfa(str, "%u:%u", first, last);
+      |                                 ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/imap.c:5030:33: note: in expansion of macro 'g_string_sprintfa'
+ 5030 |                                 g_string_sprintfa(str, "%u", first);
+      |                                 ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/imap.c:5032:33: note: in expansion of macro 'g_string_sprintfa'
+ 5032 |                                 g_string_sprintfa(str, "%u:%u", first, last);
+      |                                 ^~~~~~~~~~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56:
+../../libsylph/imap.c: In function 'imap_get_flag_str':
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/imap.c:3651:9: note: in expansion of macro 'g_string_free'
+ 3651 |         g_string_free(str, FALSE);
+      |         ^~~~~~~~~~~~~
+../../libsylph/imap.c: At top level:
+../../libsylph/imap.c:837:13: warning: 'imap_search_flags' defined but not used [-Wunused-function]
+  837 | static gint imap_search_flags(IMAPSession *session, GArray **uids,
+      |             ^~~~~~~~~~~~~~~~~
+  CC       pop.lo
+  CC       prefs.lo
+  CC       prefs_account.lo
+  CC       prefs_common.lo
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/mh.c:42:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../libsylph/mh.c:24:
+../../libsylph/mh.c: In function 'mh_move_folder_real':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_path_get_dirname"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:208:38: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  208 | #define g_dirname g_path_get_dirname GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_path_get_dirname)
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/mh.c:1333:27: note: in expansion of macro 'g_dirname'
+ 1333 |                 dirname = g_dirname(oldpath);
+      |                           ^~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_path_get_dirname"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:208:38: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  208 | #define g_dirname g_path_get_dirname GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_path_get_dirname)
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/mh.c:1388:35: note: in expansion of macro 'g_dirname'
+ 1388 |                         dirname = g_dirname(item->path);
+      |                                   ^~~~~~~~~
+../../libsylph/news.c: In function 'news_parse_xover':
+../../libsylph/news.c:972:29: warning: variable 'line_int' set but not used [-Wunused-but-set-variable=]
+  972 |         gint num, size_int, line_int;
+      |                             ^~~~~~~~
+  CC       procheader.lo
+  CC       procmime.lo
+../../libsylph/pop.c: In function 'pop3_getauth_auth_data_send':
+../../libsylph/pop.c:220:16: warning: unused variable 'response' [-Wunused-variable]
+  220 |         gchar *response;
+      |                ^~~~~~~~
+../../libsylph/pop.c:219:16: warning: unused variable 'p' [-Wunused-variable]
+  219 |         gchar *p;
+      |                ^
+../../libsylph/pop.c: In function 'pop3_get_uidl_table':
+../../libsylph/pop.c:565:40: warning: format '%ld' expects argument of type 'long int *', but argument 4 has type 'time_t *' {aka 'long long int *'} [-Wformat=]
+  565 |                 if (sscanf(buf, "%s\t%ld", uidl, &recv_time) != 2) {
+      |                                      ~~^         ~~~~~~~~~~
+      |                                        |         |
+      |                                        |         time_t * {aka long long int *}
+      |                                        long int *
+      |                                      %lld
+../../libsylph/pop.c: In function 'pop3_write_uidl_list':
+../../libsylph/pop.c:609:43: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'stime_t' {aka 'long long int'} [-Wformat=]
+  609 |                 fprintf(pfile->fp, "%s\t%ld\n", msg->uidl, msg->recv_time);
+      |                                         ~~^                ~~~~~~~~~~~~~~
+      |                                           |                   |
+      |                                           long int            stime_t {aka long long int}
+      |                                         %lld
+  CC       procmsg.lo
+  CC       quoted-printable.lo
+  CC       recv.lo
+  CC       session.lo
+  CC       smtp.lo
+  CC       socket.lo
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:64,
+                 from ../../libsylph/procheader.c:24:
+../../libsylph/procheader.c: In function 'procheader_date_get_localtime':
+../../libsylph/procheader.c:966:27: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'stime_t' {aka 'long long int'} [-Wformat=]
+  966 |                 g_warning("can't get localtime of %ld\n", timer);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
+      |                                                           |
+      |                                                           stime_t {aka long long int}
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../libsylph/procheader.c:966:53: note: format string is defined here
+  966 |                 g_warning("can't get localtime of %ld\n", timer);
+      |                                                   ~~^
+      |                                                     |
+      |                                                     long int
+      |                                                   %lld
+  CC       socks.lo
+../../libsylph/procmime.c: In function 'procmime_get_encoding_for_text_file':
+../../libsylph/procmime.c:1892:21: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]
+ 1892 |         debug_print("procmime_get_encoding_for_text_file(): "
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1893 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                                     ~~~~~~~~~~~
+      |                                                     |
+      |                                                     size_t {aka long long unsigned int}
+../../libsylph/procmime.c:1893:35: note: format string is defined here
+ 1893 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                  ~^
+      |                                   |
+      |                                   int
+      |                                  %lld
+../../libsylph/procmime.c:1892:21: warning: format '%d' expects argument of type 'int', but argument 3 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]
+ 1892 |         debug_print("procmime_get_encoding_for_text_file(): "
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1893 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                                                  ~~~~~~~~~
+      |                                                                  |
+      |                                                                  size_t {aka long long unsigned int}
+../../libsylph/procmime.c:1893:40: note: format string is defined here
+ 1893 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                       ~^
+      |                                        |
+      |                                        int
+      |                                       %lld
+../../libsylph/procmime.c: In function 'procmime_get_encoding_for_str':
+../../libsylph/procmime.c:1928:21: warning: format '%d' expects argument of type 'int', but argument 2 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]
+ 1928 |         debug_print("procmime_get_encoding_for_str(): "
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1929 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                                     ~~~~~~~~~~~
+      |                                                     |
+      |                                                     size_t {aka long long unsigned int}
+../../libsylph/procmime.c:1929:35: note: format string is defined here
+ 1929 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                  ~^
+      |                                   |
+      |                                   int
+      |                                  %lld
+../../libsylph/procmime.c:1928:21: warning: format '%d' expects argument of type 'int', but argument 3 has type 'size_t' {aka 'long long unsigned int'} [-Wformat=]
+ 1928 |         debug_print("procmime_get_encoding_for_str(): "
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1929 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                                                  ~~~~~~~~~
+      |                                                                  |
+      |                                                                  size_t {aka long long unsigned int}
+../../libsylph/procmime.c:1929:40: note: format string is defined here
+ 1929 |                     "8bit chars: %d / %d (%f%%)\n", octet_chars, total_len,
+      |                                       ~^
+      |                                        |
+      |                                        int
+      |                                       %lld
+  CC       ssl.lo
+../../libsylph/procmsg.c: In function 'print_command_exec':
+../../libsylph/procmsg.c:1696:29: warning: unused variable 'def_cmd' [-Wunused-variable]
+ 1696 |         static const gchar *def_cmd = "lpr %s";
+      |                             ^~~~~~~
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../libsylph/session.c:24:
+../../libsylph/session.c: In function 'session_read_data_as_file_cb':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/session.c:1011:33: note: in expansion of macro 'g_memmove'
+ 1011 |                                 g_memmove(session->read_buf, data_begin_p,
+      |                                 ^~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "memmove"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:278:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  278 | #define GLIB_DEPRECATED_MACRO_IN_2_40_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gutils.h:358:64: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_40_FOR'
+  358 |   G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END  GLIB_DEPRECATED_MACRO_IN_2_40_FOR(memmove)
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/session.c:1042:17: note: in expansion of macro 'g_memmove'
+ 1042 |                 g_memmove(session->read_buf, data_begin_p + write_len,
+      |                 ^~~~~~~~~
+../../libsylph/procmsg.c: In function 'procmsg_read_cache':
+../../libsylph/procmsg.c:290:33: warning: 'ref' may be used uninitialized [-Wmaybe-uninitialized]
+  290 |                                 g_slist_prepend(msginfo->references, ref);
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/procmsg.c:286:32: note: 'ref' was declared here
+  286 |                         gchar *ref;
+      |                                ^~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:64,
+                 from ../../libsylph/socket.c:24:
+../../libsylph/socket.c: In function 'fd_connect_inet':
+../../libsylph/socket.c:232:27: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
+  232 |                 g_warning("fd_connect_inet(): socket() failed: %ld\n",
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  233 |                           WSAGetLastError());
+      |                           ~~~~~~~~~~~~~~~~~
+      |                           |
+      |                           int
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../libsylph/socket.c:232:66: note: format string is defined here
+  232 |                 g_warning("fd_connect_inet(): socket() failed: %ld\n",
+      |                                                                ~~^
+      |                                                                  |
+      |                                                                  long int
+      |                                                                %d
+../../libsylph/socket.c: In function 'fd_open_inet':
+../../libsylph/socket.c:262:27: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
+  262 |                 g_warning("fd_open_inet(): socket() failed: %ld\n",
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  263 |                           WSAGetLastError());
+      |                           ~~~~~~~~~~~~~~~~~
+      |                           |
+      |                           int
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../libsylph/socket.c:262:63: note: format string is defined here
+  262 |                 g_warning("fd_open_inet(): socket() failed: %ld\n",
+      |                                                             ~~^
+      |                                                               |
+      |                                                               long int
+      |                                                             %d
+../../libsylph/socket.c: In function 'fd_accept':
+../../libsylph/socket.c:374:56: warning: pointer targets in passing argument 3 of 'accept' differ in signedness [-Wpointer-sign]
+  374 |         return accept(sock, (struct sockaddr *)&caddr, &caddr_len);
+      |                                                        ^~~~~~~~~~
+      |                                                        |
+      |                                                        guint * {aka unsigned int *}
+In file included from ../../libsylph/socket.c:28:
+C:/msys64/ucrt64/include/winsock2.h:1003:80: note: expected 'int *' but argument is of type 'guint *' {aka 'unsigned int *'}
+ 1003 |   WINSOCK_API_LINKAGE SOCKET WSAAPI accept(SOCKET s,struct sockaddr *addr,int *addrlen);
+      |                                                                           ~~~~~^~~~~~~
+../../libsylph/socket.c: In function 'sock_new':
+../../libsylph/socket.c:383:26: warning: overflow in conversion from 'long long unsigned int' to 'gint' {aka 'int'} changes value from '18446744073709551615' to '-1' [-Woverflow]
+  383 |         sockinfo->sock = INVALID_SOCKET;
+      |                          ^~~~~~~~~~~~~~
+../../libsylph/socket.c: In function 'set_nonblocking_mode':
+../../libsylph/socket.c:415:27: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
+  415 |                 g_warning("set_nonblocking_mode(): ioctlsocket() failed: %ld\n",
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  416 |                           WSAGetLastError());
+      |                           ~~~~~~~~~~~~~~~~~
+      |                           |
+      |                           int
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../libsylph/socket.c:415:76: note: format string is defined here
+  415 |                 g_warning("set_nonblocking_mode(): ioctlsocket() failed: %ld\n",
+      |                                                                          ~~^
+      |                                                                            |
+      |                                                                            long int
+      |                                                                          %d
+../../libsylph/socket.c: In function 'sock_has_read_data':
+../../libsylph/socket.c:512:27: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
+  512 |                 g_warning("sock_has_read_data(): ioctlsocket() failed: %ld\n",
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  513 |                           WSAGetLastError());
+      |                           ~~~~~~~~~~~~~~~~~
+      |                           |
+      |                           int
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../libsylph/socket.c:512:74: note: format string is defined here
+  512 |                 g_warning("sock_has_read_data(): ioctlsocket() failed: %ld\n",
+      |                                                                        ~~^
+      |                                                                          |
+      |                                                                          long int
+      |                                                                        %d
+../../libsylph/socket.c: In function 'sock_connect_with_timeout':
+../../libsylph/socket.c:710:27: warning: format '%d' expects argument of type 'int', but argument 4 has type 'DWORD' {aka 'long unsigned int'} [-Wformat=]
+  710 |                 g_warning("sock_connect_with_timeout: WSAWaitForMultipleEvents (%d)", dwret);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~
+      |                                                                                       |
+      |                                                                                       DWORD {aka long unsigned int}
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../libsylph/socket.c:710:82: note: format string is defined here
+  710 |                 g_warning("sock_connect_with_timeout: WSAWaitForMultipleEvents (%d)", dwret);
+      |                                                                                 ~^
+      |                                                                                  |
+      |                                                                                  int
+      |                                                                                 %ld
+../../libsylph/socket.c: In function 'sock_set_buffer_size':
+../../libsylph/socket.c:850:63: warning: pointer targets in passing argument 5 of 'getsockopt' differ in signedness [-Wpointer-sign]
+  850 |         getsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&val, &len);
+      |                                                               ^~~~
+      |                                                               |
+      |                                                               guint * {aka unsigned int *}
+C:/msys64/ucrt64/include/winsock2.h:1010:94: note: expected 'int *' but argument is of type 'guint *' {aka 'unsigned int *'}
+ 1010 |   WINSOCK_API_LINKAGE int WSAAPI getsockopt(SOCKET s,int level,int optname,char *optval,int *optlen);
+      |                                                                                         ~~~~~^~~~~~
+../../libsylph/socket.c:855:63: warning: pointer targets in passing argument 5 of 'getsockopt' differ in signedness [-Wpointer-sign]
+  855 |         getsockopt(sock, SOL_SOCKET, SO_RCVBUF, (char *)&val, &len);
+      |                                                               ^~~~
+      |                                                               |
+      |                                                               guint * {aka unsigned int *}
+C:/msys64/ucrt64/include/winsock2.h:1010:94: note: expected 'int *' but argument is of type 'guint *' {aka 'unsigned int *'}
+ 1010 |   WINSOCK_API_LINKAGE int WSAAPI getsockopt(SOCKET s,int level,int optname,char *optval,int *optlen);
+      |                                                                                         ~~~~~^~~~~~
+../../libsylph/socket.c:860:63: warning: pointer targets in passing argument 5 of 'getsockopt' differ in signedness [-Wpointer-sign]
+  860 |         getsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&val, &len);
+      |                                                               ^~~~
+      |                                                               |
+      |                                                               guint * {aka unsigned int *}
+C:/msys64/ucrt64/include/winsock2.h:1010:94: note: expected 'int *' but argument is of type 'guint *' {aka 'unsigned int *'}
+ 1010 |   WINSOCK_API_LINKAGE int WSAAPI getsockopt(SOCKET s,int level,int optname,char *optval,int *optlen);
+      |                                                                                         ~~~~~^~~~~~
+../../libsylph/socket.c:862:63: warning: pointer targets in passing argument 5 of 'getsockopt' differ in signedness [-Wpointer-sign]
+  862 |         getsockopt(sock, SOL_SOCKET, SO_RCVBUF, (char *)&val, &len);
+      |                                                               ^~~~
+      |                                                               |
+      |                                                               guint * {aka unsigned int *}
+C:/msys64/ucrt64/include/winsock2.h:1010:94: note: expected 'int *' but argument is of type 'guint *' {aka 'unsigned int *'}
+ 1010 |   WINSOCK_API_LINKAGE int WSAAPI getsockopt(SOCKET s,int level,int optname,char *optval,int *optlen);
+      |                                                                                         ~~~~~^~~~~~
+../../libsylph/socket.c: In function 'win32_ipv6_supported':
+../../libsylph/socket.c:951:25: warning: cast between incompatible function types from 'FARPROC' {aka 'long long int (*)()'} to 'int (*)(const char *, const char *, const struct addrinfo *, struct addrinfo **)' [-Wcast-function-type]
+  951 |                         (GetAddrInfoFunc)GetProcAddress(hmodule, "getaddrinfo");
+      |                         ^
+../../libsylph/socket.c:953:25: warning: cast between incompatible function types from 'FARPROC' {aka 'long long int (*)()'} to 'void (*)(struct addrinfo *)' [-Wcast-function-type]
+  953 |                         (FreeAddrInfoFunc)GetProcAddress(hmodule, "freeaddrinfo");
+      |                         ^
+../../libsylph/socket.c: At top level:
+../../libsylph/socket.c:467:17: warning: 'is_nonblocking_mode' defined but not used [-Wunused-function]
+  467 | static gboolean is_nonblocking_mode(gint fd)
+      |                 ^~~~~~~~~~~~~~~~~~~
+  CC       ssl_hostname_validation.lo
+  CC       stringtable.lo
+  CC       sylmain.lo
+  CC       unmime.lo
+  CC       utils.lo
+  CC       uuencode.lo
+  CC       virtual.lo
+  CC       xml.lo
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56,
+                 from ../../libsylph/unmime.c:24:
+../../libsylph/unmime.c: In function 'unmime_header':
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/unmime.c:132:9: note: in expansion of macro 'g_string_free'
+  132 |         g_string_free(outbuf, FALSE);
+      |         ^~~~~~~~~~~~~
+  CC       syl-marshal.lo
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/utils.c:60:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+../../libsylph/utils.c: In function 'get_document_dir':
+../../libsylph/utils.c:2267:17: warning: unused variable 'hr' [-Wunused-variable]
+ 2267 |         HRESULT hr;
+      |                 ^~
+../../libsylph/virtual.c:119:9: warning: implicit conversion from 'enum <anonymous>' to 'enum <anonymous>' [-Wenum-conversion]
+  119 |         F_VIRTUAL,
+      |         ^~~~~~~~~
+../../libsylph/virtual.c: In function 'sinfo_hash':
+../../libsylph/virtual.c:185:13: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  185 |         h = (guint)sinfo->folder;
+      |             ^
+../../libsylph/virtual.c: In function 'virtual_search_folder':
+../../libsylph/virtual.c:381:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  381 |                         matched = (gint)g_hash_table_lookup
+      |                                   ^
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56,
+                 from ../../libsylph/defs.h:27,
+                 from ../../libsylph/utils.c:24:
+../../libsylph/utils.c: In function 'normalize_address_field':
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/utils.c:1050:9: note: in expansion of macro 'g_string_free'
+ 1050 |         g_string_free(new_str, FALSE);
+      |         ^~~~~~~~~~~~~
+../../libsylph/utils.c: In function 'get_outgoing_rfc2822_str':
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/utils.c:3673:9: note: in expansion of macro 'g_string_free'
+ 3673 |         g_string_free(str, FALSE);
+      |         ^~~~~~~~~~~~~
+../../libsylph/utils.c: In function 'strchomp_all':
+../../libsylph/utils.c:3534:25: warning: 'strncpy' specified size between 9223372036854775808 and 0 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
+ 3534 |                         strncpy(outp, p, last - p);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+  CCLD     libsylph-0.la
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+Making all in src
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make  all-recursive
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in icons
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make  all-am
+make[5]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[5]: Nothing to be done for 'all-am'.
+make[5]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+  CC       main.o
+  CC       mainwindow.o
+  CC       folderview.o
+  CC       summaryview.o
+  CC       messageview.o
+  CC       headerview.o
+  CC       textview.o
+  CC       imageview.o
+../../src/main.c: In function 'init_console':
+../../src/main.c:412:30: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  412 |         fd = _open_osfhandle((glong)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
+      |                              ^
+../../src/main.c:417:30: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  417 |         fd = _open_osfhandle((glong)GetStdHandle(STD_ERROR_HANDLE), _O_TEXT);
+      |                              ^
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/main.c:24:
+../../src/main.c: At top level:
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_mutex_init"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:142:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  142 | #define GLIB_DEPRECATED_MACRO_IN_2_32_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gthread.h:133:38: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_32_FOR'
+  133 | #define G_STATIC_MUTEX_INIT { NULL } GLIB_DEPRECATED_MACRO_IN_2_32_FOR(g_mutex_init)
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gthread.h:180:35: note: in expansion of macro 'G_STATIC_MUTEX_INIT'
+  180 | #define G_STATIC_REC_MUTEX_INIT { G_STATIC_MUTEX_INIT, 0, { 0 } } GLIB_DEPRECATED_MACRO_IN_2_32_FOR(g_rec_mutex_init)
+      |                                   ^~~~~~~~~~~~~~~~~~~
+../../src/main.c:755:36: note: in expansion of macro 'G_STATIC_REC_MUTEX_INIT'
+  755 | static GStaticRecMutex syl_mutex = G_STATIC_REC_MUTEX_INIT;
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_rec_mutex_init"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:142:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+  142 | #define GLIB_DEPRECATED_MACRO_IN_2_32_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gthread.h:180:67: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_32_FOR'
+  180 | #define G_STATIC_REC_MUTEX_INIT { G_STATIC_MUTEX_INIT, 0, { 0 } } GLIB_DEPRECATED_MACRO_IN_2_32_FOR(g_rec_mutex_init)
+      |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/main.c:755:36: note: in expansion of macro 'G_STATIC_REC_MUTEX_INIT'
+  755 | static GStaticRecMutex syl_mutex = G_STATIC_REC_MUTEX_INIT;
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+../../src/main.c: In function 'app_init':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1338:31: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1338 | #define GLIB_DEPRECATED_MACRO _GLIB_GNUC_DO_PRAGMA(GCC warning "Deprecated pre-processor symbol")
+      |                               ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:141:39: note: in expansion of macro 'GLIB_DEPRECATED_MACRO'
+  141 | #define GLIB_DEPRECATED_MACRO_IN_2_32 GLIB_DEPRECATED_MACRO
+      |                                       ^~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gthread.h:280:38: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_32'
+  280 | #define g_thread_supported()     (1) GLIB_DEPRECATED_MACRO_IN_2_32
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/main.c:791:14: note: in expansion of macro 'g_thread_supported'
+  791 |         if (!g_thread_supported())
+      |              ^~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1338:31: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1338 | #define GLIB_DEPRECATED_MACRO _GLIB_GNUC_DO_PRAGMA(GCC warning "Deprecated pre-processor symbol")
+      |                               ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:141:39: note: in expansion of macro 'GLIB_DEPRECATED_MACRO'
+  141 | #define GLIB_DEPRECATED_MACRO_IN_2_32 GLIB_DEPRECATED_MACRO
+      |                                       ^~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gthread.h:280:38: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_32'
+  280 | #define g_thread_supported()     (1) GLIB_DEPRECATED_MACRO_IN_2_32
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/main.c:793:14: note: in expansion of macro 'g_thread_supported'
+  793 |         if (!g_thread_supported())
+      |              ^~~~~~~~~~~~~~~~~~
+../../src/main.c: In function 'app_will_exit':
+../../src/main.c:1005:29: warning: cast between incompatible function types from 'void (*)(GtkWidget *)' {aka 'void (*)(struct _GtkWidget *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 1005 |         g_list_foreach(cur, (GFunc)gtk_widget_hide, NULL);
+      |                             ^
+../../src/main.c: In function 'ctrl_handler':
+../../src/main.c:1199:44: warning: format '%d' expects argument of type 'int', but argument 2 has type 'DWORD' {aka 'long unsigned int'} [-Wformat=]
+ 1199 |         log_print("ctrl_handler: received %d\n", dwctrltype);
+      |                                           ~^     ~~~~~~~~~~
+      |                                            |     |
+      |                                            int   DWORD {aka long unsigned int}
+      |                                           %ld
+../../src/main.c: In function 'wndproc':
+../../src/main.c:1210:68: warning: format '%d' expects argument of type 'int', but argument 2 has type 'WPARAM' {aka 'long long unsigned int'} [-Wformat=]
+ 1210 |                 debug_print("WM_POWERBROADCAST received: wparam = %d\n",
+      |                                                                   ~^
+      |                                                                    |
+      |                                                                    int
+      |                                                                   %lld
+ 1211 |                             wparam);
+      |                             ~~~~~~                                  
+      |                             |
+      |                             WPARAM {aka long long unsigned int}
+../../src/messageview.c: In function 'messageview_create_with_new_window':
+../../src/messageview.c:476:25: warning: variable 'ifactory' set but not used [-Wunused-but-set-variable=]
+  476 |         GtkItemFactory *ifactory;
+      |                         ^~~~~~~~
+../../src/main.c: At top level:
+../../src/main.c:1504:15: warning: 'get_socket_name' defined but not used [-Wunused-function]
+ 1504 | static gchar *get_socket_name(void)
+      |               ^~~~~~~~~~~~~~~
+../../src/textview.c: In function 'textview_create_tags':
+../../src/textview.c:336:22: warning: variable 'mark' set but not used [-Wunused-but-set-variable=]
+  336 |         GtkTextMark *mark;
+      |                      ^~~~
+../../src/textview.c: In function 'textview_show_part':
+../../src/textview.c:554:14: warning: variable 'boundary_len' set but not used [-Wunused-but-set-variable=]
+  554 |         gint boundary_len = 0;
+      |              ^~~~~~~~~~~~
+../../src/textview.c: In function 'textview_add_part':
+../../src/textview.c:930:14: warning: variable 'boundary_len' set but not used [-Wunused-but-set-variable=]
+  930 |         gint boundary_len = 0;
+      |              ^~~~~~~~~~~~
+../../src/textview.c: In function 'textview_populate_popup':
+../../src/textview.c:2454:24: warning: variable 'buffer' set but not used [-Wunused-but-set-variable=]
+ 2454 |         GtkTextBuffer *buffer;
+      |                        ^~~~~~
+../../src/summaryview.c: In function 'summary_selection_list_free':
+../../src/summaryview.c:1224:32: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 1224 |                                (GFunc)gtk_tree_path_free, NULL);
+      |                                ^
+../../src/folderview.c: In function 'folderview_empty_trash_cb':
+../../src/folderview.c:2781:17: warning: variable 'folder' set but not used [-Wunused-but-set-variable=]
+ 2781 |         Folder *folder;
+      |                 ^~~~~~
+../../src/summaryview.c: In function 'summary_mark_thread_as_read':
+../../src/summaryview.c:3277:35: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 3277 |         g_slist_foreach(top_rows, (GFunc)gtk_tree_path_free, NULL);
+      |                                   ^
+../../src/summaryview.c:3279:35: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 3279 |         g_slist_foreach(thr_rows, (GFunc)gtk_tree_path_free, NULL);
+      |                                   ^
+../../src/summaryview.c: In function 'summary_filter_real':
+../../src/summaryview.c:4923:26: warning: cast between incompatible function types from 'GtkTreeModelForeachFunc' {aka 'int (*)(struct _GtkTreeModel *, struct _GtkTreePath *, struct _GtkTreeIter *, void *)'} to 'void (*)(GtkTreeModel *, GtkTreePath *, GtkTreeIter *, void *)' {aka 'void (*)(struct _GtkTreeModel *, struct _GtkTreePath *, struct _GtkTreeIter *, void *)'} [-Wcast-function-type]
+ 4923 |                          (GtkTreeSelectionForeachFunc)func,
+      |                          ^
+  CC       mimeview.o
+  CC       quick_search.o
+  CC       query_search.o
+  CC       message_search.o
+  CC       colorlabel.o
+  CC       action.o
+  CC       compose.o
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:28,
+                 from ../../src/mainwindow.h:31,
+                 from ../../src/messageview.h:28,
+                 from ../../src/textview.h:33,
+                 from ../../src/mimeview.h:32,
+                 from ../../src/mimeview.c:50:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+  CC       gtkshruler.o
+../../src/mimeview.c: In function 'mimeview_view_file':
+../../src/mimeview.c:1248:15: warning: unused variable 'buf' [-Wunused-variable]
+ 1248 |         gchar buf[BUFFSIZE];
+      |               ^~~
+../../src/quick_search.c: In function 'quick_search_filter':
+../../src/quick_search.c:289:37: warning: comparison between pointer and zero character constant [-Wpointer-compare]
+  289 |                         if (keys[i] == '\0')
+      |                                     ^~
+../../src/quick_search.c:289:29: note: did you mean to dereference the pointer?
+  289 |                         if (keys[i] == '\0')
+      |                             ^
+../../src/query_search.c: In function 'query_search_get_selected_msg_list':
+../../src/query_search.c:1382:30: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 1382 |         g_list_foreach(list, (GFunc)gtk_tree_path_free, NULL);
+      |                              ^
+  CC       menu.o
+../../src/gtkshruler.c: In function 'gtk_shruler_get_type':
+../../src/gtkshruler.c:64:25: warning: cast between incompatible function types from 'void (*)(GtkSHRulerClass *)' {aka 'void (*)(struct _GtkSHRulerClass *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+   64 |                         (GClassInitFunc) gtk_shruler_class_init,
+      |                         ^
+../../src/gtkshruler.c:70:25: warning: cast between incompatible function types from 'void (*)(GtkSHRuler *)' {aka 'void (*)(struct _GtkSHRuler *)'} to 'void (*)(GTypeInstance *, void *)' {aka 'void (*)(struct _GTypeInstance *, void *)'} [-Wcast-function-type]
+   70 |                         (GInstanceInitFunc) gtk_shruler_init,
+      |                         ^
+../../src/gtkshruler.c: In function 'gtk_shruler_draw_ticks':
+../../src/gtkshruler.c:141:14: warning: variable 'width' set but not used [-Wunused-but-set-variable=]
+  141 |         gint width, height;
+      |              ^~~~~
+../../src/gtkshruler.c:139:21: warning: variable 'bg_gc' set but not used [-Wunused-but-set-variable=]
+  139 |         GdkGC *gc, *bg_gc;
+      |                     ^~~~~
+  CC       stock_pixmap.o
+  CC       prefs_ui.o
+  CC       prefs_common_dialog.o
+  CC       prefs_filter.o
+  CC       prefs_filter_edit.o
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:28,
+                 from ../../src/mainwindow.h:31,
+                 from ../../src/compose.c:99:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+../../src/action.c: In function 'catch_status':
+../../src/action.c:1193:57: warning: format '%d' expects argument of type 'int', but argument 2 has type 'pid_t' {aka 'long long int'} [-Wformat=]
+ 1193 |         debug_print("Catching child status (child PID: %d).\n", child_info->pid);
+      |                                                        ~^       ~~~~~~~~~~~~~~~
+      |                                                         |                 |
+      |                                                         int               pid_t {aka long long int}
+      |                                                        %lld
+../../src/action.c:1201:43: warning: format '%d' expects argument of type 'int', but argument 2 has type 'pid_t' {aka 'long long int'} [-Wformat=]
+ 1201 |                 debug_print("Child (PID: %d) returned %c\n", child_info->pid, buf);
+      |                                          ~^                  ~~~~~~~~~~~~~~~
+      |                                           |                            |
+      |                                           int                          pid_t {aka long long int}
+      |                                          %lld
+../../src/action.c:1203:57: warning: format '%d' expects argument of type 'int', but argument 2 has type 'pid_t' {aka 'long long int'} [-Wformat=]
+ 1203 |                 debug_print("Could not get child (PID: %d) status\n", child_info->pid);
+      |                                                        ~^             ~~~~~~~~~~~~~~~
+      |                                                         |                       |
+      |                                                         int                     pid_t {aka long long int}
+      |                                                        %lld
+../../src/action.c: In function 'catch_output':
+../../src/action.c:1265:65: warning: format '%d' expects argument of type 'int', but argument 2 has type 'pid_t' {aka 'long long int'} [-Wformat=]
+ 1265 |         debug_print("Catching grand child's output (child PID: %d).\n", child_info->pid);
+      |                                                                ~^       ~~~~~~~~~~~~~~~
+      |                                                                 |                 |
+      |                                                                 int               pid_t {aka long long int}
+      |                                                                %lld
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/action.c:24:
+../../src/action.c: In function 'parse_action_cmd':
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/action.c:316:9: note: in expansion of macro 'g_string_free'
+  316 |         g_string_free(cmd, FALSE);
+      |         ^~~~~~~~~~~~~
+../../src/action.c: At top level:
+../../src/action.c:1257:13: warning: 'catch_output' defined but not used [-Wunused-function]
+ 1257 | static void catch_output(gpointer data, gint source, GdkInputCondition cond)
+      |             ^~~~~~~~~~~~
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/compose.c:24:
+../../src/compose.c: In function 'compose_parse_references':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/compose.c:1623:17: note: in expansion of macro 'g_string_sprintfa'
+ 1623 |                 g_string_sprintfa(new_ref, "<%s>", (gchar *)cur->data);
+      |                 ^~~~~~~~~~~~~~~~~
+../../src/compose.c: In function 'compose_write_to_file':
+../../src/compose.c:4112:13: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+ 4112 |             if (!rfc2015_is_available() ||
+      |             ^~
+../../src/compose.c:4117:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+ 4117 |                 fprintf(fp, "\n--%s\n", compose->boundary);
+      |                 ^~~~~~~
+../../src/compose.c: In function 'compose_attach_property':
+../../src/compose.c:6752:30: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 6752 |         g_list_foreach(rows, (GFunc)gtk_tree_path_free, NULL);
+      |                              ^
+../../src/compose.c: In function 'compose_attach_open':
+../../src/compose.c:7016:30: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 7016 |         g_list_foreach(rows, (GFunc)gtk_tree_path_free, NULL);
+      |                              ^
+../../src/compose.c: In function 'compose_exec_ext_editor':
+../../src/compose.c:7108:55: warning: format '%d' expects argument of type 'int', but argument 2 has type 'GPid' {aka 'void *'} [-Wformat=]
+ 7108 |         debug_print("compose_exec_ext_editor(): pid: %d file: %s\n", pid, tmp);
+      |                                                      ~^              ~~~
+      |                                                       |              |
+      |                                                       int            GPid {aka void *}
+      |                                                      %p
+In file included from ../../src/compose.c:31:
+../../src/compose.c: In function 'compose_ext_editor_kill':
+../../src/compose.c:7138:28: warning: format '%d' expects argument of type 'int', but argument 2 has type 'GPid' {aka 'void *'} [-Wformat=]
+ 7138 |                         (_("The external editor is still working.\n"
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gi18n.h:28:29: note: in definition of macro '_'
+   28 | #define  _(String) gettext (String)
+      |                             ^~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:64:
+../../src/compose.c:7158:35: warning: format '%d' expects argument of type 'int', but argument 4 has type 'DWORD' {aka 'long unsigned int'} [-Wformat=]
+ 7158 |                         g_warning("TerminateProcess() failed: %d\n",
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 7159 |                                   GetLastError());
+      |                                   ~~~~~~~~~~~~~~
+      |                                   |
+      |                                   DWORD {aka long unsigned int}
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../src/compose.c:7158:64: note: format string is defined here
+ 7158 |                         g_warning("TerminateProcess() failed: %d\n",
+      |                                                               ~^
+      |                                                                |
+      |                                                                int
+      |                                                               %ld
+../../src/compose.c:7164:27: warning: format '%d' expects argument of type 'int', but argument 4 has type 'GPid' {aka 'void *'} [-Wformat=]
+ 7164 |                 g_message("Terminated process group id: %d\n",
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 7165 |                           compose->exteditor_pid);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~
+      |                                  |
+      |                                  GPid {aka void *}
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:359:32: note: in definition of macro 'g_message'
+  359 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../src/compose.c:7164:58: note: format string is defined here
+ 7164 |                 g_message("Terminated process group id: %d\n",
+      |                                                         ~^
+      |                                                          |
+      |                                                          int
+      |                                                         %p
+../../src/compose.c: In function 'compose_ext_editor_child_exit':
+../../src/compose.c:7190:49: warning: format '%d' expects argument of type 'int', but argument 2 has type 'GPid' {aka 'void *'} [-Wformat=]
+ 7190 |         debug_print("Compose: child exit (pid: %d status: %d)\n", pid, status);
+      |                                                ~^                 ~~~
+      |                                                 |                 |
+      |                                                 int               GPid {aka void *}
+      |                                                %p
+  CC       prefs_account_dialog.o
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56:
+../../src/compose.c: In function 'compose_parse_references':
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/compose.c:1630:9: note: in expansion of macro 'g_string_free'
+ 1630 |         g_string_free(new_ref, FALSE);
+      |         ^~~~~~~~~~~~~
+../../src/compose.c: At top level:
+../../src/compose.c:5980:17: warning: 'compose_window_exist' defined but not used [-Wunused-function]
+ 5980 | static gboolean compose_window_exist(gint x, gint y)
+      |                 ^~~~~~~~~~~~~~~~~~~~
+  CC       prefs_folder_item.o
+  CC       prefs_display_items.o
+  CC       prefs_display_header.o
+  CC       prefs_customheader.o
+../../src/prefs_filter_edit.c: In function 'prefs_filter_edit_action_hbox_set':
+../../src/prefs_filter_edit.c:930:20: warning: variable 'menu' set but not used [-Wunused-but-set-variable=]
+  930 |         GtkWidget *menu;
+      |                    ^~~~
+../../src/prefs_filter_edit.c: In function 'prefs_filter_edit_cond_hbox_select':
+../../src/prefs_filter_edit.c:986:20: warning: variable 'menu' set but not used [-Wunused-but-set-variable=]
+  986 |         GtkWidget *menu;
+      |                    ^~~~
+  CC       prefs_summary_column.o
+../../src/prefs_account_dialog.c: In function 'prefs_account_name_entry_changed_cb':
+../../src/prefs_account_dialog.c:2313:23: warning: variable 'tmp_ac_prefs' set but not used [-Wunused-but-set-variable=]
+ 2313 |         PrefsAccount *tmp_ac_prefs;
+      |                       ^~~~~~~~~~~~
+../../src/prefs_account_dialog.c: In function 'prefs_account_pop_auth_type_set_optmenu':
+../../src/prefs_account_dialog.c:2514:9: warning: case value '0' not in enumerated type 'IMAPAuthType' [-Wswitch]
+ 2514 |         case 0:
+      |         ^~~~
+../../src/prefs_account_dialog.c: In function 'prefs_account_imap_auth_type_set_optmenu':
+../../src/prefs_account_dialog.c:2567:9: warning: case value '0' not in enumerated type 'IMAPAuthType' [-Wswitch]
+ 2567 |         case 0:
+      |         ^~~~
+../../src/prefs_account_dialog.c: In function 'prefs_account_smtp_auth_type_set_optmenu':
+../../src/prefs_account_dialog.c:2620:9: warning: case value '0' not in enumerated type 'SMTPAuthType' [-Wswitch]
+ 2620 |         case 0:
+      |         ^~~~
+../../src/prefs_account_dialog.c: In function 'prefs_account_protocol_activated':
+../../src/prefs_account_dialog.c:2634:23: warning: variable 'tmp_ac_prefs' set but not used [-Wunused-but-set-variable=]
+ 2634 |         PrefsAccount *tmp_ac_prefs;
+      |                       ^~~~~~~~~~~~
+../../src/prefs_folder_item.c: In function 'prefs_folder_item_set_dialog':
+../../src/prefs_folder_item.c:467:27: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+  467 |                 if (index < 0)
+      |                           ^
+  CC       prefs_template.o
+  CC       prefs_actions.o
+  CC       prefs_search_folder.o
+  CC       prefs_toolbar.o
+  CC       account_dialog.o
+  CC       template.o
+  CC       addressbook.o
+  CC       addr_compl.o
+  CC       addritem.o
+  CC       addrcache.o
+../../src/addrcache.c: In function 'addrcache_free_item_vis':
+../../src/addrcache.c:101:47: warning: parameter 'key' set but not used [-Wunused-but-set-parameter=]
+  101 | static gint addrcache_free_item_vis( gpointer key, gpointer value, gpointer data ) {
+      |                                      ~~~~~~~~~^~~
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../src/addrcache.c:24:
+../../src/addrcache.c: In function 'addrcache_free_item_hash':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1338:31: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1338 | #define GLIB_DEPRECATED_MACRO _GLIB_GNUC_DO_PRAGMA(GCC warning "Deprecated pre-processor symbol")
+      |                               ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:39:39: note: in expansion of macro 'GLIB_DEPRECATED_MACRO'
+   39 | #define GLIB_DEPRECATED_MACRO_IN_2_26 GLIB_DEPRECATED_MACRO
+      |                                       ^~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/ghash.h:165:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26'
+  165 | #define g_hash_table_freeze(hash_table) ((void)0) GLIB_DEPRECATED_MACRO_IN_2_26
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/addrcache.c:122:9: note: in expansion of macro 'g_hash_table_freeze'
+  122 |         g_hash_table_freeze( table );
+      |         ^~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1338:31: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1338 | #define GLIB_DEPRECATED_MACRO _GLIB_GNUC_DO_PRAGMA(GCC warning "Deprecated pre-processor symbol")
+      |                               ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:39:39: note: in expansion of macro 'GLIB_DEPRECATED_MACRO'
+   39 | #define GLIB_DEPRECATED_MACRO_IN_2_26 GLIB_DEPRECATED_MACRO
+      |                                       ^~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/ghash.h:166:49: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26'
+  166 | #define g_hash_table_thaw(hash_table) ((void)0) GLIB_DEPRECATED_MACRO_IN_2_26
+      |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/addrcache.c:124:9: note: in expansion of macro 'g_hash_table_thaw'
+  124 |         g_hash_table_thaw( table );
+      |         ^~~~~~~~~~~~~~~~~
+../../src/addrcache.c: In function 'addrcache_print':
+../../src/addrcache.c:266:40: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'stime_t' {aka 'long long int'} [-Wformat=]
+  266 |         fprintf( stream, "mod time : %ld\n", cache->modifyTime );
+      |                                      ~~^     ~~~~~~~~~~~~~~~~~
+      |                                        |          |
+      |                                        long int   stime_t {aka long long int}
+      |                                      %lld
+  CC       addrbook.o
+../../src/addrbook.c: In function 'addrbook_parse_addr_list':
+../../src/addrbook.c:388:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+  388 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_parse_attr_list':
+../../src/addrbook.c:446:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+  446 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_parse_member_list':
+../../src/addrbook.c:547:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+  547 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_parse_folder_list':
+../../src/addrbook.c:630:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+  630 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_free_simple_hash_vis':
+../../src/addrbook.c:1191:73: warning: parameter 'value' set but not used [-Wunused-but-set-parameter=]
+ 1191 | static gboolean addrbook_free_simple_hash_vis( gpointer *key, gpointer *value, gpointer *data ) {
+      |                                                               ~~~~~~~~~~^~~~~
+../../src/addrbook.c: In function 'addrbook_chkparse_addr_list':
+../../src/addrbook.c:1760:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1760 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_chkparse_attribute':
+../../src/addrbook.c:1781:16: warning: variable 'element' set but not used [-Wunused-but-set-variable=]
+ 1781 |         gchar *element;
+      |                ^~~~~~~
+../../src/addrbook.c:1780:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1780 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_chkparse_person':
+../../src/addrbook.c:1812:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1812 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_chkparse_member_list':
+../../src/addrbook.c:1834:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1834 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_chkparse_group':
+../../src/addrbook.c:1859:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1859 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_chkparse_folder_list':
+../../src/addrbook.c:1875:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1875 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_chkparse_folder':
+../../src/addrbook.c:1900:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1900 |         GList *attr;
+      |                ^~~~
+../../src/addrbook.c: In function 'addrbook_chkread_tree':
+../../src/addrbook.c:1916:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1916 |         GList *attr;
+      |                ^~~~
+  CC       addrindex.o
+  CC       mgutils.o
+../../src/addrindex.c: In function 'addrindex_consume_tree':
+../../src/addrindex.c:1322:17: warning: variable 'xtag' set but not used [-Wunused-but-set-variable=]
+ 1322 |         XMLTag *xtag;
+      |                 ^~~~
+../../src/addrindex.c:1321:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1321 |         GList *attr;
+      |                ^~~~
+../../src/addrindex.c:1320:16: warning: variable 'element' set but not used [-Wunused-but-set-variable=]
+ 1320 |         gchar *element;
+      |                ^~~~~~~
+../../src/addrindex.c: In function 'addrindex_convert_tree':
+../../src/addrindex.c:1525:16: warning: variable 'attr' set but not used [-Wunused-but-set-variable=]
+ 1525 |         GList *attr;
+      |                ^~~~
+../../src/addrindex.c:1524:16: warning: variable 'element' set but not used [-Wunused-but-set-variable=]
+ 1524 |         gchar *element;
+      |                ^~~~~~~
+../../src/addrindex.c: At top level:
+../../src/addrindex.c:1342:13: warning: 'addrindex_print_node' defined but not used [-Wunused-function]
+ 1342 | static void addrindex_print_node( AddressCvtNode *node, FILE *stream  ) {
+      |             ^~~~~~~~~~~~~~~~~~~~
+  CC       vcard.o
+  CC       ldif.o
+../../src/ldif.c: In function 'ldif_hash_free_vis':
+../../src/ldif.c:121:42: warning: parameter 'key' set but not used [-Wunused-but-set-parameter=]
+  121 | static gint ldif_hash_free_vis( gpointer key, gpointer value, gpointer data ) {
+      |                                 ~~~~~~~~~^~~
+../../src/vcard.c: In function 'vcard_get_line':
+../../src/vcard.c:250:9: warning: 'strncpy' output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  250 |         strncpy( buf, start, len );
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/vcard.c:248:15: note: length computed here
+  248 |         len = strlen( start );
+      |               ^~~~~~~~~~~~~~~
+  CC       importldif.o
+  CC       importcsv.o
+../../src/addressbook.c: In function 'addressbook_del_clicked':
+../../src/addressbook.c:1195:39: warning: comparison between 'ItemObjectType' and 'enum <anonymous>' [-Wenum-compare]
+ 1195 |                         if (aio->type == ADDR_ITEM_GROUP) {
+      |                                       ^~
+../../src/addressbook.c:1207:46: warning: comparison between 'ItemObjectType' and 'enum <anonymous>' [-Wenum-compare]
+ 1207 |                         } else if (aio->type == ADDR_ITEM_PERSON) {
+      |                                              ^~
+../../src/addressbook.c:1218:46: warning: comparison between 'ItemObjectType' and 'enum <anonymous>' [-Wenum-compare]
+ 1218 |                         } else if (aio->type == ADDR_ITEM_EMAIL) {
+      |                                              ^~
+../../src/addressbook.c:1242:39: warning: comparison between 'ItemObjectType' and 'enum <anonymous>' [-Wenum-compare]
+ 1242 |                         if (aio->type == ADDR_ITEM_EMAIL) {
+      |                                       ^~
+../../src/addressbook.c: In function 'addressbook_list_selection_changed':
+../../src/addressbook.c:1635:42: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 1635 |                 g_list_foreach(selected, (GFunc)gtk_tree_path_free, NULL);
+      |                                          ^
+../../src/addressbook.c: In function 'addressbook_col_resized':
+../../src/addressbook.c:2052:41: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+ 2052 |         AddressBookListColumnPos type = (gint)data;
+      |                                         ^
+../../src/addressbook.c: In function 'addressbook_edit_address_cb':
+../../src/addressbook.c:2623:18: warning: variable 'parent_found' set but not used [-Wunused-but-set-variable=]
+ 2623 |         gboolean parent_found = FALSE;
+      |                  ^~~~~~~~~~~~
+../../src/addressbook.c: In function 'addressbook_set_list':
+../../src/addressbook.c:3180:37: warning: variable 'rootFolder' set but not used [-Wunused-but-set-variable=]
+ 3180 |                         ItemFolder *rootFolder = NULL;
+      |                                     ^~~~~~~~~~
+../../src/addressbook.c:3147:25: warning: variable 'ads' set but not used [-Wunused-but-set-variable=]
+ 3147 |         AdapterDSource *ads = NULL;
+      |                         ^~~
+../../src/addressbook.c: In function 'addressbook_lup_clicked':
+../../src/addressbook.c:4163:25: warning: variable 'ads' set but not used [-Wunused-but-set-variable=]
+ 4163 |         AdapterDSource *ads = NULL;
+      |                         ^~~
+../../src/addressbook.c: In function 'addrbookctl_free_selection':
+../../src/addressbook.c:4486:35: warning: variable 'adapter' set but not used [-Wunused-but-set-variable=]
+ 4486 |                 AdapterInterface *adapter = node->data;
+      |                                   ^~~~~~~
+../../src/addressbook.c: In function 'addrbookctl_build_ifselect':
+../../src/addressbook.c:4518:18: warning: variable 'enabled' set but not used [-Wunused-but-set-variable=]
+ 4518 |         gboolean enabled;
+      |                  ^~~~~~~
+../../src/addressbook.c: In function 'addressbook_export_csv_cb':
+../../src/addressbook.c:4807:15: warning: unused variable 'delim' [-Wunused-variable]
+ 4807 |         gchar delim = ',';
+      |               ^~~~~
+../../src/addressbook.c:4806:16: warning: unused variable 'cur' [-Wunused-variable]
+ 4806 |         GList *cur;
+      |                ^~~
+../../src/addressbook.c:4805:16: warning: unused variable 'items' [-Wunused-variable]
+ 4805 |         GList *items;
+      |                ^~~~~
+../../src/addressbook.c:4804:20: warning: unused variable 'itemGroup' [-Wunused-variable]
+ 4804 |         ItemGroup *itemGroup = NULL;
+      |                    ^~~~~~~~~
+../../src/addressbook.c:4803:21: warning: unused variable 'itemFolder' [-Wunused-variable]
+ 4803 |         ItemFolder *itemFolder = NULL;
+      |                     ^~~~~~~~~~
+../../src/addressbook.c:4801:22: warning: unused variable 'path' [-Wunused-variable]
+ 4801 |         GtkTreePath *path;
+      |                      ^~~~
+  CC       exportcsv.o
+  CC       jpilot.o
+  CC       syldap.o
+  CC       editbook.o
+  CC       editgroup.o
+  CC       editaddress.o
+  CC       editvcard.o
+  CC       editjpilot.o
+  CC       editldap.o
+  CC       editldap_basedn.o
+  CC       addressadd.o
+  CC       filesel.o
+  CC       foldersel.o
+  CC       statusbar.o
+  CC       logwindow.o
+  CC       sourcewindow.o
+  CC       manage_window.o
+  CC       undo.o
+  CC       alertpanel.o
+../../src/logwindow.c: In function 'log_window_append_real':
+../../src/logwindow.c:180:19: warning: variable 'color' set but not used [-Wunused-but-set-variable=]
+  180 |         GdkColor *color = NULL;
+      |                   ^~~~~
+  CC       inputdialog.o
+  CC       progressdialog.o
+  CC       subscribedialog.o
+  CC       about.o
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:28,
+                 from ../../src/mainwindow.h:31,
+                 from ../../src/inc.h:29,
+                 from ../../src/filesel.c:52:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+  CC       setup.o
+../../src/filesel.c: In function 'filesel_get_link':
+../../src/filesel.c:552:17: warning: unused variable 'hr' [-Wunused-variable]
+  552 |         HRESULT hr;
+      |                 ^~
+  CC       gtkutils.o
+  CC       send_message.o
+  CC       inc.o
+  CC       rpop3.o
+  CC       import.o
+  CC       export.o
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:28,
+                 from ../../src/mainwindow.h:31,
+                 from ../../src/setup.c:36:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+  CC       rfc2015.o
+../../src/setup.c: In function 'setup_account':
+../../src/setup.c:728:14: warning: variable 'result' set but not used [-Wunused-but-set-variable=]
+  728 |         gint result;
+      |              ^~~~~~
+../../src/setup.c: In function 'setup_import_data':
+../../src/setup.c:1217:16: warning: unused variable 'src' [-Wunused-variable]
+ 1217 |         gchar *src;
+      |                ^~~
+../../src/setup.c: In function 'setup_import_addressbook':
+../../src/setup.c:1317:16: warning: unused variable 'appdata' [-Wunused-variable]
+ 1317 |         gchar *appdata;
+      |                ^~~~~~~
+../../src/send_message.c: In function 'send_message_local':
+../../src/send_message.c:562:14: warning: unused variable 'status' [-Wunused-variable]
+  562 |         gint status;
+      |              ^~~~~~
+  CC       passphrase.o
+../../src/inc.c: In function 'inc_start':
+../../src/inc.c:841:14: warning: variable 'error_num' set but not used [-Wunused-but-set-variable=]
+  841 |         gint error_num = 0;
+      |              ^~~~~~~~~
+../../src/rpop3.c: In function 'rpop3_session_recv_msg':
+../../src/rpop3.c:946:9: warning: case value '1020' not in enumerated type 'Pop3State' [-Wswitch]
+  946 |         case POP3_TOP:
+      |         ^~~~
+../../src/rpop3.c:970:9: warning: case value '1022' not in enumerated type 'Pop3State' [-Wswitch]
+  970 |         case POP3_NOOP:
+      |         ^~~~
+../../src/rpop3.c: In function 'rpop3_session_recv_data_as_file_finished':
+../../src/rpop3.c:1078:9: warning: case value '1021' not in enumerated type 'Pop3State' [-Wswitch]
+ 1078 |         case POP3_TOP_RECV:
+      |         ^~~~
+../../src/rpop3.c: In function 'rpop3_recv':
+../../src/rpop3.c:1182:30: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 1182 |         g_list_foreach(rows, (GFunc)gtk_tree_path_free, NULL);
+      |                              ^
+../../src/rpop3.c: In function 'rpop3_open':
+../../src/rpop3.c:1224:30: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 1224 |         g_list_foreach(rows, (GFunc)gtk_tree_path_free, NULL);
+      |                              ^
+../../src/rpop3.c: In function 'rpop3_delete':
+../../src/rpop3.c:1269:30: warning: cast between incompatible function types from 'void (*)(GtkTreePath *)' {aka 'void (*)(struct _GtkTreePath *)'} to 'void (*)(void *, void *)' [-Wcast-function-type]
+ 1269 |         g_list_foreach(rows, (GFunc)gtk_tree_path_free, NULL);
+      |                              ^
+  CC       select-keys.o
+  CC       sigstatus.o
+  CC       simple-gettext.o
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/rfc2015.c:27:
+../../src/rfc2015.c: In function 'sig_status_for_key':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/rfc2015.c:140:17: note: in expansion of macro 'g_string_sprintfa'
+  140 |                 g_string_sprintfa(str, "%s\n",
+      |                 ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/rfc2015.c:143:25: note: in expansion of macro 'g_string_sprintfa'
+  143 |                         g_string_sprintfa
+      |                         ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/rfc2015.c:150:9: note: in expansion of macro 'g_string_sprintfa'
+  150 |         g_string_sprintfa
+      |         ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/rfc2015.c:156:17: note: in expansion of macro 'g_string_sprintfa'
+  156 |                 g_string_sprintfa
+      |                 ^~~~~~~~~~~~~~~~~
+../../src/rfc2015.c: In function 'sig_status_full':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/rfc2015.c:187:25: note: in expansion of macro 'g_string_sprintfa'
+  187 |                         g_string_sprintfa(str, _("Signature made at %s\n"),
+      |                         ^~~~~~~~~~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56:
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/rfc2015.c:198:9: note: in expansion of macro 'g_string_free'
+  198 |         g_string_free(str, FALSE);
+      |         ^~~~~~~~~~~~~
+  CC       manual.o
+  CC       eggtrayicon.o
+  CC       trayicon.o
+  CC       printing.o
+  CC       sslmanager.o
+  CC       plugin_manager.o
+  CC       update_check.o
+  CC       quote_fmt_lex.o
+quote_fmt_lex.c:1575:16: warning: 'input' defined but not used [-Wunused-function]
+ 1575 | #else
+      |                ^    
+quote_fmt_lex.c:1532:17: warning: 'yyunput' defined but not used [-Wunused-function]
+ 1532 | 
+      |                 ^      
+  CC       quote_fmt_parse.o
+  CC       sylpheed-marshal.o
+  CC       notificationwindow.o
+  CC       plugin-marshal.lo
+../../src/printing.c: In function 'message_count_page':
+../../src/printing.c:172:18: warning: variable 'cr' set but not used [-Wunused-but-set-variable=]
+  172 |         cairo_t *cr;
+      |                  ^~
+../../src/printing.c: In function 'draw_page':
+../../src/printing.c:329:18: warning: variable 'msginfo' set but not used [-Wunused-but-set-variable=]
+  329 |         MsgInfo *msginfo;
+      |                  ^~~~~~~
+  CC       plugin.lo
+../../src/update_check.c: In function 'spawn_command':
+../../src/update_check.c:163:13: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  163 |         if ((gint)h <= 32) {
+      |             ^
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:64,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/update_check.c:26:
+../../src/update_check.c:164:70: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  164 |                 g_warning("Couldn't execute %s %s: (%d)", exe, args, (gint)h);
+      |                                                                      ^
+C:/msys64/ucrt64/include/glib-2.0/glib/gmessages.h:365:32: note: in definition of macro 'g_warning'
+  365 |                                __VA_ARGS__)
+      |                                ^~~~~~~~~~~
+../../src/update_check.c: In function 'update_check_spawn_plugin_updater':
+../../src/update_check.c:206:18: warning: variable 'ret' set but not used [-Wunused-but-set-variable=]
+  206 |         gboolean ret = FALSE;
+      |                  ^~~
+../../src/update_check.c: In function 'update_check_cb':
+../../src/update_check.c:361:18: warning: variable 'dev_result' set but not used [-Wunused-but-set-variable=]
+  361 |         gboolean dev_result = FALSE;
+      |                  ^~~~~~~~~~
+../../src/update_check.c: In function 'update_check_plugin_cb':
+../../src/update_check.c:733:31: warning: cast between incompatible function types from 'void (*)(struct download_plugin_info *)' to 'void (*)(void *, void *)' [-Wcast-function-type]
+  733 |         g_slist_foreach(list, (GFunc)download_plugin_info_free, NULL);
+      |                               ^
+  CC       syl-auth-helper.o
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:28,
+                 from ../../src/mainwindow.h:31,
+                 from ../../src/notificationwindow.c:33:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+../../src/syl-auth-helper.c: In function 'http_redirect_accept':
+../../src/syl-auth-helper.c:182:19: warning: variable 'timeout_tag' set but not used [-Wunused-but-set-variable=]
+  182 |         gint tag, timeout_tag;
+      |                   ^~~~~~~~~~~
+../../src/syl-auth-helper.c: In function 'main':
+../../src/syl-auth-helper.c:418:16: warning: unused variable 'auth_req_uri' [-Wunused-variable]
+  418 |         gchar *auth_req_uri;
+      |                ^~~~~~~~~~~~
+../../src/syl-auth-helper.c: At top level:
+../../src/syl-auth-helper.c:221:15: warning: 'http_get' defined but not used [-Wunused-function]
+  221 | static gchar *http_get(const gchar *url, gchar **r_header)
+      |               ^~~~~~~~
+  CCLD     syl-auth-helper.exe
+  CCLD     libsylpheed-plugin-0.la
+  CCLD     sylpheed.exe
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in plugin
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in attachment_tool
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+  CC       attachment_tool.lo
+  CCLD     attachment_tool.la
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+Making all in test
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+  CC       test.lo
+  CCLD     test.la
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in po
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+Making all in manual
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+Making all in ja
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in faq
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in de
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+Making all in es
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+Making all in fr
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+Making all in it
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in nsis
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+Making all in macosx
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+Making all in bundle
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'

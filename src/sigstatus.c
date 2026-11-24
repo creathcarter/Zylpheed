@@ -24,12 +24,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gpgme.h>
 
@@ -89,7 +84,7 @@ static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event, gpointer data
 {
 	GpgmegtkSigStatus hd = data;
 
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		hd->running = 0;
 		do_destroy(hd);
 		return TRUE;
@@ -124,7 +119,7 @@ GpgmegtkSigStatus gpgmegtk_sig_status_create(void)
 
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 12);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->vbox),
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(window))),
 			   vbox, TRUE, TRUE, 0);
 	gtk_widget_show(vbox);
 
@@ -141,7 +136,7 @@ GpgmegtkSigStatus gpgmegtk_sig_status_create(void)
 
 	gtkut_stock_button_set_create(&okay_area, &okay_btn, GTK_STOCK_OK,
 				      NULL, NULL, NULL, NULL);
-	gtk_box_pack_end(GTK_BOX(GTK_DIALOG(window)->action_area),
+	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(window))),
 			 okay_area, FALSE, FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(okay_area), 5);
 	gtk_widget_grab_default(okay_btn);

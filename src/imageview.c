@@ -23,8 +23,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkimage.h>
+#include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <stdlib.h>
 
@@ -92,7 +91,7 @@ void imageview_show_image(ImageView *imageview, MimeInfo *mimeinfo,
 
 	g_return_if_fail(imageview != NULL);
 	g_return_if_fail(imageview->scrolledwin != NULL);
-	g_return_if_fail(imageview->scrolledwin->parent != NULL);
+	g_return_if_fail(gtk_widget_get_parent(imageview->scrolledwin) != NULL);
 
 	if (file) {
 		imageview_clear(imageview);
@@ -118,7 +117,7 @@ void imageview_show_image(ImageView *imageview, MimeInfo *mimeinfo,
 
 	if (resize) {
 		pixbuf = imageview_get_resized_pixbuf
-			(pixbuf, imageview->scrolledwin->parent, 8);
+			(pixbuf, gtk_widget_get_parent(imageview->scrolledwin), 8);
 	} else
 		g_object_ref(pixbuf);
 
@@ -171,9 +170,11 @@ GdkPixbuf *imageview_get_resized_pixbuf(GdkPixbuf *pixbuf, GtkWidget *parent,
 	gint avail_height;
 	gint new_width;
 	gint new_height;
+	GtkAllocation allocation;
 
-	avail_width = parent->allocation.width;
-	avail_height = parent->allocation.height;
+	gtk_widget_get_allocation(parent, &allocation);
+	avail_width = allocation.width;
+	avail_height = allocation.height;
 	if (avail_width > margin) avail_width -= margin;
 	if (avail_height > margin) avail_height -= margin;
 
@@ -230,56 +231,7 @@ static gboolean get_resized_size(gint w, gint h, gint aw, gint ah,
 
 GdkPixbuf *imageview_get_rotated_pixbuf(GdkPixbuf *pixbuf)
 {
-#if GTK_CHECK_VERSION(2, 12, 0)
 	return gdk_pixbuf_apply_embedded_orientation(pixbuf);
-#else
-	const gchar *orientation_str;
-	gint orientation;
-	GdkPixbuf *rotated;
-	GdkPixbuf *new_pixbuf;
-
-	orientation_str = gdk_pixbuf_get_option(pixbuf, "orientation");
-	if (!orientation_str)
-		return g_object_ref(pixbuf);
-
-	orientation = strtol(orientation_str, NULL, 10);
-
-	switch (orientation) {
-	case 1:
-		new_pixbuf = g_object_ref(pixbuf);
-		break;
-	case 2:
-		new_pixbuf = gdk_pixbuf_flip(pixbuf, TRUE);
-		break;
-	case 3:
-		new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
-		break;
-	case 4:
-		new_pixbuf = gdk_pixbuf_flip(pixbuf, FALSE);
-		break;
-	case 5:
-		rotated = gdk_pixbuf_rotate_simple(pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
-		new_pixbuf = gdk_pixbuf_flip(rotated, TRUE);
-		g_object_unref(rotated);
-		break;
-	case 6:
-		new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
-		break;
-	case 7:
-		rotated = gdk_pixbuf_rotate_simple(pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
-		new_pixbuf = gdk_pixbuf_flip(rotated, FALSE);
-		g_object_unref(rotated);
-		break;
-	case 8:
-		new_pixbuf = gdk_pixbuf_rotate_simple(pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
-		break;
-	default:
-		new_pixbuf = g_object_ref(pixbuf);
-		break;
-	}
-
-	return new_pixbuf;
-#endif
 }
 
 static gint button_press_cb(GtkWidget *widget, GdkEventButton *event,
@@ -304,7 +256,7 @@ static void size_allocate_cb(GtkWidget *widget,GtkAllocation *allocation,
 			imageview->resizing = FALSE;
 			return;
 		}
-		if (!imageview->scrolledwin->parent)
+		if (!gtk_widget_get_parent(imageview->scrolledwin))
 			return;
 		if (!imageview->image_data)
 			return;

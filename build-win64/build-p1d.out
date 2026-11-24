@@ -1,0 +1,1888 @@
+make  all-recursive
+make[1]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+Making all in ac
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/ac'
+Making all in libsylph
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make  all-am
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/libsylph'
+Making all in src
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+  LEX      quote_fmt_lex.c
+  YACC     quote_fmt_parse.c
+make  all-recursive
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in icons
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make  all-am
+make[5]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[5]: Nothing to be done for 'all-am'.
+make[5]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src/icons'
+make[4]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+  CC       mainwindow.o
+  CC       folderview.o
+  CC       messageview.o
+  CC       headerview.o
+  CC       textview.o
+  CC       quick_search.o
+  CC       query_search.o
+  CC       compose.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/mainwindow.c:25:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/folderview.c:25:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/messageview.c:25:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/headerview.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/textview.c:31:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from ../../src/textview.c:28:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/quick_search.c:25:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/query_search.c:29:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/compose.c:33:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/mainwindow.c:20:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/folderview.c:20:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/messageview.c:20:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/headerview.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/textview.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/quick_search.c:20:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/query_search.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/compose.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/compose.c:64:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/mainwindow.c:29:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../src/mainwindow.c:42:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/messageview.h:28,
+                 from ../../src/messageview.c:31:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/headerview.h:26,
+                 from ../../src/headerview.c:41:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.h:31,
+                 from ../../src/textview.c:38:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/mainwindow.c: In function 'main_window_add_mailbox':
+../../src/mainwindow.c:1809:17: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 1809 |                 folder = folder_new(F_MH, g_basename(path), path);
+      |                 ^~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:50:
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/messageview.c: In function 'messageview_set_tool_menu':
+../../src/messageview.c:688:25: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+  688 |                         name = g_basename(partinfo->filename ? partinfo->filename : partinfo->name);
+      |                         ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:50:
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/messageview.c: In function 'messageview_save_as':
+../../src/messageview.c:944:34: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+  944 |                                  g_basename(utf8_dest));
+      |                                  ^~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.h:31,
+                 from ../../src/quick_search.c:27:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/folderview.c:31:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/quick_search.c: In function 'quick_search_filter':
+../../src/quick_search.c:282:37: warning: comparison between pointer and zero character constant [-Wpointer-compare]
+  282 |                         if (keys[i] == '\0')
+      |                                     ^~
+../../src/quick_search.c:282:29: note: did you mean to dereference the pointer?
+  282 |                         if (keys[i] == '\0')
+      |                             ^
+In file included from ../../src/folderview.c:55:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/query_search.h:25,
+                 from ../../src/query_search.c:34:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../src/compose.c:104:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/folderview.c: In function 'folderview_rename_folder_cb':
+../../src/folderview.c:2508:35: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 2508 |                                   g_basename(item->path));
+      |                                   ^~~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:50:
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+In file included from C:/msys64/ucrt64/lib/glib-2.0/include/glibconfig.h:9,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:34:
+../../src/compose.c: In function 'compose_parse_references':
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1337:33: warning: Deprecated pre-processor symbol: replace with "g_string_append_printf"
+ 1337 | #define _GLIB_GNUC_DO_PRAGMA(x) _Pragma(G_STRINGIFY (x))
+      |                                 ^~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmacros.h:1340:3: note: in expansion of macro '_GLIB_GNUC_DO_PRAGMA'
+ 1340 |   _GLIB_GNUC_DO_PRAGMA(GCC warning G_STRINGIFY (Deprecated pre-processor symbol: replace with #f))
+      |   ^~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/glib-visibility.h:40:46: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_FOR'
+   40 | #define GLIB_DEPRECATED_MACRO_IN_2_26_FOR(f) GLIB_DEPRECATED_MACRO_FOR (f)
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:300:51: note: in expansion of macro 'GLIB_DEPRECATED_MACRO_IN_2_26_FOR'
+  300 | #define  g_string_sprintfa g_string_append_printf GLIB_DEPRECATED_MACRO_IN_2_26_FOR(g_string_append_printf)
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/compose.c:1588:17: note: in expansion of macro 'g_string_sprintfa'
+ 1588 |                 g_string_sprintfa(new_ref, "<%s>", (gchar *)cur->data);
+      |                 ^~~~~~~~~~~~~~~~~
+../../src/compose.c: In function 'compose_attach_append':
+../../src/compose.c:2320:33: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 2320 |                                 name = g_basename(filename ? filename : file);
+      |                                 ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:50:
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/compose.c:2330:25: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 2330 |                         ainfo->name = g_strdup
+      |                         ^~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/compose.c:2344:17: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+ 2344 |                 ainfo->name = g_strdup(g_basename(filename ? filename : file));
+      |                 ^~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/query_search.c:667:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  667 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/query_search.c: In function 'query_search_folder_func':
+../../src/query_search.c:712:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  712 |         GTimeVal tv_cur;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/query_search.c:735:17: warning: 'g_get_current_time' is deprecated: Use 'g_get_real_time' instead [-Wdeprecated-declarations]
+  735 |                 g_get_current_time(&tv_cur);
+      |                 ^~~~~~~~~~~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:35,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56:
+C:/msys64/ucrt64/include/glib-2.0/glib/gmain.h:842:8: note: declared here
+  842 | void   g_get_current_time                 (GTimeVal       *result);
+      |        ^~~~~~~~~~~~~~~~~~
+../../src/query_search.c: In function 'query_search_folder':
+../../src/query_search.c:805:9: warning: 'g_get_current_time' is deprecated: Use 'g_get_real_time' instead [-Wdeprecated-declarations]
+  805 |         g_get_current_time(&data.tv_prev);
+      |         ^~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gmain.h:842:8: note: declared here
+  842 | void   g_get_current_time                 (GTimeVal       *result);
+      |        ^~~~~~~~~~~~~~~~~~
+../../src/query_search.c:827:9: warning: 'g_thread_create' is deprecated: Use 'g_thread_new' instead [-Wdeprecated-declarations]
+  827 |         thread = g_thread_create(query_search_folder_func, &data, TRUE, NULL);
+      |         ^~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:115:
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gthread.h:102:10: note: declared here
+  102 | GThread *g_thread_create       (GThreadFunc       func,
+      |          ^~~~~~~~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/giochannel.h:36,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:56:
+../../src/compose.c: In function 'compose_parse_references':
+C:/msys64/ucrt64/include/glib-2.0/glib/gstring.h:80:5: warning: ignoring return value of 'g_string_free_and_steal' declared with attribute 'warn_unused_result' [-Wunused-result]
+   76 |   (__builtin_constant_p (free_segment) ?        \
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   77 |     ((free_segment) ?                           \
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   78 |       (g_string_free) ((str), (free_segment)) : \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |       g_string_free_and_steal (str))            \
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   80 |     :                                           \
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |     (g_string_free) ((str), (free_segment)))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../src/compose.c:1595:9: note: in expansion of macro 'g_string_free'
+ 1595 |         g_string_free(new_ref, FALSE);
+      |         ^~~~~~~~~~~~~
+  CC       gtkshruler.o
+  CC       prefs_common_dialog.o
+  CC       prefs_filter_edit.o
+  CC       prefs_display_items.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/gtkshruler.c:35:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_common_dialog.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:30:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/gtkshruler.c: In function 'gtk_shruler_draw_ticks':
+../../src/gtkshruler.c:149:37: error: passing argument 1 of 'gtk_widget_is_drawable' from incompatible pointer type [-Wincompatible-pointer-types]
+  149 |         if (!gtk_widget_is_drawable(ruler))
+      |                                     ^~~~~
+      |                                     |
+      |                                     GtkRuler * {aka struct _GtkRuler *}
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:978:72: note: expected 'GtkWidget *' {aka 'struct _GtkWidget *'} but argument is of type 'GtkRuler *' {aka 'struct _GtkRuler *'}
+  978 | gboolean              gtk_widget_is_drawable            (GtkWidget    *widget);
+      |                                                          ~~~~~~~~~~~~~~^~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_filter_edit.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_common_dialog.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+make[4]: *** [Makefile:981: gtkshruler.o] Error 1
+  CC       prefs_display_header.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_filter_edit.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       prefs_customheader.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_display_items.c:29:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+  CC       prefs_summary_column.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_display_items.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       prefs_template.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_display_header.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_customheader.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_display_header.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_customheader.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_summary_column.c:29:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_summary_column.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_template.c:25:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_template.c:21:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       prefs_actions.o
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.h:31,
+                 from ../../src/prefs_summary_column.h:23,
+                 from ../../src/prefs_common_dialog.c:44:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../src/prefs_common_dialog.c:51:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/prefs_filter.h:29,
+                 from ../../src/prefs_filter_edit.c:37:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/prefs_actions.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/prefs_actions.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/prefs_display_items.c:36:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/folder.h:132,
+                 from ../../libsylph/prefs_account.h:31,
+                 from ../../src/prefs_customheader.h:23,
+                 from ../../src/prefs_customheader.c:34:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       account_dialog.o
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/summaryview.h:31,
+                 from ../../src/prefs_summary_column.h:23,
+                 from ../../src/prefs_summary_column.c:34:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../src/prefs_summary_column.c:38:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       addressbook.o
+  CC       addr_compl.o
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/inc.h:29,
+                 from ../../src/prefs_template.c:33:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       importldif.o
+  CC       importcsv.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/account_dialog.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/account_dialog.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       editaddress.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/addressbook.c:29:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+  CC       logwindow.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/addr_compl.c:30:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/addressbook.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/addr_compl.c:25:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/importldif.c:30:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/inc.h:29,
+                 from ../../src/prefs_actions.c:36:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/importcsv.c:29:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/importldif.c:25:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/importcsv.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/editaddress.c:29:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/logwindow.c:27:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/editaddress.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       alertpanel.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../src/logwindow.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/logwindow.c: In function 'log_window_append_real':
+../../src/logwindow.c:245:36: error: passing argument 1 of 'gtk_widget_get_visible' from incompatible pointer type [-Wincompatible-pointer-types]
+  245 |         if (gtk_widget_get_visible(text)) {
+      |                                    ^~~~
+      |                                    |
+      |                                    GtkTextView * {aka struct _GtkTextView *}
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:971:72: note: expected 'GtkWidget *' {aka 'struct _GtkWidget *'} but argument is of type 'GtkTextView *' {aka 'struct _GtkTextView *'}
+  971 | gboolean              gtk_widget_get_visible            (GtkWidget    *widget);
+      |                                                          ~~~~~~~~~~~~~~^~~~~~
+make[4]: *** [Makefile:980: logwindow.o] Error 1
+  CC       subscribedialog.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/alertpanel.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/alertpanel.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/account_dialog.c:34:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/subscribedialog.c:29:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from ../../src/account_dialog.c:47:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/subscribedialog.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/compose.h:29,
+                 from ../../src/addressbook.h:26,
+                 from ../../src/addressbook.c:34:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/compose.h:29,
+                 from ../../src/addressbook.h:26,
+                 from ../../src/addr_compl.c:38:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/addr_compl.c: In function 'init_all':
+../../src/addr_compl.c:114:9: warning: 'g_completion_new' is deprecated [-Wdeprecated-declarations]
+  114 |         completion = g_completion_new(completion_func);
+      |         ^~~~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:112:
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gcompletion.h:60:14: note: declared here
+   60 | GCompletion* g_completion_new           (GCompletionFunc func);
+      |              ^~~~~~~~~~~~~~~~
+../../src/addr_compl.c: In function 'free_all':
+../../src/addr_compl.c:141:9: warning: 'g_completion_free' is deprecated [-Wdeprecated-declarations]
+  141 |         g_completion_free(completion);
+      |         ^~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gcompletion.h:81:14: note: declared here
+   81 | void         g_completion_free          (GCompletion*    cmp);
+      |              ^~~~~~~~~~~~~~~~~
+../../src/addr_compl.c: In function 'start_address_completion':
+../../src/addr_compl.c:242:25: warning: 'g_completion_add_items' is deprecated [-Wdeprecated-declarations]
+  242 |                         g_completion_add_items(completion, completion_list);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gcompletion.h:62:14: note: declared here
+   62 | void         g_completion_add_items     (GCompletion*    cmp,
+      |              ^~~~~~~~~~~~~~~~~~~~~~
+../../src/addr_compl.c: In function 'complete_address':
+../../src/addr_compl.c:380:9: warning: 'g_completion_complete' is deprecated [-Wdeprecated-declarations]
+  380 |         result = g_completion_complete(completion, d, NULL);
+      |         ^~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gcompletion.h:70:14: note: declared here
+   70 | GList*       g_completion_complete      (GCompletion*    cmp,
+      |              ^~~~~~~~~~~~~~~~~~~~~
+../../src/addr_compl.c: In function 'invalidate_address_completion':
+../../src/addr_compl.c:523:25: warning: 'g_completion_add_items' is deprecated [-Wdeprecated-declarations]
+  523 |                         g_completion_add_items(completion, completion_list);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/deprecated/gcompletion.h:62:14: note: declared here
+   62 | void         g_completion_add_items     (GCompletion*    cmp,
+      |              ^~~~~~~~~~~~~~~~~~~~~~
+../../src/addr_compl.c: In function 'address_completion_complete_address_in_entry':
+../../src/addr_compl.c:846:35: error: passing argument 1 of 'gtk_widget_has_focus' from incompatible pointer type [-Wincompatible-pointer-types]
+  846 |         if (!gtk_widget_has_focus(entry)) return FALSE;
+      |                                   ^~~~~
+      |                                   |
+      |                                   GtkEntry * {aka struct _GtkEntry *}
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:940:65: note: expected 'GtkWidget *' {aka 'struct _GtkWidget *'} but argument is of type 'GtkEntry *' {aka 'struct _GtkEntry *'}
+  940 | gboolean   gtk_widget_has_focus           (GtkWidget           *widget);
+      |                                            ~~~~~~~~~~~~~~~~~~~~~^~~~~~
+make[4]: *** [Makefile:980: addr_compl.o] Error 1
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/compose.h:29,
+                 from ../../src/addressbook.h:26,
+                 from ../../src/importldif.c:33:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       setup.o
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/compose.h:29,
+                 from ../../src/addressbook.h:26,
+                 from ../../src/importcsv.c:34:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       gtkutils.o
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../libsylph/procmsg.h:38,
+                 from ../../src/compose.h:29,
+                 from ../../src/addressbook.h:26,
+                 from ../../src/editaddress.c:32:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  CC       sslmanager.o
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/setup.c:26:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../src/setup.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+  LEX      quote_fmt_lex.c
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/gtkutils.c:28:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from ../../src/gtkutils.c:27:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+  YACC     quote_fmt_parse.c
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../src/gtkutils.c:24:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
+                 from ../../src/sslmanager.c:30:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
+  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
+      | ^~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
+                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
+                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
+C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
+  725 | {
+      | ^
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/alertpanel.c:32:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../src/alertpanel.c:36:
+../../src/inc.h:63:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   63 |         GTimeVal progress_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/inc.h:64:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   64 |         GTimeVal folder_tv;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
+                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
+C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+   73 |   GTimeVal last_popdown;
+      |   ^~~~~~~~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
+                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
+                 from ../../libsylph/defs.h:27,
+                 from ../../src/sslmanager.c:26:
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+In file included from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/subscribedialog.h:25,
+                 from ../../src/subscribedialog.c:32:
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/subscribedialog.c: In function 'subscribe_dialog_set_list':
+../../src/subscribedialog.c:497:17: warning: 'g_pattern_match_string' is deprecated: Use 'g_pattern_spec_match_string' instead [-Wdeprecated-declarations]
+  497 |                 if (g_pattern_match_string(pspec, ginfo->name)) {
+      |                 ^~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:68:
+C:/msys64/ucrt64/include/glib-2.0/glib/gpattern.h:57:15: note: declared here
+   57 | gboolean      g_pattern_match_string   (GPatternSpec *pspec,
+      |               ^~~~~~~~~~~~~~~~~~~~~~
+In file included from ../../libsylph/socket.h:32,
+                 from ../../libsylph/session.h:32,
+                 from ../../libsylph/smtp.h:30,
+                 from ../../libsylph/prefs_account.h:32,
+                 from ../../libsylph/folder.h:131,
+                 from ../../src/folderview.h:26,
+                 from ../../src/mainwindow.h:29,
+                 from ../../src/setup.c:36:
+C:/msys64/ucrt64/include/winsock2.h:15:2: warning: #warning Please include winsock2.h before windows.h [-Wcpp]
+   15 | #warning Please include winsock2.h before windows.h
+      |  ^~~~~~~
+../../src/gtkutils.c: In function 'gtkut_font_can_load':
+../../src/gtkutils.c:111:17: warning: 'pango_win32_get_context' is deprecated: Use 'pango_font_map_create_context' instead [-Wdeprecated-declarations]
+  111 |                 context = pango_win32_get_context();
+      |                 ^~~~~~~
+In file included from ../../src/gtkutils.c:34:
+C:/msys64/ucrt64/include/pango-1.0/pango/pangowin32.h:47:16: note: declared here
+   47 | PangoContext * pango_win32_get_context        (void);
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+../../libsylph/session.h:121:9: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
+  121 |         GTimeVal tv_prev;
+      |         ^~~~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
+  622 | struct _GTimeVal
+      |        ^~~~~~~~~
+../../src/setup.c: In function 'setup_mailbox':
+../../src/setup.c:280:9: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+  280 |         if (!strcmp(g_basename(path), "Mail"))
+      |         ^~
+In file included from C:/msys64/ucrt64/include/glib-2.0/glib.h:50:
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+../../src/setup.c:283:17: warning: 'g_basename' is deprecated: Use 'g_path_get_basename' instead [-Wdeprecated-declarations]
+  283 |                 folder = folder_new(F_MH, g_basename(path), path);
+      |                 ^~~~~~
+C:/msys64/ucrt64/include/glib-2.0/glib/gfileutils.h:207:14: note: declared here
+  207 | const gchar *g_basename         (const gchar *file_name);
+      |              ^~~~~~~~~~
+make[4]: Target 'all-am' not remade because of errors.
+make[4]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[3]: *** [Makefile:1040: all-recursive] Error 1
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+make[2]: *** [Makefile:744: all] Error 2
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/src'
+Making all in plugin
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in attachment_tool
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/attachment_tool'
+Making all in test
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin/test'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/plugin'
+Making all in po
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/po'
+Making all in manual
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/en'
+Making all in ja
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual/ja'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/manual'
+Making all in faq
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in de
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/de'
+Making all in en
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/en'
+Making all in es
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/es'
+Making all in fr
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/fr'
+Making all in it
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq/it'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/faq'
+Making all in nsis
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/nsis'
+Making all in macosx
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+Making all in bundle
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx/bundle'
+make[3]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64/macosx'
+make[2]: Entering directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[2]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make[1]: *** [Makefile:556: all-recursive] Error 1
+make[1]: Leaving directory '/c/_projects/code/sylpheed/Zylpheed/build-win64'
+make: *** [Makefile:465: all] Error 2

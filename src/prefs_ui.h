@@ -21,13 +21,7 @@
 #define __PREFS_UI_H__
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 
 typedef struct _PrefsDialog	PrefsDialog;

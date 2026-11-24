@@ -180,10 +180,8 @@ static void plugin_manager_create(void)
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), TRUE);
 	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(treeview), TRUE);
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview), COL_INFO);
-#if GTK_CHECK_VERSION(2, 10, 0)
 	gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(treeview),
 				     GTK_TREE_VIEW_GRID_LINES_HORIZONTAL);
-#endif
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
@@ -246,7 +244,7 @@ static gint plugin_manager_deleted(GtkWidget *widget, GdkEventAny *event,
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    gpointer data)
 {
-	if (event && event->keyval == GDK_Escape) {
+	if (event && event->keyval == GDK_KEY_Escape) {
 		gtk_widget_hide(pm_window.window);
 		return TRUE;
 	}

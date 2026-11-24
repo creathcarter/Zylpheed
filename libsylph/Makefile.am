@@ -104,7 +104,7 @@ EXTRA_DIST = \
 
 if NATIVE_WIN32
 no_undefined = -no-undefined
-export_symbols = -export-symbols libsylph-0.def
+export_symbols = -export-symbols $(srcdir)/libsylph-0.def
 endif
 
 libsylph_0_la_LDFLAGS = \

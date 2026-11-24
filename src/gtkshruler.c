@@ -32,7 +32,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <gtk/gtkhruler.h>
+#include <gtk/gtk.h>
 #include "gtkshruler.h"
 
 #define RULER_HEIGHT          14
@@ -146,7 +146,7 @@ gtk_shruler_draw_ticks(GtkRuler *ruler)
 	g_return_if_fail (ruler != NULL);
 	g_return_if_fail (GTK_IS_HRULER (ruler));
 
-	if (!GTK_WIDGET_DRAWABLE (ruler)) 
+	if (!gtk_widget_is_drawable(GTK_WIDGET(ruler))) 
 		return;
 
 	widget = GTK_WIDGET (ruler);

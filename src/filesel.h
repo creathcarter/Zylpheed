@@ -21,7 +21,7 @@
 #define __FILESEL_H__
 
 #include <glib.h>
-#include <gtk/gtkfilechooser.h>
+#include <gtk/gtk.h>
 
 typedef struct _FileselFileType	FileselFileType;
 

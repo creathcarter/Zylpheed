@@ -44,6 +44,15 @@
 #include "utils.h"
 #include "ssl_hostname_validation.h"
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+#  define ASN1_STRING_get0_data(x)	ASN1_STRING_data(x)
+#endif
+#if OPENSSL_VERSION_NUMBER >= 0x40100000L
+#  define ssl_asn1_string_length(x)	ASN1_STRING_get_length(x)
+#else
+#  define ssl_asn1_string_length(x)	((size_t)ASN1_STRING_length(x))
+#endif
+
 
 #define HOSTNAME_MAX_SIZE 255
 
@@ -165,9 +174,9 @@ static int host_match(const char *hostname, const char *pattern)
 */
 static SSLHostnameValidationResult matches_common_name(const char *hostname, const X509 *server_cert) {
 	int common_name_loc = -1;
-	X509_NAME_ENTRY *common_name_entry = NULL;
-	ASN1_STRING *common_name_asn1 = NULL;
-	char *common_name_str = NULL;
+	const X509_NAME_ENTRY *common_name_entry = NULL;
+	const ASN1_STRING *common_name_asn1 = NULL;
+	const char *common_name_str = NULL;
 
 	// Find the position of the CN field in the Subject field of the certificate
 	common_name_loc = X509_NAME_get_index_by_NID(X509_get_subject_name((X509 *) server_cert), NID_commonName, -1);
@@ -186,12 +195,12 @@ static SSLHostnameValidationResult matches_common_name(const char *hostname, con
 	if (common_name_asn1 == NULL) {
 		return SSL_HOSTNAME_ERROR;
 	}			
-	common_name_str = (char *) ASN1_STRING_data(common_name_asn1);
+	common_name_str = (const char *) ASN1_STRING_get0_data(common_name_asn1);
 
 	debug_print("matches_common_name: %s\n", common_name_str);
 
 	// Make sure there isn't an embedded NUL character in the CN
-	if (ASN1_STRING_length(common_name_asn1) != strlen(common_name_str)) {
+	if (ssl_asn1_string_length(common_name_asn1) != strlen(common_name_str)) {
 		return SSL_HOSTNAME_MALFORMED_CERTIFICATE;
 	}
 
@@ -227,12 +236,12 @@ static SSLHostnameValidationResult matches_subject_alternative_name(const char *
 
 		if (current_name->type == GEN_DNS) {
 			// Current name is a DNS name, let's check it
-			char *dns_name = (char *) ASN1_STRING_data(current_name->d.dNSName);
+			const char *dns_name = (const char *) ASN1_STRING_get0_data(current_name->d.dNSName);
 
 			debug_print("matches_subject_alternative_name: %s\n", dns_name);
 
 			// Make sure there isn't an embedded NUL character in the DNS name
-			if (ASN1_STRING_length(current_name->d.dNSName) != strlen(dns_name)) {
+			if (ssl_asn1_string_length(current_name->d.dNSName) != strlen(dns_name)) {
 				result = SSL_HOSTNAME_MALFORMED_CERTIFICATE;
 				break;
 			}

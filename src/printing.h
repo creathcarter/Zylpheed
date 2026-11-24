@@ -20,20 +20,18 @@
 #ifndef __PRINTING_H__
 #define __PRINTING_H__
 
-#include <gtk/gtkversion.h>
+#include <gtk/gtk.h>
 
 #include <glib.h>
 
 #include "procmsg.h"
 #include "procmime.h"
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 gint printing_print_messages_gtk		(GSList		*mlist,
 						 MimeInfo	*partinfo,
 						 gboolean	 all_headers);
 
 void printing_page_setup_gtk			(void);
-#endif
 
 gint printing_print_messages_with_command	(GSList		*mlist,
 						 gboolean	 all_headers,
