@@ -234,7 +234,7 @@ static GtkTargetEntry folderview_drag_types[] =
 	{"text/plain", GTK_TARGET_SAME_APP, 0}
 };
 
-static GtkItemFactoryEntry folderview_mail_popup_entries[] =
+static MenuFactoryEntry folderview_mail_popup_entries[] =
 {
 	{N_("/Create _new folder..."),	NULL, folderview_new_folder_cb, 0, NULL},
 	{N_("/_Rename folder..."),	NULL, folderview_rename_folder_cb, 0, NULL},
@@ -258,7 +258,7 @@ static GtkItemFactoryEntry folderview_mail_popup_entries[] =
 	{N_("/_Properties..."),		NULL, folderview_property_cb, 0, NULL}
 };
 
-static GtkItemFactoryEntry folderview_imap_popup_entries[] =
+static MenuFactoryEntry folderview_imap_popup_entries[] =
 {
 	{N_("/Create _new folder..."),	NULL, folderview_new_folder_cb,    0, NULL},
 	{N_("/_Rename folder..."),	NULL, folderview_rename_folder_cb, 0, NULL},
@@ -284,7 +284,7 @@ static GtkItemFactoryEntry folderview_imap_popup_entries[] =
 	{N_("/_Properties..."),		NULL, folderview_property_cb, 0, NULL}
 };
 
-static GtkItemFactoryEntry folderview_news_popup_entries[] =
+static MenuFactoryEntry folderview_news_popup_entries[] =
 {
 	{N_("/Su_bscribe to newsgroup..."),
 					NULL, folderview_new_news_group_cb, 0, NULL},
@@ -320,9 +320,9 @@ FolderView *folderview_create(void)
 	GtkWidget *mail_popup;
 	GtkWidget *news_popup;
 	GtkWidget *imap_popup;
-	GtkItemFactory *mail_factory;
-	GtkItemFactory *news_factory;
-	GtkItemFactory *imap_factory;
+	MenuFactory *mail_factory;
+	MenuFactory *news_factory;
+	MenuFactory *imap_factory;
 	gint n_entries;
 
 	debug_print(_("Creating folder view...\n"));
@@ -337,7 +337,7 @@ FolderView *folderview_create(void)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwin),
 					    GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolledwin, TRUE, TRUE, 0);
-	gtk_widget_set_size_request(scrolledwin,
+	gtkut_widget_set_initial_size(scrolledwin,
 				    prefs_common.folderview_width,
 				    prefs_common.folderview_height);
 
@@ -396,7 +396,7 @@ FolderView *folderview_create(void)
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 	gtk_tree_view_set_expander_column(GTK_TREE_VIEW(treeview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(folderview_col_resized), folderview);
 
 	renderer = gtk_cell_renderer_text_new();
@@ -412,7 +412,7 @@ FolderView *folderview_create(void)
 	gtk_tree_view_column_set_min_width(column, 8);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(folderview_col_resized), folderview);
 
 	renderer = gtk_cell_renderer_text_new();
@@ -428,7 +428,7 @@ FolderView *folderview_create(void)
 	gtk_tree_view_column_set_min_width(column, 8);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(folderview_col_resized), folderview);
 
 	renderer = gtk_cell_renderer_text_new();
@@ -444,7 +444,7 @@ FolderView *folderview_create(void)
 	gtk_tree_view_column_set_min_width(column, 8);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(folderview_col_resized), folderview);
 
 	/* add rightmost empty column */
@@ -926,7 +926,7 @@ static GtkWidget *label_window_create(const gchar *str)
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(window), str);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	manage_window_set_transient(GTK_WINDOW(window));
 	g_signal_connect(G_OBJECT(window), "delete_event", G_CALLBACK(gtk_true),
 			 NULL);
@@ -1638,7 +1638,7 @@ static gboolean folderview_menu_popup(FolderView *folderview,
 	FolderItem *item = NULL;
 	Folder *folder;
 	GtkWidget *popup;
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	GtkTreeModel *model = GTK_TREE_MODEL(folderview->store);
 	GtkTreeIter iter;
 	gboolean new_folder      = FALSE;
@@ -1735,7 +1735,7 @@ static gboolean folderview_menu_popup(FolderView *folderview,
 #define SET_SENS(factory, name, sens)				\
 {								\
 	GtkWidget *widget;					\
-	widget = gtk_item_factory_get_item(factory, name);	\
+	widget = menu_factory_get_item(factory, name);	\
 	if (widget)						\
 		gtk_widget_set_sensitive(widget, sens);		\
 }
@@ -1743,7 +1743,7 @@ static gboolean folderview_menu_popup(FolderView *folderview,
 #define SET_VISIBILITY(factory, name, visible)			\
 {								\
 	GtkWidget *widget;					\
-	widget = gtk_item_factory_get_item(factory, name);	\
+	widget = menu_factory_get_item(factory, name);	\
 	if (widget) {						\
 		if (visible)					\
 			gtk_widget_show(widget);		\
@@ -1755,7 +1755,7 @@ static gboolean folderview_menu_popup(FolderView *folderview,
 #define SET_VISIBILITY2(factory, name, visible)			\
 {								\
 	GtkWidget *widget;					\
-	widget = gtk_item_factory_get_item(factory, name);	\
+	widget = menu_factory_get_item(factory, name);	\
 	if (widget) {						\
 		GList *children;				\
 		GList *child;					\
@@ -2033,9 +2033,7 @@ static gboolean folderview_focus_idle_func(gpointer data)
 {
 	FolderView *folderview = (FolderView *)data;
 
-	gdk_threads_enter();
 	gtk_widget_set_can_focus(folderview->treeview, TRUE);
-	gdk_threads_leave();
 
 	return FALSE;
 }
@@ -2213,7 +2211,7 @@ static void folderview_col_resized(GtkWidget *widget, GtkAllocation *allocation,
 	for (type = 0; type <= COL_TOTAL; type++) {
 		column = gtk_tree_view_get_column
 			(GTK_TREE_VIEW(folderview->treeview), type);
-		if (column && column->button == widget) {
+		if (column && gtk_tree_view_column_get_button(column) == widget) {
 			switch (type) {
 			case COL_FOLDER_NAME:
 				prefs_common.folder_col_folder = width;
@@ -3186,8 +3184,6 @@ static gint auto_expand_timeout(gpointer data)
 	GtkTreePath *path = NULL;
 	gint ret;
 
-	gdk_threads_enter();
-
 	gtk_tree_view_get_drag_dest_row(treeview, &path, NULL);
 
 	if (path) {
@@ -3198,8 +3194,6 @@ static gint auto_expand_timeout(gpointer data)
 		ret = FALSE;
 	} else
 		ret = TRUE;
-
-	gdk_threads_leave();
 
 	return ret;
 }
@@ -3216,12 +3210,8 @@ static gint auto_scroll_timeout(gpointer data)
 {
 	FolderView *folderview = data;
 
-	gdk_threads_enter();
-
 	gtkut_tree_view_vertical_autoscroll
 		(GTK_TREE_VIEW(folderview->treeview));
-
-	gdk_threads_leave();
 
 	return TRUE;
 }
@@ -3232,6 +3222,30 @@ static void remove_auto_scroll_timeout(FolderView *folderview)
 		g_source_remove(folderview->scroll_timeout);
 		folderview->scroll_timeout = 0;
 	}
+}
+
+/* The drag context is read-only in GTK+ 3, so the Win32 correction of the
+   offered actions is computed here for both the motion and the drop handler
+   (GTK+ 2 code wrote it into context->actions). */
+static GdkDragAction folderview_drag_actions(GtkWidget *widget,
+					     GdkDragContext *context)
+{
+	GdkDragAction actions;
+
+	actions = gdk_drag_context_get_actions(context);
+#ifdef G_OS_WIN32
+	/* Win32 hack: somehow context->actions is not properly set on Win32 */
+	{
+		GdkWindow *rootwin;
+		GdkModifierType state;
+
+		rootwin = gtk_widget_get_root_window(widget);
+		gdk_window_get_pointer(rootwin, NULL, NULL, &state);
+		if ((state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) == 0)
+			actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
+	}
+#endif
+	return actions;
 }
 
 static gboolean folderview_drag_motion_cb(GtkWidget      *widget,
@@ -3246,6 +3260,7 @@ static gboolean folderview_drag_motion_cb(GtkWidget      *widget,
 	GtkTreeIter iter;
 	FolderItem *item = NULL, *src_item = NULL;
 	gboolean acceptable = FALSE;
+	GdkDragAction actions;
 
 	if (gtk_tree_view_get_dest_row_at_pos
 		(GTK_TREE_VIEW(widget), x, y, &path, NULL)) {
@@ -3284,26 +3299,15 @@ static gboolean folderview_drag_motion_cb(GtkWidget      *widget,
 		}
 	}
 
-#ifdef G_OS_WIN32
-	/* Win32 hack: somehow context->actions is not properly set on Win32 */
-	{
-		GdkWindow *rootwin;
-		GdkModifierType state;
-
-		rootwin = gtk_widget_get_root_window(widget);
-		gdk_window_get_pointer(rootwin, NULL, NULL, &state);
-		if ((state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) == 0)
-			context->actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
-	}
-#endif
+	actions = folderview_drag_actions(widget, context);
 
 	if (acceptable) {
-		if ((gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0 &&
+		if ((actions & GDK_ACTION_MOVE) != 0 &&
 		    FOLDER_ITEM_CAN_ADD(src_item))
 			gdk_drag_status(context, GDK_ACTION_MOVE, time);
-		else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_COPY) != 0)
+		else if ((actions & GDK_ACTION_COPY) != 0)
 			gdk_drag_status(context, GDK_ACTION_COPY, time);
-		else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_LINK) != 0)
+		else if ((actions & GDK_ACTION_LINK) != 0)
 			gdk_drag_status(context, GDK_ACTION_LINK, time);
 		else
 			gdk_drag_status(context, 0, time);
@@ -3356,12 +3360,16 @@ static void folderview_drag_received_cb(GtkWidget        *widget,
 	if (FOLDER_ITEM_CAN_ADD(item) && src_item && src_item != item &&
 	    src_item->stype != F_QUEUE && item->stype != F_QUEUE &&
 	    item->stype != F_VIRTUAL) {
-		if ((gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0 &&
+		GdkDragAction actions;
+
+		actions = folderview_drag_actions(widget, context);
+		if ((actions & GDK_ACTION_MOVE) != 0 &&
 		    FOLDER_ITEM_CAN_ADD(src_item)) {
 			summary_move_selected_to(folderview->summaryview, item);
-			context->action = 0;
+			/* report no action to the source (was a sealed field write) */
+			gdk_drag_status(context, 0, time);
 			gtk_drag_finish(context, TRUE, FALSE, time);
-		} else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_COPY) != 0) {
+		} else if ((actions & GDK_ACTION_COPY) != 0) {
 			summary_copy_selected_to(folderview->summaryview, item);
 			gtk_drag_finish(context, TRUE, FALSE, time);
 		} else

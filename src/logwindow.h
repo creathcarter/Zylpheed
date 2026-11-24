@@ -56,6 +56,7 @@ void log_window_show(LogWindow *logwin);
 
 void log_window_append(const gchar *str, LogType type);
 void log_window_append_queue(const gchar *str, LogType type);
+void log_window_append_deferred(const gchar *str, LogType type);
 
 void log_window_flush(void);
 

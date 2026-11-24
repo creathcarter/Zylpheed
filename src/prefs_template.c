@@ -43,6 +43,12 @@
 #include "quote_fmt.h"
 #include "plugin.h"
 
+enum {
+	TMPL_COL_NAME,
+	TMPL_COL_DATA,
+	TMPL_N_COLS
+};
+
 static struct Templates {
 	GtkWidget *window;
 	GtkWidget *clist_tmpls;
@@ -79,10 +85,8 @@ static void prefs_template_changed_cb		(GtkEditable	*editable,
 						 gpointer	 data);
 static void prefs_template_cancel_cb		(void);
 static void prefs_template_ok_cb		(void);
-static void prefs_template_select_cb		(GtkCList	*clist,
-						 gint		 row,
-						 gint		 column,
-						 GdkEvent	*event);
+static void prefs_template_select_cb		(GtkTreeSelection *selection,
+						 gpointer	 data);
 static void prefs_template_register_cb		(void);
 static void prefs_template_substitute_cb	(void);
 static void prefs_template_delete_cb		(void);
@@ -157,13 +161,16 @@ static void prefs_template_window_create(void)
 
 	GtkTextBuffer *buffer;
 
-	gchar *title[1];
+	GtkListStore *store;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
 
 	/* main window */
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 
 	/* vpaned to separate template settings from templates list */
 	vpaned = gtk_vpaned_new();
@@ -288,20 +295,23 @@ static void prefs_template_window_create(void)
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
 
-	title[0] = _("Registered templates");
-	clist_tmpls = gtk_clist_new_with_titles(1, title);
+	store = gtk_list_store_new(TMPL_N_COLS, G_TYPE_STRING, G_TYPE_POINTER);
+	clist_tmpls = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
 	gtk_widget_show(clist_tmpls);
 	gtk_widget_set_size_request(scroll1, -1,
 				    160 * gtkut_get_dpi_multiplier());
 	gtk_container_add(GTK_CONTAINER(scroll1), clist_tmpls);
-	gtk_clist_set_column_width(GTK_CLIST(clist_tmpls), 0, 80);
-	gtk_clist_set_selection_mode(GTK_CLIST(clist_tmpls),
-				     GTK_SELECTION_BROWSE);
-	gtkut_clist_set_redraw(GTK_CLIST(clist_tmpls));
-	gtk_widget_set_can_focus(GTK_CLIST(clist_tmpls)->column[0].button,
-			       FALSE);
-	g_signal_connect(G_OBJECT (clist_tmpls), "select_row",
-			 G_CALLBACK (prefs_template_select_cb), NULL);
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Registered templates"), renderer, "text", TMPL_COL_NAME,
+		 NULL);
+	gtk_tree_view_column_set_min_width(column, 80);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(clist_tmpls), column);
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(clist_tmpls));
+	gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
+	g_signal_connect(G_OBJECT(selection), "changed",
+			 G_CALLBACK(prefs_template_select_cb), NULL);
 
 	vbox3 = gtk_vbox_new(TRUE, 0);
 	gtk_widget_show(vbox3);
@@ -363,11 +373,10 @@ static void prefs_template_window_create(void)
 
 static void prefs_template_window_setup(void)
 {
-	GtkCList *clist = GTK_CLIST(templates.clist_tmpls);
+	GtkListStore *store;
+	GtkTreeIter iter;
 	GSList *tmpl_list;
 	GSList *cur;
-	gchar *title[1];
-	gint row;
 	Template *tmpl;
 
 	gtkut_box_set_reverse_order(GTK_BOX(templates.confirm_area),
@@ -375,25 +384,27 @@ static void prefs_template_window_setup(void)
 	manage_window_set_transient(GTK_WINDOW(templates.window));
 	gtk_widget_grab_focus(templates.ok_btn);
 
-	gtk_clist_freeze(clist);
-	gtk_clist_clear(clist);
+	store = GTK_LIST_STORE(gtk_tree_view_get_model
+			       (GTK_TREE_VIEW(templates.clist_tmpls)));
+	gtk_list_store_clear(store);
 
-	title[0] = _("(New)");
-	row = gtk_clist_append(clist, title);
-	gtk_clist_set_row_data(clist, row, NULL);
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter, TMPL_COL_NAME, _("(New)"),
+			   TMPL_COL_DATA, NULL, -1);
 
 	tmpl_list = template_read_config();
 
 	for (cur = tmpl_list; cur != NULL; cur = cur->next) {
 		tmpl = (Template *)cur->data;
-		title[0] = tmpl->name;
-		row = gtk_clist_append(clist, title);
-		gtk_clist_set_row_data(clist, row, tmpl);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, TMPL_COL_NAME, tmpl->name,
+				   TMPL_COL_DATA, tmpl, -1);
 	}
 
 	g_slist_free(tmpl_list);
 
-	gtk_clist_thaw(clist);
+	/* GtkCList in browse mode selected the first row */
+	gtkut_list_view_select_row(GTK_TREE_VIEW(templates.clist_tmpls), 0);
 
 	templates.entry_modified = FALSE;
 	templates.list_modified = FALSE;
@@ -401,16 +412,18 @@ static void prefs_template_window_setup(void)
 
 static void prefs_template_clear(void)
 {
+	GtkTreeModel *model;
 	Template *tmpl;
 	gint row = 1;
 
-	while ((tmpl = gtk_clist_get_row_data
-		(GTK_CLIST(templates.clist_tmpls), row)) != NULL) {
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(templates.clist_tmpls));
+	while ((tmpl = gtkut_tree_model_get_nth_data
+		(model, row, TMPL_COL_DATA)) != NULL) {
 		template_free(tmpl);
 		row++;
 	}
 
-	gtk_clist_clear(GTK_CLIST(templates.clist_tmpls));
+	gtk_list_store_clear(GTK_LIST_STORE(model));
 }
 
 static gint prefs_template_deleted_cb(GtkWidget *widget, GdkEventAny *event,
@@ -448,7 +461,8 @@ static void prefs_template_ok_cb(void)
 	tmpl_list = prefs_template_get_list();
 	template_set_config(tmpl_list);
 	compose_reflect_prefs_all();
-	gtk_clist_clear(GTK_CLIST(templates.clist_tmpls));
+	gtk_list_store_clear(GTK_LIST_STORE(gtk_tree_view_get_model
+					    (GTK_TREE_VIEW(templates.clist_tmpls))));
 	gtk_widget_hide(templates.window);
 	main_window_popup(main_window_get());
 	inc_unlock();
@@ -470,13 +484,18 @@ static void prefs_template_cancel_cb(void)
 	inc_unlock();
 }
 
-static void prefs_template_select_cb(GtkCList *clist, gint row, gint column,
-				     GdkEvent *event)
+static void prefs_template_select_cb(GtkTreeSelection *selection,
+				     gpointer data)
 {
 	Template *tmpl;
 	Template tmpl_def;
 	GtkTextBuffer *buffer;
 	GtkTextIter iter;
+	GtkTreeModel *model;
+	GtkTreeIter row_iter;
+
+	if (!gtk_tree_selection_get_selected(selection, &model, &row_iter))
+		return;
 
 	tmpl_def.name = _("Template");
 	tmpl_def.subject = "";
@@ -486,7 +505,8 @@ static void prefs_template_select_cb(GtkCList *clist, gint row, gint column,
 	tmpl_def.replyto = "";
 	tmpl_def.value = "";
 
-	if (!(tmpl = gtk_clist_get_row_data(clist, row)))
+	gtk_tree_model_get(model, &row_iter, TMPL_COL_DATA, &tmpl, -1);
+	if (!tmpl)
 		tmpl = &tmpl_def;
 
 	gtk_entry_set_text(GTK_ENTRY(templates.entry_name), tmpl->name);
@@ -511,12 +531,14 @@ static void prefs_template_select_cb(GtkCList *clist, gint row, gint column,
 
 static GSList *prefs_template_get_list(void)
 {
+	GtkTreeModel *model;
 	gint row = 1;
 	GSList *tmpl_list = NULL;
 	Template *tmpl;
 
-	while ((tmpl = gtk_clist_get_row_data
-		(GTK_CLIST(templates.clist_tmpls), row)) != NULL) {
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(templates.clist_tmpls));
+	while ((tmpl = gtkut_tree_model_get_nth_data
+		(model, row, TMPL_COL_DATA)) != NULL) {
 		tmpl->tmplid = row;
 		tmpl_list = g_slist_append(tmpl_list, tmpl);
 		row++;
@@ -527,7 +549,8 @@ static GSList *prefs_template_get_list(void)
 
 static gint prefs_template_clist_set_row(gint row)
 {
-	GtkCList *clist = GTK_CLIST(templates.clist_tmpls);
+	GtkTreeModel *model;
+	GtkTreeIter row_iter;
 	Template *tmpl;
 	Template *tmp_tmpl;
 	GtkTextBuffer *buffer;
@@ -539,9 +562,10 @@ static gint prefs_template_clist_set_row(gint row)
 	gchar *replyto;
 	gchar *subject;
 	gchar *value;
-	gchar *title[1];
 
 	g_return_val_if_fail(row != 0, -1);
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(templates.clist_tmpls));
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(templates.text_value));
 	gtk_text_buffer_get_start_iter(buffer, &start);
@@ -597,18 +621,19 @@ static gint prefs_template_clist_set_row(gint row)
 	tmpl->subject = subject;
 	tmpl->value = value;
 
-	title[0] = name;
-
 	if (row < 0) {
-		row = gtk_clist_append(clist, title);
+		gtk_list_store_append(GTK_LIST_STORE(model), &row_iter);
+		row = gtk_tree_model_iter_n_children(model, NULL) - 1;
 	} else {
-		gtk_clist_set_text(clist, row, 0, name);
-		tmp_tmpl = gtk_clist_get_row_data(clist, row);
+		gtk_tree_model_iter_nth_child(model, &row_iter, NULL, row);
+		gtk_tree_model_get(model, &row_iter, TMPL_COL_DATA, &tmp_tmpl,
+				   -1);
 		if (tmp_tmpl)
 			template_free(tmp_tmpl);
 	}
 
-	gtk_clist_set_row_data(clist, row, tmpl);
+	gtk_list_store_set(GTK_LIST_STORE(model), &row_iter,
+			   TMPL_COL_NAME, name, TMPL_COL_DATA, tmpl, -1);
 	templates.entry_modified = FALSE;
 	templates.list_modified = TRUE;
 
@@ -622,16 +647,16 @@ static void prefs_template_register_cb(void)
 
 static void prefs_template_substitute_cb(void)
 {
-	GtkCList *clist = GTK_CLIST(templates.clist_tmpls);
+	GtkTreeView *treeview = GTK_TREE_VIEW(templates.clist_tmpls);
 	Template *tmpl;
 	gint row;
 
-	if (!clist->selection) return;
-
-	row = GPOINTER_TO_INT(clist->selection->data);
+	row = gtkut_list_view_get_selected_row(treeview);
+	if (row < 0) return;
 	if (row == 0) return;
 
-	tmpl = gtk_clist_get_row_data(clist, row);
+	tmpl = gtkut_tree_model_get_nth_data(gtk_tree_view_get_model(treeview),
+					     row, TMPL_COL_DATA);
 	if (!tmpl) return;
 
 	prefs_template_clist_set_row(row);
@@ -639,12 +664,12 @@ static void prefs_template_substitute_cb(void)
 
 static void prefs_template_delete_cb(void)
 {
-	GtkCList *clist = GTK_CLIST(templates.clist_tmpls);
+	GtkTreeView *treeview = GTK_TREE_VIEW(templates.clist_tmpls);
 	Template *tmpl;
 	gint row;
 
-	if (!clist->selection) return;
-	row = GPOINTER_TO_INT(clist->selection->data);
+	row = gtkut_list_view_get_selected_row(treeview);
+	if (row < 0) return;
 	if (row == 0) return;
 
 	if (alertpanel(_("Delete template"),
@@ -652,34 +677,37 @@ static void prefs_template_delete_cb(void)
 		       GTK_STOCK_YES, GTK_STOCK_NO, NULL) != G_ALERTDEFAULT)
 		return;
 
-	tmpl = gtk_clist_get_row_data(clist, row);
+	tmpl = gtkut_tree_model_get_nth_data(gtk_tree_view_get_model(treeview),
+					     row, TMPL_COL_DATA);
 	template_free(tmpl);
-	gtk_clist_remove(clist, row);
+	gtkut_list_view_remove_row(treeview, row);
 	templates.list_modified = TRUE;
 }
 
 static void prefs_template_up_cb(void)
 {
-	GtkCList *clist = GTK_CLIST(templates.clist_tmpls);
+	GtkTreeView *treeview = GTK_TREE_VIEW(templates.clist_tmpls);
 	gint row;
 
-	if (!clist->selection) return;
-	row = GPOINTER_TO_INT(clist->selection->data);
+	row = gtkut_list_view_get_selected_row(treeview);
+	if (row < 0) return;
 	if (row > 1) {
-		gtk_clist_row_move(clist, row, row - 1);
+		gtkut_list_view_move_selected_row(treeview, -1);
 		templates.list_modified = TRUE;
 	}
 }
 
 static void prefs_template_down_cb(void)
 {
-	GtkCList *clist = GTK_CLIST(templates.clist_tmpls);
-	gint row;
+	GtkTreeView *treeview = GTK_TREE_VIEW(templates.clist_tmpls);
+	gint row, n_rows;
 
-	if (!clist->selection) return;
-	row = GPOINTER_TO_INT(clist->selection->data);
-	if (row > 0 && row < clist->rows - 1) {
-		gtk_clist_row_move(clist, row, row + 1);
+	row = gtkut_list_view_get_selected_row(treeview);
+	if (row < 0) return;
+	n_rows = gtk_tree_model_iter_n_children
+		(gtk_tree_view_get_model(treeview), NULL);
+	if (row > 0 && row < n_rows - 1) {
+		gtkut_list_view_move_selected_row(treeview, 1);
 		templates.list_modified = TRUE;
 	}
 }

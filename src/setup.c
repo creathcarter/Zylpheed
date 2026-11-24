@@ -51,7 +51,6 @@
 #include "pop.h"
 #include "imap.h"
 
-static PangoFontDescription *font_desc;
 
 static void scan_tree_func(Folder *folder, FolderItem *item, gpointer data);
 
@@ -89,20 +88,6 @@ static void sel_btn_clicked(GtkButton *button, GtkWidget *entry)
 	}
 }
 
-#ifdef G_OS_WIN32
-#define MODIFY_LABEL_STYLE() \
-	{ \
-		GtkStyle *style; \
-		style = gtk_widget_get_style(dialog); \
-		gtk_widget_modify_base(label, GTK_STATE_ACTIVE, \
-				       &style->base[GTK_STATE_SELECTED]); \
-		gtk_widget_modify_text(label, GTK_STATE_ACTIVE, \
-				       &style->text[GTK_STATE_SELECTED]); \
-	}
-#else
-#define MODIFY_LABEL_STYLE()
-#endif
-
 void setup_mailbox(void)
 {
 	MainWindow *mainwin;
@@ -125,13 +110,12 @@ void setup_mailbox(void)
 
 	dialog = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Mailbox setting"));
-	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
 	gtk_widget_set_size_request(dialog, 540 * gtkut_get_dpi_multiplier(), -1);
 	gtk_window_set_position(GTK_WINDOW(dialog),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	manage_window_set_transient(GTK_WINDOW(dialog));
-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
 	MANAGE_WINDOW_SIGNALS_CONNECT(dialog);
 	gtk_widget_realize(dialog);
 
@@ -153,19 +137,7 @@ void setup_mailbox(void)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 
-	if (!font_desc) {
-		gint size;
-
-		size = pango_font_description_get_size
-			(gtk_widget_get_style(label)->font_desc);
-		font_desc = pango_font_description_new();
-		pango_font_description_set_weight
-			(font_desc, PANGO_WEIGHT_BOLD);
-		pango_font_description_set_size
-			(font_desc, size * PANGO_SCALE_LARGE);
-	}
-	if (font_desc)
-		gtk_widget_modify_font(label, font_desc);
+	gtkut_widget_add_class(label, GTKUT_CLASS_TITLE);
 
 	label = gtk_label_new(_("This dialog will make initial setup of mailbox."));
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -173,7 +145,6 @@ void setup_mailbox(void)
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
 	gtk_widget_set_can_focus(label, FALSE);
-	MODIFY_LABEL_STYLE();
 
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 12);
@@ -194,7 +165,6 @@ void setup_mailbox(void)
 	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
 	gtk_widget_set_can_focus(label, FALSE);
-	MODIFY_LABEL_STYLE();
 
 	g_free(fullpath);
 
@@ -223,7 +193,6 @@ void setup_mailbox(void)
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
 	gtk_widget_set_can_focus(label, FALSE);
-	MODIFY_LABEL_STYLE();
 
 	if (prefs_common.comply_gnome_hig) {
 		gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
@@ -736,13 +705,12 @@ PrefsAccount *setup_account(void)
 	setupac.next_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_GO_FORWARD, GTK_RESPONSE_ACCEPT);
 	setupac.cancel_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
-	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
 	gtk_widget_set_size_request(dialog, 540 * gtkut_get_dpi_multiplier(), -1);
 	gtk_window_set_position(GTK_WINDOW(dialog),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	//gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	manage_window_set_transient(GTK_WINDOW(dialog));
-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), TRUE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 	gtk_dialog_set_response_sensitive(GTK_DIALOG(dialog),
 					  GTK_RESPONSE_REJECT, FALSE);
@@ -770,19 +738,7 @@ PrefsAccount *setup_account(void)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 
-	if (!font_desc) {
-		gint size;
-
-		size = pango_font_description_get_size
-			(gtk_widget_get_style(label)->font_desc);
-		font_desc = pango_font_description_new();
-		pango_font_description_set_weight
-			(font_desc, PANGO_WEIGHT_BOLD);
-		pango_font_description_set_size
-			(font_desc, size * PANGO_SCALE_LARGE);
-	}
-	if (font_desc)
-		gtk_widget_modify_font(label, font_desc);
+	gtkut_widget_add_class(label, GTKUT_CLASS_TITLE);
 
 	label = gtk_label_new(_("This dialog will make initial setup of new mail account."));
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -790,7 +746,6 @@ PrefsAccount *setup_account(void)
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
 	gtk_widget_set_can_focus(label, FALSE);
-	MODIFY_LABEL_STYLE();
 
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 8);

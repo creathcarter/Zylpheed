@@ -108,6 +108,8 @@ static gboolean export_mbox_func(Folder *folder, FolderItem *item, guint count, 
 	g_get_current_time(&tv_cur);
 	g_snprintf(str, sizeof(str), "%u / %d", count, total);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress->progressbar), str);
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(progress->progressbar),
+				       str != NULL && *str != '\0');
 
 	if (tv_prev.tv_sec == 0 ||
 	    (tv_cur.tv_sec - tv_prev.tv_sec) * G_USEC_PER_SEC +
@@ -180,7 +182,7 @@ static gint export_do(void)
 	GSList *mlist = NULL;
 
 	type = menu_get_option_menu_active_index
-		(GTK_OPTION_MENU(format_optmenu));
+		(GTK_COMBO_BOX(format_optmenu));
 
 	srcdir = gtk_entry_get_text(GTK_ENTRY(src_entry));
 	utf8mbox = gtk_entry_get_text(GTK_ENTRY(file_entry));
@@ -332,8 +334,6 @@ static void export_create(void)
 	GtkWidget *vbox;
 	GtkWidget *hbox;
 	GtkWidget *table;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	GtkWidget *format_label;
 	GtkWidget *src_label;
 	GtkWidget *confirm_area;
@@ -343,7 +343,7 @@ static void export_create(void)
 	gtk_container_set_border_width(GTK_CONTAINER(window), 5);
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(delete_event), NULL);
 	g_signal_connect(G_OBJECT(window), "key_press_event",
@@ -383,22 +383,15 @@ static void export_create(void)
 			 GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
 	gtk_misc_set_alignment(GTK_MISC(file_label), 1, 0.5);
 
-	format_optmenu = gtk_option_menu_new();
+	format_optmenu = menu_combo_new();
 	gtk_table_attach(GTK_TABLE(table), format_optmenu, 1, 2, 0, 1,
 			 GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0, 0);
 
-	menu = gtk_menu_new();
-	MENUITEM_ADD(menu, menuitem, _("UNIX mbox"), EXPORT_MBOX);
-	g_signal_connect(G_OBJECT(menuitem), "activate",
+	COMBOBOX_ADD(format_optmenu, _("UNIX mbox"), EXPORT_MBOX);
+	COMBOBOX_ADD(format_optmenu, _("eml (number + .eml)"), EXPORT_EML);
+	COMBOBOX_ADD(format_optmenu, _("MH (number only)"), EXPORT_MH);
+	g_signal_connect(G_OBJECT(format_optmenu), "changed",
 			 G_CALLBACK(export_format_menu_cb), NULL);
-	MENUITEM_ADD(menu, menuitem, _("eml (number + .eml)"), EXPORT_EML);
-	g_signal_connect(G_OBJECT(menuitem), "activate",
-			 G_CALLBACK(export_format_menu_cb), NULL);
-	MENUITEM_ADD(menu, menuitem, _("MH (number only)"), EXPORT_MH);
-	g_signal_connect(G_OBJECT(menuitem), "activate",
-			 G_CALLBACK(export_format_menu_cb), NULL);
-
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(format_optmenu), menu);
 
 	src_entry = gtk_entry_new();
 	gtk_table_attach(GTK_TABLE(table), src_entry, 1, 2, 1, 2,
@@ -451,8 +444,7 @@ static void export_format_menu_cb(GtkWidget *widget, gpointer data)
 {
 	gint type;
 
-	type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget),
-			       MENU_VAL_ID));
+	type = menu_get_option_menu_active_index(GTK_COMBO_BOX(widget));
 	if (type == EXPORT_MBOX) {
 		gtk_label_set_text(GTK_LABEL(desc_label),
 				   _("Specify source folder and destination file."));
@@ -481,7 +473,7 @@ static void export_filesel_cb(GtkWidget *widget, gpointer data)
 	gint type;
 
 	type = menu_get_option_menu_active_index
-		(GTK_OPTION_MENU(format_optmenu));
+		(GTK_COMBO_BOX(format_optmenu));
 
 	if (type == EXPORT_MBOX)
 		filename = filesel_select_file(_("Select destination file"),

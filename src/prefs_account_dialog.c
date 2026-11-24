@@ -226,7 +226,7 @@ static struct Advanced {
 
 static void prefs_account_protocol_set_data_from_optmenu(PrefParam *pparam);
 static void prefs_account_protocol_set_optmenu		(PrefParam *pparam);
-static void prefs_account_protocol_activated		(GtkMenuItem *menuitem);
+static void prefs_account_protocol_activated		(GtkComboBox *combo);
 
 static void prefs_account_pop_auth_type_set_data_from_optmenu
 							(PrefParam *pparam);
@@ -545,12 +545,8 @@ PrefsAccount *prefs_account_open(PrefsAccount *ac_prefs)
 			gtk_entry_set_text(GTK_ENTRY(basic.org_entry),
 					   def_ac->organization ? def_ac->organization : "");
 		}
-		menu_set_sensitive_all
-			(GTK_MENU_SHELL
-				(gtk_option_menu_get_menu
-					(GTK_OPTION_MENU
-						(basic.protocol_optmenu))),
-			 TRUE);
+		menu_combo_set_sensitive_all
+			(GTK_COMBO_BOX(basic.protocol_optmenu), TRUE);
 
 		gtk_combo_box_set_active(GTK_COMBO_BOX(compose.sig_combo), 0);
 
@@ -654,12 +650,6 @@ static void prefs_account_create(void)
 			 G_CALLBACK(prefs_account_sig_changed_cb), NULL);
 }
 
-#define SET_ACTIVATE(menuitem) \
-{ \
-	g_signal_connect(G_OBJECT(menuitem), "activate", \
-			 G_CALLBACK(prefs_account_protocol_activated), NULL); \
-}
-
 static void prefs_account_basic_create(void)
 {
 	GtkWidget *vbox1;
@@ -676,8 +666,6 @@ static void prefs_account_basic_create(void)
 	GtkWidget *serv_frame;
 	GtkWidget *vbox2;
 	GtkWidget *optmenu;
-	GtkWidget *optmenu_menu;
-	GtkWidget *menuitem;
 	GtkWidget *serv_table;
 	GtkWidget *recvserv_label;
 	GtkWidget *smtpserv_label;
@@ -773,22 +761,16 @@ static void prefs_account_basic_create(void)
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-	optmenu = gtk_option_menu_new ();
+	optmenu = menu_combo_new ();
 	gtk_widget_show (optmenu);
 	gtk_box_pack_start (GTK_BOX (hbox), optmenu, FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new ();
-
-	MENUITEM_ADD (optmenu_menu, menuitem, _("POP3"),  A_POP3);
-	SET_ACTIVATE (menuitem);
-	MENUITEM_ADD (optmenu_menu, menuitem, _("IMAP4"), A_IMAP4);
-	SET_ACTIVATE (menuitem);
-	MENUITEM_ADD (optmenu_menu, menuitem, _("News (NNTP)"), A_NNTP);
-	SET_ACTIVATE (menuitem);
-	MENUITEM_ADD (optmenu_menu, menuitem, _("None (local)"), A_LOCAL);
-	SET_ACTIVATE (menuitem);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (optmenu), optmenu_menu);
+	COMBOBOX_ADD (optmenu, _("POP3"),  A_POP3);
+	COMBOBOX_ADD (optmenu, _("IMAP4"), A_IMAP4);
+	COMBOBOX_ADD (optmenu, _("News (NNTP)"), A_NNTP);
+	COMBOBOX_ADD (optmenu, _("None (local)"), A_LOCAL);
+	g_signal_connect (G_OBJECT (optmenu), "changed",
+			  G_CALLBACK (prefs_account_protocol_activated), NULL);
 
 	serv_table = gtk_table_new (6, 4, FALSE);
 	gtk_widget_show (serv_table);
@@ -901,8 +883,6 @@ static void prefs_account_receive_create(void)
 	GtkWidget *frame1;
 	GtkWidget *vbox2;
 	GtkWidget *pop_optmenu;
-	GtkWidget *optmenu_menu;
-	GtkWidget *menuitem;
 	GtkWidget *use_apop_chkbtn;
 	GtkWidget *rmmail_chkbtn;
 	GtkWidget *hbox_spc;
@@ -952,16 +932,12 @@ static void prefs_account_receive_create(void)
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox1), label, FALSE, FALSE, 0);
 
-	pop_optmenu = gtk_option_menu_new ();
+	pop_optmenu = menu_combo_new ();
 	gtk_widget_show (pop_optmenu);
 	gtk_box_pack_start (GTK_BOX (hbox1), pop_optmenu, FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new ();
-
-	MENUITEM_ADD (optmenu_menu, menuitem, _("Basic"), 0);
-	MENUITEM_ADD (optmenu_menu, menuitem, "OAuth2", POP3_AUTH_OAUTH2);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (pop_optmenu), optmenu_menu);
+	COMBOBOX_ADD (pop_optmenu, _("Basic"), 0);
+	COMBOBOX_ADD (pop_optmenu, "OAuth2", POP3_AUTH_OAUTH2);
 
 	PACK_VSPACER(vbox2, vbox3, VSPACING_NARROW_2);
 
@@ -1081,19 +1057,15 @@ static void prefs_account_receive_create(void)
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox1), label, FALSE, FALSE, 0);
 
-	imap_optmenu = gtk_option_menu_new ();
+	imap_optmenu = menu_combo_new ();
 	gtk_widget_show (imap_optmenu);
 	gtk_box_pack_start (GTK_BOX (hbox1), imap_optmenu, FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new ();
-
-	MENUITEM_ADD (optmenu_menu, menuitem, _("Automatic"), 0);
-	MENUITEM_ADD (optmenu_menu, menuitem, "LOGIN", IMAP_AUTH_LOGIN);
-	MENUITEM_ADD (optmenu_menu, menuitem, "PLAIN", IMAP_AUTH_PLAIN);
-	MENUITEM_ADD (optmenu_menu, menuitem, "CRAM-MD5", IMAP_AUTH_CRAM_MD5);
-	MENUITEM_ADD (optmenu_menu, menuitem, "OAuth2", IMAP_AUTH_OAUTH2);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (imap_optmenu), optmenu_menu);
+	COMBOBOX_ADD (imap_optmenu, _("Automatic"), 0);
+	COMBOBOX_ADD (imap_optmenu, "LOGIN", IMAP_AUTH_LOGIN);
+	COMBOBOX_ADD (imap_optmenu, "PLAIN", IMAP_AUTH_PLAIN);
+	COMBOBOX_ADD (imap_optmenu, "CRAM-MD5", IMAP_AUTH_CRAM_MD5);
+	COMBOBOX_ADD (imap_optmenu, "OAuth2", IMAP_AUTH_OAUTH2);
 
 	PACK_CHECK_BUTTON (vbox2, imap_check_inbox_chkbtn,
 			   _("Only check INBOX on receiving"));
@@ -1173,8 +1145,6 @@ static void prefs_account_send_create(void)
 	GtkWidget *vbox3;
 	GtkWidget *smtp_auth_chkbtn;
 	GtkWidget *optmenu;
-	GtkWidget *optmenu_menu;
-	GtkWidget *menuitem;
 	GtkWidget *vbox4;
 	GtkWidget *hbox_spc;
 	GtkWidget *label;
@@ -1242,19 +1212,15 @@ static void prefs_account_send_create(void)
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-	optmenu = gtk_option_menu_new ();
+	optmenu = menu_combo_new ();
 	gtk_widget_show (optmenu);
 	gtk_box_pack_start (GTK_BOX (hbox), optmenu, FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new ();
-
-	MENUITEM_ADD (optmenu_menu, menuitem, _("Automatic"), 0);
-	MENUITEM_ADD (optmenu_menu, menuitem, "PLAIN", SMTPAUTH_PLAIN);
-	MENUITEM_ADD (optmenu_menu, menuitem, "LOGIN", SMTPAUTH_LOGIN);
-	MENUITEM_ADD (optmenu_menu, menuitem, "CRAM-MD5", SMTPAUTH_CRAM_MD5);
-	MENUITEM_ADD (optmenu_menu, menuitem, "OAuth2", SMTPAUTH_OAUTH2);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (optmenu), optmenu_menu);
+	COMBOBOX_ADD (optmenu, _("Automatic"), 0);
+	COMBOBOX_ADD (optmenu, "PLAIN", SMTPAUTH_PLAIN);
+	COMBOBOX_ADD (optmenu, "LOGIN", SMTPAUTH_LOGIN);
+	COMBOBOX_ADD (optmenu, "CRAM-MD5", SMTPAUTH_CRAM_MD5);
+	COMBOBOX_ADD (optmenu, "OAuth2", SMTPAUTH_OAUTH2);
 
 	PACK_VSPACER(vbox4, vbox_spc, VSPACING_NARROW_2);
 
@@ -1373,14 +1339,14 @@ static void prefs_account_compose_create(void)
 	gtk_widget_show (sig_hbox);
 	gtk_box_pack_start (GTK_BOX (sig_vbox), sig_hbox, FALSE, FALSE, 0);
 
-	sig_combo = gtk_combo_box_new_text();
+	sig_combo = gtk_combo_box_text_new();
 	gtk_widget_show (sig_combo);
 	gtk_box_pack_start (GTK_BOX (sig_hbox), sig_combo, FALSE, FALSE, 0);
 
 	for (i = 0; i < 10; i++) {
 		gchar buf[256];
 		g_snprintf(buf, sizeof(buf), _("Signature %d"), i + 1);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(sig_combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sig_combo), buf);
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(sig_combo), 0);
 	g_signal_connect(GTK_COMBO_BOX(sig_combo), "changed",
@@ -2206,15 +2172,11 @@ static void prefs_account_ok(void)
 static gint prefs_account_apply(void)
 {
 	RecvProtocol protocol;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	PrefsAccount *tmp_ac_prefs;
 	gint i;
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(basic.protocol_optmenu));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	protocol = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+	protocol = GPOINTER_TO_INT(menu_combo_get_active_data
+				   (GTK_COMBO_BOX(basic.protocol_optmenu)));
 
 	gtkut_entry_strip_text(GTK_ENTRY(basic.addr_entry));
 	gtkut_entry_strip_text(GTK_ENTRY(basic.smtpserv_entry));
@@ -2435,208 +2397,173 @@ static void prefs_account_ascii_armored_warning(GtkWidget *widget)
 static void prefs_account_protocol_set_data_from_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(*ui_data->widget));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
 	*((RecvProtocol *)pparam->data) = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+		(menu_combo_get_active_data(GTK_COMBO_BOX(*ui_data->widget)));
 }
 
 static void prefs_account_protocol_set_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
 	RecvProtocol protocol;
-	GtkOptionMenu *optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
+	GtkComboBox *optmenu;
 	gint index;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+	optmenu = GTK_COMBO_BOX(*ui_data->widget);
 
 	protocol = *((RecvProtocol *)pparam->data);
 	index = menu_find_option_menu_index
 		(optmenu, GINT_TO_POINTER(protocol), NULL);
 	if (index < 0) return;
-	gtk_option_menu_set_history(optmenu, index);
+	gtk_combo_box_set_active(optmenu, index);
 
-	menu = gtk_option_menu_get_menu(optmenu);
-	menu_set_insensitive_all(GTK_MENU_SHELL(menu));
+	menu_combo_set_sensitive_all(optmenu, FALSE);
+	menu_combo_set_item_sensitive(optmenu, index, TRUE);
 
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	gtk_widget_set_sensitive(menuitem, TRUE);
-	gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
+	/* the option menu item was activated here */
+	prefs_account_protocol_activated(optmenu);
 }
 
 static void prefs_account_pop_auth_type_set_data_from_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(*ui_data->widget));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
 	*((RecvProtocol *)pparam->data) = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+		(menu_combo_get_active_data(GTK_COMBO_BOX(*ui_data->widget)));
 }
 
 static void prefs_account_pop_auth_type_set_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
 	IMAPAuthType type = *((IMAPAuthType *)pparam->data);
-	GtkOptionMenu *optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
+	GtkComboBox *optmenu;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+	optmenu = GTK_COMBO_BOX(*ui_data->widget);
 
 	switch (type) {
 	case POP3_AUTH_OAUTH2:
-		gtk_option_menu_set_history(optmenu, 1);
+		gtk_combo_box_set_active(optmenu, 1);
 		break;
 	case 0:
 	default:
-		gtk_option_menu_set_history(optmenu, 0);
+		gtk_combo_box_set_active(optmenu, 0);
 	}
-
-	menu = gtk_option_menu_get_menu(optmenu);
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
 }
 
 static void prefs_account_imap_auth_type_set_data_from_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(*ui_data->widget));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
 	*((RecvProtocol *)pparam->data) = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+		(menu_combo_get_active_data(GTK_COMBO_BOX(*ui_data->widget)));
 }
 
 static void prefs_account_imap_auth_type_set_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
 	IMAPAuthType type = *((IMAPAuthType *)pparam->data);
-	GtkOptionMenu *optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
+	GtkComboBox *optmenu;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+	optmenu = GTK_COMBO_BOX(*ui_data->widget);
 
 	switch (type) {
 	case IMAP_AUTH_LOGIN:
-		gtk_option_menu_set_history(optmenu, 1);
+		gtk_combo_box_set_active(optmenu, 1);
 		break;
 	case IMAP_AUTH_PLAIN:
-		gtk_option_menu_set_history(optmenu, 2);
+		gtk_combo_box_set_active(optmenu, 2);
 		break;
 	case IMAP_AUTH_CRAM_MD5:
-		gtk_option_menu_set_history(optmenu, 3);
+		gtk_combo_box_set_active(optmenu, 3);
 		break;
 	case IMAP_AUTH_OAUTH2:
-		gtk_option_menu_set_history(optmenu, 4);
+		gtk_combo_box_set_active(optmenu, 4);
 		break;
 	case 0:
 	default:
-		gtk_option_menu_set_history(optmenu, 0);
+		gtk_combo_box_set_active(optmenu, 0);
 	}
-
-	menu = gtk_option_menu_get_menu(optmenu);
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
 }
 
 static void prefs_account_smtp_auth_type_set_data_from_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(*ui_data->widget));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
 	*((RecvProtocol *)pparam->data) = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+		(menu_combo_get_active_data(GTK_COMBO_BOX(*ui_data->widget)));
 }
 
 static void prefs_account_smtp_auth_type_set_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
 	SMTPAuthType type = *((SMTPAuthType *)pparam->data);
-	GtkOptionMenu *optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
+	GtkComboBox *optmenu;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+	optmenu = GTK_COMBO_BOX(*ui_data->widget);
 
 	switch (type) {
 	case SMTPAUTH_PLAIN:
-		gtk_option_menu_set_history(optmenu, 1);
+		gtk_combo_box_set_active(optmenu, 1);
 		break;
 	case SMTPAUTH_LOGIN:
-		gtk_option_menu_set_history(optmenu, 2);
+		gtk_combo_box_set_active(optmenu, 2);
 		break;
 	case SMTPAUTH_CRAM_MD5:
-		gtk_option_menu_set_history(optmenu, 3);
+		gtk_combo_box_set_active(optmenu, 3);
 		break;
 	case SMTPAUTH_OAUTH2:
-		gtk_option_menu_set_history(optmenu, 4);
+		gtk_combo_box_set_active(optmenu, 4);
 		break;
 	case 0:
 	default:
-		gtk_option_menu_set_history(optmenu, 0);
+		gtk_combo_box_set_active(optmenu, 0);
 	}
-
-	menu = gtk_option_menu_get_menu(optmenu);
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
 }
 
-static void prefs_account_protocol_activated(GtkMenuItem *menuitem)
+static void prefs_account_protocol_activated(GtkComboBox *combo)
 {
 	RecvProtocol protocol;
 	gboolean active;
 	PrefsAccount *tmp_ac_prefs;
 
+	if (gtk_combo_box_get_active(combo) < 0)
+		return;
+
 	tmp_ac_prefs = prefs_account_get_tmp_prefs();
 
-	protocol = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+	protocol = GPOINTER_TO_INT(menu_combo_get_active_data(combo));
 
 	switch(protocol) {
 	case A_NNTP:

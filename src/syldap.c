@@ -642,9 +642,7 @@ static gboolean syldap_display_search_results(SyldapServer *ldapServer)
 {
 	/* NOTE: when this function is called the accompanying thread should
 	 * already be terminated. */
-	gdk_threads_enter();
 	ldapServer->callBack(ldapServer);
-	gdk_threads_leave();
 	/* FIXME:  match should know whether to free this SyldapServer stuff. */
 	g_free(ldapServer->thread);
 	ldapServer->thread = NULL;

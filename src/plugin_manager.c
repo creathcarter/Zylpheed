@@ -130,7 +130,7 @@ static void plugin_manager_create(void)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Plug-in manager"));
 	gtk_widget_set_size_request(window, 600, 400);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, TRUE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
 
 	vbox = gtk_vbox_new(FALSE, 6);

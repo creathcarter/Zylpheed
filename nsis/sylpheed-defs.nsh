@@ -2,7 +2,10 @@
 ;!define HAVE_AUTOENC_PLUGIN
 
 !define PRODUCT_NAME "Sylpheed"
-!define PRODUCT_VERSION "3.7"
+; override with makensis -DPRODUCT_VERSION=...
+!ifndef PRODUCT_VERSION
+!define PRODUCT_VERSION "3.8.0beta1"
+!endif
 
 !ifdef SYLPHEED_PRO
 !define PRODUCT_PUBLISHER "SRA OSS, Inc. Japan"

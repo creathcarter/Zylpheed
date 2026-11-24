@@ -527,7 +527,7 @@ static void scan_tree_func	 (Folder	*folder,
 				  FolderItem	*item,
 				  gpointer	 data);
 
-static GtkItemFactoryEntry mainwin_entries[] =
+static MenuFactoryEntry mainwin_entries[] =
 {
 	{N_("/_File"),				NULL, NULL, 0, "<Branch>"},
 	{N_("/_File/_Folder"),			NULL, NULL, 0, "<Branch>"},
@@ -920,14 +920,10 @@ MainWindow *main_window_create(SeparateType type)
 	FolderView *folderview;
 	SummaryView *summaryview;
 	MessageView *messageview;
-	GdkColormap *colormap;
-	GdkColor color[3];
-	gboolean success[3];
 	guint n_menu_entries;
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	GtkWidget *ac_menu;
 	GtkWidget *menuitem;
-	gint i;
 
 	static GdkGeometry geometry;
 
@@ -937,7 +933,13 @@ MainWindow *main_window_create(SeparateType type)
 	/* main window */
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), PROG_VERSION);
-	gtk_window_set_policy(GTK_WINDOW(window), TRUE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
+	/* GTK+ 3 sizes a new window to the natural size of its contents;
+	   GTK+ 2 used the size requests, i.e. the saved sizes */
+	if (prefs_common.mainwin_width > 0 && prefs_common.mainwin_height > 0)
+		gtk_window_set_default_size(GTK_WINDOW(window),
+					    prefs_common.mainwin_width,
+					    prefs_common.mainwin_height);
 	gtk_window_set_wmclass(GTK_WINDOW(window), "main_window", "Sylpheed");
 	gtk_widget_add_events(window, GDK_VISIBILITY_NOTIFY_MASK);
 	g_signal_connect(G_OBJECT(window), "key_press_event",
@@ -966,7 +968,7 @@ MainWindow *main_window_create(SeparateType type)
 	gtk_widget_show(menubar);
 	gtk_widget_set_size_request(menubar, 300, -1);
 	gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, TRUE, 0);
-	ifactory = gtk_item_factory_from_widget(menubar);
+	ifactory = menu_factory_from_widget(menubar);
 
 	/* toolbar */
 	toolbar = main_window_toolbar_create(mainwin);
@@ -1094,17 +1096,6 @@ MainWindow *main_window_create(SeparateType type)
 	folderview->color_noselect.red = folderview->color_noselect.green =
 		folderview->color_noselect.blue = COLOR_DIM;
 
-	color[0] = summaryview->color_marked;
-	color[1] = summaryview->color_dim;
-	color[2] = folderview->color_new;
-
-	colormap = gdk_window_get_colormap(gtk_widget_get_window(window));
-	gdk_colormap_alloc_colors(colormap, color, 3, FALSE, TRUE, success);
-	for (i = 0; i < 3; i++) {
-		if (success[i] == FALSE)
-			g_warning(_("MainWindow: color allocation %d failed\n"), i);
-	}
-
 	if (prefs_common.layout_type == LAYOUT_VERTICAL)
 		messageview->visible = TRUE;
 	else
@@ -1123,7 +1114,7 @@ MainWindow *main_window_create(SeparateType type)
 			 G_CALLBACK(main_window_visibility_notify_cb), mainwin);
 
 	/* set menu items */
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(ifactory, "/View/Character encoding/Auto detect");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), TRUE);
 
@@ -1131,19 +1122,19 @@ MainWindow *main_window_create(SeparateType type)
 		(mainwin, prefs_common.toolbar_style);
 
 	gtk_widget_hide(GTK_WIDGET_PTR(summaryview->qsearch));
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(ifactory, "/View/Show or hide/Search bar");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 				       prefs_common.show_searchbar);
 
 	gtk_widget_hide(mainwin->statusbar);
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(ifactory, "/View/Show or hide/Status bar");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 				       prefs_common.show_statusbar);
 
 	/* set account selection menu */
-	ac_menu = gtk_item_factory_get_widget
+	ac_menu = menu_factory_get_widget
 		(ifactory, "/Configuration/Change current account");
 	g_signal_connect(G_OBJECT(ac_menu), "selection_done",
 			 G_CALLBACK(ac_menu_popup_closed), mainwin);
@@ -1311,7 +1302,7 @@ static void main_window_set_account_selector_menu(MainWindow *mainwin,
 			(ac_prefs->account_name
 			 ? ac_prefs->account_name : _("Untitled"));
 		gtk_widget_show(menuitem);
-		gtk_menu_append(GTK_MENU(mainwin->ac_menu), menuitem);
+		gtk_menu_shell_append(GTK_MENU_SHELL(mainwin->ac_menu), menuitem);
 		g_signal_connect(G_OBJECT(menuitem), "activate",
 				 G_CALLBACK(account_selector_menu_cb),
 				 ac_prefs);
@@ -1327,7 +1318,7 @@ static void main_window_set_account_receive_menu(MainWindow *mainwin,
 	GtkWidget *menuitem;
 	PrefsAccount *ac_prefs;
 
-	menu = gtk_item_factory_get_widget(mainwin->menu_factory,
+	menu = menu_factory_get_widget(mainwin->menu_factory,
 					   "/Message/Receive");
 
 	/* search for separator */
@@ -1355,7 +1346,7 @@ static void main_window_set_account_receive_menu(MainWindow *mainwin,
 			(ac_prefs->account_name ? ac_prefs->account_name
 			 : _("Untitled"));
 		gtk_widget_show(menuitem);
-		gtk_menu_append(GTK_MENU(menu), menuitem);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 		g_signal_connect(G_OBJECT(menuitem), "activate",
 				 G_CALLBACK(account_receive_menu_cb),
 				 ac_prefs);
@@ -1506,10 +1497,10 @@ void main_window_change_layout(MainWindow *mainwin, LayoutType layout,
 	/* keep previous focus */
 	focus_widget = gtk_window_get_focus(GTK_WINDOW(mainwin->window));
 
-	gtk_widget_ref(folder_wid);
-	gtk_widget_ref(summary_wid);
-	gtk_widget_ref(message_wid);
-	gtk_widget_ref(qsearch_wid);
+	g_object_ref(folder_wid);
+	g_object_ref(summary_wid);
+	g_object_ref(message_wid);
+	g_object_ref(qsearch_wid);
 
 	main_window_hide(mainwin);
 	main_window_set_widgets(mainwin, layout, type);
@@ -1517,10 +1508,10 @@ void main_window_change_layout(MainWindow *mainwin, LayoutType layout,
 	if (focus_widget)
 		gtk_widget_grab_focus(focus_widget);
 
-	gtk_widget_unref(folder_wid);
-	gtk_widget_unref(summary_wid);
-	gtk_widget_unref(message_wid);
-	gtk_widget_unref(qsearch_wid);
+	g_object_unref(folder_wid);
+	g_object_unref(summary_wid);
+	g_object_unref(message_wid);
+	g_object_unref(qsearch_wid);
 }
 
 void main_window_toggle_message_view(MainWindow *mainwin)
@@ -1563,7 +1554,7 @@ void main_window_toggle_message_view(MainWindow *mainwin)
 		/* hide message view */
 		mainwin->messageview->visible = FALSE;
 		summaryview->displayed = NULL;
-		gtk_widget_ref(vpaned);
+		g_object_ref(vpaned);
 		gtkut_container_remove(GTK_CONTAINER(container), vpaned);
 		gtk_widget_reparent(GTK_WIDGET_PTR(summaryview), container);
 		if (!use_vlayout)
@@ -1573,7 +1564,7 @@ void main_window_toggle_message_view(MainWindow *mainwin)
 		mainwin->messageview->visible = TRUE;
 		gtk_widget_reparent(GTK_WIDGET_PTR(summaryview), vpaned);
 		gtk_container_add(GTK_CONTAINER(container), vpaned);
-		gtk_widget_unref(vpaned);
+		g_object_unref(vpaned);
 		if (!use_vlayout)
 			gtk_widget_show(summaryview->hseparator);
 	}
@@ -1704,15 +1695,18 @@ void main_window_get_position(MainWindow *mainwin)
 
 void main_window_progress_on(MainWindow *mainwin)
 {
-	gtk_progress_set_show_text(GTK_PROGRESS(mainwin->progressbar), TRUE);
-	gtk_progress_set_format_string(GTK_PROGRESS(mainwin->progressbar), "");
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(mainwin->progressbar), "");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(mainwin->progressbar),
+				       FALSE);
 }
 
 void main_window_progress_off(MainWindow *mainwin)
 {
-	gtk_progress_set_show_text(GTK_PROGRESS(mainwin->progressbar), FALSE);
-	gtk_progress_bar_update(GTK_PROGRESS_BAR(mainwin->progressbar), 0.0);
-	gtk_progress_set_format_string(GTK_PROGRESS(mainwin->progressbar), "");
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(mainwin->progressbar),
+				      0.0);
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(mainwin->progressbar), NULL);
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(mainwin->progressbar),
+				       FALSE);
 }
 
 void main_window_progress_set(MainWindow *mainwin, gint cur, gint total)
@@ -1720,21 +1714,49 @@ void main_window_progress_set(MainWindow *mainwin, gint cur, gint total)
 	gchar buf[32];
 
 	g_snprintf(buf, sizeof(buf), "%d / %d", cur, total);
-	gtk_progress_set_format_string(GTK_PROGRESS(mainwin->progressbar), buf);
-	gtk_progress_bar_update(GTK_PROGRESS_BAR(mainwin->progressbar),
-				(cur == 0 && total == 0) ? 0 :
-				(gfloat)cur / (gfloat)total);
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(mainwin->progressbar), buf);
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(mainwin->progressbar),
+				       TRUE);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(mainwin->progressbar),
+				      (cur == 0 && total == 0) ? 0 :
+				      (gfloat)cur / (gfloat)total);
+}
+
+typedef struct _ProgressData
+{
+	gint cur;
+	gint total;
+} ProgressData;
+
+static gboolean main_window_progress_show_idle(gpointer data)
+{
+	ProgressData *progress = (ProgressData *)data;
+
+	main_window_progress_show(progress->cur, progress->total);
+	g_free(progress);
+
+	return FALSE;
 }
 
 void main_window_progress_show(gint cur, gint total)
 {
 	MainWindow *mainwin;
 
+	/* progress_show() of libsylph; defer to the main thread when
+	   called from a worker thread */
+	if (!gtkut_is_main_thread()) {
+		ProgressData *progress;
+
+		progress = g_new(ProgressData, 1);
+		progress->cur = cur;
+		progress->total = total;
+		g_idle_add(main_window_progress_show_idle, progress);
+		return;
+	}
+
 	mainwin = main_window_get();
 
 	if (total > 0) {
-		gtk_progress_set_show_text(GTK_PROGRESS(mainwin->progressbar),
-					   TRUE);
 		main_window_progress_set(mainwin, cur, total);
 	} else
 		main_window_progress_off(mainwin);
@@ -2081,7 +2103,7 @@ static void main_window_set_toolbar_button_visibility(MainWindow *mainwin)
 
 void main_window_set_menu_sensitive(MainWindow *mainwin)
 {
-	GtkItemFactory *ifactory = mainwin->menu_factory;
+	MenuFactory *ifactory = mainwin->menu_factory;
 	SensitiveCond state;
 	gboolean sensitive;
 	GtkWidget *menu;
@@ -2192,7 +2214,7 @@ void main_window_set_menu_sensitive(MainWindow *mainwin)
 		menu_set_sensitive(ifactory, entry[i].entry, sensitive);
 	}
 
-	menu = gtk_item_factory_get_widget(ifactory, "/Message/Receive");
+	menu = menu_factory_get_widget(ifactory, "/Message/Receive");
 
 	/* search for separator */
 	children = gtk_container_get_children(GTK_CONTAINER(menu));
@@ -2214,7 +2236,7 @@ void main_window_set_menu_sensitive(MainWindow *mainwin)
 
 #define SET_CHECK_MENU_ACTIVE(path, active) \
 { \
-	menuitem = gtk_item_factory_get_widget(ifactory, path); \
+	menuitem = menu_factory_get_widget(ifactory, path); \
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), active); \
 }
 
@@ -2314,30 +2336,30 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 	GtkWidget *vpaned;
 	GtkWidget *vbox_body = mainwin->vbox_body;
 	GtkWidget *vbox_summary;
-	GtkItemFactory *ifactory = mainwin->menu_factory;
+	MenuFactory *ifactory = mainwin->menu_factory;
 	GtkWidget *menuitem;
 	gboolean use_vlayout = (layout == LAYOUT_VERTICAL);
 
 	debug_print("Setting main window widgets...\n");
 
-	gtk_widget_set_size_request(GTK_WIDGET_PTR(mainwin->folderview),
+	gtkut_widget_set_initial_size(GTK_WIDGET_PTR(mainwin->folderview),
 				    prefs_common.folderview_width,
 				    prefs_common.folderview_height);
 	if (use_vlayout) {
-		gtk_widget_set_size_request
+		gtkut_widget_set_initial_size
 			(GTK_WIDGET_PTR(mainwin->summaryview),
 			 prefs_common.summaryview_vwidth,
 			 prefs_common.summaryview_vheight);
-		gtk_widget_set_size_request
+		gtkut_widget_set_initial_size
 			(GTK_WIDGET_PTR(mainwin->messageview),
 			 prefs_common.msgview_vwidth,
 			 prefs_common.msgview_vheight);
 	} else {
-		gtk_widget_set_size_request
+		gtkut_widget_set_initial_size
 			(GTK_WIDGET_PTR(mainwin->summaryview),
 			 prefs_common.summaryview_width,
 			 prefs_common.summaryview_height);
-		gtk_widget_set_size_request
+		gtkut_widget_set_initial_size
 			(GTK_WIDGET_PTR(mainwin->messageview),
 			 prefs_common.msgview_width,
 			 prefs_common.msgview_height);
@@ -2350,8 +2372,10 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 				     _("Sylpheed - Folder View"));
 		gtk_window_set_wmclass(GTK_WINDOW(folderwin),
 				       "folder_view", "Sylpheed");
-		gtk_window_set_policy(GTK_WINDOW(folderwin),
-				      TRUE, TRUE, FALSE);
+		gtk_window_set_resizable(GTK_WINDOW(folderwin), TRUE);
+		gtk_window_set_default_size(GTK_WINDOW(folderwin),
+					    prefs_common.folderview_width,
+					    prefs_common.folderview_height);
 		gtkut_window_move(GTK_WINDOW(folderwin),
 				  prefs_common.folderwin_x,
 				  prefs_common.folderwin_y);
@@ -2370,8 +2394,14 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 				     _("Sylpheed - Message View"));
 		gtk_window_set_wmclass(GTK_WINDOW(messagewin),
 				       "message_view", "Sylpheed");
-		gtk_window_set_policy(GTK_WINDOW(messagewin),
-				      TRUE, TRUE, FALSE);
+		gtk_window_set_resizable(GTK_WINDOW(messagewin), TRUE);
+		gtk_window_set_default_size(GTK_WINDOW(messagewin),
+					    use_vlayout
+					    ? prefs_common.msgview_vwidth
+					    : prefs_common.msgview_width,
+					    use_vlayout
+					    ? prefs_common.msgview_vheight
+					    : prefs_common.msgview_height);
 		gtkut_window_move(GTK_WINDOW(messagewin),
 				  prefs_common.main_msgwin_x,
 				  prefs_common.main_msgwin_y);
@@ -2400,6 +2430,9 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 		gtk_paned_add2(GTK_PANED(hpaned), vbox_summary);
 		gtk_widget_show(hpaned);
 		gtk_widget_queue_resize(hpaned);
+		/* GTK+ 2 derived the position from the size requests */
+		gtk_paned_set_position(GTK_PANED(hpaned),
+				       prefs_common.folderview_width);
 
 		if (use_vlayout) {
 			vpaned = gtk_hpaned_new();
@@ -2418,13 +2451,16 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 			gtk_box_pack_start(GTK_BOX(vbox_summary),
 					   GTK_WIDGET_PTR(mainwin->summaryview),
 					   TRUE, TRUE, 0);
-			gtk_widget_ref(vpaned);
+			g_object_ref(vpaned);
 			gtk_widget_hide(mainwin->summaryview->hseparator);
 		}
 		gtk_paned_add2(GTK_PANED(vpaned),
 			       GTK_WIDGET_PTR(mainwin->messageview));
 		gtk_widget_show(vpaned);
 		gtk_widget_queue_resize(vpaned);
+		gtk_paned_set_position(GTK_PANED(vpaned), use_vlayout
+				       ? prefs_common.summaryview_vwidth
+				       : prefs_common.summaryview_height);
 
 		mainwin->win.sep_none.hpaned = hpaned;
 		mainwin->win.sep_none.vpaned = vpaned;
@@ -2451,13 +2487,16 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 			gtk_box_pack_start(GTK_BOX(vbox_summary),
 					   GTK_WIDGET_PTR(mainwin->summaryview),
 					   TRUE, TRUE, 0);
-			gtk_widget_ref(vpaned);
+			g_object_ref(vpaned);
 			gtk_widget_hide(mainwin->summaryview->hseparator);
 		}
 		gtk_paned_add2(GTK_PANED(vpaned),
 			       GTK_WIDGET_PTR(mainwin->messageview));
 		gtk_widget_show(vpaned);
 		gtk_widget_queue_resize(vpaned);
+		gtk_paned_set_position(GTK_PANED(vpaned), use_vlayout
+				       ? prefs_common.summaryview_vwidth
+				       : prefs_common.summaryview_height);
 
 		mainwin->win.sep_folder.folderwin = folderwin;
 		mainwin->win.sep_folder.vpaned    = vpaned;
@@ -2475,6 +2514,9 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 		gtk_widget_hide(mainwin->summaryview->hseparator);
 		gtk_widget_show(hpaned);
 		gtk_widget_queue_resize(hpaned);
+		/* GTK+ 2 derived the position from the size requests */
+		gtk_paned_set_position(GTK_PANED(hpaned),
+				       prefs_common.folderview_width);
 
 		mainwin->win.sep_message.messagewin = messagewin;
 		mainwin->win.sep_message.hpaned     = hpaned;
@@ -2514,35 +2556,35 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 	prefs_common.layout_type = layout;
 
 	/* toggle menu state */
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(ifactory, "/View/Show or hide/Folder tree");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 				       (type & SEPARATE_FOLDER) == 0 ? TRUE :
 				       prefs_common.folderview_visible);
 	gtk_widget_set_sensitive(menuitem, ((type & SEPARATE_FOLDER) != 0));
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(ifactory, "/View/Show or hide/Message view");
 	gtk_check_menu_item_set_active
 		(GTK_CHECK_MENU_ITEM(menuitem),
 		 messageview_is_visible(mainwin->messageview));
 
 	if (layout == LAYOUT_NORMAL) {
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(ifactory, "/View/Layout/Normal");
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 					       TRUE);
 	} else if (layout == LAYOUT_VERTICAL) {
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(ifactory, "/View/Layout/Vertical");
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 					       TRUE);
 	}
 
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(ifactory, "/View/Separate folder tree");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 				       ((type & SEPARATE_FOLDER) != 0));
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(ifactory, "/View/Separate message view");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 				       ((type & SEPARATE_MESSAGE) != 0));
@@ -2561,7 +2603,7 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 	debug_print("done.\n");
 }
 
-static GtkItemFactoryEntry reply_entries[] =
+static MenuFactoryEntry reply_entries[] =
 {
 	{N_("/_Reply"),			NULL, reply_cb, COMPOSE_REPLY, NULL},
 	{N_("/Reply to _all"),		NULL, reply_cb, COMPOSE_REPLY_TO_ALL, NULL},
@@ -2569,7 +2611,7 @@ static GtkItemFactoryEntry reply_entries[] =
 	{N_("/Reply to mailing _list"),	NULL, reply_cb, COMPOSE_REPLY_TO_LIST, NULL}
 };
 
-static GtkItemFactoryEntry forward_entries[] =
+static MenuFactoryEntry forward_entries[] =
 {
 	{N_("/_Forward"),		NULL, reply_cb, COMPOSE_FORWARD, NULL},
 	{N_("/For_ward as attachment"), NULL, reply_cb, COMPOSE_FORWARD_AS_ATTACH, NULL},
@@ -2634,7 +2676,7 @@ static GtkWidget *main_window_toolbar_create_from_list(MainWindow *mainwin,
 	GList *cur;
 
 	toolbar = gtk_toolbar_new();
-	gtk_toolbar_set_orientation(GTK_TOOLBAR(toolbar),
+	gtk_orientable_set_orientation(GTK_ORIENTABLE(toolbar),
 				    GTK_ORIENTATION_HORIZONTAL);
 	gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH);
 	g_signal_connect(G_OBJECT(toolbar), "button_press_event",
@@ -2761,27 +2803,27 @@ static void main_window_toolbar_toggle_menu_set_active(MainWindow *mainwin,
 						       ToolbarStyle style)
 {
 	GtkWidget *menuitem = NULL;
-	GtkItemFactory *ifactory = mainwin->menu_factory;
+	MenuFactory *ifactory = mainwin->menu_factory;
 
 	switch (style) {
 	case TOOLBAR_NONE:
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(ifactory, "/View/Show or hide/Toolbar/None");
 		break;
 	case TOOLBAR_ICON:
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(ifactory, "/View/Show or hide/Toolbar/Icon");
 		break;
 	case TOOLBAR_TEXT:
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(ifactory, "/View/Show or hide/Toolbar/Text");
 		break;
 	case TOOLBAR_BOTH:
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(ifactory, "/View/Show or hide/Toolbar/Icon and text");
 		break;
 	case TOOLBAR_BOTH_HORIZ:
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(ifactory, "/View/Show or hide/Toolbar/Text at the right of icon");
 		break;
 	}
@@ -3052,7 +3094,7 @@ static void online_switch_clicked(GtkWidget *widget, gpointer data)
 	debug_print("Toggle online mode: %d -> %d\n", prefs_common.online_mode,
 		    !prefs_common.online_mode);
 
-	menuitem = gtk_item_factory_get_item(mainwin->menu_factory,
+	menuitem = menu_factory_get_item(mainwin->menu_factory,
 					     "/File/Work offline");
 
 	if (prefs_common.online_mode == TRUE) {
@@ -3153,7 +3195,7 @@ static gint folder_window_close_cb(GtkWidget *widget, GdkEventAny *event,
 	MainWindow *mainwin = (MainWindow *)data;
 	GtkWidget *menuitem;
 
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(mainwin->menu_factory, "/View/Show or hide/Folder tree");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), FALSE);
 
@@ -3166,7 +3208,7 @@ static gint message_window_close_cb(GtkWidget *widget, GdkEventAny *event,
 	MainWindow *mainwin = (MainWindow *)data;
 	GtkWidget *menuitem;
 
-	menuitem = gtk_item_factory_get_item
+	menuitem = menu_factory_get_item
 		(mainwin->menu_factory, "/View/Show or hide/Message view");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem), FALSE);
 
@@ -3416,7 +3458,7 @@ static void search_cb(MainWindow *mainwin, guint action, GtkWidget *widget)
 		if (!prefs_common.show_searchbar) {
 			GtkWidget *menuitem;
 
-			menuitem = gtk_item_factory_get_item
+			menuitem = menu_factory_get_item
 				(mainwin->menu_factory,
 				 "/View/Show or hide/Search bar");
 			gtk_check_menu_item_set_active
@@ -3740,7 +3782,7 @@ static void sort_summary_cb(MainWindow *mainwin, guint action,
 	if (mainwin->menu_lock_count) return;
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)) && item) {
-		menuitem = gtk_item_factory_get_item
+		menuitem = menu_factory_get_item
 			(mainwin->menu_factory, "/View/Sort/Ascending");
 		summary_sort(mainwin->summaryview, (FolderSortKey)action,
 			     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem))
@@ -4090,7 +4132,7 @@ static void help_command_line_show(void)
 	gtk_window_set_title(GTK_WINDOW(window), _("Command line options"));
 	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	help_cmdline_window = window;
 
 	vbox = gtk_vbox_new(FALSE, 8);

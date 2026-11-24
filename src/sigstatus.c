@@ -109,9 +109,8 @@ GpgmegtkSigStatus gpgmegtk_sig_status_create(void)
 	hd->mainwindow = window;
 	gtk_widget_set_size_request(window, 400, -1);
 	gtk_window_set_title(GTK_WINDOW(window), _("Signature check result"));
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-	gtk_dialog_set_has_separator(GTK_DIALOG(window), FALSE);
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(delete_event), hd);
 	g_signal_connect(G_OBJECT(window), "key_press_event",
@@ -156,13 +155,9 @@ static gint timeout_cb(gpointer data)
 {
 	GpgmegtkSigStatus hd = data;
 
-	gdk_threads_enter();
-
 	hd->running = 0;
 	hd->timeout_id_valid = 0;
 	do_destroy(hd);
-
-	gdk_threads_leave();
 
 	return FALSE;
 }

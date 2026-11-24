@@ -55,7 +55,6 @@ SourceWindow *source_window_create(void)
 	GtkWidget *window;
 	GtkWidget *scrolledwin;
 	GtkWidget *text;
-	static PangoFontDescription *font_desc = NULL;
 
 	debug_print(_("Creating source window...\n"));
 	sourcewin = g_new0(SourceWindow, 1);
@@ -63,8 +62,8 @@ SourceWindow *source_window_create(void)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Source of the message"));
 	gtk_window_set_wmclass(GTK_WINDOW(window), "source_window", "Sylpheed");
-	gtk_window_set_policy(GTK_WINDOW(window), TRUE, TRUE, FALSE);
-	gtk_widget_set_size_request(window, prefs_common.sourcewin_width,
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
+	gtk_window_set_default_size(GTK_WINDOW(window), prefs_common.sourcewin_width,
 				    prefs_common.sourcewin_height);
 	g_signal_connect(G_OBJECT(window), "size_allocate",
 			 G_CALLBACK(source_window_size_alloc_cb), sourcewin);
@@ -86,11 +85,7 @@ SourceWindow *source_window_create(void)
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
 	gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 6);
 	gtk_text_view_set_right_margin(GTK_TEXT_VIEW(text), 6);
-	if (!font_desc && prefs_common.textfont)
-		font_desc = pango_font_description_from_string
-			(prefs_common.textfont);
-	if (font_desc)
-		gtk_widget_modify_font(text, font_desc);
+	gtkut_widget_set_text_font(text, prefs_common.textfont);
 	gtk_container_add(GTK_CONTAINER(scrolledwin), text);
 	gtk_widget_show(text);
 

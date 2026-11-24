@@ -43,9 +43,9 @@ LT_RELEASE=$MAJOR_VERSION.$MINOR_VERSION
 dnl LT_CURRENT=`expr 1 + $MICRO_VERSION - $INTERFACE_AGE`
 dnl LT_REVISION=$INTERFACE_AGE
 dnl LT_AGE=`expr $BINARY_AGE - $INTERFACE_AGE`
-LT_CURRENT=5
+LT_CURRENT=6
 LT_REVISION=0
-LT_AGE=4
+LT_AGE=0
 AC_SUBST(LT_RELEASE)
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -63,7 +63,7 @@ AM_DISABLE_STATIC
 AC_ISC_POSIX
 AM_PROG_CC_STDC
 
-dnl GTK+ 2 headers declare callbacks with empty parameter lists, which
+dnl The code declares callbacks with empty parameter lists, which
 dnl means (void) in C23 (the default of GCC 15 and later).
 if test "x$GCC" = xyes; then
 	case " $CFLAGS " in
@@ -111,24 +111,31 @@ AM_PATH_GLIB_2_0(2.8.0,, AC_MSG_ERROR(Test for GLib failed. See the 'INSTALL' fo
 
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 
-AM_PATH_GTK_2_0(2.24.0,, AC_MSG_ERROR(Test for Gtk failed. See the 'INSTALL' for help.))
+PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.24.0],,
+	AC_MSG_ERROR(Test for GTK+ 3 failed. See the 'INSTALL' for help.))
 
 dnl only the top-level GTK+/GDK headers may be included
 GTK_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES"
 
-dnl --disable-deprecated switch for GTK2 purification
+dnl --disable-deprecated: build without the GTK+/GDK API that is deprecated
+dnl in GTK+ 3 (GLib deprecations are not affected). The tree does not build
+dnl that way yet; GtkTable, stock items etc. are still used.
 AC_ARG_ENABLE(deprecated, [  --disable-deprecated    Disable deprecated GTK functions. ],
-			  [GTK_CFLAGS="$GTK_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED"], [])
+	[if test "$enableval" = no; then
+		GTK_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
+	fi], [])
 
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
 if test "$os_osx" == yes; then
-	AC_CHECK_LIB(gtkmacintegration, gtkosx_application_ready, [ ac_have_gtkmacintegration=yes ], [ ac_have_gtkmacintegration=no ])
+	PKG_CHECK_MODULES(GTKMACINTEGRATION, [gtk-mac-integration-gtk3],
+		[ac_have_gtkmacintegration=yes], [ac_have_gtkmacintegration=no])
 	AC_MSG_CHECKING([if gtkmacintegration is available])
 	AC_MSG_RESULT($ac_have_gtkmacintegration)
 	if test "$ac_have_gtkmacintegration" = yes; then
-		SYLPHEED_LIBS="$SYLPHEED_LIBS -lgtkmacintegration"
+		GTK_CFLAGS="$GTK_CFLAGS $GTKMACINTEGRATION_CFLAGS"
+		SYLPHEED_LIBS="$SYLPHEED_LIBS $GTKMACINTEGRATION_LIBS"
 		AC_DEFINE(USE_GTKMACINTEGRATION, 1, Define if you use gtkmacintegration library.)
 	fi
 fi
@@ -325,22 +332,10 @@ AC_ARG_ENABLE(gtkspell,
 if test "$ac_cv_enable_gtkspell" = yes; then
 	AC_MSG_RESULT(yes)
 	AC_MSG_CHECKING([whether GtkSpell is available])
-	if $PKG_CONFIG gtkspell-2.0 ; then
+	if $PKG_CONFIG --exists gtkspell3-3.0 enchant-2 ; then
 		AC_MSG_RESULT(yes)
-		CFLAGS="$CFLAGS `$PKG_CONFIG --cflags gtkspell-2.0`"
-		LIBS="$LIBS `$PKG_CONFIG --libs gtkspell-2.0`"
-		if $PKG_CONFIG --atleast-version 2.0.13 gtkspell-2.0 ; then
-			AC_DEFINE(USE_ENCHANT, 1, Use Enchant with GtkSpell)
-			LIBS="$LIBS `$PKG_CONFIG --libs enchant`"
-
-			dnl Workaroud for zemberek crash
-			if $PKG_CONFIG --atleast-version 1.4.2 enchant ; then
-				CFLAGS="$CFLAGS `$PKG_CONFIG --cflags dbus-glib-1`"
-				LIBS="$LIBS `$PKG_CONFIG --libs dbus-glib-1`"
-			fi
-		elif $PKG_CONFIG --atleast-version 2.0.12 gtkspell-2.0 ; then
-			LIBS="$LIBS -laspell"
-		fi
+		GTK_CFLAGS="$GTK_CFLAGS `$PKG_CONFIG --cflags gtkspell3-3.0 enchant-2`"
+		GTK_LIBS="$GTK_LIBS `$PKG_CONFIG --libs gtkspell3-3.0 enchant-2`"
 		AC_DEFINE(USE_GTKSPELL, 1, Use GtkSpell in editor)
 	else
 		AC_MSG_RESULT(no)
@@ -348,6 +343,13 @@ if test "$ac_cv_enable_gtkspell" = yes; then
 	fi
 else
 	AC_MSG_RESULT(no)		
+fi
+
+dnl MSYS2's gtk+-3.0.pc lists -luuid, which exists only as a static library.
+dnl libtool then refuses to build libsylpheed-plugin and the plug-ins as
+dnl DLLs, so pass it to the linker directly (as SYLPHEED_LIBS does).
+if test "$native_win32" = yes; then
+	GTK_LIBS=`echo " $GTK_LIBS " | sed -e 's/ -luuid / -Wl,-luuid /g'`
 fi
 
 dnl Check for Oniguruma support in message filtering
@@ -452,7 +454,7 @@ fi
 dnl for update check feature
 AC_ARG_ENABLE(updatecheck,
 	[  --disable-updatecheck   Disable update check feature],
-	[ac_cv_enable_updatecheck=$enableval], [ac_cv_enable_updatecheck=yes])
+	[ac_cv_enable_updatecheck=$enableval], [ac_cv_enable_updatecheck=no])
 if test x"$ac_cv_enable_updatecheck" = xyes ; then
 	AC_DEFINE(USE_UPDATE_CHECK, 1, Define if you want update check feature.)
 

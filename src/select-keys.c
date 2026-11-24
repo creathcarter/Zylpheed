@@ -48,14 +48,18 @@ enum col_titles {
     COL_EMAIL,
     COL_VALIDITY,
 
-    N_COL_TITLES
+    N_COL_TITLES,
+
+    COL_DATA = N_COL_TITLES,
+    N_COLS
 };
 
 struct select_keys_s {
     int okay;
     GtkWidget *window;
     GtkLabel *toplabel;
-    GtkCList *clist;
+    GtkTreeView *clist;
+    GtkListStore *store;
     const char *pattern;
     unsigned int num_keys;
     gpgme_key_t *kset;
@@ -67,7 +71,8 @@ struct select_keys_s {
 };
 
 
-static void set_row (GtkCList *clist, gpgme_key_t key);
+static void set_row (GtkListStore *store, gpgme_key_t key);
+static void clear_clist (struct select_keys_s *sk);
 static void fill_clist (struct select_keys_s *sk, const char *pattern);
 static void create_dialog (struct select_keys_s *sk);
 static void open_dialog (struct select_keys_s *sk);
@@ -126,7 +131,7 @@ gpgmegtk_recipient_selection (GSList *recp_names)
 
     do {
         sk.pattern = recp_names ? recp_names->data : NULL;
-        gtk_clist_clear (sk.clist);
+        clear_clist (&sk);
         fill_clist (&sk, sk.pattern);
         update_progress (&sk, 0, sk.pattern);
         gtk_main ();
@@ -153,13 +158,31 @@ destroy_key (gpointer data)
     gpgme_key_release (key);
 }
 
+/* release the keys owned by the rows (GtkCList row data destroy notify) */
 static void
-set_row (GtkCList *clist, gpgme_key_t key)
+clear_clist (struct select_keys_s *sk)
+{
+    GtkTreeModel *model = GTK_TREE_MODEL (sk->store);
+    GtkTreeIter iter;
+    gboolean valid;
+    gpgme_key_t key;
+
+    for (valid = gtk_tree_model_get_iter_first (model, &iter); valid;
+         valid = gtk_tree_model_iter_next (model, &iter)) {
+        gtk_tree_model_get (model, &iter, COL_DATA, &key, -1);
+        if (key)
+            destroy_key (key);
+    }
+    gtk_list_store_clear (sk->store);
+}
+
+static void
+set_row (GtkListStore *store, gpgme_key_t key)
 {
     const char *s;
     const char *text[N_COL_TITLES];
     char *algo_buf;
-    int row;
+    GtkTreeIter iter;
 
     /* first check whether the key is capable of encryption which is not
      * the case for revoked, expired or sign-only keys */
@@ -205,24 +228,37 @@ set_row (GtkCList *clist, gpgme_key_t key)
       }
     text[COL_VALIDITY] = s;
 
-    row = gtk_clist_append (clist, (gchar**)text);
+    gtk_list_store_append (store, &iter);
+    gtk_list_store_set (store, &iter,
+                        COL_ALGO, text[COL_ALGO],
+                        COL_KEYID, text[COL_KEYID],
+                        COL_NAME, text[COL_NAME],
+                        COL_EMAIL, text[COL_EMAIL],
+                        COL_VALIDITY, text[COL_VALIDITY],
+                        COL_DATA, key,
+                        -1);
     g_free (algo_buf);
 
-    gtk_clist_set_row_data_full (clist, row, key, destroy_key);
+    /* GtkCList in browse mode selected the first row */
+    if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), NULL) == 1)
+        gtk_tree_selection_select_iter
+            (gtk_tree_view_get_selection
+             (GTK_TREE_VIEW (g_object_get_data (G_OBJECT (store),
+                                                "treeview"))), &iter);
 }
 
 static void 
 fill_clist (struct select_keys_s *sk, const char *pattern)
 {
-    GtkCList *clist;
+    GtkListStore *store;
     gpgme_ctx_t ctx;
     gpgme_error_t err;
     gpgme_key_t key;
     int running=0;
 
     g_return_if_fail (sk);
-    clist = sk->clist;
-    g_return_if_fail (clist);
+    store = sk->store;
+    g_return_if_fail (store);
 
     debug_print ("select_keys:fill_clist:  pattern '%s'\n",
 		 pattern ? pattern : "");
@@ -248,7 +284,7 @@ fill_clist (struct select_keys_s *sk, const char *pattern)
     update_progress (sk, ++running, pattern);
     while ( !(err = gpgme_op_keylist_next ( ctx, &key )) ) {
         debug_print ("%% %s:%d:  insert\n", __FILE__ ,__LINE__ );
-        set_row (clist, key ); key = NULL;
+        set_row (store, key ); key = NULL;
         update_progress (sk, ++running, pattern);
         while (gtk_events_pending ())
             gtk_main_iteration ();
@@ -273,9 +309,13 @@ create_dialog (struct select_keys_s *sk)
     GtkWidget *bbox;
     GtkWidget *scrolledwin;
     GtkWidget *clist;
+    GtkListStore *store;
+    GtkTreeViewColumn *column;
     GtkWidget *label;
     GtkWidget *select_btn, *cancel_btn, *other_btn;
     const char *titles[N_COL_TITLES];
+    static const gint widths[N_COL_TITLES] = { 72, 76, 130, 130, 20 };
+    gint i;
 
     g_assert (!sk->window);
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -314,21 +354,31 @@ create_dialog (struct select_keys_s *sk)
     titles[COL_EMAIL]    = _("Address");
     titles[COL_VALIDITY] = _("Val");
 
-    clist = gtk_clist_new_with_titles (N_COL_TITLES, (char**)titles);
+    store = gtk_list_store_new (N_COLS, G_TYPE_STRING, G_TYPE_STRING,
+                                G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
+                                G_TYPE_POINTER);
+    clist = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    g_object_unref (G_OBJECT (store));
+    g_object_set_data (G_OBJECT (store), "treeview", clist);
     gtk_container_add (GTK_CONTAINER (scrolledwin), clist);
-    gtk_clist_set_column_width (GTK_CLIST(clist), COL_ALGO,      72);
-    gtk_clist_set_column_width (GTK_CLIST(clist), COL_KEYID,     76);
-    gtk_clist_set_column_width (GTK_CLIST(clist), COL_NAME,     130);
-    gtk_clist_set_column_width (GTK_CLIST(clist), COL_EMAIL,    130);
-    gtk_clist_set_column_width (GTK_CLIST(clist), COL_VALIDITY,  20);
-    gtk_clist_set_selection_mode (GTK_CLIST(clist), GTK_SELECTION_BROWSE);
-    gtkut_clist_set_redraw (GTK_CLIST(clist));
-    g_signal_connect (G_OBJECT(GTK_CLIST(clist)->column[COL_NAME].button),
-		      "clicked",
-                      G_CALLBACK(sort_keys_name), sk);
-    g_signal_connect (G_OBJECT(GTK_CLIST(clist)->column[COL_EMAIL].button),
-		      "clicked",
-                      G_CALLBACK(sort_keys_email), sk);
+    for (i = 0; i < N_COL_TITLES; i++) {
+        column = gtk_tree_view_column_new_with_attributes
+            (titles[i], gtk_cell_renderer_text_new (), "text", i, NULL);
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
+        gtk_tree_view_column_set_fixed_width (column, widths[i]);
+        gtk_tree_view_column_set_resizable (column, TRUE);
+        gtk_tree_view_append_column (GTK_TREE_VIEW (clist), column);
+        if (i == COL_NAME || i == COL_EMAIL) {
+            gtk_tree_view_column_set_clickable (column, TRUE);
+            g_signal_connect (G_OBJECT (column), "clicked",
+                              i == COL_NAME ? G_CALLBACK (sort_keys_name)
+                                            : G_CALLBACK (sort_keys_email),
+                              sk);
+        }
+    }
+    gtk_tree_selection_set_mode
+        (gtk_tree_view_get_selection (GTK_TREE_VIEW (clist)),
+         GTK_SELECTION_BROWSE);
 
     hbox = gtk_hbox_new (FALSE, 8);
     gtk_box_pack_end (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
@@ -355,7 +405,8 @@ create_dialog (struct select_keys_s *sk)
 
     sk->window = window;
     sk->toplabel = GTK_LABEL (label);
-    sk->clist  = GTK_CLIST (clist);
+    sk->clist  = GTK_TREE_VIEW (clist);
+    sk->store  = store;
 }
 
 
@@ -376,6 +427,7 @@ static void
 close_dialog (struct select_keys_s *sk)
 {
     g_return_if_fail (sk);
+    clear_clist (sk);
     gtk_widget_destroy (sk->window);
     sk->window = NULL;
 }
@@ -416,12 +468,13 @@ select_btn_cb (GtkWidget *widget, gpointer data)
     gpgme_key_t key;
 
     g_return_if_fail (sk);
-    if (!sk->clist->selection) {
+    row = gtkut_list_view_get_selected_row (sk->clist);
+    if (row < 0) {
         debug_print ("** nothing selected");
         return;
     }
-    row = GPOINTER_TO_INT(sk->clist->selection->data);
-    key = gtk_clist_get_row_data(sk->clist, row);
+    key = gtkut_tree_model_get_nth_data (GTK_TREE_MODEL (sk->store), row,
+                                         COL_DATA);
     if (key) {
         if ( key->uids->validity < GPGME_VALIDITY_FULL ) {
             use_key = use_untrusted(key);
@@ -491,13 +544,16 @@ use_untrusted (gpgme_key_t key)
 }
 
 
-static gint 
-cmp_name (GtkCList *clist, gconstpointer pa, gconstpointer pb)
+static gint
+cmp_name (GtkTreeModel *model, GtkTreeIter *ia, GtkTreeIter *ib,
+          gpointer data)
 {
-    gpgme_key_t a = ((GtkCListRow *)pa)->data;
-    gpgme_key_t b = ((GtkCListRow *)pb)->data;
+    gpgme_key_t a = NULL;
+    gpgme_key_t b = NULL;
     const char *sa, *sb;
-    
+
+    gtk_tree_model_get (model, ia, COL_DATA, &a, -1);
+    gtk_tree_model_get (model, ib, COL_DATA, &b, -1);
     sa = a? a->uids->name : NULL;
     sb = b? b->uids->name : NULL;
     if (!sa)
@@ -507,13 +563,16 @@ cmp_name (GtkCList *clist, gconstpointer pa, gconstpointer pb)
     return g_ascii_strcasecmp(sa, sb);
 }
 
-static gint 
-cmp_email (GtkCList *clist, gconstpointer pa, gconstpointer pb)
+static gint
+cmp_email (GtkTreeModel *model, GtkTreeIter *ia, GtkTreeIter *ib,
+           gpointer data)
 {
-    gpgme_key_t a = ((GtkCListRow *)pa)->data;
-    gpgme_key_t b = ((GtkCListRow *)pb)->data;
+    gpgme_key_t a = NULL;
+    gpgme_key_t b = NULL;
     const char *sa, *sb;
-    
+
+    gtk_tree_model_get (model, ia, COL_DATA, &a, -1);
+    gtk_tree_model_get (model, ib, COL_DATA, &b, -1);
     sa = a? a->uids->email : NULL;
     sb = b? b->uids->email : NULL;
     if (!sa)
@@ -526,14 +585,15 @@ cmp_email (GtkCList *clist, gconstpointer pa, gconstpointer pb)
 static void
 sort_keys ( struct select_keys_s *sk, enum col_titles column)
 {
-    GtkCList *clist = sk->clist;
+    GtkTreeSortable *sortable = GTK_TREE_SORTABLE (sk->store);
+    GtkTreeIterCompareFunc func;
 
     switch (column) {
       case COL_NAME:
-        gtk_clist_set_compare_func (clist, cmp_name);
+        func = cmp_name;
         break;
       case COL_EMAIL:
-        gtk_clist_set_compare_func (clist, cmp_email);
+        func = cmp_email;
         break;
       default:
         return;
@@ -548,8 +608,11 @@ sort_keys ( struct select_keys_s *sk, enum col_titles column)
         sk->sort_type = GTK_SORT_ASCENDING;
 
     sk->sort_column = column;
-    gtk_clist_set_sort_type (clist, sk->sort_type);
-    gtk_clist_sort (clist);
+
+    /* sort once, like gtk_clist_sort(); rows added later are appended */
+    gtk_tree_sortable_set_sort_func (sortable, column, func, NULL, NULL);
+    gtk_tree_sortable_set_sort_column_id (sortable, column, sk->sort_type);
+    gtkut_tree_sortable_unset_sort_column_id (sortable);
 }
 
 static void

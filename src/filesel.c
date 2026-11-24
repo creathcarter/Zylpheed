@@ -222,9 +222,9 @@ static GSList *filesel_select_file_full(const gchar *title, const gchar *file,
 		label = gtk_label_new(_("File type:"));
 		gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-		combo = gtk_combo_box_new_text();
+		combo = gtk_combo_box_text_new();
 		for (i = 0; types[i].type != NULL; i++) {
-			gtk_combo_box_append_text(GTK_COMBO_BOX(combo), types[i].type);
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), types[i].type);
 		}
 		gtk_box_pack_start(GTK_BOX(hbox), combo, FALSE, FALSE, 0);
 

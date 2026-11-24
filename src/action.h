@@ -23,6 +23,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 #include "mainwindow.h"
 #include "messageview.h"
 #include "compose.h"
@@ -46,11 +48,11 @@ typedef enum
 
 ActionType action_get_type	(const gchar	*action_str);
 
-void action_update_mainwin_menu	(GtkItemFactory	*ifactory, 
+void action_update_mainwin_menu	(MenuFactory	*ifactory, 
 				 MainWindow	*mainwin);
-void action_update_msgview_menu	(GtkItemFactory	*ifactory,
+void action_update_msgview_menu	(MenuFactory	*ifactory,
 				 MessageView	*msgview);
-void action_update_compose_menu	(GtkItemFactory	*ifactory, 
+void action_update_compose_menu	(MenuFactory	*ifactory, 
 				 Compose	*compose);
 
 #endif /* __ACTION_H__ */

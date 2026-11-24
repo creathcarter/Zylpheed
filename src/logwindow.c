@@ -66,8 +66,9 @@ LogWindow *log_window_create(void)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Protocol log"));
 	gtk_window_set_wmclass(GTK_WINDOW(window), "log_window", "Sylpheed");
-	gtk_window_set_policy(GTK_WINDOW(window), TRUE, TRUE, FALSE);
-	gtk_widget_set_size_request(window, 520 * gtkut_get_dpi_multiplier(), 400 * gtkut_get_dpi_multiplier());
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
+	gtk_window_set_default_size(GTK_WINDOW(window), 520 * gtkut_get_dpi_multiplier(),
+				    400 * gtkut_get_dpi_multiplier());
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(gtk_widget_hide_on_delete), NULL);
 	g_signal_connect(G_OBJECT(window), "key_press_event",
@@ -113,30 +114,14 @@ LogWindow *log_window_create(void)
 void log_window_init(LogWindow *logwin)
 {
 	GtkTextBuffer *buffer;
-	GdkColormap *colormap;
 	GdkColor color[3] =
 		{{0, 0, 0xafff, 0}, {0, 0xefff, 0, 0}, {0, 0xefff, 0, 0}};
-	gboolean success[3];
-	gint i;
 
 	logwin->msg_color   = color[0];
 	logwin->warn_color  = color[1];
 	logwin->error_color = color[2];
 
-	colormap = gdk_window_get_colormap(gtk_widget_get_window(logwin->window));
-	gdk_colormap_alloc_colors(colormap, color, 3, FALSE, TRUE, success);
-
-	for (i = 0; i < 3; i++) {
-		if (success[i] == FALSE) {
-			GtkStyle *style;
-
-			g_warning("LogWindow: color allocation failed\n");
-			style = gtk_widget_get_style(logwin->window);
-			logwin->msg_color = logwin->warn_color =
-			logwin->error_color = style->black;
-			break;
-		}
-	}
+	/* GdkColor values are used as is; no colormap allocation */
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(logwin->text));
 	gtk_text_buffer_create_tag(buffer, "message",
@@ -185,8 +170,6 @@ static void log_window_append_real(const gchar *str, LogType type)
 		return;
 	}
 #endif
-
-	gdk_threads_enter();
 
 	text = GTK_TEXT_VIEW(logwindow->text);
 	buffer = gtk_text_view_get_buffer(text);
@@ -249,8 +232,6 @@ static void log_window_append_real(const gchar *str, LogType type)
 	}
 
 	logwindow->lines++;
-
-	gdk_threads_leave();
 }
 
 void log_window_append(const gchar *str, LogType type)
@@ -282,6 +263,34 @@ void log_window_append_queue(const gchar *str, LogType type)
 	logdata->type = type;
 
 	g_async_queue_push(logwindow->aqueue, logdata);
+#endif
+}
+
+#if USE_THREADS
+static gint flush_idle_pending = 0;
+
+static gboolean log_window_flush_idle(gpointer data)
+{
+	g_atomic_int_set(&flush_idle_pending, 0);
+	log_window_flush();
+	return FALSE;
+}
+#endif
+
+/* For GLib log handlers. They can be called while GLib holds internal
+   locks (e.g. GObject's signal lock when g_signal_connect() warns), and
+   adding to the text buffer from there deadlocks, so the text is added
+   from an idle callback on the main thread. */
+void log_window_append_deferred(const gchar *str, LogType type)
+{
+#if USE_THREADS
+	if (!logwindow)
+		return;
+	log_window_append_queue(str, type);
+	if (g_atomic_int_compare_and_exchange(&flush_idle_pending, 0, 1))
+		g_idle_add(log_window_flush_idle, NULL);
+#else
+	log_window_append(str, type);
 #endif
 }
 

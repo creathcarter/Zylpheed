@@ -690,7 +690,7 @@ static GtkWidget *prefs_update_create	(void);
 #endif
 static GtkWidget *prefs_advanced_create	(void);
 
-static void prefs_common_set_encoding_optmenu	(GtkOptionMenu	*optmenu,
+static void prefs_common_set_encoding_optmenu	(GtkComboBox	*optmenu,
 						 gboolean	 outgoing);
 
 static void date_format_ok_btn_clicked		(GtkButton	*button,
@@ -705,9 +705,7 @@ static gboolean date_format_on_delete		(GtkWidget	*dialogwidget,
 						 GtkWidget     **widget);
 static void date_format_entry_on_change		(GtkEditable	*editable,
 						 GtkLabel	*example);
-static void date_format_select_row		(GtkWidget	*date_format_list,
-						 gint		 row,
-						 gint		 column,
+static gboolean date_format_select_row		(GtkWidget	*date_format_list,
 						 GdkEventButton	*event,
 						 GtkWidget	*date_format);
 static GtkWidget *date_format_create		(GtkButton	*button,
@@ -1120,8 +1118,7 @@ static void prefs_send_create(void)
 	GtkWidget *entry_check_recp_excl;
 
 	GtkWidget *optmenu_trencoding;
-	GtkWidget *optmenu_menu;
-	GtkWidget *menuitem;
+	GtkWidget *optmenu;
 	GtkWidget *optmenu_fencoding;
 	GtkWidget *label_encoding;
 	GtkWidget *label_encoding_desc;
@@ -1210,23 +1207,20 @@ static void prefs_send_create(void)
 	gtk_widget_show (label_encoding);
 	gtk_box_pack_start (GTK_BOX (hbox1), label_encoding, FALSE, FALSE, 0);
 
-	optmenu_trencoding = gtk_option_menu_new ();
+	optmenu_trencoding = menu_combo_new ();
 	gtk_widget_show (optmenu_trencoding);
 	gtk_box_pack_start (GTK_BOX (hbox1), optmenu_trencoding,
 			    FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new();
-
 #define SET_MENUITEM(str, data) \
-	MENUITEM_ADD(optmenu_menu, menuitem, str, data)
+	COMBOBOX_ADD(optmenu, str, data)
+
+	optmenu = optmenu_trencoding;
 
 	SET_MENUITEM(_("Automatic"),	 CTE_AUTO);
 	SET_MENUITEM("base64",		 CTE_BASE64);
 	SET_MENUITEM("quoted-printable", CTE_QUOTED_PRINTABLE);
 	SET_MENUITEM("8bit",		 CTE_8BIT);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (optmenu_trencoding),
-				  optmenu_menu);
 
 	PACK_SMALL_LABEL (vbox_tab, label_encoding_desc,
 			  _("Specify Content-Transfer-Encoding used when "
@@ -1240,18 +1234,14 @@ static void prefs_send_create(void)
 	gtk_widget_show (label_fencoding);
 	gtk_box_pack_start (GTK_BOX (hbox1), label_fencoding, FALSE, FALSE, 0);
 
-	optmenu_fencoding = gtk_option_menu_new ();
+	optmenu_fencoding = menu_combo_new ();
 	gtk_widget_show (optmenu_fencoding);
 	gtk_box_pack_start (GTK_BOX (hbox1), optmenu_fencoding,
 			    FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new();
-
+	optmenu = optmenu_fencoding;
 	SET_MENUITEM(_("MIME header"), FENC_MIME);
 	SET_MENUITEM("RFC 2231", FENC_RFC2231);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (optmenu_fencoding),
-				  optmenu_menu);
 
 #undef SET_MENUITEM
 
@@ -1878,13 +1868,13 @@ static void prefs_display_create(void)
 	gtk_box_pack_start (GTK_BOX (hbox1), label_dispencoding,
 			    FALSE, FALSE, 0);
 
-	optmenu_dispencoding = gtk_option_menu_new ();
+	optmenu_dispencoding = menu_combo_new ();
 	gtk_widget_show (optmenu_dispencoding);
 	gtk_box_pack_start (GTK_BOX (hbox1), optmenu_dispencoding,
 			    FALSE, FALSE, 0);
 
 	prefs_common_set_encoding_optmenu
-		(GTK_OPTION_MENU (optmenu_dispencoding), FALSE);
+		(GTK_COMBO_BOX (optmenu_dispencoding), FALSE);
 
 	PACK_SMALL_LABEL (vbox_tab, label_encoding_desc,
 			  _("This is used when displaying messages with missing character encoding."));
@@ -1898,13 +1888,13 @@ static void prefs_display_create(void)
 	gtk_box_pack_start (GTK_BOX (hbox1), label_outencoding,
 			    FALSE, FALSE, 0);
 
-	optmenu_outencoding = gtk_option_menu_new ();
+	optmenu_outencoding = menu_combo_new ();
 	gtk_widget_show (optmenu_outencoding);
 	gtk_box_pack_start (GTK_BOX (hbox1), optmenu_outencoding,
 			    FALSE, FALSE, 0);
 
 	prefs_common_set_encoding_optmenu
-		(GTK_OPTION_MENU (optmenu_outencoding), TRUE);
+		(GTK_COMBO_BOX (optmenu_outencoding), TRUE);
 
 	PACK_SMALL_LABEL (vbox_tab, label_encoding_desc,
 			  _("If `Automatic' is selected, the optimal encoding "
@@ -2283,11 +2273,11 @@ enum
 	N_JUNK_ITEMS
 };
 
-static void prefs_junk_preset_activated(GtkMenuItem *menuitem, gpointer data)
+static void prefs_junk_preset_activated(GtkComboBox *combo, gpointer data)
 {
 	gint i;
 
-	i = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+	i = menu_get_option_menu_active_index(combo);
 	if (i > JUNK_NONE && i < N_JUNK_ITEMS) {
 		i--;
 		gtk_entry_set_text(GTK_ENTRY(junk.entry_junk_learncmd),
@@ -2308,8 +2298,6 @@ static void prefs_junk_create(void)
 	GtkWidget *chkbtn_enable_junk;
 	GtkWidget *label;
 	GtkWidget *optmenu_preset;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	GtkWidget *entry_junk_learncmd;
 	GtkWidget *entry_nojunk_learncmd;
 	GtkWidget *entry_classify_cmd;
@@ -2344,22 +2332,16 @@ static void prefs_junk_create(void)
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-	optmenu_preset = gtk_option_menu_new ();
+	optmenu_preset = menu_combo_new ();
 	gtk_widget_show (optmenu_preset);
 	gtk_box_pack_end (GTK_BOX (hbox), optmenu_preset, FALSE, FALSE, 0);
 
-	menu = gtk_menu_new ();
-	MENUITEM_ADD (menu, menuitem, _("(Select preset)"), 0);
-	MENUITEM_ADD (menu, menuitem, "bogofilter", JUNK_BOGOFILTER);
-	g_signal_connect (G_OBJECT (menuitem), "activate",
+	COMBOBOX_ADD (optmenu_preset, _("(Select preset)"), 0);
+	COMBOBOX_ADD (optmenu_preset, "bogofilter", JUNK_BOGOFILTER);
+	COMBOBOX_ADD (optmenu_preset, "bsfilter", JUNK_BSFILTER);
+	COMBOBOX_ADD (optmenu_preset, "sylfilter", JUNK_SYLFILTER);
+	g_signal_connect (G_OBJECT (optmenu_preset), "changed",
 			  G_CALLBACK (prefs_junk_preset_activated), NULL);
-	MENUITEM_ADD (menu, menuitem, "bsfilter", JUNK_BSFILTER);
-	g_signal_connect (G_OBJECT (menuitem), "activate",
-			  G_CALLBACK (prefs_junk_preset_activated), NULL);
-	MENUITEM_ADD (menu, menuitem, "sylfilter", JUNK_SYLFILTER);
-	g_signal_connect (G_OBJECT (menuitem), "activate",
-			  G_CALLBACK (prefs_junk_preset_activated), NULL);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (optmenu_preset), menu);
 
 	hbox = gtk_hbox_new (FALSE, 8);
 	gtk_widget_show (hbox);
@@ -2772,8 +2754,6 @@ static GtkWidget *prefs_other_create(void)
 	GtkWidget *hbox1;
 	GtkWidget *label;
 	GtkWidget *optmenu_recvdialog;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	GtkWidget *checkbtn_no_recv_err_panel;
 	GtkWidget *checkbtn_close_recv_dialog;
 
@@ -2816,18 +2796,15 @@ static GtkWidget *prefs_other_create(void)
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox1), label, FALSE, FALSE, 0);
 
-	optmenu_recvdialog = gtk_option_menu_new ();
+	optmenu_recvdialog = menu_combo_new ();
 	gtk_widget_show (optmenu_recvdialog);
 	gtk_box_pack_start (GTK_BOX (hbox1), optmenu_recvdialog,
 			    FALSE, FALSE, 0);
 
-	menu = gtk_menu_new ();
-	MENUITEM_ADD (menu, menuitem, _("Always"), RECV_DIALOG_ALWAYS);
-	MENUITEM_ADD (menu, menuitem, _("Only on manual receiving"),
+	COMBOBOX_ADD (optmenu_recvdialog, _("Always"), RECV_DIALOG_ALWAYS);
+	COMBOBOX_ADD (optmenu_recvdialog, _("Only on manual receiving"),
 		      RECV_DIALOG_MANUAL);
-	MENUITEM_ADD (menu, menuitem, _("Never"), RECV_DIALOG_NEVER);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (optmenu_recvdialog), menu);
+	COMBOBOX_ADD (optmenu_recvdialog, _("Never"), RECV_DIALOG_NEVER);
 
 	PACK_CHECK_BUTTON (vbox_recv, checkbtn_no_recv_err_panel,
 			   _("Don't popup error dialog on receive error"));
@@ -3014,11 +2991,11 @@ static GtkWidget *prefs_extcmd_create(void)
 			  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (uri_label), 1, 0.5);
 
-	uri_combo = gtk_combo_new ();
+	uri_combo = gtk_combo_box_text_new_with_entry ();
 	gtk_widget_show (uri_combo);
 	gtk_table_attach (GTK_TABLE (ext_table), uri_combo, 1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtkut_combo_set_items (GTK_COMBO (uri_combo),
+	gtkut_combo_set_items (GTK_COMBO_BOX_TEXT (uri_combo),
 #if defined(G_OS_WIN32) || defined(__APPLE__)
 			       _("(Default browser)"),
 #else
@@ -3032,7 +3009,7 @@ static GtkWidget *prefs_extcmd_create(void)
 			       "rxvt -e lynx '%s'",
 #endif
 			       NULL);
-	uri_entry = GTK_COMBO (uri_combo)->entry;
+	uri_entry = gtk_bin_get_child (GTK_BIN (uri_combo));
 
 	exteditor_label = gtk_label_new (_("Editor"));
 	gtk_widget_show (exteditor_label);
@@ -3040,11 +3017,11 @@ static GtkWidget *prefs_extcmd_create(void)
 			  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (exteditor_label), 1, 0.5);
 
-	exteditor_combo = gtk_combo_new ();
+	exteditor_combo = gtk_combo_box_text_new_with_entry ();
 	gtk_widget_show (exteditor_combo);
 	gtk_table_attach (GTK_TABLE (ext_table), exteditor_combo, 1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtkut_combo_set_items (GTK_COMBO (exteditor_combo),
+	gtkut_combo_set_items (GTK_COMBO_BOX_TEXT (exteditor_combo),
 #ifdef G_OS_WIN32
 			       "notepad '%s'",
 #elif defined(__APPLE__)
@@ -3058,7 +3035,7 @@ static GtkWidget *prefs_extcmd_create(void)
 			       "rxvt -e vi %s",
 #endif
 			       NULL);
-	exteditor_entry = GTK_COMBO (exteditor_combo)->entry;
+	exteditor_entry = gtk_bin_get_child (GTK_BIN (exteditor_combo));
 
 	PACK_FRAME_WITH_CHECK_BUTTON(vbox1, frame_printcmd, checkbtn_printcmd,
 				     _("Use external program for printing"));
@@ -3252,16 +3229,11 @@ static GtkWidget *prefs_advanced_create(void)
 	return vbox1;
 }
 
-static void prefs_common_set_encoding_optmenu(GtkOptionMenu *optmenu,
+static void prefs_common_set_encoding_optmenu(GtkComboBox *optmenu,
 					      gboolean outgoing)
 {
-	GtkWidget *menu;
-	GtkWidget *menuitem;
-
-	menu = gtk_menu_new();
-
 #define SET_MENUITEM(str, data) \
-	MENUITEM_ADD(menu, menuitem, str, data)
+	menu_combo_append(optmenu, str, (gpointer)data)
 
 	if (outgoing) {
 		SET_MENUITEM(_("Automatic (Recommended)"), NULL);
@@ -3322,7 +3294,6 @@ static void prefs_common_set_encoding_optmenu(GtkOptionMenu *optmenu,
 
 #undef SET_MENUITEM
 
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(optmenu), menu);
 }
 
 static void date_format_ok_btn_clicked(GtkButton *button, GtkWidget **widget)
@@ -3400,28 +3371,44 @@ static void date_format_entry_on_change(GtkEditable *editable,
 	g_free(text);
 }
 
-static void date_format_select_row(GtkWidget *date_format_list, gint row,
-				   gint column, GdkEventButton *event,
-				   GtkWidget *date_format)
+static gboolean date_format_select_row(GtkWidget *date_format_list,
+				       GdkEventButton *event,
+				       GtkWidget *date_format)
 {
 	gint cur_pos;
 	gchar *format;
 	const gchar *old_format;
 	gchar *new_format;
 	GtkWidget *datefmt_sample;
+	GtkTreeView *treeview = GTK_TREE_VIEW(date_format_list);
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
 
 	/* only on double click */
-	if (!event || event->type != GDK_2BUTTON_PRESS) return;
+	if (!event || event->type != GDK_2BUTTON_PRESS) return FALSE;
+	if (event->window != gtk_tree_view_get_bin_window(treeview))
+		return FALSE;
 
 	datefmt_sample = GTK_WIDGET(g_object_get_data
 				    (G_OBJECT(date_format), "datefmt_sample"));
 
-	g_return_if_fail(date_format_list != NULL);
-	g_return_if_fail(date_format != NULL);
-	g_return_if_fail(datefmt_sample != NULL);
+	g_return_val_if_fail(date_format_list != NULL, FALSE);
+	g_return_val_if_fail(date_format != NULL, FALSE);
+	g_return_val_if_fail(datefmt_sample != NULL, FALSE);
 
-	/* get format from clist */
-	gtk_clist_get_text(GTK_CLIST(date_format_list), row, 0, &format);
+	/* get format from the list */
+	if (!gtk_tree_view_get_path_at_pos(treeview, (gint)event->x,
+					   (gint)event->y, &path,
+					   NULL, NULL, NULL))
+		return FALSE;
+	model = gtk_tree_view_get_model(treeview);
+	if (!gtk_tree_model_get_iter(model, &iter, path)) {
+		gtk_tree_path_free(path);
+		return FALSE;
+	}
+	gtk_tree_path_free(path);
+	gtk_tree_model_get(model, &iter, 0, &format, -1);
 
 	cur_pos = gtk_editable_get_position(GTK_EDITABLE(datefmt_sample));
 	old_format = gtk_entry_get_text(GTK_ENTRY(datefmt_sample));
@@ -3438,6 +3425,9 @@ static void date_format_select_row(GtkWidget *date_format_list, gint row,
 	gtk_editable_set_position(GTK_EDITABLE(datefmt_sample), cur_pos + 2);
 
 	g_free(new_format);
+	g_free(format);
+
+	return FALSE;
 }
 
 static GtkWidget *date_format_create(GtkButton *button, void *data)
@@ -3446,6 +3436,7 @@ static GtkWidget *date_format_create(GtkButton *button, void *data)
 	GtkWidget *vbox1;
 	GtkWidget *scrolledwindow1;
 	GtkWidget *datefmt_clist;
+	GtkListStore *datefmt_store;
 	GtkWidget *table;
 	GtkWidget *label1;
 	GtkWidget *label2;
@@ -3526,20 +3517,32 @@ static GtkWidget *date_format_create(GtkButton *button, void *data)
 
 	titles[0] = _("Specifier");
 	titles[1] = _("Description");
-	datefmt_clist = gtk_clist_new_with_titles(2, titles);
+	datefmt_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+	datefmt_clist = gtk_tree_view_new_with_model
+		(GTK_TREE_MODEL(datefmt_store));
+	g_object_unref(G_OBJECT(datefmt_store));
 	gtk_widget_show(datefmt_clist);
 	gtk_container_add(GTK_CONTAINER(scrolledwindow1), datefmt_clist);
-	/* gtk_clist_set_column_width(GTK_CLIST(datefmt_clist), 0, 80); */
-	gtk_clist_set_selection_mode(GTK_CLIST(datefmt_clist),
-				     GTK_SELECTION_BROWSE);
+	for (i = 0; i < 2; i++)
+		gtk_tree_view_append_column
+			(GTK_TREE_VIEW(datefmt_clist),
+			 gtk_tree_view_column_new_with_attributes
+				(titles[i], gtk_cell_renderer_text_new(),
+				 "text", i, NULL));
+	gtk_tree_selection_set_mode
+		(gtk_tree_view_get_selection(GTK_TREE_VIEW(datefmt_clist)),
+		 GTK_SELECTION_BROWSE);
 
 	for (i = 0; i < TIME_FORMAT_ELEMS; i++) {
-		gchar *text[2];
-		/* phoney casting necessary because of gtk... */
-		text[0] = (gchar *)time_format[i].fmt;
-		text[1] = (gchar *)time_format[i].txt;
-		gtk_clist_append(GTK_CLIST(datefmt_clist), text);
+		GtkTreeIter iter;
+
+		gtk_list_store_append(datefmt_store, &iter);
+		gtk_list_store_set(datefmt_store, &iter,
+				   0, time_format[i].fmt,
+				   1, time_format[i].txt, -1);
 	}
+	/* GtkCList in browse mode selected the first row */
+	gtkut_list_view_select_row(GTK_TREE_VIEW(datefmt_clist), 0);
 
 	table = gtk_table_new(2, 2, FALSE);
 	gtk_widget_show(table);
@@ -3602,7 +3605,7 @@ static GtkWidget *date_format_create(GtkButton *button, void *data)
 			 G_CALLBACK(date_format_on_delete), &datefmt_win);
 	g_signal_connect(G_OBJECT(datefmt_entry), "changed",
 			 G_CALLBACK(date_format_entry_on_change), label3);
-	g_signal_connect(G_OBJECT(datefmt_clist), "select_row",
+	g_signal_connect(G_OBJECT(datefmt_clist), "button_press_event",
 			 G_CALLBACK(date_format_select_row), datefmt_win);
 
 	gtk_window_set_position(GTK_WINDOW(datefmt_win), GTK_WIN_POS_CENTER);
@@ -3649,7 +3652,7 @@ static void prefs_quote_colors_dialog_create(void)
 	gtk_window_set_title(GTK_WINDOW(window), _("Set message colors"));
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
 	vbox = gtk_vbox_new (FALSE, VSPACING);
 	gtk_container_add (GTK_CONTAINER (window), vbox);
@@ -3775,7 +3778,7 @@ static void quote_color_set_dialog(GtkWidget *widget, gpointer data)
 {
 	gchar *type = (gchar *)data;
 	gchar *title = NULL;
-	gdouble color[4] = {0.0, 0.0, 0.0, 0.0};
+	GdkColor color;
 	gint rgbvalue = 0;
 	GtkColorSelectionDialog *dialog;
 	GtkWidget *ok_button, *cancel_button;
@@ -3800,7 +3803,7 @@ static void quote_color_set_dialog(GtkWidget *widget, gpointer data)
 	color_dialog = gtk_color_selection_dialog_new(title);
 	gtk_window_set_position(GTK_WINDOW(color_dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(color_dialog), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(color_dialog), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(color_dialog), FALSE);
 	manage_window_set_transient(GTK_WINDOW(color_dialog));
 
 	g_object_get(G_OBJECT(color_dialog), "ok-button", &ok_button,
@@ -3815,12 +3818,13 @@ static void quote_color_set_dialog(GtkWidget *widget, gpointer data)
 			 G_CALLBACK(quote_colors_set_dialog_key_pressed), data);
 
 	/* preselect the previous color in the color selection dialog */
-	color[0] = (gdouble) ((rgbvalue & 0xff0000) >> 16) / 255.0;
-	color[1] = (gdouble) ((rgbvalue & 0x00ff00) >>  8) / 255.0;
-	color[2] = (gdouble)  (rgbvalue & 0x0000ff)        / 255.0;
+	color.pixel = 0;
+	color.red   = ((rgbvalue & 0xff0000) >> 16) * 257;
+	color.green = ((rgbvalue & 0x00ff00) >>  8) * 257;
+	color.blue  =  (rgbvalue & 0x0000ff)        * 257;
 	dialog = GTK_COLOR_SELECTION_DIALOG(color_dialog);
-	gtk_color_selection_set_color
-		(GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(dialog)), color);
+	gtk_color_selection_set_current_color
+		(GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(dialog)), &color);
 
 	gtk_widget_show(color_dialog);
 }
@@ -3829,15 +3833,15 @@ static void quote_colors_set_dialog_ok(GtkWidget *widget, gpointer data)
 {
 	GtkColorSelection *colorsel = (GtkColorSelection *)
 						gtk_color_selection_dialog_get_color_selection(((GtkColorSelectionDialog *)color_dialog));
-	gdouble color[4];
+	GdkColor color;
 	gint red, green, blue, rgbvalue;
 	gchar *type = (gchar *)data;
 
-	gtk_color_selection_get_color(colorsel, color);
+	gtk_color_selection_get_current_color(colorsel, &color);
 
-	red      = (gint) (color[0] * 255.0);
-	green    = (gint) (color[1] * 255.0);
-	blue     = (gint) (color[2] * 255.0);
+	red      = color.red   >> 8;
+	green    = color.green >> 8;
+	blue     = color.blue  >> 8;
 	rgbvalue = (gint) ((red * 0x10000) | (green * 0x100) | blue);
 
 #if 0
@@ -3882,16 +3886,22 @@ static gboolean quote_colors_set_dialog_key_pressed(GtkWidget *widget,
 
 static void set_button_bg_color(GtkWidget *widget, gint rgbvalue)
 {
-	GtkStyle *newstyle;
-	GdkColor color;
+	gchar *name;
+	gchar *selector;
+	gchar *declarations;
 
-	gtkut_convert_int_to_gdk_color(rgbvalue, &color);
-	newstyle = gtk_style_copy(gtk_widget_get_default_style());
-	newstyle->bg[GTK_STATE_NORMAL]   = color;
-	newstyle->bg[GTK_STATE_PRELIGHT] = color;
-	newstyle->bg[GTK_STATE_ACTIVE]   = color;
-
-	gtk_widget_set_style(GTK_WIDGET(widget), newstyle);
+	/* the button background shows the colour in every state */
+	name = g_strdup_printf("sylpheed-color-button-%p", widget);
+	gtk_widget_set_name(widget, name);
+	selector = g_strdup_printf("#%s, #%s:hover, #%s:active",
+				   name, name, name);
+	declarations = g_strdup_printf
+		("background-image: none; background-color: #%06x;",
+		 rgbvalue & 0xffffff);
+	gtkut_css_set_rule(selector, declarations);
+	g_free(declarations);
+	g_free(selector);
+	g_free(name);
 }
 
 static void prefs_enable_message_color_toggled(void)
@@ -3938,7 +3948,7 @@ static void prefs_quote_description_create(void)
 	gtk_container_set_border_width(GTK_CONTAINER(quote_desc_win), 8);
 	gtk_window_set_position(GTK_WINDOW(quote_desc_win), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(quote_desc_win), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(quote_desc_win), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(quote_desc_win), FALSE);
 
 	vbox = gtk_vbox_new(FALSE, 8);
 	gtk_container_add(GTK_CONTAINER(quote_desc_win), vbox);
@@ -4072,7 +4082,7 @@ static void prefs_keybind_select(void)
 	gtk_window_set_title (GTK_WINDOW (window), _("Key bindings"));
 	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal (GTK_WINDOW (window), TRUE);
-	gtk_window_set_policy (GTK_WINDOW (window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
 	manage_window_set_transient (GTK_WINDOW (window));
 
 	vbox1 = gtk_vbox_new (FALSE, VSPACING);
@@ -4089,16 +4099,15 @@ static void prefs_keybind_select(void)
 	hbox1 = gtk_hbox_new (FALSE, 8);
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
-	combo = gtk_combo_new ();
+	/* the GtkCombo entry was not editable: a plain combo box */
+	combo = gtk_combo_box_text_new ();
 	gtk_box_pack_start (GTK_BOX (hbox1), combo, TRUE, TRUE, 0);
-	gtkut_combo_set_items (GTK_COMBO (combo),
+	gtkut_combo_set_items (GTK_COMBO_BOX_TEXT (combo),
 			       _("Default"),
 			       "Mew / Wanderlust",
 			       "Mutt",
 			       _("Old Sylpheed"),
 			       NULL);
-	gtk_editable_set_editable
-		(GTK_EDITABLE (GTK_COMBO (combo)->entry), FALSE);
 
 	hbox1 = gtk_hbox_new (FALSE, 8);
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
@@ -4169,8 +4178,7 @@ static void prefs_keybind_apply(struct KeyBind keybind[], gint num)
 
 static void prefs_keybind_apply_clicked(GtkWidget *widget)
 {
-	GtkEntry *entry = GTK_ENTRY(GTK_COMBO(keybind.combo)->entry);
-	const gchar *text;
+	gint preset;
 	struct KeyBind *menurc;
 	gint n_menurc;
 
@@ -4414,18 +4422,19 @@ static void prefs_keybind_apply_clicked(GtkWidget *widget)
 		{"<Compose>/Edit/Select all",			""},
 	};
 
-	text = gtk_entry_get_text(entry);
+	/* in the order of the combo box items */
+	preset = gtk_combo_box_get_active(GTK_COMBO_BOX(keybind.combo));
 
-	if (!strcmp(text, _("Default"))) {
+	if (preset == 0) {
 		menurc = default_menurc;
 		n_menurc = G_N_ELEMENTS(default_menurc);
-	} else if (!strcmp(text, "Mew / Wanderlust")) {
+	} else if (preset == 1) {
 		menurc = mew_wl_menurc;
 		n_menurc = G_N_ELEMENTS(mew_wl_menurc);
-	} else if (!strcmp(text, "Mutt")) {
+	} else if (preset == 2) {
 		menurc = mutt_menurc;
 		n_menurc = G_N_ELEMENTS(mutt_menurc);
-	} else if (!strcmp(text, _("Old Sylpheed"))) {
+	} else if (preset == 3) {
 		menurc = old_sylpheed_menurc;
 		n_menurc = G_N_ELEMENTS(old_sylpheed_menurc);
 	} else
@@ -4442,17 +4451,13 @@ static void prefs_keybind_apply_clicked(GtkWidget *widget)
 static void prefs_common_charset_set_data_from_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	gchar *charset;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(*ui_data->widget));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	charset = g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID);
+	charset = menu_combo_get_active_data(GTK_COMBO_BOX(*ui_data->widget));
 	g_free(*((gchar **)pparam->data));
 	*((gchar **)pparam->data) = g_strdup(charset);
 }
@@ -4460,22 +4465,22 @@ static void prefs_common_charset_set_data_from_optmenu(PrefParam *pparam)
 static void prefs_common_charset_set_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
-	GtkOptionMenu *optmenu;
+	GtkComboBox *optmenu;
 	gint index;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+	optmenu = GTK_COMBO_BOX(*ui_data->widget);
 	g_return_if_fail(optmenu != NULL);
 
 	index = menu_find_option_menu_index(optmenu, *((gchar **)pparam->data),
 					    (GCompareFunc)strcmp2);
 	if (index >= 0)
-		gtk_option_menu_set_history(optmenu, index);
+		gtk_combo_box_set_active(optmenu, index);
 	else {
-		gtk_option_menu_set_history(optmenu, 0);
+		gtk_combo_box_set_active(optmenu, 0);
 		prefs_common_charset_set_data_from_optmenu(pparam);
 	}
 }
@@ -4484,30 +4489,24 @@ static void prefs_common_recv_dialog_set_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
 	RecvDialogMode mode = *((RecvDialogMode *)pparam->data);
-	GtkOptionMenu *optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
+	GtkComboBox *optmenu;
 	gint index;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+	optmenu = GTK_COMBO_BOX(*ui_data->widget);
 	g_return_if_fail(optmenu != NULL);
 
 	index = menu_find_option_menu_index(optmenu, GINT_TO_POINTER(mode),
 					    NULL);
 	if (index >= 0)
-		gtk_option_menu_set_history(optmenu, index);
+		gtk_combo_box_set_active(optmenu, index);
 	else {
-		gtk_option_menu_set_history(optmenu, 0);
+		gtk_combo_box_set_active(optmenu, 0);
 		prefs_set_data_from_optmenu(pparam);
 	}
-
-	menu = gtk_option_menu_get_menu(optmenu);
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
 }
 
 static void prefs_common_uri_set_data_from_entry(PrefParam *pparam)

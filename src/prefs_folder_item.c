@@ -39,6 +39,7 @@
 #include "mainwindow.h"
 #include "inc.h"
 #include "menu.h"
+#include "gtkutils.h"
 
 typedef struct _PrefsFolderItemDialog	PrefsFolderItemDialog;
 
@@ -152,12 +153,9 @@ static void prefs_folder_item_general_create(PrefsFolderItemDialog *dialog)
 	GtkWidget *id_label;
 	GtkWidget *path_label;
 	GtkWidget *optmenu;
-	GtkWidget *optmenu_menu;
-	GtkWidget *menuitem;
 	GtkWidget *vbox2;
 	GtkWidget *trim_summary_subj_chkbtn;
 	GtkWidget *trim_compose_subj_chkbtn;
-	GtkStyle *style;
 
 	vbox = gtk_vbox_new(FALSE, VSPACING);
 	gtk_container_add(GTK_CONTAINER(dialog->dialog->notebook), vbox);
@@ -176,9 +174,7 @@ static void prefs_folder_item_general_create(PrefsFolderItemDialog *dialog)
 	name_entry = gtk_entry_new();
 	gtk_editable_set_editable(GTK_EDITABLE(name_entry), FALSE);
 	gtk_widget_set_size_request(name_entry, 200, -1);
-	style = gtk_widget_get_style(dialog->dialog->window);
-	gtk_widget_modify_base(name_entry, GTK_STATE_NORMAL,
-			       &style->bg[GTK_STATE_NORMAL]);
+	gtkut_widget_add_class(name_entry, GTKUT_CLASS_READONLY);
 	gtk_table_attach(GTK_TABLE(table), name_entry, 1, 2, 0, 1,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL, 0, 0);
@@ -222,20 +218,16 @@ static void prefs_folder_item_general_create(PrefsFolderItemDialog *dialog)
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL, 0, 0);
 
-	optmenu = gtk_option_menu_new();
+	optmenu = menu_combo_new();
 	gtk_box_pack_start(GTK_BOX(hbox), optmenu, FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new();
-
-	MENUITEM_ADD(optmenu_menu, menuitem, _("Normal"), F_NORMAL);
-	MENUITEM_ADD(optmenu_menu, menuitem, _("Inbox") , F_INBOX);
-	MENUITEM_ADD(optmenu_menu, menuitem, _("Sent")  , F_OUTBOX);
-	MENUITEM_ADD(optmenu_menu, menuitem, _("Drafts"), F_DRAFT);
-	MENUITEM_ADD(optmenu_menu, menuitem, _("Queue") , F_QUEUE);
-	MENUITEM_ADD(optmenu_menu, menuitem, _("Trash") , F_TRASH);
-	MENUITEM_ADD(optmenu_menu, menuitem, _("Junk")  , F_JUNK);
-
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(optmenu), optmenu_menu);
+	COMBOBOX_ADD(optmenu, _("Normal"), F_NORMAL);
+	COMBOBOX_ADD(optmenu, _("Inbox") , F_INBOX);
+	COMBOBOX_ADD(optmenu, _("Sent")  , F_OUTBOX);
+	COMBOBOX_ADD(optmenu, _("Drafts"), F_DRAFT);
+	COMBOBOX_ADD(optmenu, _("Queue") , F_QUEUE);
+	COMBOBOX_ADD(optmenu, _("Trash") , F_TRASH);
+	COMBOBOX_ADD(optmenu, _("Junk")  , F_JUNK);
 
 	vbox2 = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), vbox2, FALSE, FALSE, 0);
@@ -269,8 +261,6 @@ static void prefs_folder_item_compose_create(PrefsFolderItemDialog *dialog)
 	GtkWidget *hbox;
 	GtkWidget *label;
 	GtkWidget *optmenu;
-	GtkWidget *optmenu_menu;
-	GtkWidget *menuitem;
 	GtkWidget *ac_apply_sub_chkbtn;
 	GtkWidget *to_entry;
 	GtkWidget *on_reply_chkbtn;
@@ -305,22 +295,18 @@ static void prefs_folder_item_compose_create(PrefsFolderItemDialog *dialog)
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL,
 			 GTK_EXPAND | GTK_SHRINK | GTK_FILL, 0, 0);
 
-	optmenu = gtk_option_menu_new();
+	optmenu = menu_combo_new();
 	gtk_box_pack_start(GTK_BOX(hbox), optmenu, FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new();
-
-	MENUITEM_ADD(optmenu_menu, menuitem, _("None"), -1);
+	COMBOBOX_ADD(optmenu, _("None"), -1);
 
 	for (list = account_get_list(); list != NULL; list = list->next) {
 		gchar *text;
 		PrefsAccount *ac = list->data;
 
 		text = g_strdup_printf("%s: %s", ac->account_name, ac->address);
-		MENUITEM_ADD(optmenu_menu, menuitem, text, ac->account_id);
+		COMBOBOX_ADD(optmenu, text, ac->account_id);
 	}
-
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(optmenu), optmenu_menu);
 
 	PACK_CHECK_BUTTON(account_vbox, ac_apply_sub_chkbtn,
 			  _("Apply to subfolders"));
@@ -403,13 +389,10 @@ static void prefs_folder_item_compose_create(PrefsFolderItemDialog *dialog)
 
 static void prefs_folder_item_set_dialog(PrefsFolderItemDialog *dialog)
 {
-	GtkWidget *menu;
-	GtkWidget *menuitem;
-	GtkOptionMenu *optmenu;
+	GtkComboBox *optmenu;
 	gchar *id;
 	gchar *path;
 	gchar *utf8_path;
-	GList *cur;
 	SpecialFolderItemType type;
 	gint n;
 	guint index = 0;
@@ -428,21 +411,18 @@ static void prefs_folder_item_set_dialog(PrefsFolderItemDialog *dialog)
 	g_free(utf8_path);
 	g_free(path);
 
-	optmenu = GTK_OPTION_MENU(dialog->type_optmenu);
-	menu = gtk_option_menu_get_menu(optmenu);
-	for (cur = GTK_MENU_SHELL(menu)->children, n = 0;
-	     cur != NULL; cur = cur->next, n++) {
-		menuitem = GTK_WIDGET(cur->data);
-		type = (SpecialFolderItemType)
-			g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID);
+	optmenu = GTK_COMBO_BOX(dialog->type_optmenu);
+	for (n = 0; n < menu_combo_get_n_items(optmenu); n++) {
+		type = (SpecialFolderItemType)GPOINTER_TO_INT
+			(menu_combo_get_nth_data(optmenu, n));
 		if (type != F_NORMAL &&
 		    FOLDER_TYPE(dialog->item->folder) == F_NEWS)
-			gtk_widget_set_sensitive(menuitem, FALSE);
+			menu_combo_set_item_sensitive(optmenu, n, FALSE);
 		if (dialog->item->stype == type)
 			index = n;
 	}
 
-	gtk_option_menu_set_history(optmenu, index);
+	gtk_combo_box_set_active(optmenu, index);
 
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON(dialog->trim_summary_subj_chkbtn),
@@ -454,7 +434,7 @@ static void prefs_folder_item_set_dialog(PrefsFolderItemDialog *dialog)
 	/* Compose */
 
 	index = 0;
-	optmenu = GTK_OPTION_MENU(dialog->account_optmenu);
+	optmenu = GTK_COMBO_BOX(dialog->account_optmenu);
 	if (dialog->item->account) {
 		index = menu_find_option_menu_index
 			(optmenu,
@@ -464,7 +444,7 @@ static void prefs_folder_item_set_dialog(PrefsFolderItemDialog *dialog)
 			index = 0;
 	}
 
-	gtk_option_menu_set_history(optmenu, index);
+	gtk_combo_box_set_active(optmenu, index);
 
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON(dialog->ac_apply_sub_chkbtn),
@@ -509,9 +489,7 @@ static void prefs_folder_item_ok_cb(GtkWidget *widget,
 static void prefs_folder_item_apply_cb(GtkWidget *widget,
 				       PrefsFolderItemDialog *dialog)
 {
-	GtkWidget *menu;
-	GtkWidget *menuitem;
-	GtkOptionMenu *optmenu;
+	GtkComboBox *optmenu;
 	SpecialFolderItemType type;
 	FolderItem *item = dialog->item;
 	Folder *folder = item->folder;
@@ -519,11 +497,9 @@ static void prefs_folder_item_apply_cb(GtkWidget *widget,
 	gint account_id;
 	const gchar *entry_str;
 
-	optmenu = GTK_OPTION_MENU(dialog->type_optmenu);
-	menu = gtk_option_menu_get_menu(optmenu);
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	type = (SpecialFolderItemType)
-		g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID);
+	optmenu = GTK_COMBO_BOX(dialog->type_optmenu);
+	type = (SpecialFolderItemType)GPOINTER_TO_INT
+		(menu_combo_get_active_data(optmenu));
 
 	if (item->stype != type && item->stype != F_VIRTUAL) {
 		switch (type) {
@@ -583,11 +559,8 @@ static void prefs_folder_item_apply_cb(GtkWidget *widget,
 		(GTK_TOGGLE_BUTTON(dialog->trim_compose_subj_chkbtn));
 
 	/* account menu */
-	optmenu = GTK_OPTION_MENU(dialog->account_optmenu);
-	menu = gtk_option_menu_get_menu(optmenu);
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	account_id = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+	optmenu = GTK_COMBO_BOX(dialog->account_optmenu);
+	account_id = GPOINTER_TO_INT(menu_combo_get_active_data(optmenu));
 	if (account_id >= 0)
 		item->account = account_find_from_id(account_id);
 	else

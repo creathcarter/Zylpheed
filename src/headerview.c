@@ -158,40 +158,11 @@ HeaderView *headerview_create(void)
 
 void headerview_init(HeaderView *headerview)
 {
-	static PangoFontDescription *boldfont = NULL;
-#ifdef G_OS_WIN32
-	GtkStyle *style;
-#endif
-
-	if (!boldfont) {
-		boldfont = pango_font_description_new();
-		pango_font_description_set_weight(boldfont, PANGO_WEIGHT_BOLD);
-	}
-
-	if (boldfont) {
-		gtk_widget_modify_font(headerview->from_header_label, boldfont);
-		gtk_widget_modify_font(headerview->to_header_label, boldfont);
-		gtk_widget_modify_font(headerview->cc_header_label, boldfont);
-		gtk_widget_modify_font(headerview->ng_header_label, boldfont);
-		gtk_widget_modify_font(headerview->subject_header_label, boldfont);
-	}
-
-#ifdef G_OS_WIN32
-#define SET_LABEL_STYLE(label)						\
-	style = gtk_widget_get_style(label);				\
-	gtk_widget_modify_base(label, GTK_STATE_ACTIVE,			\
-			       &style->base[GTK_STATE_SELECTED]);	\
-	gtk_widget_modify_text(label, GTK_STATE_ACTIVE,			\
-			       &style->text[GTK_STATE_SELECTED]);
-
-	SET_LABEL_STYLE(headerview->from_body_label);
-	SET_LABEL_STYLE(headerview->to_body_label);
-	SET_LABEL_STYLE(headerview->cc_body_label);
-	SET_LABEL_STYLE(headerview->ng_body_label);
-	SET_LABEL_STYLE(headerview->subject_body_label);
-
-#undef SET_LABEL_STYLE
-#endif
+	gtkut_widget_add_class(headerview->from_header_label, GTKUT_CLASS_BOLD);
+	gtkut_widget_add_class(headerview->to_header_label, GTKUT_CLASS_BOLD);
+	gtkut_widget_add_class(headerview->cc_header_label, GTKUT_CLASS_BOLD);
+	gtkut_widget_add_class(headerview->ng_header_label, GTKUT_CLASS_BOLD);
+	gtkut_widget_add_class(headerview->subject_header_label, GTKUT_CLASS_BOLD);
 
 	headerview_clear(headerview);
 	headerview_set_visibility(headerview, prefs_common.display_header_pane);
@@ -258,8 +229,7 @@ void headerview_show(HeaderView *headerview, MsgInfo *msginfo)
 static void headerview_show_xface(HeaderView *headerview, MsgInfo *msginfo)
 {
 	gchar xface[2048];
-	GdkPixmap *pixmap;
-	GdkBitmap *mask;
+	GdkPixbuf *pixbuf;
 	GtkWidget *hbox = headerview->hbox;
 
 	if (!msginfo->xface || strlen(msginfo->xface) < 5) {
@@ -283,23 +253,29 @@ static void headerview_show_xface(HeaderView *headerview, MsgInfo *msginfo)
 
 	create_xpm_from_xface(xpm_xface, xface);
 
-	pixmap = gdk_pixmap_create_from_xpm_d
-		(gtk_widget_get_window(hbox), &mask, &gtk_widget_get_style(hbox)->white, xpm_xface);
+	/* the XPM has no transparent color, so the pixbuf is opaque like
+	   the old pixmap and mask */
+	pixbuf = gdk_pixbuf_new_from_xpm_data((const char **)xpm_xface);
+	if (!pixbuf) {
+		g_warning("cannot create X-Face image\n");
+		if (headerview->image)
+			gtk_widget_hide(headerview->image);
+		return;
+	}
 
 	if (!headerview->image) {
 		GtkWidget *image;
 
-		image = gtk_image_new_from_pixmap(pixmap, mask);
+		image = gtk_image_new_from_pixbuf(pixbuf);
 		gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
 		gtk_widget_show(image);
 		headerview->image = image;
 	} else {
-		gtk_image_set_from_pixmap(GTK_IMAGE(headerview->image),
-					  pixmap, mask);
+		gtk_image_set_from_pixbuf(GTK_IMAGE(headerview->image), pixbuf);
 		gtk_widget_show(headerview->image);
 	}
 
-	gdk_pixmap_unref(pixmap);
+	g_object_unref(pixbuf);
 }
 #endif
 

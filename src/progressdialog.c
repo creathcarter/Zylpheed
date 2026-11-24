@@ -123,13 +123,12 @@ ProgressDialog *progress_dialog_simple_create(void)
 	gtk_widget_set_size_request(dialog, PROGRESS_DIALOG_WIDTH * gtkut_get_dpi_multiplier(), -1);
 	gtk_container_set_border_width(GTK_CONTAINER(dialog), 8);
 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, TRUE);
+	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
 	gtk_widget_realize(dialog);
 
 	gtk_container_set_border_width
 		(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(dialog))), 0);
 	gtk_box_set_spacing(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), 8);
-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), hbox,
@@ -176,14 +175,16 @@ void progress_dialog_set_label(ProgressDialog *progress, gchar *str)
 
 void progress_dialog_set_value(ProgressDialog *progress, gfloat value)
 {
-	gtk_progress_set_value(GTK_PROGRESS(progress->progressbar), value);
+	/* GtkProgress value range was 0..100 */
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress->progressbar),
+				      value / 100.0);
 }
 
 void progress_dialog_set_percentage(ProgressDialog *progress,
 				    gfloat percentage)
 {
-	gtk_progress_set_percentage(GTK_PROGRESS(progress->progressbar),
-				    percentage);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress->progressbar),
+				      percentage);
 }
 
 void progress_dialog_append(ProgressDialog *progress, GdkPixbuf *pixbuf,

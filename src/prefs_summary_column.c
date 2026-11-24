@@ -39,6 +39,12 @@
 #include "gtkutils.h"
 #include "utils.h"
 
+enum {
+	SUMCOL_COL_NAME,
+	SUMCOL_COL_TYPE,
+	SUMCOL_N_COLS
+};
+
 static struct _SummaryColumnDialog
 {
 	GtkWidget *window;
@@ -178,7 +184,9 @@ static void prefs_summary_column_create(void)
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
 
-	gchar *title[1];
+	GtkListStore *store;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
 
 	debug_print(_("Creating summary column setting window...\n"));
 
@@ -187,7 +195,7 @@ static void prefs_summary_column_create(void)
 	gtk_window_set_position(GTK_WINDOW(window),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	gtk_window_set_title(GTK_WINDOW(window),
 			     _("Summary display item setting"));
 	g_signal_connect(G_OBJECT(window), "delete_event",
@@ -231,15 +239,18 @@ static void prefs_summary_column_create(void)
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
 
-	title[0] = _("Available items");
-	stock_clist = gtk_clist_new_with_titles(1, title);
+	store = gtk_list_store_new(SUMCOL_N_COLS, G_TYPE_STRING, G_TYPE_INT);
+	stock_clist = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
 	gtk_widget_show(stock_clist);
 	gtk_container_add(GTK_CONTAINER(scrolledwin), stock_clist);
-	gtk_clist_set_selection_mode(GTK_CLIST(stock_clist),
-				     GTK_SELECTION_BROWSE);
-	gtkut_clist_set_redraw(GTK_CLIST(stock_clist));
-	gtk_widget_set_can_focus(GTK_CLIST(stock_clist)->column[0].button,
-			       FALSE);
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Available items"), renderer, "text", SUMCOL_COL_NAME, NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(stock_clist), column);
+	gtk_tree_selection_set_mode
+		(gtk_tree_view_get_selection(GTK_TREE_VIEW(stock_clist)),
+		 GTK_SELECTION_BROWSE);
 
 	/* add/remove button */
 	btn_vbox = gtk_vbox_new(FALSE, 0);
@@ -275,19 +286,18 @@ static void prefs_summary_column_create(void)
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
 
-	title[0] = _("Displayed items");
-	shown_clist = gtk_clist_new_with_titles(1, title);
+	store = gtk_list_store_new(SUMCOL_N_COLS, G_TYPE_STRING, G_TYPE_INT);
+	shown_clist = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
 	gtk_widget_show(shown_clist);
 	gtk_container_add(GTK_CONTAINER(scrolledwin), shown_clist);
-	gtk_clist_set_selection_mode(GTK_CLIST(shown_clist),
-				     GTK_SELECTION_BROWSE);
-#if 0
-	gtk_clist_set_reorderable(GTK_CLIST(shown_clist), TRUE);
-	gtk_clist_set_use_drag_icons(GTK_CLIST(shown_clist), FALSE);
-#endif
-	gtkut_clist_set_redraw(GTK_CLIST(shown_clist));
-	gtk_widget_set_can_focus(GTK_CLIST(shown_clist)->column[0].button,
-			       FALSE);
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Displayed items"), renderer, "text", SUMCOL_COL_NAME, NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(shown_clist), column);
+	gtk_tree_selection_set_mode
+		(gtk_tree_view_get_selection(GTK_TREE_VIEW(shown_clist)),
+		 GTK_SELECTION_BROWSE);
 
 	/* up/down button */
 	btn_vbox = gtk_vbox_new(FALSE, 0);
@@ -416,58 +426,81 @@ void prefs_summary_column_set_config(SummaryColumnState *state,
 
 static void prefs_summary_column_set_dialog(SummaryColumnState *state)
 {
-	GtkCList *stock_clist = GTK_CLIST(summary_col.stock_clist);
-	GtkCList *shown_clist = GTK_CLIST(summary_col.shown_clist);
+	GtkListStore *stock_store;
+	GtkListStore *shown_store;
+	GtkTreeIter iter;
 	gint pos;
 	SummaryColumnType type;
 	gchar *name;
 
-	gtk_clist_clear(stock_clist);
-	gtk_clist_clear(shown_clist);
+	stock_store = GTK_LIST_STORE(gtk_tree_view_get_model
+				     (GTK_TREE_VIEW(summary_col.stock_clist)));
+	shown_store = GTK_LIST_STORE(gtk_tree_view_get_model
+				     (GTK_TREE_VIEW(summary_col.shown_clist)));
+	gtk_list_store_clear(stock_store);
+	gtk_list_store_clear(shown_store);
 
 	if (!state)
 		state = prefs_summary_column_get_config
 			(summary_col.sent_folder);
 
 	for (pos = 0; pos < N_SUMMARY_VISIBLE_COLS; pos++) {
-		gint row;
+		GtkListStore *store;
+
 		type = state[pos].type;
 		name = gettext(col_name[type]);
 
-		if (state[pos].visible) {
-			row = gtk_clist_append(shown_clist, (gchar **)&name);
-			gtk_clist_set_row_data(shown_clist, row,
-					       GINT_TO_POINTER(type));
-		} else {
-			row = gtk_clist_append(stock_clist, (gchar **)&name);
-			gtk_clist_set_row_data(stock_clist, row,
-					       GINT_TO_POINTER(type));
-		}
+		store = state[pos].visible ? shown_store : stock_store;
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, SUMCOL_COL_NAME, name,
+				   SUMCOL_COL_TYPE, type, -1);
 	}
+
+	/* GtkCList in browse mode selected the first row */
+	gtkut_list_view_select_row(GTK_TREE_VIEW(summary_col.stock_clist), 0);
+	gtkut_list_view_select_row(GTK_TREE_VIEW(summary_col.shown_clist), 0);
+}
+
+static SummaryColumnType prefs_summary_column_get_nth_type(GtkWidget *view,
+							   gint row)
+{
+	GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(view));
+	GtkTreeIter iter;
+	gint type = -1;
+
+	if (gtk_tree_model_iter_nth_child(model, &iter, NULL, row))
+		gtk_tree_model_get(model, &iter, SUMCOL_COL_TYPE, &type, -1);
+
+	return (SummaryColumnType)type;
 }
 
 static void prefs_summary_column_set_view(void)
 {
-	GtkCList *stock_clist = GTK_CLIST(summary_col.stock_clist);
-	GtkCList *shown_clist = GTK_CLIST(summary_col.shown_clist);
 	SummaryColumnState state[N_SUMMARY_VISIBLE_COLS];
 	SummaryColumnType type;
 	gint row, pos = 0;
+	gint stock_rows, shown_rows;
 
-	g_return_if_fail(stock_clist->rows + shown_clist->rows ==
-			 N_SUMMARY_VISIBLE_COLS);
+	stock_rows = gtk_tree_model_iter_n_children
+		(gtk_tree_view_get_model
+		 (GTK_TREE_VIEW(summary_col.stock_clist)), NULL);
+	shown_rows = gtk_tree_model_iter_n_children
+		(gtk_tree_view_get_model
+		 (GTK_TREE_VIEW(summary_col.shown_clist)), NULL);
 
-	for (row = 0; row < stock_clist->rows; row++) {
-		type = GPOINTER_TO_INT
-			(gtk_clist_get_row_data(stock_clist, row));
+	g_return_if_fail(stock_rows + shown_rows == N_SUMMARY_VISIBLE_COLS);
+
+	for (row = 0; row < stock_rows; row++) {
+		type = prefs_summary_column_get_nth_type
+			(summary_col.stock_clist, row);
 		state[row].type = type;
 		state[row].visible = FALSE;
 	}
 
 	pos = row;
-	for (row = 0; row < shown_clist->rows; row++) {
-		type = GPOINTER_TO_INT
-			(gtk_clist_get_row_data(shown_clist, row));
+	for (row = 0; row < shown_rows; row++) {
+		type = prefs_summary_column_get_nth_type
+			(summary_col.shown_clist, row);
 		state[pos + row].type = type;
 		state[pos + row].visible = TRUE;
 	}
@@ -478,79 +511,71 @@ static void prefs_summary_column_set_view(void)
 
 static void prefs_summary_column_add(void)
 {
-	GtkCList *stock_clist = GTK_CLIST(summary_col.stock_clist);
-	GtkCList *shown_clist = GTK_CLIST(summary_col.shown_clist);
+	GtkTreeView *stock_view = GTK_TREE_VIEW(summary_col.stock_clist);
+	GtkTreeView *shown_view = GTK_TREE_VIEW(summary_col.shown_clist);
+	GtkListStore *shown_store;
+	GtkTreeIter iter;
 	gint row;
 	SummaryColumnType type;
 	gchar *name;
 
-	if (!stock_clist->selection) return;
+	row = gtkut_list_view_get_selected_row(stock_view);
+	if (row < 0) return;
 
-	row = GPOINTER_TO_INT(stock_clist->selection->data);
-	type = GPOINTER_TO_INT(gtk_clist_get_row_data(stock_clist, row));
-	gtk_clist_remove(stock_clist, row);
-	if (stock_clist->rows == row)
-		gtk_clist_select_row(stock_clist, row - 1, -1);
+	type = prefs_summary_column_get_nth_type(summary_col.stock_clist, row);
+	gtkut_list_view_remove_row(stock_view, row);
 
-	if (!shown_clist->selection)
+	row = gtkut_list_view_get_selected_row(shown_view);
+	if (row < 0)
 		row = 0;
-	else
-		row = GPOINTER_TO_INT(shown_clist->selection->data);
 
 	name = gettext(col_name[type]);
-	row = gtk_clist_insert(shown_clist, row, (gchar **)&name);
-	gtk_clist_set_row_data(shown_clist, row, GINT_TO_POINTER(type));
+	shown_store = GTK_LIST_STORE(gtk_tree_view_get_model(shown_view));
+	gtk_list_store_insert(shown_store, &iter, row);
+	gtk_list_store_set(shown_store, &iter, SUMCOL_COL_NAME, name,
+			   SUMCOL_COL_TYPE, type, -1);
 }
 
 static void prefs_summary_column_remove(void)
 {
-	GtkCList *stock_clist = GTK_CLIST(summary_col.stock_clist);
-	GtkCList *shown_clist = GTK_CLIST(summary_col.shown_clist);
+	GtkTreeView *stock_view = GTK_TREE_VIEW(summary_col.stock_clist);
+	GtkTreeView *shown_view = GTK_TREE_VIEW(summary_col.shown_clist);
+	GtkListStore *stock_store;
+	GtkTreeIter iter;
 	gint row;
 	SummaryColumnType type;
 	gchar *name;
 
-	if (!shown_clist->selection) return;
+	row = gtkut_list_view_get_selected_row(shown_view);
+	if (row < 0) return;
 
-	row = GPOINTER_TO_INT(shown_clist->selection->data);
-	type = GPOINTER_TO_INT(gtk_clist_get_row_data(shown_clist, row));
-	gtk_clist_remove(shown_clist, row);
-	if (shown_clist->rows == row)
-		gtk_clist_select_row(shown_clist, row - 1, -1);
+	type = prefs_summary_column_get_nth_type(summary_col.shown_clist, row);
+	gtkut_list_view_remove_row(shown_view, row);
 
-	if (!stock_clist->selection)
+	row = gtkut_list_view_get_selected_row(stock_view);
+	if (row < 0)
 		row = 0;
 	else
-		row = GPOINTER_TO_INT(stock_clist->selection->data) + 1;
+		row++;
 
 	name = gettext(col_name[type]);
-	row = gtk_clist_insert(stock_clist, row, (gchar **)&name);
-	gtk_clist_set_row_data(stock_clist, row, GINT_TO_POINTER(type));
-	gtk_clist_select_row(stock_clist, row, -1);
+	stock_store = GTK_LIST_STORE(gtk_tree_view_get_model(stock_view));
+	gtk_list_store_insert(stock_store, &iter, row);
+	gtk_list_store_set(stock_store, &iter, SUMCOL_COL_NAME, name,
+			   SUMCOL_COL_TYPE, type, -1);
+	gtkut_list_view_select_row(stock_view, row);
 }
 
 static void prefs_summary_column_up(void)
 {
-	GtkCList *clist = GTK_CLIST(summary_col.shown_clist);
-	gint row;
-
-	if (!clist->selection) return;
-
-	row = GPOINTER_TO_INT(clist->selection->data);
-	if (row > 0)
-		gtk_clist_row_move(clist, row, row - 1);
+	gtkut_list_view_move_selected_row
+		(GTK_TREE_VIEW(summary_col.shown_clist), -1);
 }
 
 static void prefs_summary_column_down(void)
 {
-	GtkCList *clist = GTK_CLIST(summary_col.shown_clist);
-	gint row;
-
-	if (!clist->selection) return;
-
-	row = GPOINTER_TO_INT(clist->selection->data);
-	if (row >= 0 && row < clist->rows - 1)
-		gtk_clist_row_move(clist, row, row + 1);
+	gtkut_list_view_move_selected_row
+		(GTK_TREE_VIEW(summary_col.shown_clist), 1);
 }
 
 static void prefs_summary_column_set_to_default(void)

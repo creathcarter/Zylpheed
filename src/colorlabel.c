@@ -120,31 +120,28 @@ void colorlabel_set_color_text(gint color_index, const gchar *label)
 	label_colors[color_index].changed |= LCCF_LABEL;
 }
 
-static gboolean colorlabel_drawing_area_expose_event_cb
-	(GtkWidget *widget, GdkEventExpose *expose, gpointer data)
+static gboolean colorlabel_drawing_area_draw_cb
+	(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
-	GdkDrawable *drawable = gtk_widget_get_window(widget);
 	gulong c = (gulong) GPOINTER_TO_INT(data);
-	GdkColor color;
-	GdkGC *gc;
+	GtkAllocation allocation;
 
-	color.red   = ((c >> 16UL) & 0xFFUL) << 8UL;
-	color.green = ((c >>  8UL) & 0xFFUL) << 8UL;
-	color.blue  = ((c)         & 0xFFUL) << 8UL;
+	gtk_widget_get_allocation(widget, &allocation);
 
-	gdk_colormap_alloc_color(gtk_widget_get_colormap(widget), &color, FALSE, TRUE);
+	/* filled color box ... */
+	cairo_set_source_rgb(cr, ((c >> 16UL) & 0xFFUL) / 255.0,
+			     ((c >> 8UL) & 0xFFUL) / 255.0,
+			     (c & 0xFFUL) / 255.0);
+	cairo_rectangle(cr, 0, 0, allocation.width - 1,
+			allocation.height - 1);
+	cairo_fill(cr);
 
-	gc = gdk_gc_new(drawable);
-
-	gdk_gc_set_foreground(gc, &color);
-	gdk_draw_rectangle(drawable, gc,
-			   TRUE, 0, 0, widget->allocation.width - 1,
-			   widget->allocation.height - 1);
-	gdk_draw_rectangle(drawable, gtk_widget_get_style(widget)->black_gc,
-			   FALSE, 0, 0, widget->allocation.width - 1,
-			   widget->allocation.height - 1);
-
-	gdk_gc_unref(gc);			   
+	/* ... with a black frame (the style's black is #000000) */
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+	cairo_set_line_width(cr, 1.0);
+	cairo_rectangle(cr, 0.5, 0.5, allocation.width - 1,
+			allocation.height - 1);
+	cairo_stroke(cr);
 
 	return FALSE;
 }
@@ -154,16 +151,16 @@ GtkWidget *colorlabel_create_color_widget(GdkColor color)
 	GtkWidget *widget;
 
 	widget = gtk_drawing_area_new();
-	gtk_drawing_area_size(GTK_DRAWING_AREA(widget),
-			      LABEL_COLOR_WIDTH - 2, LABEL_COLOR_HEIGHT - 4);
+	gtk_widget_set_size_request(widget,
+				    LABEL_COLOR_WIDTH - 2, LABEL_COLOR_HEIGHT - 4);
 
 #define CL(x)		(((gulong) (x) >> (gulong) 8) & 0xFFUL)	
 #define CR(r, g, b)	((CL(r) << (gulong) 16) | \
 			 (CL(g) << (gulong)  8) | \
 			 (CL(b)))
 
-	g_signal_connect(G_OBJECT(widget), "expose_event", 
-			 G_CALLBACK(colorlabel_drawing_area_expose_event_cb),
+	g_signal_connect(G_OBJECT(widget), "draw",
+			 G_CALLBACK(colorlabel_drawing_area_draw_cb),
 			 GINT_TO_POINTER
 				((gint)CR(color.red, color.green, color.blue)));
 
@@ -271,75 +268,102 @@ GtkWidget *colorlabel_create_check_color_menu_item(gint color_index)
 	return item;
 }
 
-/* colorlabel_create_color_menu() - creates a color menu without 
- * checkitems, probably for use in combo items */
-GtkWidget *colorlabel_create_color_menu(void)
+/* a color swatch with a black frame, the size of the color widget */
+static GdkPixbuf *colorlabel_create_color_pixbuf(GdkColor color)
 {
-	GtkWidget *label; 
-	GtkWidget *item;
-	GtkWidget *menu;
+	GdkPixbuf *pixbuf;
+	guchar *pixels, *p;
+	gint width = LABEL_COLOR_WIDTH - 2;
+	gint height = LABEL_COLOR_HEIGHT - 4;
+	gint rowstride, n_channels;
+	gint x, y;
+
+	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, width, height);
+	gdk_pixbuf_fill(pixbuf, 0x000000ff);
+	pixels = gdk_pixbuf_get_pixels(pixbuf);
+	rowstride = gdk_pixbuf_get_rowstride(pixbuf);
+	n_channels = gdk_pixbuf_get_n_channels(pixbuf);
+
+	for (y = 1; y < height - 1; y++) {
+		for (x = 1; x < width - 1; x++) {
+			p = pixels + y * rowstride + x * n_channels;
+			p[0] = color.red >> 8;
+			p[1] = color.green >> 8;
+			p[2] = color.blue >> 8;
+		}
+	}
+
+	return pixbuf;
+}
+
+enum {
+	COLOR_COMBO_COL_PIXBUF,
+	COLOR_COMBO_COL_TEXT,
+	COLOR_COMBO_COL_COLOR,
+	COLOR_COMBO_N_COLS
+};
+
+/* colorlabel_create_color_combo() - creates a combo box with the color
+ * labels (replaces the color menu that was used in option menus) */
+GtkWidget *colorlabel_create_color_combo(void)
+{
+	GtkListStore *store;
+	GtkWidget *combo;
+	GtkCellRenderer *renderer;
+	GtkTreeIter iter;
 	gint i;
 
 	colorlabel_recreate_all();
 
-	/* create the menu items. each item has its color code attached */
-	menu = gtk_menu_new();
-	g_object_set_data(G_OBJECT(menu), "label_color_menu", menu);
+	store = gtk_list_store_new(COLOR_COMBO_N_COLS, GDK_TYPE_PIXBUF,
+				   G_TYPE_STRING, G_TYPE_UINT);
 
-#if 0
-	item = gtk_menu_item_new_with_label(_("None"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-	g_object_set_data(G_OBJECT(item), "color", GUINT_TO_POINTER(0));
-	gtk_widget_show(item);
-#endif
-
-	/* and the color items */
 	for (i = 0; i < LABEL_COLORS_ELEMS; i++) {
-		GtkWidget *hbox; 
-		GtkWidget *vbox;
-		GtkWidget *widget;
+		GdkPixbuf *pixbuf;
 
-		item  = gtk_menu_item_new();
-		g_object_set_data(G_OBJECT(item), "color",
-				  GUINT_TO_POINTER(i + 1));
-
-		label = gtk_label_new(colorlabel_get_color_text(i));
-
-		gtk_widget_show(label);
-		hbox = gtk_hbox_new(FALSE, 0);
-		gtk_widget_show(hbox);
-		gtk_container_add(GTK_CONTAINER(item), hbox);
-
-		vbox = gtk_vbox_new(TRUE, 0);
-		gtk_widget_show(vbox);
-		gtk_container_set_border_width(GTK_CONTAINER(vbox), 1);
-
-		widget = colorlabel_create_color_widget(label_colors[i].color);
-		gtk_widget_show(widget);
-		gtk_box_pack_start(GTK_BOX(vbox), widget, FALSE, FALSE, 0);
-
-		gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
-		gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 4);
-		
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		gtk_widget_show(item);
+		pixbuf = colorlabel_create_color_pixbuf(label_colors[i].color);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   COLOR_COMBO_COL_PIXBUF, pixbuf,
+				   COLOR_COMBO_COL_TEXT,
+				   colorlabel_get_color_text(i),
+				   COLOR_COMBO_COL_COLOR, (guint)(i + 1),
+				   -1);
+		g_object_unref(pixbuf);
 	}
 
-	gtk_widget_show(menu);
+	combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
 
-	return menu;
+	renderer = gtk_cell_renderer_pixbuf_new();
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, FALSE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
+				       "pixbuf", COLOR_COMBO_COL_PIXBUF, NULL);
+	renderer = gtk_cell_renderer_text_new();
+	g_object_set(G_OBJECT(renderer), "xpad", 4, NULL);
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
+				       "text", COLOR_COMBO_COL_TEXT, NULL);
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+
+	return combo;
 }
 
-guint colorlabel_get_color_menu_active_item(GtkWidget *menu)
+guint colorlabel_get_color_combo_active_item(GtkWidget *combo)
 {
-	GtkWidget *menuitem;
-	guint color;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	guint color = 0;
 
-	g_return_val_if_fail
-		(g_object_get_data(G_OBJECT(menu), "label_color_menu"), 0);
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	color = GPOINTER_TO_UINT
-		(g_object_get_data(G_OBJECT(menuitem), "color"));
+	g_return_val_if_fail(GTK_IS_COMBO_BOX(combo), 0);
+
+	if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) {
+		model = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
+		gtk_tree_model_get(model, &iter, COLOR_COMBO_COL_COLOR, &color,
+				   -1);
+	}
+
 	return color;
 }
 

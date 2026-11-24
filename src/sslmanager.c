@@ -33,11 +33,28 @@
 #include "sslmanager.h"
 #include "manage_window.h"
 #include "prefs_common.h"
+#include "gtkutils.h"
+
+typedef struct _VerifyCertData
+{
+	SockInfo *sockinfo;
+	const gchar *hostname;
+	X509 *server_cert;
+	glong verify_result;
+} VerifyCertData;
+
+static gpointer ssl_manager_verify_cert_main(gpointer data)
+{
+	VerifyCertData *vdata = (VerifyCertData *)data;
+
+	return GINT_TO_POINTER(ssl_manager_verify_cert
+		(vdata->sockinfo, vdata->hostname, vdata->server_cert,
+		 vdata->verify_result));
+}
 
 gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 			     X509 *server_cert, glong verify_result)
 {
-	static PangoFontDescription *font_desc;
 	GtkWidget *dialog;
 	GtkWidget *hbox;
 	GtkWidget *image;
@@ -59,7 +76,18 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 	if (verify_result == X509_V_OK)
 		return 0;
 
-	gdk_threads_enter();
+	/* a worker thread can get here when it has to reconnect (message
+	   fetch during query search); the dialog must run on the main thread */
+	if (!gtkut_is_main_thread()) {
+		VerifyCertData vdata;
+
+		vdata.sockinfo = sockinfo;
+		vdata.hostname = hostname;
+		vdata.server_cert = server_cert;
+		vdata.verify_result = verify_result;
+		return GPOINTER_TO_INT(gtkut_main_thread_call_sync
+			(ssl_manager_verify_cert_main, &vdata));
+	}
 
 	title = _("SSL certificate verify failed");
 
@@ -117,12 +145,11 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 
 	dialog = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dialog), title);
-	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 	gtk_window_set_position(GTK_WINDOW(dialog),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	manage_window_set_transient(GTK_WINDOW(dialog));
-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
 	gtk_widget_realize(dialog);
 
 	hbox = gtk_hbox_new(FALSE, 12);
@@ -144,19 +171,7 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 
-	if (!font_desc) {
-		gint size;
-
-		size = pango_font_description_get_size
-			(gtk_widget_get_style(label)->font_desc);
-		font_desc = pango_font_description_new();
-		pango_font_description_set_weight
-			(font_desc, PANGO_WEIGHT_BOLD);
-		pango_font_description_set_size
-			(font_desc, size * PANGO_SCALE_LARGE);
-	}
-	if (font_desc)
-		gtk_widget_modify_font(label, font_desc);
+	gtkut_widget_add_class(label, GTKUT_CLASS_TITLE);
 
 	label = gtk_label_new(message->str);
 	g_string_free(message, TRUE);
@@ -165,16 +180,6 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
 	gtk_widget_set_can_focus(label, FALSE);
-#ifdef G_OS_WIN32
-	{
-		GtkStyle *style;
-		style = gtk_widget_get_style(dialog);
-		gtk_widget_modify_base(label, GTK_STATE_ACTIVE,
-				       &style->base[GTK_STATE_SELECTED]);
-		gtk_widget_modify_text(label, GTK_STATE_ACTIVE,
-				       &style->text[GTK_STATE_SELECTED]);
-	}
-#endif
 
 	/* prohibit acception of expired certificates */
 	if (verify_result == X509_V_ERR_CERT_HAS_EXPIRED)
@@ -201,8 +206,6 @@ gint ssl_manager_verify_cert(SockInfo *sockinfo, const gchar *hostname,
 
 	result = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
-
-	gdk_threads_leave();
 
 	switch (result) {
 	case GTK_RESPONSE_ACCEPT:

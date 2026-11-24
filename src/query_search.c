@@ -290,8 +290,6 @@ static void query_search_create(void)
 	GtkWidget *vbox1;
 	GtkWidget *bool_hbox;
 	GtkWidget *bool_optmenu;
-	GtkWidget *bool_menu;
-	GtkWidget *menuitem;
 	GtkWidget *clear_btn;
 	GtkWidget *search_btn;
 
@@ -329,7 +327,7 @@ static void query_search_create(void)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW (window), _("Search messages"));
 	gtk_widget_set_size_request(window, 600 * gtkut_get_dpi_multiplier(), -1);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, TRUE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER (window), 8);
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(query_search_deleted), NULL);
@@ -345,17 +343,15 @@ static void query_search_create(void)
 	gtk_widget_show(bool_hbox);
 	gtk_box_pack_start(GTK_BOX(vbox1), bool_hbox, FALSE, FALSE, 0);
 
-	bool_optmenu = gtk_option_menu_new();
+	bool_optmenu = menu_combo_new();
 	gtk_widget_show(bool_optmenu);
 	gtk_box_pack_start(GTK_BOX(bool_hbox), bool_optmenu, FALSE, FALSE, 0);
 
-	bool_menu = gtk_menu_new();
-	MENUITEM_ADD(bool_menu, menuitem, _("Match any of the following"),
+	COMBOBOX_ADD(bool_optmenu, _("Match any of the following"),
 		     FLT_OR);
-	MENUITEM_ADD(bool_menu, menuitem, _("Match all of the following"),
+	COMBOBOX_ADD(bool_optmenu, _("Match all of the following"),
 		     FLT_AND);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(bool_optmenu), bool_menu);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(bool_optmenu), FLT_AND);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(bool_optmenu), FLT_AND);
 
 	hbbox = gtk_hbutton_box_new();
 	gtk_widget_show(hbbox);
@@ -571,7 +567,7 @@ static FilterRule *query_search_dialog_to_rule(const gchar *name,
 		*item = item_;
 
 	bool_op = menu_get_option_menu_active_index
-		(GTK_OPTION_MENU(search_window.bool_optmenu));
+		(GTK_COMBO_BOX(search_window.bool_optmenu));
 	recursive = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON(search_window.subfolder_checkbtn));
 	case_sens = gtk_toggle_button_get_active
@@ -692,13 +688,11 @@ static gboolean query_search_progress_func(gpointer data)
 	QueryData *qdata = (QueryData *)data;
 	MsgInfo *msginfo;
 
-	gdk_threads_enter();
 	query_search_folder_show_progress(qdata->folder_name,
 					  g_atomic_int_get(&qdata->count),
 					  qdata->total);
 	while ((msginfo = g_async_queue_try_pop(qdata->queue)))
 		query_search_append_msg(msginfo);
-	gdk_threads_leave();
 
 	return TRUE;
 }
@@ -1126,7 +1120,7 @@ static QuerySearchSaveDialog *query_search_save_dialog_create(void)
 	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(query_search_save_dialog_deleted),
 			 dialog);

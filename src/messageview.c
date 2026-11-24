@@ -78,7 +78,7 @@ static void messageview_size_allocate_cb(GtkWidget		*widget,
 static void messageview_toggle_attach_cb(GtkToggleButton	*toggle,
 					 MessageView		*messageview);
 static void messageview_switch_page_cb	(GtkNotebook		*notebook,
-					 GtkNotebookPage	*page,
+					 GtkWidget		*page,
 					 guint			 page_num,
 					 MessageView		*messageview);
 static gint messageview_menu_tool_btn_pressed
@@ -149,7 +149,7 @@ static void about_cb			(gpointer	 data,
 					 guint		 action,
 					 GtkWidget	*widget);
 
-static GtkItemFactoryEntry msgview_entries[] =
+static MenuFactoryEntry msgview_entries[] =
 {
 	{N_("/_File"),			NULL, NULL, 0, "<Branch>"},
 	{N_("/_File/_Save as..."),	NULL, save_as_cb, 0, NULL},
@@ -416,8 +416,8 @@ MessageView *messageview_create(void)
 	gtk_widget_show(vbox);
 
 	/* to remove without destroyed */
-	gtk_widget_ref(GTK_WIDGET_PTR(mimeview->textview));
-	gtk_widget_ref(GTK_WIDGET_PTR(mimeview->imageview));
+	g_object_ref(GTK_WIDGET_PTR(mimeview->textview));
+	g_object_ref(GTK_WIDGET_PTR(mimeview->imageview));
 
 	g_signal_connect(G_OBJECT(notebook), "switch_page",
 			 G_CALLBACK(messageview_switch_page_cb), messageview);
@@ -457,15 +457,15 @@ MessageView *messageview_create_with_new_window(void)
 	GtkWidget *body_vbox;
 	GtkWidget *vspacer;
 	GtkWidget *menubar;
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	GtkWidget *statusbar;
 	guint n_menu_entries;
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Message View - Sylpheed"));
 	gtk_window_set_wmclass(GTK_WINDOW(window), "message_view", "Sylpheed");
-	gtk_window_set_policy(GTK_WINDOW(window), TRUE, TRUE, FALSE);
-	gtk_widget_set_size_request(window, prefs_common.msgwin_width,
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
+	gtk_window_set_default_size(GTK_WINDOW(window), prefs_common.msgwin_width,
 				    prefs_common.msgwin_height);
 
 	msgview = messageview_create();
@@ -485,9 +485,6 @@ MessageView *messageview_create_with_new_window(void)
 	n_menu_entries = sizeof(msgview_entries) / sizeof (msgview_entries[0]);
 	menubar = menubar_create(window, msgview_entries, n_menu_entries,
 				 "<MessageView>", msgview);
-#if 0
-	menu_factory_copy_rc("<Main>", "<MessageView>");
-#endif
 	gtk_box_pack_start(GTK_BOX(window_vbox), menubar, FALSE, TRUE, 0);
 
 	vspacer = gtk_vbox_new(FALSE, 0);
@@ -522,7 +519,7 @@ MessageView *messageview_create_with_new_window(void)
 
 	messageview_set_encoding_menu(msgview);
 
-	ifactory = gtk_item_factory_from_widget(menubar);
+	ifactory = menu_factory_from_widget(menubar);
 #ifndef G_OS_WIN32
 	action_update_msgview_menu(ifactory, msgview);
 #endif
@@ -684,7 +681,6 @@ static void messageview_set_tool_menu(MessageView *messageview,
 		gtk_widget_destroy(GTK_WIDGET(cur_item->data));
 		cur_item = next;
 	}
-	g_list_free(children);
 
 	for (partinfo = mimeinfo; partinfo != NULL;
 	     partinfo = procmime_mimeinfo_next(partinfo)) {
@@ -703,21 +699,23 @@ static void messageview_set_tool_menu(MessageView *messageview,
 	}
 
 	exist = (pos != 0);
+	/* next points into children, so the list is freed only here */
 	for (cur_item = next; cur_item != NULL; cur_item = cur_item->next) {
 		menuitem = GTK_WIDGET(cur_item->data);
 		gtk_widget_set_sensitive(menuitem, exist);
 	}
+	g_list_free(children);
 }
 
 static void messageview_set_menu_state(MessageView *messageview)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	GtkWidget *menuitem;
 
 	messageview->menu_locked = TRUE;
 
-	ifactory = gtk_item_factory_from_widget(messageview->menubar);
-	menuitem = gtk_item_factory_get_widget
+	ifactory = menu_factory_from_widget(messageview->menubar);
+	menuitem = menu_factory_get_widget
 		(ifactory, "/View/All headers");
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menuitem),
 				       messageview->textview->show_all_headers);
@@ -733,14 +731,14 @@ static void messageview_set_menu_state(MessageView *messageview)
 
 static void messageview_set_encoding_menu(MessageView *messageview)
 {
-	GtkItemFactoryEntry *entry;
-	GtkItemFactory *ifactory;
+	MenuFactoryEntry *entry;
+	MenuFactory *ifactory;
 	CharSet encoding;
 	gchar *path, *p, *q;
 	GtkWidget *item;
 
 	encoding = conv_get_charset_from_str(prefs_common.force_charset);
-	ifactory = gtk_item_factory_from_widget(messageview->menubar);
+	ifactory = menu_factory_from_widget(messageview->menubar);
 
 	for (entry = msgview_entries; entry->callback != view_source_cb;
 	     entry++) {
@@ -758,7 +756,7 @@ static void messageview_set_encoding_menu(MessageView *messageview)
 				p++;
 			}
 			*q = '\0';
-			item = gtk_item_factory_get_item(ifactory, path);
+			item = menu_factory_get_item(ifactory, path);
 			gtk_widget_activate(item);
 			g_free(path);
 			break;
@@ -800,8 +798,8 @@ void messageview_destroy(MessageView *messageview)
 
 	g_free(messageview);
 
-	gtk_widget_unref(textview);
-	gtk_widget_unref(imageview);
+	g_object_unref(textview);
+	g_object_unref(imageview);
 }
 
 void messageview_quote_color_set(void)
@@ -980,7 +978,7 @@ static void messageview_toggle_attach_cb(GtkToggleButton *toggle,
 }
 
 static void messageview_switch_page_cb(GtkNotebook *notebook,
-				       GtkNotebookPage *page, guint page_num,
+				       GtkWidget *page, guint page_num,
 				       MessageView *messageview)
 {
 	if (messageview->current_page != page_num) {

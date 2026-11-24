@@ -481,7 +481,7 @@ static GtkWidget *account_wait_window_create(const gchar *str)
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_title(GTK_WINDOW(window), str);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	manage_window_focus_in(edit_account.window, NULL, NULL);
 	manage_window_set_transient(GTK_WINDOW(window));
 	g_signal_connect(G_OBJECT(window), "delete_event", G_CALLBACK(gtk_true),

@@ -266,7 +266,7 @@ TextView *textview_create(void)
 				       GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwin),
 					    GTK_SHADOW_ETCHED_IN);
-	gtk_widget_set_size_request
+	gtkut_widget_set_initial_size
 		(scrolledwin, prefs_common.mainview_width, -1);
 
 	text = gtk_text_view_new();
@@ -281,7 +281,7 @@ TextView *textview_create(void)
 	clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 	gtk_text_buffer_add_selection_clipboard(buffer, clipboard);
 
-	gtk_widget_ref(scrolledwin);
+	g_object_ref(scrolledwin);
 
 	gtk_container_add(GTK_CONTAINER(scrolledwin), text);
 
@@ -752,28 +752,14 @@ static gboolean textview_part_widget_button_pressed(GtkWidget *widget,
 	return TRUE;
 }
 
-static gboolean textview_part_widget_exposed(GtkWidget *widget,
-					     GdkEventExpose *event,
-					     gpointer data)
+static gboolean textview_part_widget_draw(GtkWidget *widget, cairo_t *cr,
+					  gpointer data)
 {
-	GdkDrawable *drawable;
-	GdkGC *gc;
-	gint w, h;
-
-	w = widget->allocation.width - 1;
-	h = widget->allocation.height - 1;
-	if (w <= 0 || h <= 0)
-		return FALSE;
-
-	drawable = GDK_DRAWABLE(gtk_widget_get_window(widget));
-	gc = gtk_widget_get_style(widget)->dark_gc[gtk_widget_get_state(widget)];
-	gdk_gc_set_clip_rectangle(gc, &event->area);
-	gdk_gc_set_line_attributes(gc, 1, GDK_LINE_SOLID, GDK_CAP_NOT_LAST,
-				   GDK_JOIN_MITER);
-	gdk_draw_line(drawable, gc, 1, 0, w, 0);
-	gdk_draw_line(drawable, gc, w, 1, w, h);
-	gdk_draw_line(drawable, gc, w, h, 1, h);
-	gdk_draw_line(drawable, gc, 0, h, 0, 1);
+	/* the frame (the GtkStyle "dark" colour in GTK+ 2) and the colours
+	   come from the GTKUT_CLASS_PART style class */
+	gtk_render_frame(gtk_widget_get_style_context(widget), cr, 0, 0,
+			 gtk_widget_get_allocated_width(widget),
+			 gtk_widget_get_allocated_height(widget));
 
 	return FALSE;
 }
@@ -875,11 +861,6 @@ static void textview_add_part_widget(TextView *textview, GtkTextIter *iter,
 	GtkWidget *ebox;
 	GtkWidget *label;
 	GtkWidget *arrow;
-	GtkStyle *style;
-	GdkColor bg = {0, 0xe000, 0xe500, 0xffff};
-	GdkColor fg = {0, 0x8000, 0x9800, 0xffff};
-	GdkColor bg2 = {0, 0xc000, 0xc800, 0xffff};
-	GdkColor fg2 = {0, 0x6000, 0x8000, 0xffff};
 
 	buffer = gtk_text_view_get_buffer(text);
 	anchor = gtk_text_buffer_create_child_anchor(buffer, iter);
@@ -899,19 +880,12 @@ static void textview_add_part_widget(TextView *textview, GtkTextIter *iter,
 			 G_CALLBACK(textview_part_widget_entered), textview);
 	g_signal_connect(G_OBJECT(ebox), "leave_notify_event",
 			 G_CALLBACK(textview_part_widget_left), textview);
-	g_signal_connect_after(G_OBJECT(ebox), "expose_event",
-			 G_CALLBACK(textview_part_widget_exposed), textview);
+	g_signal_connect_after(G_OBJECT(ebox), "draw",
+			 G_CALLBACK(textview_part_widget_draw), textview);
 
-	style = gtk_widget_get_style(label);
-	bg = style->bg[GTK_STATE_NORMAL];
-	fg = style->fg[GTK_STATE_NORMAL];
-	bg2 = style->bg[GTK_STATE_PRELIGHT];
-	fg2 = style->fg[GTK_STATE_PRELIGHT];
-
-	gtk_widget_modify_bg(ebox, GTK_STATE_NORMAL, &bg);
-	gtk_widget_modify_fg(ebox, GTK_STATE_NORMAL, &fg);
-	gtk_widget_modify_bg(ebox, GTK_STATE_PRELIGHT, &bg2);
-	gtk_widget_modify_fg(ebox, GTK_STATE_PRELIGHT, &fg2);
+	/* GTK+ 2 gave the event box the label's normal and prelight
+	   colours, i.e. the window background */
+	gtkut_widget_add_class(ebox, GTKUT_CLASS_PART);
 
 	g_object_set_data(G_OBJECT(ebox), "mimeinfo", mimeinfo);
 
@@ -1647,7 +1621,7 @@ void textview_clear(TextView *textview)
 
 	/* workaround for the assertion failure in
 	   gtk_text_view_validate_onscreen() */
-	gtk_text_view_get_vadjustment(text)->value = 0.0;
+	gtk_adjustment_set_value(gtk_text_view_get_vadjustment(text), 0.0);
 
 	STATUSBAR_POP(textview);
 	textview_uri_list_remove_all(textview->uri_list);
@@ -1682,15 +1656,7 @@ void textview_set_font(TextView *textview, const gchar *codeset)
 {
 	GtkTextView *text = GTK_TEXT_VIEW(textview->text);
 
-	if (prefs_common.textfont) {
-		PangoFontDescription *font_desc;
-		font_desc = pango_font_description_from_string
-			(prefs_common.textfont);
-		if (font_desc) {
-			gtk_widget_modify_font(textview->text, font_desc);
-			pango_font_description_free(font_desc);
-		}
-	}
+	gtkut_widget_set_text_font(textview->text, prefs_common.textfont);
 
 	gtk_text_view_set_pixels_above_lines(text, prefs_common.line_space - prefs_common.line_space / 2);
 	gtk_text_view_set_pixels_below_lines(text, prefs_common.line_space / 2);

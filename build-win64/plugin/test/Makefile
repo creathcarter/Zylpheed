@@ -257,8 +257,10 @@ GPGME_CONFIG = /ucrt64/bin/gpgrt-config --libdir=/ucrt64/lib gpgme
 GPGME_LIBS = -L/ucrt64/lib -lgpgme
 GPGRT_CONFIG = /ucrt64/bin/gpgrt-config --libdir=/ucrt64/lib
 GREP = /usr/bin/grep
-GTK_CFLAGS = -IC:/msys64/ucrt64/include/gtk-2.0 -mms-bitfields -IC:/msys64/ucrt64/lib/gtk-2.0/include -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES
-GTK_LIBS = -lgtk-win32-2.0 -lgdk-win32-2.0 -limm32 -lshell32 -lole32 -Wl,-luuid -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lgdi32 -lmsimg32 -latk-1.0 -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl
+GTKMACINTEGRATION_CFLAGS = 
+GTKMACINTEGRATION_LIBS = 
+GTK_CFLAGS = -IC:/msys64/ucrt64/include/gtk-3.0 -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -IC:/msys64/ucrt64/include/gtkspell-3.0 -IC:/msys64/ucrt64/include/gtk-3.0 -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/enchant-2 -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include
+GTK_LIBS =  -lgtk-3 -lgdk-3 -lgdi32 -limm32 -lshell32 -lole32 -Wl,-luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lhid -lwinspool -lcomctl32 -lcomdlg32 -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lcairo-gobject -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -latk-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -lz -lgtkspell3-3 -lgtk-3 -lgdk-3 -lgdi32 -limm32 -lshell32 -lole32 -Wl,-luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lhid -lwinspool -lcomctl32 -lcomdlg32 -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lcairo-gobject -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -latk-1.0 -lgio-2.0 -lgobject-2.0 -lz -lenchant-2 -lglib-2.0 -lintl 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -283,8 +285,8 @@ LIPO =
 LN_S = cp -pR
 LTLIBICONV = -liconv
 LTLIBOBJS = 
-LT_AGE = 4
-LT_CURRENT = 5
+LT_AGE = 0
+LT_CURRENT = 6
 LT_RELEASE = 3.8
 LT_REVISION = 0
 LT_SYS_LIBRARY_PATH = 

@@ -292,9 +292,6 @@
 /* Define to 1 if your <sys/time.h> declares 'struct tm'. */
 /* #undef TM_IN_SYS_TIME */
 
-/* Use Enchant with GtkSpell */
-/* #undef USE_ENCHANT */
-
 /* Define if you use GPGME to support OpenPGP. */
 #define USE_GPGME 1
 
@@ -302,7 +299,7 @@
 /* #undef USE_GTKMACINTEGRATION */
 
 /* Use GtkSpell in editor */
-/* #undef USE_GTKSPELL */
+#define USE_GTKSPELL 1
 
 /* Define if you want JPilot support in addressbook. */
 /* #undef USE_JPILOT */

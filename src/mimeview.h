@@ -24,6 +24,8 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 typedef struct _MimeView	MimeView;
 
 #include "textview.h"
@@ -52,7 +54,7 @@ struct _MimeView
 	MimeViewType type;
 
 	GtkWidget *popupmenu;
-	GtkItemFactory *popupfactory;
+	MenuFactory *popupfactory;
 	GtkWidget *reply_separator;
 	GtkWidget *reply_menuitem;
 

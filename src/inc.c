@@ -1249,16 +1249,17 @@ static void inc_progress_dialog_set_progress(IncProgressDialog *inc_dialog,
 		progress_dialog_set_percentage
 			(inc_dialog->dialog, (gfloat)cur_total / (gfloat)total);
 
-	gtk_progress_set_show_text
-		(GTK_PROGRESS(inc_dialog->mainwin->progressbar), TRUE);
 	if (total_num_to_recv > 0)
 		g_snprintf(buf, sizeof(buf), "%d / %d", cur_num, total_num_to_recv);
 	else
 		buf[0] = '\0';
-	gtk_progress_set_format_string
-		(GTK_PROGRESS(inc_dialog->mainwin->progressbar), buf);
+	gtk_progress_bar_set_text
+		(GTK_PROGRESS_BAR(inc_dialog->mainwin->progressbar), buf);
+	gtk_progress_bar_set_show_text
+		(GTK_PROGRESS_BAR(inc_dialog->mainwin->progressbar),
+		 buf[0] != '\0');
 	if (total > 0)
-		gtk_progress_bar_update
+		gtk_progress_bar_set_fraction
 			(GTK_PROGRESS_BAR(inc_dialog->mainwin->progressbar),
 			 (gfloat)cur_total / (gfloat)total);
 
@@ -1358,8 +1359,6 @@ static gint inc_recv_data_progressive(Session *session, guint cur_len,
 
 	if (!pop3_session->new_msg_exist) return 0;
 
-	gdk_threads_enter();
-
 	cur_total = pop3_session->cur_total_bytes + cur_len;
 	if (cur_total > pop3_session->total_bytes)
 		cur_total = pop3_session->total_bytes;
@@ -1369,7 +1368,6 @@ static gint inc_recv_data_progressive(Session *session, guint cur_len,
 	inc_progress_dialog_update_periodic(inc_dialog, inc_session);
 	inc_update_folderview_periodic(inc_dialog, inc_session);
 
-	gdk_threads_leave();
 	return 0;
 }
 
@@ -1384,14 +1382,11 @@ static gint inc_recv_data_finished(Session *session, guint len, gpointer data)
 
 	inc_recv_data_progressive(session, 0, 0, inc_session);
 
-	gdk_threads_enter();
-
 	if (POP3_SESSION(session)->state == POP3_LOGOUT) {
 		inc_progress_dialog_update(inc_dialog, inc_session);
 		inc_update_folderview(inc_dialog, inc_session);
 	}
 
-	gdk_threads_leave();
 	return 0;
 }
 
@@ -1413,9 +1408,7 @@ static gint inc_recv_message(Session *session, const gchar *msg, gpointer data)
 	case POP3_GETRANGE_LAST:
 	case POP3_GETRANGE_UIDL:
 	case POP3_GETSIZE_LIST:
-		gdk_threads_enter();
 		inc_progress_dialog_update(inc_dialog, inc_session);
-		gdk_threads_leave();
 		break;
 	case POP3_RETR_RECV:
 		if (inc_session->retr_count == 0) {
@@ -1428,19 +1421,15 @@ static gint inc_recv_message(Session *session, const gchar *msg, gpointer data)
 			g_print("pop: count = %d cur_msg = %d\n", pop3_session->count, pop3_session->cur_msg);
 #endif
 			inc_session->retr_count++;
-			gdk_threads_enter();
 			inc_progress_dialog_update(inc_dialog, inc_session);
-			gdk_threads_leave();
 		} else {
 			inc_session->retr_count++;
 			inc_recv_data_progressive(session, 0, 0, inc_session);
 		}
 		break;
 	case POP3_LOGOUT:
-		gdk_threads_enter();
 		inc_progress_dialog_update(inc_dialog, inc_session);
 		inc_update_folderview(inc_dialog, inc_session);
-		gdk_threads_leave();
 		break;
 	default:
 		break;
@@ -1474,8 +1463,6 @@ static gint inc_drop_message(Pop3Session *session, const gchar *file)
 
 	g_return_val_if_fail(inc_session != NULL, DROP_ERROR);
 
-	gdk_threads_enter();
-
 	inc_dialog = (IncProgressDialog *)inc_session->data;
 
 	if (session->ac_prefs->inbox) {
@@ -1486,7 +1473,6 @@ static gint inc_drop_message(Pop3Session *session, const gchar *file)
 	} else
 		inbox = folder_get_default_inbox();
 	if (!inbox) {
-		gdk_threads_leave();
 		return DROP_ERROR;
 	}
 
@@ -1499,7 +1485,6 @@ static gint inc_drop_message(Pop3Session *session, const gchar *file)
 	if (!msginfo) {
 		g_warning("inc_drop_message: procheader_parse_file failed");
 		filter_info_free(fltinfo);
-		gdk_threads_leave();
 		return DROP_ERROR;
 	}
 	fltinfo->flags = msginfo->flags;
@@ -1523,7 +1508,6 @@ static gint inc_drop_message(Pop3Session *session, const gchar *file)
 			procmsg_msginfo_free(msginfo);
 			filter_info_free(fltinfo);
 			inc_session->inc_state = INC_ERROR;
-			gdk_threads_leave();
 			return DROP_ERROR;
 		}
 	}
@@ -1550,7 +1534,6 @@ static gint inc_drop_message(Pop3Session *session, const gchar *file)
 				procmsg_msginfo_free(msginfo);
 				filter_info_free(fltinfo);
 				inc_session->inc_state = INC_ERROR;
-				gdk_threads_leave();
 				return DROP_ERROR;
 			}
 		}
@@ -1561,7 +1544,6 @@ static gint inc_drop_message(Pop3Session *session, const gchar *file)
 		if (folder_item_add_msg_msginfo(inbox, msginfo, FALSE) < 0) {
 			procmsg_msginfo_free(msginfo);
 			filter_info_free(fltinfo);
-			gdk_threads_leave();
 			return DROP_ERROR;
 		}
 		fltinfo->dest_list = g_slist_append(fltinfo->dest_list, inbox);
@@ -1608,7 +1590,6 @@ static gint inc_drop_message(Pop3Session *session, const gchar *file)
 	procmsg_msginfo_free(msginfo);
 	filter_info_free(fltinfo);
 
-	gdk_threads_leave();
 	return val;
 }
 
@@ -1918,18 +1899,13 @@ static gint inc_autocheck_func(gpointer data)
 {
 	MainWindow *mainwin = (MainWindow *)data;
 
-	gdk_threads_enter();
-
 	if (inc_lock_count) {
 		debug_print("autocheck is locked.\n");
 		inc_autocheck_timer_set_interval(1000);
-		gdk_threads_leave();
 		return FALSE;
 	}
 
 	inc_all_account_mail(mainwin, TRUE);
-
-	gdk_threads_leave();
 
 	return FALSE;
 }

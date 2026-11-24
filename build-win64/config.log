@@ -44,7 +44,7 @@ PATH: /usr/bin/core_perl/
 ## Core tests. ##
 ## ----------- ##
 
-configure:2511: loading site script /etc/config.site
+configure:2521: loading site script /etc/config.site
 | # This file is in public domain.
 | # Original author: Karlson2k (Evgeny Grin)
 | # Written for MSys2 to help running 'configure' scripts
@@ -67,46 +67,46 @@ configure:2511: loading site script /etc/config.site
 |     ${as_echo-echo} "$config_site_me:${as_lineno-$LINENO}: default prefix set to $prefix" >&5
 | fi
 config.site:13: default build_alias set to x86_64-w64-mingw32
-configure:2980: looking for aux files: config.rpath ltmain.sh compile missing install-sh config.guess config.sub
-configure:2993:  trying ../
-configure:3022:   ../config.rpath found
-configure:3022:   ../ltmain.sh found
-configure:3022:   ../compile found
-configure:3022:   ../missing found
-configure:3004:   ../install-sh found
-configure:3022:   ../config.guess found
-configure:3022:   ../config.sub found
-configure:3177: checking build system type
-configure:3193: result: x86_64-w64-mingw32
-configure:3213: checking host system type
-configure:3228: result: x86_64-w64-mingw32
-configure:3248: checking target system type
-configure:3263: result: x86_64-w64-mingw32
-configure:3308: checking for a BSD-compatible install
-configure:3382: result: /usr/bin/install -c
-configure:3393: checking whether sleep supports fractional seconds
-configure:3409: result: yes
-configure:3412: checking filesystem timestamp resolution
-configure:3547: result: 0.01
-configure:3552: checking whether build environment is sane
-configure:3597: result: yes
-configure:3768: checking for a race-free mkdir -p
-configure:3811: result: /usr/bin/mkdir -p
-configure:3818: checking for gawk
-configure:3839: found /usr/bin/gawk
-configure:3851: result: gawk
-configure:3862: checking whether make sets $(MAKE)
-configure:3886: result: yes
-configure:3912: checking whether make supports nested variables
-configure:3931: result: yes
-configure:3945: checking xargs -n works
-configure:3961: result: yes
-configure:4042: checking whether UID '197608' is supported by ustar format
-configure:4048: result: yes
-configure:4055: checking whether GID '197121' is supported by ustar format
-configure:4061: result: yes
-configure:4069: checking how to create a ustar tar archive
-configure:4080: tar --version
+configure:2990: looking for aux files: config.rpath ltmain.sh compile missing install-sh config.guess config.sub
+configure:3003:  trying ../
+configure:3032:   ../config.rpath found
+configure:3032:   ../ltmain.sh found
+configure:3032:   ../compile found
+configure:3032:   ../missing found
+configure:3014:   ../install-sh found
+configure:3032:   ../config.guess found
+configure:3032:   ../config.sub found
+configure:3187: checking build system type
+configure:3203: result: x86_64-w64-mingw32
+configure:3223: checking host system type
+configure:3238: result: x86_64-w64-mingw32
+configure:3258: checking target system type
+configure:3273: result: x86_64-w64-mingw32
+configure:3318: checking for a BSD-compatible install
+configure:3392: result: /usr/bin/install -c
+configure:3403: checking whether sleep supports fractional seconds
+configure:3419: result: yes
+configure:3422: checking filesystem timestamp resolution
+configure:3557: result: 0.01
+configure:3562: checking whether build environment is sane
+configure:3607: result: yes
+configure:3778: checking for a race-free mkdir -p
+configure:3821: result: /usr/bin/mkdir -p
+configure:3828: checking for gawk
+configure:3849: found /usr/bin/gawk
+configure:3861: result: gawk
+configure:3872: checking whether make sets $(MAKE)
+configure:3896: result: yes
+configure:3922: checking whether make supports nested variables
+configure:3941: result: yes
+configure:3955: checking xargs -n works
+configure:3971: result: yes
+configure:4052: checking whether UID '197608' is supported by ustar format
+configure:4058: result: yes
+configure:4065: checking whether GID '197121' is supported by ustar format
+configure:4071: result: yes
+configure:4079: checking how to create a ustar tar archive
+configure:4090: tar --version
 tar (GNU tar) 1.35
 Copyright (C) 2023 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
@@ -114,29 +114,29 @@ This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 
 Written by John Gilmore and Jay Fenlason.
-configure:4083: $? = 0
-configure:4123: tardir=conftest.dir && eval tar --format=ustar -chf - "$tardir" >conftest.tar
-configure:4126: $? = 0
-configure:4130: tar -xf - <conftest.tar
-configure:4133: $? = 0
-configure:4135: cat conftest.dir/file
+configure:4093: $? = 0
+configure:4133: tardir=conftest.dir && eval tar --format=ustar -chf - "$tardir" >conftest.tar
+configure:4136: $? = 0
+configure:4140: tar -xf - <conftest.tar
+configure:4143: $? = 0
+configure:4145: cat conftest.dir/file
 GrepMe
-configure:4138: $? = 0
-configure:4153: result: gnutar
-configure:4211: checking whether to enable maintainer-specific portions of Makefiles
-configure:4222: result: no
-configure:4302: checking for gcc
-configure:4323: found /ucrt64/bin/gcc
-configure:4335: result: gcc
-configure:4694: checking for C compiler version
-configure:4703: gcc --version >&5
+configure:4148: $? = 0
+configure:4163: result: gnutar
+configure:4221: checking whether to enable maintainer-specific portions of Makefiles
+configure:4232: result: no
+configure:4312: checking for gcc
+configure:4333: found /ucrt64/bin/gcc
+configure:4345: result: gcc
+configure:4704: checking for C compiler version
+configure:4713: gcc --version >&5
 gcc.exe (Rev7, Built by MSYS2 project) 16.2.0
 Copyright (C) 2026 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:4714: $? = 0
-configure:4703: gcc -v >&5
+configure:4724: $? = 0
+configure:4713: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=C:\msys64\ucrt64\bin\gcc.exe
 COLLECT_LTO_WRAPPER=C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/lto-wrapper.exe
@@ -145,59 +145,59 @@ Configured with: ../gcc-16.2.0/configure --prefix=/ucrt64 --with-sysroot=/ucrt64
 Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 16.2.0 (Rev7, Built by MSYS2 project) 
-configure:4714: $? = 0
-configure:4703: gcc -V >&5
+configure:4724: $? = 0
+configure:4713: gcc -V >&5
 gcc.exe: error: unrecognized command-line option '-V'
 gcc.exe: fatal error: no input files
 compilation terminated.
-configure:4714: $? = 1
-configure:4703: gcc -qversion >&5
+configure:4724: $? = 1
+configure:4713: gcc -qversion >&5
 gcc.exe: error: unrecognized command-line option '-qversion'; did you mean '--version'?
 gcc.exe: fatal error: no input files
 compilation terminated.
-configure:4714: $? = 1
-configure:4703: gcc -version >&5
+configure:4724: $? = 1
+configure:4713: gcc -version >&5
 gcc.exe: error: unrecognized command-line option '-version'
 gcc.exe: fatal error: no input files
 compilation terminated.
-configure:4714: $? = 1
-configure:4734: checking whether the C compiler works
-configure:4756: gcc    conftest.c  >&5
-configure:4760: $? = 0
-configure:4811: result: yes
-configure:4815: checking for C compiler default output file name
-configure:4817: result: a.exe
-configure:4823: checking for suffix of executables
-configure:4830: gcc -o conftest.exe    conftest.c  >&5
-configure:4834: $? = 0
-configure:4858: result: .exe
-configure:4882: checking whether we are cross compiling
-configure:4890: gcc -o conftest.exe    conftest.c  >&5
-configure:4894: $? = 0
-configure:4901: ./conftest.exe
-configure:4905: $? = 0
-configure:4920: result: no
-configure:4926: checking for suffix of object files
-configure:4949: gcc -c   conftest.c >&5
-configure:4953: $? = 0
-configure:4977: result: o
-configure:4981: checking whether the compiler supports GNU C
-configure:5001: gcc -c   conftest.c >&5
-configure:5001: $? = 0
-configure:5013: result: yes
-configure:5024: checking whether gcc accepts -g
-configure:5045: gcc -c -g  conftest.c >&5
-configure:5045: $? = 0
-configure:5092: result: yes
-configure:5112: checking for gcc option to enable C23 features
-configure:5127: gcc  -c -g -O2  conftest.c >&5
+configure:4724: $? = 1
+configure:4744: checking whether the C compiler works
+configure:4766: gcc    conftest.c  >&5
+configure:4770: $? = 0
+configure:4821: result: yes
+configure:4825: checking for C compiler default output file name
+configure:4827: result: a.exe
+configure:4833: checking for suffix of executables
+configure:4840: gcc -o conftest.exe    conftest.c  >&5
+configure:4844: $? = 0
+configure:4868: result: .exe
+configure:4892: checking whether we are cross compiling
+configure:4900: gcc -o conftest.exe    conftest.c  >&5
+configure:4904: $? = 0
+configure:4911: ./conftest.exe
+configure:4915: $? = 0
+configure:4930: result: no
+configure:4936: checking for suffix of object files
+configure:4959: gcc -c   conftest.c >&5
+configure:4963: $? = 0
+configure:4987: result: o
+configure:4991: checking whether the compiler supports GNU C
+configure:5011: gcc -c   conftest.c >&5
+configure:5011: $? = 0
+configure:5023: result: yes
+configure:5034: checking whether gcc accepts -g
+configure:5055: gcc -c -g  conftest.c >&5
+configure:5055: $? = 0
+configure:5102: result: yes
+configure:5122: checking for gcc option to enable C23 features
+configure:5137: gcc  -c -g -O2  conftest.c >&5
 conftest.c:73:11: error: unknown type name 'nullptr_t'
    73 | constexpr nullptr_t null_pointer = nullptr;
       |           ^~~~~~~~~
 conftest.c:73:36: error: incompatible types when initializing type 'int' using type 'typeof (nullptr)'
    73 | constexpr nullptr_t null_pointer = nullptr;
       |                                    ^~~~~~~
-configure:5127: $? = 1
+configure:5137: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -297,14 +297,14 @@ configure: failed program was:
 |   return ok;
 | }
 | 
-configure:5127: gcc -std=gnu23 -c -g -O2  conftest.c >&5
+configure:5137: gcc -std=gnu23 -c -g -O2  conftest.c >&5
 conftest.c:73:11: error: unknown type name 'nullptr_t'
    73 | constexpr nullptr_t null_pointer = nullptr;
       |           ^~~~~~~~~
 conftest.c:73:36: error: incompatible types when initializing type 'int' using type 'typeof (nullptr)'
    73 | constexpr nullptr_t null_pointer = nullptr;
       |                                    ^~~~~~~
-configure:5127: $? = 1
+configure:5137: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -404,39 +404,39 @@ configure: failed program was:
 |   return ok;
 | }
 | 
-configure:5141: result: unsupported
-configure:5161: checking for gcc option to enable C11 features
-configure:5176: gcc  -c -g -O2  conftest.c >&5
-configure:5176: $? = 0
-configure:5195: result: none needed
-configure:5319: checking whether gcc understands -c and -o together
-configure:5342: gcc -c conftest.c -o conftest2.o
-configure:5345: $? = 0
-configure:5342: gcc -c conftest.c -o conftest2.o
-configure:5345: $? = 0
-configure:5361: result: yes
-configure:5381: checking whether make supports the include directive
-configure:5396: make -f confmf.GNU && cat confinc.out
+configure:5151: result: unsupported
+configure:5171: checking for gcc option to enable C11 features
+configure:5186: gcc  -c -g -O2  conftest.c >&5
+configure:5186: $? = 0
+configure:5205: result: none needed
+configure:5329: checking whether gcc understands -c and -o together
+configure:5352: gcc -c conftest.c -o conftest2.o
+configure:5355: $? = 0
+configure:5352: gcc -c conftest.c -o conftest2.o
+configure:5355: $? = 0
+configure:5371: result: yes
+configure:5391: checking whether make supports the include directive
+configure:5406: make -f confmf.GNU && cat confinc.out
 this is the am__doit target
-configure:5399: $? = 0
-configure:5418: result: yes (GNU style)
-configure:5444: checking dependency style of gcc
-configure:5557: result: gcc3
-configure:5606: checking for library containing strerror
-configure:5642: gcc -o conftest.exe -g -O2   conftest.c  >&5
-configure:5642: $? = 0
-configure:5664: result: none required
-configure:5727: checking for gcc
-configure:5760: result: gcc
-configure:6119: checking for C compiler version
-configure:6128: gcc --version >&5
+configure:5409: $? = 0
+configure:5428: result: yes (GNU style)
+configure:5454: checking dependency style of gcc
+configure:5567: result: gcc3
+configure:5616: checking for library containing strerror
+configure:5652: gcc -o conftest.exe -g -O2   conftest.c  >&5
+configure:5652: $? = 0
+configure:5674: result: none required
+configure:5737: checking for gcc
+configure:5770: result: gcc
+configure:6129: checking for C compiler version
+configure:6138: gcc --version >&5
 gcc.exe (Rev7, Built by MSYS2 project) 16.2.0
 Copyright (C) 2026 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:6139: $? = 0
-configure:6128: gcc -v >&5
+configure:6149: $? = 0
+configure:6138: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=C:\msys64\ucrt64\bin\gcc.exe
 COLLECT_LTO_WRAPPER=C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/lto-wrapper.exe
@@ -445,47 +445,47 @@ Configured with: ../gcc-16.2.0/configure --prefix=/ucrt64 --with-sysroot=/ucrt64
 Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 16.2.0 (Rev7, Built by MSYS2 project) 
-configure:6139: $? = 0
-configure:6128: gcc -V >&5
+configure:6149: $? = 0
+configure:6138: gcc -V >&5
 gcc.exe: error: unrecognized command-line option '-V'
 gcc.exe: fatal error: no input files
 compilation terminated.
-configure:6139: $? = 1
-configure:6128: gcc -qversion >&5
+configure:6149: $? = 1
+configure:6138: gcc -qversion >&5
 gcc.exe: error: unrecognized command-line option '-qversion'; did you mean '--version'?
 gcc.exe: fatal error: no input files
 compilation terminated.
-configure:6139: $? = 1
-configure:6128: gcc -version >&5
+configure:6149: $? = 1
+configure:6138: gcc -version >&5
 gcc.exe: error: unrecognized command-line option '-version'
 gcc.exe: fatal error: no input files
 compilation terminated.
-configure:6139: $? = 1
-configure:6143: checking whether the compiler supports GNU C
-configure:6175: result: yes
-configure:6186: checking whether gcc accepts -g
-configure:6254: result: yes
-configure:6274: checking for gcc option to enable C23 features
-configure:6303: result: unsupported
-configure:6323: checking for gcc option to enable C11 features
-configure:6357: result: none needed
-configure:6481: checking whether gcc understands -c and -o together
-configure:6523: result: yes
-configure:6542: checking dependency style of gcc
-configure:6655: result: gcc3
-configure:6680: checking whether ln -s works
-configure:6687: result: no, using cp -pR
-configure:6691: checking whether make sets $(MAKE)
-configure:6715: result: yes
-configure:6729: checking how to run the C preprocessor
-configure:6755: gcc -E  conftest.c
-configure:6755: $? = 0
-configure:6771: gcc -E  conftest.c
+configure:6149: $? = 1
+configure:6153: checking whether the compiler supports GNU C
+configure:6185: result: yes
+configure:6196: checking whether gcc accepts -g
+configure:6264: result: yes
+configure:6284: checking for gcc option to enable C23 features
+configure:6313: result: unsupported
+configure:6333: checking for gcc option to enable C11 features
+configure:6367: result: none needed
+configure:6491: checking whether gcc understands -c and -o together
+configure:6533: result: yes
+configure:6552: checking dependency style of gcc
+configure:6665: result: gcc3
+configure:6690: checking whether ln -s works
+configure:6697: result: no, using cp -pR
+configure:6701: checking whether make sets $(MAKE)
+configure:6725: result: yes
+configure:6739: checking how to run the C preprocessor
+configure:6765: gcc -E  conftest.c
+configure:6765: $? = 0
+configure:6781: gcc -E  conftest.c
 conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
    10 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:6771: $? = 1
+configure:6781: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -497,15 +497,15 @@ configure: failed program was:
 | #define DEVEL_VERSION 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:6800: result: gcc -E
-configure:6814: gcc -E  conftest.c
-configure:6814: $? = 0
-configure:6830: gcc -E  conftest.c
+configure:6810: result: gcc -E
+configure:6824: gcc -E  conftest.c
+configure:6824: $? = 0
+configure:6840: gcc -E  conftest.c
 conftest.c:10:10: fatal error: ac_nonexistent.h: No such file or directory
    10 | #include <ac_nonexistent.h>
       |          ^~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:6830: $? = 1
+configure:6840: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -517,23 +517,23 @@ configure: failed program was:
 | #define DEVEL_VERSION 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:6866: checking for flex
-configure:6887: found /usr/bin/flex
-configure:6899: result: flex
-configure:6948: checking for lex output file root
-configure:6961: flex conftest.l
-configure:6965: $? = 0
-configure:6974: result: lex.yy
-configure:6997: checking for lex library
-configure:7022: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c  >&5
-configure:7022: $? = 0
-configure:7036: result: none needed
-configure:7052: checking for library containing yywrap
-configure:7088: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccqSMte6.o: in function `main':
+configure:6876: checking for flex
+configure:6897: found /usr/bin/flex
+configure:6909: result: flex
+configure:6958: checking for lex output file root
+configure:6971: flex conftest.l
+configure:6975: $? = 0
+configure:6984: result: lex.yy
+configure:7007: checking for lex library
+configure:7032: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c  >&5
+configure:7032: $? = 0
+configure:7046: result: none needed
+configure:7062: checking for library containing yywrap
+configure:7098: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c  >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccQeIeUy.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:24:(.text.startup+0xa): undefined reference to `yywrap'
 collect2.exe: error: ld returned 1 exit status
-configure:7088: $? = 1
+configure:7098: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -562,10 +562,10 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:7088: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c -lfl   >&5
+configure:7098: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c -lfl   >&5
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lfl: No such file or directory
 collect2.exe: error: ld returned 1 exit status
-configure:7088: $? = 1
+configure:7098: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -594,10 +594,10 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:7088: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c -ll   >&5
+configure:7098: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c -ll   >&5
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -ll: No such file or directory
 collect2.exe: error: ld returned 1 exit status
-configure:7088: $? = 1
+configure:7098: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -626,34 +626,34 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:7110: result: no
-configure:7127: checking whether yytext is a pointer
-configure:7143: gcc -c -g -O2 -std=gnu17  -D__EXTERN_C__=1 conftest.c >&5
-configure:7143: $? = 0
-configure:7151: result: yes
-configure:7171: checking for bison
-configure:7192: found /usr/bin/bison
-configure:7204: result: bison -y
-configure:7263: checking how to print strings
-configure:7290: result: printf
-configure:7311: checking for a sed that does not truncate output
-configure:7383: result: /usr/bin/sed
-configure:7401: checking for grep that handles long lines and -e
-configure:7467: result: /usr/bin/grep
-configure:7472: checking for egrep
-configure:7542: result: /usr/bin/grep -E
-configure:7549: checking for fgrep
-configure:7619: result: /usr/bin/grep -F
-configure:7656: checking for ld used by gcc
-configure:7725: result: C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe
-configure:7732: checking if the linker (C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe) is GNU ld
-configure:7749: result: yes
-configure:7761: checking for BSD- or MS-compatible name lister (nm)
-configure:7817: result: /ucrt64/bin/nm -B
-configure:7959: checking the name lister (/ucrt64/bin/nm -B) interface
-configure:7967: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:7970: /ucrt64/bin/nm -B "conftest.o"
-configure:7973: output
+configure:7120: result: no
+configure:7137: checking whether yytext is a pointer
+configure:7153: gcc -c -g -O2 -std=gnu17  -D__EXTERN_C__=1 conftest.c >&5
+configure:7153: $? = 0
+configure:7161: result: yes
+configure:7181: checking for bison
+configure:7202: found /usr/bin/bison
+configure:7214: result: bison -y
+configure:7273: checking how to print strings
+configure:7300: result: printf
+configure:7321: checking for a sed that does not truncate output
+configure:7393: result: /usr/bin/sed
+configure:7411: checking for grep that handles long lines and -e
+configure:7477: result: /usr/bin/grep
+configure:7482: checking for egrep
+configure:7552: result: /usr/bin/grep -E
+configure:7559: checking for fgrep
+configure:7629: result: /usr/bin/grep -F
+configure:7666: checking for ld used by gcc
+configure:7735: result: C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe
+configure:7742: checking if the linker (C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe) is GNU ld
+configure:7759: result: yes
+configure:7771: checking for BSD- or MS-compatible name lister (nm)
+configure:7827: result: /ucrt64/bin/nm -B
+configure:7969: checking the name lister (/ucrt64/bin/nm -B) interface
+configure:7977: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:7980: /ucrt64/bin/nm -B "conftest.o"
+configure:7983: output
 0000000000000000 b .bss
 0000000000000000 d .data
 0000000000000000 N .debug_abbrev
@@ -664,109 +664,109 @@ configure:7973: output
 0000000000000000 r .rdata$zzz
 0000000000000000 t .text
 0000000000000000 B some_variable
-configure:7981: result: BSD nm
-configure:7985: checking the maximum length of command line arguments
-configure:8118: result: 8192
-configure:8166: checking how to convert x86_64-w64-mingw32 file names to x86_64-w64-mingw32 format
-configure:8208: result: func_convert_file_msys_to_w32
-configure:8215: checking how to convert x86_64-w64-mingw32 file names to toolchain format
-configure:8237: result: func_convert_file_msys_to_w32
-configure:8248: checking whether cygpath is installed
-configure:8268: result: yes
-configure:8315: checking for C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe option to reload object files
-configure:8324: result: -r
-configure:8357: checking for file
-configure:8378: found /usr/bin/file
-configure:8391: result: file
-configure:8454: checking for objdump
-configure:8475: found /ucrt64/bin/objdump
-configure:8487: result: objdump
-configure:8519: checking how to recognize dependent libraries
-configure:8728: result: file_magic ^x86 archive import|^x86 DLL
-configure:8819: checking for dlltool
-configure:8840: found /ucrt64/bin/dlltool
-configure:8852: result: dlltool
-configure:8885: checking how to associate runtime and link libraries
-configure:8914: result: func_cygming_dll_for_implib
-configure:8974: checking for ranlib
-configure:8995: found /ucrt64/bin/ranlib
-configure:9007: result: ranlib
-configure:9084: checking for ar
-configure:9105: found /ucrt64/bin/ar
-configure:9117: result: ar
-configure:9170: checking for archiver @FILE support
-configure:9188: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:9188: $? = 0
-configure:9192: ar cr libconftest.a @conftest.lst >&5
-configure:9195: $? = 0
-configure:9200: ar cr libconftest.a @conftest.lst >&5
+configure:7991: result: BSD nm
+configure:7995: checking the maximum length of command line arguments
+configure:8128: result: 8192
+configure:8176: checking how to convert x86_64-w64-mingw32 file names to x86_64-w64-mingw32 format
+configure:8218: result: func_convert_file_msys_to_w32
+configure:8225: checking how to convert x86_64-w64-mingw32 file names to toolchain format
+configure:8247: result: func_convert_file_msys_to_w32
+configure:8258: checking whether cygpath is installed
+configure:8278: result: yes
+configure:8325: checking for C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe option to reload object files
+configure:8334: result: -r
+configure:8367: checking for file
+configure:8388: found /usr/bin/file
+configure:8401: result: file
+configure:8464: checking for objdump
+configure:8485: found /ucrt64/bin/objdump
+configure:8497: result: objdump
+configure:8529: checking how to recognize dependent libraries
+configure:8738: result: file_magic ^x86 archive import|^x86 DLL
+configure:8829: checking for dlltool
+configure:8850: found /ucrt64/bin/dlltool
+configure:8862: result: dlltool
+configure:8895: checking how to associate runtime and link libraries
+configure:8924: result: func_cygming_dll_for_implib
+configure:8984: checking for ranlib
+configure:9005: found /ucrt64/bin/ranlib
+configure:9017: result: ranlib
+configure:9094: checking for ar
+configure:9115: found /ucrt64/bin/ar
+configure:9127: result: ar
+configure:9180: checking for archiver @FILE support
+configure:9198: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:9198: $? = 0
+configure:9202: ar cr libconftest.a @conftest.lst >&5
+configure:9205: $? = 0
+configure:9210: ar cr libconftest.a @conftest.lst >&5
 C:\msys64\ucrt64\bin\ar.exe: conftest.o: No such file or directory
-configure:9203: $? = 1
-configure:9216: result: @
-configure:9280: checking for strip
-configure:9301: found /ucrt64/bin/strip
-configure:9313: result: strip
-configure:9416: checking command to parse /ucrt64/bin/nm -B output from gcc object
-configure:9572: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:9575: $? = 0
-configure:9579: /ucrt64/bin/nm -B conftest.o | /usr/bin/sed -n -e 's/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)\{0,1\}$/\1 \2 \2/p' | /usr/bin/sed '/ __gnu_lto/d' > conftest.nm
-configure:9645: gcc -o conftest.exe -g -O2 -std=gnu17   conftest.c conftstm.o >&5
-configure:9648: $? = 0
-configure:9687: result: ok
-configure:9734: checking for sysroot
-configure:9768: result: no
-configure:9775: checking for a working dd
-configure:9820: result: /usr/bin/dd
-configure:9824: checking how to truncate binary pipes
-configure:9841: result: /usr/bin/dd bs=4096 count=1
-configure:10181: checking for mt
-configure:10217: result: no
-configure:10237: checking if : is a manifest tool
-configure:10244: : '-?'
-configure:10253: result: no
-configure:11050: checking for stdio.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for stdlib.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for string.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for inttypes.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for stdint.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for strings.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for sys/stat.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for sys/types.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11050: checking for unistd.h
-configure:11050: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:11050: $? = 0
-configure:11050: result: yes
-configure:11075: checking for dlfcn.h
-configure:11075: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:9213: $? = 1
+configure:9226: result: @
+configure:9290: checking for strip
+configure:9311: found /ucrt64/bin/strip
+configure:9323: result: strip
+configure:9426: checking command to parse /ucrt64/bin/nm -B output from gcc object
+configure:9582: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:9585: $? = 0
+configure:9589: /ucrt64/bin/nm -B conftest.o | /usr/bin/sed -n -e 's/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)\{0,1\}$/\1 \2 \2/p' | /usr/bin/sed '/ __gnu_lto/d' > conftest.nm
+configure:9655: gcc -o conftest.exe -g -O2 -std=gnu17   conftest.c conftstm.o >&5
+configure:9658: $? = 0
+configure:9697: result: ok
+configure:9744: checking for sysroot
+configure:9778: result: no
+configure:9785: checking for a working dd
+configure:9830: result: /usr/bin/dd
+configure:9834: checking how to truncate binary pipes
+configure:9851: result: /usr/bin/dd bs=4096 count=1
+configure:10191: checking for mt
+configure:10227: result: no
+configure:10247: checking if : is a manifest tool
+configure:10254: : '-?'
+configure:10263: result: no
+configure:11060: checking for stdio.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for stdlib.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for string.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for inttypes.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for stdint.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for strings.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for sys/stat.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for sys/types.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11060: checking for unistd.h
+configure:11060: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:11060: $? = 0
+configure:11060: result: yes
+configure:11085: checking for dlfcn.h
+configure:11085: gcc -c -g -O2 -std=gnu17  conftest.c >&5
 conftest.c:50:10: fatal error: dlfcn.h: No such file or directory
    50 | #include <dlfcn.h>
       |          ^~~~~~~~~
 compilation terminated.
-configure:11075: $? = 1
+configure:11085: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -818,151 +818,110 @@ configure: failed program was:
 | #endif
 | 
 | #include <dlfcn.h>
-configure:11075: result: no
-configure:11329: checking which variant of shared library versioning to provide
-configure:11332: result: (default) aix
-configure:11400: checking for objdir
-configure:11417: result: .libs
-configure:11679: checking if gcc supports -fno-rtti -fno-exceptions
-configure:11698: gcc -c -g -O2 -std=gnu17  -fno-rtti -fno-exceptions conftest.c >&5
+configure:11085: result: no
+configure:11339: checking which variant of shared library versioning to provide
+configure:11342: result: (default) aix
+configure:11410: checking for objdir
+configure:11427: result: .libs
+configure:11689: checking if gcc supports -fno-rtti -fno-exceptions
+configure:11708: gcc -c -g -O2 -std=gnu17  -fno-rtti -fno-exceptions conftest.c >&5
 cc1.exe: warning: command-line option '-fno-rtti' is valid for C++/D/ObjC++ but not for C
-configure:11702: $? = 0
-configure:11716: result: no
-configure:12095: checking for gcc option to produce PIC
-configure:12104: result: -DDLL_EXPORT -DPIC
-configure:12112: checking if gcc PIC flag -DDLL_EXPORT -DPIC works
-configure:12131: gcc -c -g -O2 -std=gnu17  -DDLL_EXPORT -DPIC -DPIC conftest.c >&5
-configure:12135: $? = 0
-configure:12149: result: yes
-configure:12178: checking if gcc static flag -static works
-configure:12208: result: yes
-configure:12223: checking if gcc supports -c -o file.o
-configure:12245: gcc -c -g -O2 -std=gnu17  -o out/conftest2.o conftest.c >&5
-configure:12249: $? = 0
-configure:12272: result: yes
-configure:12280: checking if gcc supports -c -o file.o
-configure:12329: result: yes
-configure:12362: checking whether the gcc linker (C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe) supports shared libraries
-configure:13650: result: yes
-configure:13687: checking whether -lc should be explicitly linked in
-configure:13696: gcc -c -g -O2 -std=gnu17  conftest.c >&5
-configure:13699: $? = 0
-configure:13714: gcc -shared conftest.o  -v -o ./conftest -Wl,--enable-auto-image-base -Xlinker --out-implib -Xlinker conftest 2\>\&1 \| /usr/bin/grep  -lc  \>/dev/null 2\>\&1
-configure:13717: $? = 1
-configure:13732: result: yes
-configure:13892: checking dynamic linker characteristics
-configure:15291: result: Win32 ld.exe
-configure:15413: checking how to hardcode library paths into programs
-configure:15438: result: immediate
-configure:16038: checking whether stripping libraries is possible
-configure:16047: result: yes
-configure:16089: checking if libtool supports shared libraries
-configure:16091: result: yes
-configure:16094: checking whether to build shared libraries
-configure:16119: result: yes
-configure:16122: checking whether to build static libraries
-configure:16126: result: no
-configure:16194: checking for windres
-configure:16215: found /ucrt64/bin/windres
-configure:16227: result: windres
-configure:16346: checking for pkg-config
-configure:16369: found /ucrt64/bin/pkg-config
-configure:16382: result: /ucrt64/bin/pkg-config
-configure:16407: checking pkg-config is at least version 0.16
-configure:16410: result: yes
-configure:16428: checking for glib-2.0 >= 2.8.0 gobject-2.0 gmodule-2.0
-configure:16435: $PKG_CONFIG --exists --print-errors "$pkg_config_args"
-configure:16438: $? = 0
-configure:16452: $PKG_CONFIG --exists --print-errors "$pkg_config_args"
-configure:16455: $? = 0
-configure:16493: result: yes
-configure:16503: $PKG_CONFIG --exists --print-errors "glib-2.0"
-configure:16506: $? = 0
-configure:16527: $PKG_CONFIG --exists --print-errors "glib-2.0"
-configure:16530: $? = 0
-configure:16551: $PKG_CONFIG --exists --print-errors "glib-2.0"
-configure:16554: $? = 0
-configure:16575: $PKG_CONFIG --exists --print-errors "gio-2.0"
-configure:16578: $? = 0
-configure:16595: checking for GLIB - version >= 2.8.0
-configure:16701: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -lintl  >&5
-configure:16701: $? = 0
-configure:16701: ./conftest.exe
-configure:16701: $? = 0
-configure:16718: result: yes (version 2.90.1)
-configure:16785: checking for glib-genmarshal
-configure:16821: result: C:/msys64/ucrt64/bin/glib-genmarshal.exe
-configure:16913: checking for pkg-config
-configure:16949: result: /ucrt64/bin/pkg-config
-configure:16974: checking pkg-config is at least version 0.7
-configure:16977: result: yes
-configure:16987: checking for GTK+ - version >= 2.24.0
-configure:17098: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows -IC:/msys64/ucrt64/include/gtk-2.0 -mms-bitfields -IC:/msys64/ucrt64/lib/gtk-2.0/include -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lgtk-win32-2.0 -lgdk-win32-2.0 -limm32 -lshell32 -lole32 -Wl,-luuid -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lgdi32 -lmsimg32 -latk-1.0 -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl  >&5
-In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkobject.h:37,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwidget.h:36,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkcontainer.h:35,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkbin.h:35,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkwindow.h:36,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkdialog.h:35,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkaboutdialog.h:32,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:33,
-                 from conftest.c:23:
-C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktypeutils.h:236:1: warning: 'GTypeDebugFlags' is deprecated [-Wdeprecated-declarations]
-  236 | void            gtk_type_init   (GTypeDebugFlags    debug_flags);
-      | ^~~~
-In file included from C:/msys64/ucrt64/include/glib-2.0/gobject/gobject.h:26,
-                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:31,
-                 from C:/msys64/ucrt64/include/glib-2.0/glib-object.h:24,
-                 from C:/msys64/ucrt64/include/glib-2.0/gio/gioenums.h:30,
-                 from C:/msys64/ucrt64/include/glib-2.0/gio/giotypes.h:30,
-                 from C:/msys64/ucrt64/include/glib-2.0/gio/gio.h:28,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdkapplaunchcontext.h:30,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gdk/gdk.h:32,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:32:
-C:/msys64/ucrt64/include/glib-2.0/gobject/gtype.h:725:1: note: declared here
-  725 | {
-      | ^
-In file included from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolitem.h:31,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktoolbutton.h:30,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtkmenutoolbutton.h:30,
-                 from C:/msys64/ucrt64/include/gtk-2.0/gtk/gtk.h:126:
-C:/msys64/ucrt64/include/gtk-2.0/gtk/gtktooltips.h:73:3: warning: 'GTimeVal' is deprecated: Use 'GDateTime' instead [-Wdeprecated-declarations]
-   73 |   GTimeVal last_popdown;
-      |   ^~~~~~~~
-In file included from C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:34,
-                 from C:/msys64/ucrt64/include/glib-2.0/glib.h:32,
-                 from C:/msys64/ucrt64/include/glib-2.0/gobject/gbinding.h:30:
-C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:622:8: note: declared here
-  622 | struct _GTimeVal
-      |        ^~~~~~~~~
-configure:17098: $? = 0
-configure:17098: ./conftest.exe
-configure:17098: $? = 0
-configure:17115: result: yes (version 2.24.33)
-configure:17297: checking for ld
-configure:17430: result: C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe
-configure:17437: checking if the linker (C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe) is GNU ld
-configure:17454: result: yes
-configure:17462: checking for shared library run path origin
-configure:17477: result: done
-configure:17500: checking 32-bit host C ABI
-configure:17553: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
-configure:17553: $? = 0
-configure:17567: result: no
-configure:17573: checking for egrep -e
-configure:17703: result: /usr/bin/grep -E
-configure:17711: checking for ELF binary format
-configure:17737: result: no
-configure:17789: checking for the common suffixes of directories in the library search path
-configure:17866: result: lib,lib,lib
-configure:18398: checking for iconv
-configure:18423: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cc0c5BwL.o: in function `main':
+configure:11712: $? = 0
+configure:11726: result: no
+configure:12105: checking for gcc option to produce PIC
+configure:12114: result: -DDLL_EXPORT -DPIC
+configure:12122: checking if gcc PIC flag -DDLL_EXPORT -DPIC works
+configure:12141: gcc -c -g -O2 -std=gnu17  -DDLL_EXPORT -DPIC -DPIC conftest.c >&5
+configure:12145: $? = 0
+configure:12159: result: yes
+configure:12188: checking if gcc static flag -static works
+configure:12218: result: yes
+configure:12233: checking if gcc supports -c -o file.o
+configure:12255: gcc -c -g -O2 -std=gnu17  -o out/conftest2.o conftest.c >&5
+configure:12259: $? = 0
+configure:12282: result: yes
+configure:12290: checking if gcc supports -c -o file.o
+configure:12339: result: yes
+configure:12372: checking whether the gcc linker (C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe) supports shared libraries
+configure:13660: result: yes
+configure:13697: checking whether -lc should be explicitly linked in
+configure:13706: gcc -c -g -O2 -std=gnu17  conftest.c >&5
+configure:13709: $? = 0
+configure:13724: gcc -shared conftest.o  -v -o ./conftest -Wl,--enable-auto-image-base -Xlinker --out-implib -Xlinker conftest 2\>\&1 \| /usr/bin/grep  -lc  \>/dev/null 2\>\&1
+configure:13727: $? = 1
+configure:13742: result: yes
+configure:13902: checking dynamic linker characteristics
+configure:15301: result: Win32 ld.exe
+configure:15423: checking how to hardcode library paths into programs
+configure:15448: result: immediate
+configure:16048: checking whether stripping libraries is possible
+configure:16057: result: yes
+configure:16099: checking if libtool supports shared libraries
+configure:16101: result: yes
+configure:16104: checking whether to build shared libraries
+configure:16129: result: yes
+configure:16132: checking whether to build static libraries
+configure:16136: result: no
+configure:16204: checking for windres
+configure:16225: found /ucrt64/bin/windres
+configure:16237: result: windres
+configure:16356: checking for pkg-config
+configure:16379: found /ucrt64/bin/pkg-config
+configure:16392: result: /ucrt64/bin/pkg-config
+configure:16417: checking pkg-config is at least version 0.16
+configure:16420: result: yes
+configure:16438: checking for glib-2.0 >= 2.8.0 gobject-2.0 gmodule-2.0
+configure:16445: $PKG_CONFIG --exists --print-errors "$pkg_config_args"
+configure:16448: $? = 0
+configure:16462: $PKG_CONFIG --exists --print-errors "$pkg_config_args"
+configure:16465: $? = 0
+configure:16503: result: yes
+configure:16513: $PKG_CONFIG --exists --print-errors "glib-2.0"
+configure:16516: $? = 0
+configure:16537: $PKG_CONFIG --exists --print-errors "glib-2.0"
+configure:16540: $? = 0
+configure:16561: $PKG_CONFIG --exists --print-errors "glib-2.0"
+configure:16564: $? = 0
+configure:16585: $PKG_CONFIG --exists --print-errors "gio-2.0"
+configure:16588: $? = 0
+configure:16605: checking for GLIB - version >= 2.8.0
+configure:16711: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -lintl  >&5
+configure:16711: $? = 0
+configure:16711: ./conftest.exe
+configure:16711: $? = 0
+configure:16728: result: yes (version 2.90.1)
+configure:16795: checking for glib-genmarshal
+configure:16831: result: C:/msys64/ucrt64/bin/glib-genmarshal.exe
+configure:16842: checking for gtk+-3.0 >= 3.24.0
+configure:16849: $PKG_CONFIG --exists --print-errors "gtk+-3.0 >= 3.24.0"
+configure:16852: $? = 0
+configure:16866: $PKG_CONFIG --exists --print-errors "gtk+-3.0 >= 3.24.0"
+configure:16869: $? = 0
+configure:16907: result: yes
+configure:17054: checking for ld
+configure:17187: result: C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe
+configure:17194: checking if the linker (C:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe) is GNU ld
+configure:17211: result: yes
+configure:17219: checking for shared library run path origin
+configure:17234: result: done
+configure:17257: checking 32-bit host C ABI
+configure:17310: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
+configure:17310: $? = 0
+configure:17324: result: no
+configure:17330: checking for egrep -e
+configure:17460: result: /usr/bin/grep -E
+configure:17468: checking for ELF binary format
+configure:17494: result: no
+configure:17546: checking for the common suffixes of directories in the library search path
+configure:17623: result: lib,lib,lib
+configure:18155: checking for iconv
+configure:18180: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccswULJQ.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:29:(.text.startup+0x15): undefined reference to `libiconv_open'
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:30:(.text.startup+0x31): undefined reference to `libiconv'
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:31:(.text.startup+0x39): undefined reference to `libiconv_close'
 collect2.exe: error: ld returned 1 exit status
-configure:18423: $? = 1
+configure:18180: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -998,27 +957,27 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18448: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -liconv >&5
-configure:18448: $? = 0
-configure:18460: result: yes
-configure:18463: checking for working iconv
-configure:18607: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -liconv >&5
-configure:18607: $? = 0
-configure:18607: ./conftest.exe
-configure:18607: $? = 0
-configure:18622: result: yes
-configure:18637: checking how to link with libiconv
-configure:18639: result: -liconv
-configure:18650: checking whether iconv is compatible with its POSIX signature
-configure:18675: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
-configure:18675: $? = 0
-configure:18686: result: yes
-configure:18716: checking for bind_textdomain_codeset
-configure:18716: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccckGu9n.o: in function `main':
+configure:18205: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -liconv >&5
+configure:18205: $? = 0
+configure:18217: result: yes
+configure:18220: checking for working iconv
+configure:18364: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -liconv >&5
+configure:18364: $? = 0
+configure:18364: ./conftest.exe
+configure:18364: $? = 0
+configure:18379: result: yes
+configure:18394: checking how to link with libiconv
+configure:18396: result: -liconv
+configure:18407: checking whether iconv is compatible with its POSIX signature
+configure:18432: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
+configure:18432: $? = 0
+configure:18443: result: yes
+configure:18473: checking for bind_textdomain_codeset
+configure:18473: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccyOeQGb.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:51:(.text.startup+0xa): undefined reference to `bind_textdomain_codeset'
 collect2.exe: error: ld returned 1 exit status
-configure:18716: $? = 1
+configure:18473: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1074,19 +1033,19 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18716: result: no
-configure:18732: checking for locale.h
-configure:18732: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
-configure:18732: $? = 0
-configure:18732: result: yes
-configure:18740: checking for LC_MESSAGES
-configure:18757: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
+configure:18473: result: no
+configure:18489: checking for locale.h
+configure:18489: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
+configure:18489: $? = 0
+configure:18489: result: yes
+configure:18497: checking for LC_MESSAGES
+configure:18514: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
 conftest.c: In function 'main':
 conftest.c:30:8: error: 'LC_MESSAGES' undeclared (first use in this function)
    30 | return LC_MESSAGES
       |        ^~~~~~~~~~~
 conftest.c:30:8: note: each undeclared identifier is reported only once for each function it appears in
-configure:18757: $? = 1
+configure:18514: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1121,14 +1080,14 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18768: result: no
-configure:18786: checking for CFPreferencesCopyAppValue
-configure:18805: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
+configure:18525: result: no
+configure:18543: checking for CFPreferencesCopyAppValue
+configure:18562: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
 conftest.c:26:10: fatal error: CoreFoundation/CFPreferences.h: No such file or directory
    26 | #include <CoreFoundation/CFPreferences.h>
       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18805: $? = 1
+configure:18562: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1163,14 +1122,14 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18817: result: no
-configure:18824: checking for CFLocaleCopyCurrent
-configure:18843: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
+configure:18574: result: no
+configure:18581: checking for CFLocaleCopyCurrent
+configure:18600: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -Wl,-framework -Wl,CoreFoundation >&5
 conftest.c:26:10: fatal error: CoreFoundation/CFLocale.h: No such file or directory
    26 | #include <CoreFoundation/CFLocale.h>
       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 compilation terminated.
-configure:18843: $? = 1
+configure:18600: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1205,17 +1164,17 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18855: result: no
-configure:18869: checking for libintl.h
-configure:18869: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
-configure:18869: $? = 0
-configure:18869: result: yes
-configure:18878: checking for ngettext in libc
-configure:18897: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccSg85vk.o: in function `main':
+configure:18612: result: no
+configure:18626: checking for libintl.h
+configure:18626: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  conftest.c >&5
+configure:18626: $? = 0
+configure:18626: result: yes
+configure:18635: checking for ngettext in libc
+configure:18654: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccWHxEEv.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:32:(.text.startup+0x1a): undefined reference to `libintl_ngettext'
 collect2.exe: error: ld returned 1 exit status
-configure:18897: $? = 1
+configure:18654: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1252,97 +1211,97 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:18909: result: no
-configure:18965: checking for bindtextdomain in -lintl
-configure:18994: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lintl   >&5
-configure:18994: $? = 0
-configure:19006: result: yes
-configure:19010: checking for ngettext in -lintl
-configure:19039: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lintl   >&5
-configure:19039: $? = 0
-configure:19051: result: yes
-configure:19055: checking for dgettext in -lintl
-configure:19084: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lintl   >&5
+configure:18666: result: no
+configure:18722: checking for bindtextdomain in -lintl
+configure:18751: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lintl   >&5
+configure:18751: $? = 0
+configure:18763: result: yes
+configure:18767: checking for ngettext in -lintl
+configure:18796: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lintl   >&5
+configure:18796: $? = 0
+configure:18808: result: yes
+configure:18812: checking for dgettext in -lintl
+configure:18841: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lintl   >&5
 conftest.c:36:6: warning: conflicting types for built-in function 'dgettext'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
    36 | char dgettext (void);
       |      ^~~~~~~~
-configure:19084: $? = 0
-configure:19096: result: yes
-configure:19226: checking for bind_textdomain_codeset
-configure:19226: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -lintl  >&5
-configure:19226: $? = 0
-configure:19226: result: yes
-configure:19261: checking for msgfmt
-configure:19290: result: /ucrt64/bin/msgfmt
-configure:19299: checking for dcgettext
-configure:19299: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -lintl   >&5
+configure:18841: $? = 0
+configure:18853: result: yes
+configure:18983: checking for bind_textdomain_codeset
+configure:18983: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -lintl  >&5
+configure:18983: $? = 0
+configure:18983: result: yes
+configure:19018: checking for msgfmt
+configure:19047: result: /ucrt64/bin/msgfmt
+configure:19056: checking for dcgettext
+configure:19056: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -lintl   >&5
 conftest.c:44:6: warning: conflicting types for built-in function 'dcgettext'; expected 'char *(const char *, const char *, int)' [-Wbuiltin-declaration-mismatch]
    44 | char dcgettext (void);
       |      ^~~~~~~~~
-configure:19299: $? = 0
-configure:19299: result: yes
-configure:19307: checking if msgfmt accepts -c
-configure:19322: $MSGFMT -c -o /dev/null conftest.foo
+configure:19056: $? = 0
+configure:19056: result: yes
+configure:19064: checking if msgfmt accepts -c
+configure:19079: $MSGFMT -c -o /dev/null conftest.foo
 conftest.foo:3: warning: header field 'Language' missing in header
-configure:19325: $? = 0
-configure:19327: result: yes
-configure:19337: checking for gmsgfmt
-configure:19374: result: /ucrt64/bin/msgfmt
-configure:19384: checking for xgettext
-configure:19413: result: /ucrt64/bin/xgettext
-configure:19432: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -lintl   >&5
-configure:19432: $? = 0
-configure:19517: checking for catalogs to be installed
-configure:19542: result:  be bg cs da de el es et eu fi fr gl he hr hu it ja ko lt nl pl pt_BR ro ru sk sl sr sv tr uk vi zh_CN zh_TW
-configure:19638: checking whether to use GPGME
-configure:19641: result: yes
-configure:19645: checking for gpgrt-config
-configure:19669: found /ucrt64/bin/gpgrt-config
-configure:19683: result: /ucrt64/bin/gpgrt-config
-configure:19802: Use gpgrt-config as gpgme-config
-configure:19880: checking for GPGME - version >= 1.0.0
-configure:19925: result: yes
-configure:19970: checking for gpgme_io_writen in -lgpgme
-configure:19999: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lgpgme   >&5
-configure:19999: $? = 0
-configure:20011: result: yes
-configure:20035: checking whether to use JPilot
-configure:20085: result: no
-configure:20098: checking whether to use LDAP
-configure:20434: result: no
-configure:20447: checking whether to use OpenSSL
+configure:19082: $? = 0
+configure:19084: result: yes
+configure:19094: checking for gmsgfmt
+configure:19131: result: /ucrt64/bin/msgfmt
+configure:19141: checking for xgettext
+configure:19170: result: /ucrt64/bin/xgettext
+configure:19189: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  -lintl   >&5
+configure:19189: $? = 0
+configure:19274: checking for catalogs to be installed
+configure:19299: result:  be bg cs da de el es et eu fi fr gl he hr hu it ja ko lt nl pl pt_BR ro ru sk sl sr sv tr uk vi zh_CN zh_TW
+configure:19395: checking whether to use GPGME
+configure:19398: result: yes
+configure:19402: checking for gpgrt-config
+configure:19426: found /ucrt64/bin/gpgrt-config
+configure:19440: result: /ucrt64/bin/gpgrt-config
+configure:19559: Use gpgrt-config as gpgme-config
+configure:19637: checking for GPGME - version >= 1.0.0
+configure:19682: result: yes
+configure:19727: checking for gpgme_io_writen in -lgpgme
+configure:19756: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c -lgpgme   >&5
+configure:19756: $? = 0
+configure:19768: result: yes
+configure:19792: checking whether to use JPilot
+configure:19842: result: no
+configure:19855: checking whether to use LDAP
+configure:20191: result: no
+configure:20204: checking whether to use OpenSSL
+configure:20207: result: yes
+configure:20211: checking for openssl
+configure:20218: $PKG_CONFIG --exists --print-errors "openssl"
+configure:20221: $? = 0
+configure:20235: $PKG_CONFIG --exists --print-errors "openssl"
+configure:20238: $? = 0
+configure:20276: result: yes
+configure:20283: checking if openssl is available
+configure:20285: result: yes
+configure:20344: checking for uncompface in -lcompface
+configure:20373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows    conftest.c -lcompface   -lssl -lcrypto >&5
+configure:20373: $? = 0
+configure:20385: result: yes
+configure:20400: checking whether to use GtkSpell
+configure:20412: result: yes
+configure:20414: checking whether GtkSpell is available
+configure:20417: result: yes
+configure:20447: checking whether to use Oniguruma
 configure:20450: result: yes
-configure:20454: checking for openssl
-configure:20461: $PKG_CONFIG --exists --print-errors "openssl"
-configure:20464: $? = 0
-configure:20478: $PKG_CONFIG --exists --print-errors "openssl"
-configure:20481: $? = 0
-configure:20519: result: yes
-configure:20526: checking if openssl is available
-configure:20528: result: yes
-configure:20587: checking for uncompface in -lcompface
-configure:20616: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows    conftest.c -lcompface   -lssl -lcrypto >&5
-configure:20616: $? = 0
-configure:20628: result: yes
-configure:20643: checking whether to use GtkSpell
-configure:20655: result: yes
-configure:20657: checking whether GtkSpell is available
-configure:20681: result: no
-configure:20699: checking whether to use Oniguruma
-configure:20702: result: yes
-configure:20704: checking whether Oniguruma is available
-configure:20709: result: yes
-configure:20735: checking whether to use libcurl
-configure:20738: result: yes
-configure:20740: checking for curl_global_init in -lcurl
-configure:20769: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lcurl  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
-configure:20769: $? = 0
-configure:20781: result: yes
-configure:20794: checking for setlocale in -lxpg4
-configure:20823: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lxpg4  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
+configure:20452: checking whether Oniguruma is available
+configure:20457: result: yes
+configure:20483: checking whether to use libcurl
+configure:20486: result: yes
+configure:20488: checking for curl_global_init in -lcurl
+configure:20517: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lcurl  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
+configure:20517: $? = 0
+configure:20529: result: yes
+configure:20542: checking for setlocale in -lxpg4
+configure:20571: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lxpg4  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lxpg4: No such file or directory
 collect2.exe: error: ld returned 1 exit status
-configure:20823: $? = 1
+configure:20571: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1376,6 +1335,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | /* end confdefs.h.  */
 | 
@@ -1396,12 +1356,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:20835: result: no
-configure:20845: checking for res_init in -lresolv
-configure:20874: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lresolv  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
+configure:20583: result: no
+configure:20593: checking for res_init in -lresolv
+configure:20622: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lresolv  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lresolv: No such file or directory
 collect2.exe: error: ld returned 1 exit status
-configure:20874: $? = 1
+configure:20622: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1435,6 +1395,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | /* end confdefs.h.  */
 | 
@@ -1455,12 +1416,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:20886: result: no
-configure:20896: checking for bind in -lsocket
-configure:20925: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lsocket  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
+configure:20634: result: no
+configure:20644: checking for bind in -lsocket
+configure:20673: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lsocket  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lsocket: No such file or directory
 collect2.exe: error: ld returned 1 exit status
-configure:20925: $? = 1
+configure:20673: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1494,6 +1455,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | /* end confdefs.h.  */
 | 
@@ -1514,12 +1476,12 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:20937: result: no
-configure:20947: checking for gethostbyname in -lnsl
-configure:20976: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lnsl  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
+configure:20685: result: no
+configure:20695: checking for gethostbyname in -lnsl
+configure:20724: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include   conftest.c -lnsl  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig >&5
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lnsl: No such file or directory
 collect2.exe: error: ld returned 1 exit status
-configure:20976: $? = 1
+configure:20724: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1553,6 +1515,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | /* end confdefs.h.  */
 | 
@@ -1573,26 +1536,26 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:20988: result: no
-configure:21009: checking whether to use threads
-configure:21012: result: yes
-configure:21038: checking whether to use IPv6
-configure:21041: result: yes
-configure:21043: checking for IPv6 support
-configure:21065: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21065: $? = 0
-configure:21109: result: yes
-configure:21155: checking whether struct dirent has d_type member
-configure:21173: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:20736: result: no
+configure:20757: checking whether to use threads
+configure:20760: result: yes
+configure:20786: checking whether to use IPv6
+configure:20789: result: yes
+configure:20791: checking for IPv6 support
+configure:20813: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:20813: $? = 0
+configure:20857: result: yes
+configure:20903: checking whether struct dirent has d_type member
+configure:20921: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:43:19: error: 'struct dirent' has no member named 'd_type'
-   43 | struct dirent d; d.d_type = DT_REG;
+conftest.c:44:19: error: 'struct dirent' has no member named 'd_type'
+   44 | struct dirent d; d.d_type = DT_REG;
       |                   ^
-conftest.c:43:29: error: 'DT_REG' undeclared (first use in this function)
-   43 | struct dirent d; d.d_type = DT_REG;
+conftest.c:44:29: error: 'DT_REG' undeclared (first use in this function)
+   44 | struct dirent d; d.d_type = DT_REG;
       |                             ^~~~~~
-conftest.c:43:29: note: each undeclared identifier is reported only once for each function it appears in
-configure:21173: $? = 1
+conftest.c:44:29: note: each undeclared identifier is reported only once for each function it appears in
+configure:20921: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1626,6 +1589,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -1640,14 +1604,14 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21185: result: no
-configure:21193: checking for lockfile.h
-configure:21193: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:67:10: fatal error: lockfile.h: No such file or directory
-   67 | #include <lockfile.h>
+configure:20933: result: no
+configure:20941: checking for lockfile.h
+configure:20941: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:68:10: fatal error: lockfile.h: No such file or directory
+   68 | #include <lockfile.h>
       |          ^~~~~~~~~~~~
 compilation terminated.
-configure:21193: $? = 1
+configure:20941: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1681,6 +1645,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -1716,12 +1681,12 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <lockfile.h>
-configure:21193: result: no
-configure:21200: checking for lockfile_create in -llockfile
-configure:21229: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -llockfile  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:20941: result: no
+configure:20948: checking for lockfile_create in -llockfile
+configure:20977: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -llockfile  -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -llockfile: No such file or directory
 collect2.exe: error: ld returned 1 exit status
-configure:21229: $? = 1
+configure:20977: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1755,6 +1720,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -1779,24 +1745,24 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21241: result: no
-configure:21256: checking for dirent.h that defines DIR
-configure:21276: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21276: $? = 0
-configure:21287: result: yes
-configure:21301: checking for library containing opendir
-configure:21337: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:21337: $? = 0
-configure:21359: result: none required
-configure:21441: checking for egrep
-configure:21511: result: /usr/bin/grep -E
-configure:21519: checking for sys/wait.h that is POSIX.1 compatible
-configure:21546: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:41:10: fatal error: sys/wait.h: No such file or directory
-   41 | #include <sys/wait.h>
+configure:20989: result: no
+configure:21004: checking for dirent.h that defines DIR
+configure:21024: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21024: $? = 0
+configure:21035: result: yes
+configure:21049: checking for library containing opendir
+configure:21085: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:21085: $? = 0
+configure:21107: result: none required
+configure:21189: checking for egrep
+configure:21259: result: /usr/bin/grep -E
+configure:21267: checking for sys/wait.h that is POSIX.1 compatible
+configure:21294: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:42:10: fatal error: sys/wait.h: No such file or directory
+   42 | #include <sys/wait.h>
       |          ^~~~~~~~~~~~
 compilation terminated.
-configure:21546: $? = 1
+configure:21294: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1830,6 +1796,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -1855,24 +1822,24 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21556: result: no
-configure:21567: checking for fcntl.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21567: $? = 0
-configure:21567: result: yes
-configure:21567: checking for sys/file.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21567: $? = 0
-configure:21567: result: yes
-configure:21567: checking for unistd.h
-configure:21567: result: yes
-configure:21567: checking for paths.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:71:10: fatal error: paths.h: No such file or directory
-   71 | #include <paths.h>
+configure:21304: result: no
+configure:21315: checking for fcntl.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21315: $? = 0
+configure:21315: result: yes
+configure:21315: checking for sys/file.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21315: $? = 0
+configure:21315: result: yes
+configure:21315: checking for unistd.h
+configure:21315: result: yes
+configure:21315: checking for paths.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:72:10: fatal error: paths.h: No such file or directory
+   72 | #include <paths.h>
       |          ^~~~~~~~~
 compilation terminated.
-configure:21567: $? = 1
+configure:21315: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1906,6 +1873,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -1945,14 +1913,14 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <paths.h>
-configure:21567: result: no
-configure:21567: checking for  sys/param.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:71:10: fatal error:  sys/param.h: No such file or directory
-   71 | #include < sys/param.h>
+configure:21315: result: no
+configure:21315: checking for  sys/param.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:72:10: fatal error:  sys/param.h: No such file or directory
+   72 | #include < sys/param.h>
       |          ^~~~~~~~~~~~~~
 compilation terminated.
-configure:21567: $? = 1
+configure:21315: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -1986,6 +1954,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2025,14 +1994,14 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include < sys/param.h>
-configure:21567: result: no
-configure:21567: checking for sys/utsname.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:71:10: fatal error: sys/utsname.h: No such file or directory
-   71 | #include <sys/utsname.h>
+configure:21315: result: no
+configure:21315: checking for sys/utsname.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:72:10: fatal error: sys/utsname.h: No such file or directory
+   72 | #include <sys/utsname.h>
       |          ^~~~~~~~~~~~~~~
 compilation terminated.
-configure:21567: $? = 1
+configure:21315: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2066,6 +2035,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2105,14 +2075,14 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <sys/utsname.h>
-configure:21567: result: no
-configure:21567: checking for sys/select.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:71:10: fatal error: sys/select.h: No such file or directory
-   71 | #include <sys/select.h>
+configure:21315: result: no
+configure:21315: checking for sys/select.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:72:10: fatal error: sys/select.h: No such file or directory
+   72 | #include <sys/select.h>
       |          ^~~~~~~~~~~~~~
 compilation terminated.
-configure:21567: $? = 1
+configure:21315: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2146,6 +2116,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2185,14 +2156,14 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <sys/select.h>
-configure:21567: result: no
-configure:21567: checking for  netdb.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:71:10: fatal error:  netdb.h: No such file or directory
-   71 | #include < netdb.h>
+configure:21315: result: no
+configure:21315: checking for  netdb.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:72:10: fatal error:  netdb.h: No such file or directory
+   72 | #include < netdb.h>
       |          ^~~~~~~~~~
 compilation terminated.
-configure:21567: $? = 1
+configure:21315: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2226,6 +2197,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2265,18 +2237,18 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include < netdb.h>
-configure:21567: result: no
-configure:21567: checking for regex.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21567: $? = 0
-configure:21567: result: yes
-configure:21567: checking for sys/mman.h
-configure:21567: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:72:10: fatal error: sys/mman.h: No such file or directory
-   72 | #include <sys/mman.h>
+configure:21315: result: no
+configure:21315: checking for regex.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21315: $? = 0
+configure:21315: result: yes
+configure:21315: checking for sys/mman.h
+configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:73:10: fatal error: sys/mman.h: No such file or directory
+   73 | #include <sys/mman.h>
       |          ^~~~~~~~~~~~
 compilation terminated.
-configure:21567: $? = 1
+configure:21315: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2310,6 +2282,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2350,20 +2323,20 @@ configure: failed program was:
 | # include <unistd.h>
 | #endif
 | #include <sys/mman.h>
-configure:21567: result: no
-configure:21578: checking for an ANSI C-conforming const
-configure:21642: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21642: $? = 0
-configure:21652: result: yes
-configure:21660: checking for off_t
-configure:21660: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21660: $? = 0
-configure:21660: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21315: result: no
+configure:21326: checking for an ANSI C-conforming const
+configure:21390: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21390: $? = 0
+configure:21400: result: yes
+configure:21408: checking for off_t
+configure:21408: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21408: $? = 0
+configure:21408: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:75:20: error: expected expression before ')' token
-   75 | if (sizeof ((off_t)))
+conftest.c:76:20: error: expected expression before ')' token
+   76 | if (sizeof ((off_t)))
       |                    ^
-configure:21660: $? = 1
+configure:21408: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2397,6 +2370,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2444,16 +2418,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21660: result: yes
-configure:21672: checking for pid_t
-configure:21672: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21672: $? = 0
-configure:21672: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21408: result: yes
+configure:21420: checking for pid_t
+configure:21420: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21420: $? = 0
+configure:21420: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:76:20: error: expected expression before ')' token
-   76 | if (sizeof ((pid_t)))
+conftest.c:77:20: error: expected expression before ')' token
+   77 | if (sizeof ((pid_t)))
       |                    ^
-configure:21672: $? = 1
+configure:21420: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2487,6 +2461,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2535,16 +2510,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21672: result: yes
-configure:21710: checking for size_t
-configure:21710: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21710: $? = 0
-configure:21710: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21420: result: yes
+configure:21458: checking for size_t
+configure:21458: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21458: $? = 0
+configure:21458: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:75:21: error: expected expression before ')' token
-   75 | if (sizeof ((size_t)))
+conftest.c:76:21: error: expected expression before ')' token
+   76 | if (sizeof ((size_t)))
       |                     ^
-configure:21710: $? = 1
+configure:21458: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2578,6 +2553,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2625,41 +2601,41 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21710: result: yes
-configure:21721: checking whether struct tm is in sys/time.h or time.h
-configure:21742: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21742: $? = 0
-configure:21752: result: time.h
-configure:21768: checking for gcc option to support large files
-configure:21803: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:52:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   52 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+configure:21458: result: yes
+configure:21469: checking whether struct tm is in sys/time.h or time.h
+configure:21490: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21490: $? = 0
+configure:21500: result: time.h
+configure:21516: checking for gcc option to support large files
+configure:21551: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+conftest.c:53:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                       ^~
-conftest.c:53:23: note: in expansion of macro 'LARGE_FTYPE'
-   53 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
+conftest.c:54:23: note: in expansion of macro 'LARGE_FTYPE'
+   54 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
       |                       ^~~~~~~~~~~
-conftest.c:52:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   52 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+conftest.c:53:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                                                     ^~
-conftest.c:53:23: note: in expansion of macro 'LARGE_FTYPE'
-   53 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
+conftest.c:54:23: note: in expansion of macro 'LARGE_FTYPE'
+   54 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
       |                       ^~~~~~~~~~~
-conftest.c:52:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   52 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+conftest.c:53:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                       ^~
-conftest.c:54:27: note: in expansion of macro 'LARGE_FTYPE'
-   54 |                        && LARGE_FTYPE % 2147483647 == 1)
+conftest.c:55:27: note: in expansion of macro 'LARGE_FTYPE'
+   55 |                        && LARGE_FTYPE % 2147483647 == 1)
       |                           ^~~~~~~~~~~
-conftest.c:52:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   52 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+conftest.c:53:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                                                     ^~
-conftest.c:54:27: note: in expansion of macro 'LARGE_FTYPE'
-   54 |                        && LARGE_FTYPE % 2147483647 == 1)
+conftest.c:55:27: note: in expansion of macro 'LARGE_FTYPE'
+   55 |                        && LARGE_FTYPE % 2147483647 == 1)
       |                           ^~~~~~~~~~~
-conftest.c:53:7: error: variably modified 'FTYPE_is_large' at file scope
-   53 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
+conftest.c:54:7: error: variably modified 'FTYPE_is_large' at file scope
+   54 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
       |       ^~~~~~~~~~~~~~
-configure:21803: $? = 1
+configure:21551: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2693,6 +2669,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2723,21 +2700,21 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:21803: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  -D_FILE_OFFSET_BITS=64 conftest.c >&5
-configure:21803: $? = 0
-configure:21834: result: -D_FILE_OFFSET_BITS=64
-configure:21934: checking for declarations of fseeko and ftello
-configure:21967: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-configure:21967: $? = 0
-configure:22013: result: yes
-configure:22029: checking for u32 typedef
-configure:22050: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21551: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  -D_FILE_OFFSET_BITS=64 conftest.c >&5
+configure:21551: $? = 0
+configure:21582: result: -D_FILE_OFFSET_BITS=64
+configure:21682: checking for declarations of fseeko and ftello
+configure:21715: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
+configure:21715: $? = 0
+configure:21761: result: yes
+configure:21777: checking for u32 typedef
+configure:21798: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:53:20: error: 'u32' undeclared (first use in this function)
-   53 |     int a = sizeof(u32);
+conftest.c:54:20: error: 'u32' undeclared (first use in this function)
+   54 |     int a = sizeof(u32);
       |                    ^~~
-conftest.c:53:20: note: each undeclared identifier is reported only once for each function it appears in
-configure:22050: $? = 1
+conftest.c:54:20: note: each undeclared identifier is reported only once for each function it appears in
+configure:21798: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2771,6 +2748,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2796,44 +2774,44 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22061: result: no
-configure:22073: checking size of unsigned short
-configure:22079: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22079: $? = 0
-configure:22079: ./conftest.exe
-configure:22079: $? = 0
-configure:22089: result: 2
-configure:22101: checking size of unsigned int
-configure:22107: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22107: $? = 0
-configure:22107: ./conftest.exe
-configure:22107: $? = 0
-configure:22117: result: 4
-configure:22129: checking size of unsigned long
-configure:22135: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22135: $? = 0
-configure:22135: ./conftest.exe
-configure:22135: $? = 0
-configure:22145: result: 4
-configure:22157: checking size of time_t
-configure:22163: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22163: $? = 0
-configure:22163: ./conftest.exe
-configure:22163: $? = 0
-configure:22173: result: 8
-configure:22185: checking size of off_t
-configure:22191: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22191: $? = 0
-configure:22191: ./conftest.exe
-configure:22191: $? = 0
-configure:22201: result: 8
-configure:22218: checking for working alloca.h
-configure:22236: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:52:10: fatal error: alloca.h: No such file or directory
-   52 | #include <alloca.h>
+configure:21809: result: no
+configure:21821: checking size of unsigned short
+configure:21827: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:21827: $? = 0
+configure:21827: ./conftest.exe
+configure:21827: $? = 0
+configure:21837: result: 2
+configure:21849: checking size of unsigned int
+configure:21855: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:21855: $? = 0
+configure:21855: ./conftest.exe
+configure:21855: $? = 0
+configure:21865: result: 4
+configure:21877: checking size of unsigned long
+configure:21883: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:21883: $? = 0
+configure:21883: ./conftest.exe
+configure:21883: $? = 0
+configure:21893: result: 4
+configure:21905: checking size of time_t
+configure:21911: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:21911: $? = 0
+configure:21911: ./conftest.exe
+configure:21911: $? = 0
+configure:21921: result: 8
+configure:21933: checking size of off_t
+configure:21939: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:21939: $? = 0
+configure:21939: ./conftest.exe
+configure:21939: $? = 0
+configure:21949: result: 8
+configure:21966: checking for working alloca.h
+configure:21984: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+conftest.c:53:10: fatal error: alloca.h: No such file or directory
+   53 | #include <alloca.h>
       |          ^~~~~~~~~~
 compilation terminated.
-configure:22236: $? = 1
+configure:21984: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2867,6 +2845,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2895,17 +2874,17 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22247: result: no
-configure:22255: checking for alloca
-configure:22291: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22291: $? = 0
-configure:22300: result: yes
-configure:22373: checking for gethostname
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccC4aT79.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:80:(.text.startup+0xa): undefined reference to `gethostname'
+configure:21995: result: no
+configure:22003: checking for alloca
+configure:22039: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:22039: $? = 0
+configure:22048: result: yes
+configure:22121: checking for gethostname
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccgM45OC.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:81:(.text.startup+0xa): undefined reference to `gethostname'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -2939,6 +2918,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -2990,21 +2970,21 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for mkdir
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22373: $? = 0
-configure:22373: result: yes
-configure:22373: checking for mktime
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22373: $? = 0
-configure:22373: result: yes
-configure:22373: checking for socket
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccUi4oFy.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:82:(.text.startup+0xa): undefined reference to `socket'
+configure:22121: result: no
+configure:22121: checking for mkdir
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:22121: $? = 0
+configure:22121: result: yes
+configure:22121: checking for mktime
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:22121: $? = 0
+configure:22121: result: yes
+configure:22121: checking for socket
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cciGbeXu.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:83:(.text.startup+0xa): undefined reference to `socket'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3038,6 +3018,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3091,33 +3072,33 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for strstr
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:71:6: warning: conflicting types for built-in function 'strstr'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   71 | char strstr (void);
+configure:22121: result: no
+configure:22121: checking for strstr
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+conftest.c:72:6: warning: conflicting types for built-in function 'strstr'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   72 | char strstr (void);
       |      ^~~~~~
-conftest.c:63:1: note: 'strstr' is declared in header '<string.h>'
-   62 | #include <limits.h>
-   63 | #undef strstr
-configure:22373: $? = 0
-configure:22373: result: yes
-configure:22373: checking for strchr
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:72:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
-   72 | char strchr (void);
-      |      ^~~~~~
-conftest.c:64:1: note: 'strchr' is declared in header '<string.h>'
+conftest.c:64:1: note: 'strstr' is declared in header '<string.h>'
    63 | #include <limits.h>
-   64 | #undef strchr
-configure:22373: $? = 0
-configure:22373: result: yes
-configure:22373: checking for  uname
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:77:21: error: missing binary operator before token 'uname'
-   77 | #if defined __stub_ uname || defined __stub___ uname
+   64 | #undef strstr
+configure:22121: $? = 0
+configure:22121: result: yes
+configure:22121: checking for strchr
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+conftest.c:73:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
+   73 | char strchr (void);
+      |      ^~~~~~
+conftest.c:65:1: note: 'strchr' is declared in header '<string.h>'
+   64 | #include <limits.h>
+   65 | #undef strchr
+configure:22121: $? = 0
+configure:22121: result: yes
+configure:22121: checking for  uname
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+conftest.c:78:21: error: missing binary operator before token 'uname'
+   78 | #if defined __stub_ uname || defined __stub___ uname
       |                     ^~~~~
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3151,6 +3132,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3206,13 +3188,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for flock
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccqID54r.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `flock'
+configure:22121: result: no
+configure:22121: checking for flock
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccClEuZy.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `flock'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3246,6 +3228,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3301,13 +3284,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for lockf
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccekiAg5.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `lockf'
+configure:22121: result: no
+configure:22121: checking for lockf
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccmtaJ04.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `lockf'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3341,6 +3324,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3396,13 +3380,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for inet_aton
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccCmPGzN.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `inet_aton'
+configure:22121: result: no
+configure:22121: checking for inet_aton
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccg3oRzo.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `inet_aton'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3436,6 +3420,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3491,13 +3476,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for inet_addr
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccKEygQj.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `inet_addr'
+configure:22121: result: no
+configure:22121: checking for inet_addr
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cc8kmdNY.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `inet_addr'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3531,6 +3516,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3586,13 +3572,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for  fchmod
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:77:21: error: missing binary operator before token 'fchmod'
-   77 | #if defined __stub_ fchmod || defined __stub___ fchmod
+configure:22121: result: no
+configure:22121: checking for  fchmod
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+conftest.c:78:21: error: missing binary operator before token 'fchmod'
+   78 | #if defined __stub_ fchmod || defined __stub___ fchmod
       |                     ^~~~~~
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3626,6 +3612,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3681,17 +3668,17 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for truncate
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-configure:22373: $? = 0
-configure:22373: result: yes
-configure:22373: checking for getuid
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccsGOgSG.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `getuid'
+configure:22121: result: no
+configure:22121: checking for truncate
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+configure:22121: $? = 0
+configure:22121: result: yes
+configure:22121: checking for getuid
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccaSsBkc.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `getuid'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3725,6 +3712,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3781,13 +3769,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for regcomp
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccs8QK5d.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `regcomp'
+configure:22121: result: no
+configure:22121: checking for regcomp
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccGN65kk.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `regcomp'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3821,6 +3809,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3877,13 +3866,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for mlock
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccQTTZkt.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `mlock'
+configure:22121: result: no
+configure:22121: checking for mlock
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccccD5fT.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `mlock'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -3917,6 +3906,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -3973,13 +3963,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22373: checking for fsync
-configure:22373: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccaAoa38.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `fsync'
+configure:22121: result: no
+configure:22121: checking for fsync
+configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccYegyNt.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `fsync'
 collect2.exe: error: ld returned 1 exit status
-configure:22373: $? = 1
+configure:22121: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME ""
@@ -4013,6 +4003,7 @@ configure: failed program was:
 | #define HAVE_GPGME_IO_WRITEN 1
 | #define USE_SSL 1
 | #define HAVE_LIBCOMPFACE 1
+| #define USE_GTKSPELL 1
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
@@ -4069,10 +4060,10 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22373: result: no
-configure:22457: checking that generated files are newer than configure
-configure:22463: result: done
-configure:22524: creating ./config.status
+configure:22121: result: no
+configure:22205: checking that generated files are newer than configure
+configure:22211: result: done
+configure:22272: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -4089,47 +4080,47 @@ generated by GNU Autoconf 2.73.  Invocation command line was
 
 on nomadAtelier
 
-config.status:1230: creating Makefile
-config.status:1230: creating sylpheed.spec
-config.status:1230: creating ac/Makefile
-config.status:1230: creating libsylph/Makefile
-config.status:1230: creating src/version.h
-config.status:1230: creating src/sylpheed.rc
-config.status:1230: creating src/Makefile
-config.status:1230: creating src/icons/Makefile
-config.status:1230: creating plugin/Makefile
-config.status:1230: creating plugin/attachment_tool/Makefile
-config.status:1230: creating plugin/test/Makefile
-config.status:1230: creating po/Makefile.in
-config.status:1230: creating faq/Makefile
-config.status:1230: creating faq/de/Makefile
-config.status:1230: creating faq/en/Makefile
-config.status:1230: creating faq/es/Makefile
-config.status:1230: creating faq/fr/Makefile
-config.status:1230: creating faq/it/Makefile
-config.status:1230: creating manual/Makefile
-config.status:1230: creating manual/en/Makefile
-config.status:1230: creating manual/ja/Makefile
-config.status:1230: creating nsis/Makefile
-config.status:1230: creating macosx/Makefile
-config.status:1230: creating macosx/bundle/Makefile
-config.status:1230: creating config.h
-config.status:1396: config.h is unchanged
-config.status:1444: executing depfiles commands
-config.status:1519: cd libsylph       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1239: creating Makefile
+config.status:1239: creating sylpheed.spec
+config.status:1239: creating ac/Makefile
+config.status:1239: creating libsylph/Makefile
+config.status:1239: creating src/version.h
+config.status:1239: creating src/sylpheed.rc
+config.status:1239: creating src/Makefile
+config.status:1239: creating src/icons/Makefile
+config.status:1239: creating plugin/Makefile
+config.status:1239: creating plugin/attachment_tool/Makefile
+config.status:1239: creating plugin/test/Makefile
+config.status:1239: creating po/Makefile.in
+config.status:1239: creating faq/Makefile
+config.status:1239: creating faq/de/Makefile
+config.status:1239: creating faq/en/Makefile
+config.status:1239: creating faq/es/Makefile
+config.status:1239: creating faq/fr/Makefile
+config.status:1239: creating faq/it/Makefile
+config.status:1239: creating manual/Makefile
+config.status:1239: creating manual/en/Makefile
+config.status:1239: creating manual/ja/Makefile
+config.status:1239: creating nsis/Makefile
+config.status:1239: creating macosx/Makefile
+config.status:1239: creating macosx/bundle/Makefile
+config.status:1239: creating config.h
+config.status:1405: config.h is unchanged
+config.status:1453: executing depfiles commands
+config.status:1528: cd libsylph       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1526: $? = 0
-config.status:1519: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1535: $? = 0
+config.status:1528: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1526: $? = 0
-config.status:1519: cd plugin/attachment_tool       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1535: $? = 0
+config.status:1528: cd plugin/attachment_tool       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1526: $? = 0
-config.status:1519: cd plugin/test       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1535: $? = 0
+config.status:1528: cd plugin/test       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1526: $? = 0
-config.status:1444: executing libtool commands
-config.status:1444: executing default-1 commands
+config.status:1535: $? = 0
+config.status:1453: executing libtool commands
+config.status:1453: executing default-1 commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -4141,7 +4132,7 @@ ac_cv_c_const=yes
 ac_cv_dirent_d_type=no
 ac_cv_enable_compface=yes
 ac_cv_enable_gpgme=yes
-ac_cv_enable_gtkspell=no
+ac_cv_enable_gtkspell=yes
 ac_cv_enable_ipv6=yes
 ac_cv_enable_jpilot=no
 ac_cv_enable_ldap=no
@@ -4170,6 +4161,14 @@ ac_cv_env_GLIB_MKENUMS_set=
 ac_cv_env_GLIB_MKENUMS_value=
 ac_cv_env_GOBJECT_QUERY_set=
 ac_cv_env_GOBJECT_QUERY_value=
+ac_cv_env_GTKMACINTEGRATION_CFLAGS_set=
+ac_cv_env_GTKMACINTEGRATION_CFLAGS_value=
+ac_cv_env_GTKMACINTEGRATION_LIBS_set=
+ac_cv_env_GTKMACINTEGRATION_LIBS_value=
+ac_cv_env_GTK_CFLAGS_set=
+ac_cv_env_GTK_CFLAGS_value=
+ac_cv_env_GTK_LIBS_set=
+ac_cv_env_GTK_LIBS_value=
 ac_cv_env_LDFLAGS_set=
 ac_cv_env_LDFLAGS_value=
 ac_cv_env_LIBS_set=
@@ -4374,6 +4373,8 @@ pkg_cv_GLIB_GENMARSHAL=C:/msys64/ucrt64/bin/glib-genmarshal.exe
 pkg_cv_GLIB_LIBS='-lgobject-2.0 -lgmodule-2.0 -lglib-2.0 -lintl'
 pkg_cv_GLIB_MKENUMS=C:/msys64/ucrt64/bin/glib-mkenums.exe
 pkg_cv_GOBJECT_QUERY=C:/msys64/ucrt64/bin/gobject-query
+pkg_cv_GTK_CFLAGS='-IC:/msys64/ucrt64/include/gtk-3.0 -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include'
+pkg_cv_GTK_LIBS='-lgtk-3 -lgdk-3 -lgdi32 -limm32 -lshell32 -lole32 -luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lhid -lwinspool -lcomctl32 -lcomdlg32 -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lcairo-gobject -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -latk-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -lz'
 pkg_cv_OPENSSL_CFLAGS=
 pkg_cv_OPENSSL_LIBS='-lssl -lcrypto'
 
@@ -4438,8 +4439,10 @@ GPGME_CONFIG='/ucrt64/bin/gpgrt-config --libdir=/ucrt64/lib gpgme'
 GPGME_LIBS='-L/ucrt64/lib -lgpgme'
 GPGRT_CONFIG='/ucrt64/bin/gpgrt-config --libdir=/ucrt64/lib'
 GREP='/usr/bin/grep'
-GTK_CFLAGS='-IC:/msys64/ucrt64/include/gtk-2.0 -mms-bitfields -IC:/msys64/ucrt64/lib/gtk-2.0/include -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES'
-GTK_LIBS='-lgtk-win32-2.0 -lgdk-win32-2.0 -limm32 -lshell32 -lole32 -Wl,-luuid -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lgdi32 -lmsimg32 -latk-1.0 -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl'
+GTKMACINTEGRATION_CFLAGS=''
+GTKMACINTEGRATION_LIBS=''
+GTK_CFLAGS='-IC:/msys64/ucrt64/include/gtk-3.0 -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -IC:/msys64/ucrt64/include/gtkspell-3.0 -IC:/msys64/ucrt64/include/gtk-3.0 -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/enchant-2 -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include'
+GTK_LIBS=' -lgtk-3 -lgdk-3 -lgdi32 -limm32 -lshell32 -lole32 -Wl,-luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lhid -lwinspool -lcomctl32 -lcomdlg32 -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lcairo-gobject -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -latk-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -lz -lgtkspell3-3 -lgtk-3 -lgdk-3 -lgdi32 -limm32 -lshell32 -lole32 -Wl,-luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lhid -lwinspool -lcomctl32 -lcomdlg32 -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lcairo-gobject -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -latk-1.0 -lgio-2.0 -lgobject-2.0 -lz -lenchant-2 -lglib-2.0 -lintl '
 INSTALL_DATA='${INSTALL} -m 644'
 INSTALL_PROGRAM='${INSTALL}'
 INSTALL_SCRIPT='${INSTALL}'
@@ -4463,8 +4466,8 @@ LIPO=''
 LN_S='cp -pR'
 LTLIBICONV='-liconv'
 LTLIBOBJS=''
-LT_AGE='4'
-LT_CURRENT='5'
+LT_AGE='0'
+LT_CURRENT='6'
 LT_RELEASE='3.8'
 LT_REVISION='0'
 LT_SYS_LIBRARY_PATH=''
@@ -4614,6 +4617,7 @@ themedir='share/icons'
 #define HAVE_GPGME_IO_WRITEN 1
 #define USE_SSL 1
 #define HAVE_LIBCOMPFACE 1
+#define USE_GTKSPELL 1
 #define USE_ONIGURUMA 1
 #define USE_THREADS 1
 #define INET6 1

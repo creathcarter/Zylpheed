@@ -25,6 +25,7 @@
 #include "utils.h"
 #include "folder.h"
 #include "plugin-marshal.h"
+#include "menu.h"
 
 G_DEFINE_TYPE(SylPlugin, syl_plugin, G_TYPE_OBJECT);
 
@@ -622,9 +623,11 @@ void syl_plugin_app_will_exit(gboolean force)
 	SAFE_CALL_ARG1(func, force);
 }
 
-static GtkItemFactory *get_item_factory(const gchar *path)
+/* The menu factory lives in the executable (menu.c); reach it through
+   the symbol table like the other main-program functions. */
+static MenuFactory *get_item_factory(const gchar *path)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
 	if (!path)
 		return NULL;
@@ -645,10 +648,27 @@ static GtkItemFactory *get_item_factory(const gchar *path)
 	return ifactory;
 }
 
+static GtkWidget *factory_get_widget(MenuFactory *ifactory,
+				     const gchar *path)
+{
+	GtkWidget * (*func)(MenuFactory *, const gchar *);
+
+	GETFUNC("menu_factory_get_widget");
+	return SAFE_CALL_ARG2_RET(func, ifactory, path);
+}
+
+static GtkWidget *factory_get_item(MenuFactory *ifactory, const gchar *path)
+{
+	GtkWidget * (*func)(MenuFactory *, const gchar *);
+
+	GETFUNC("menu_factory_get_item");
+	return SAFE_CALL_ARG2_RET(func, ifactory, path);
+}
+
 gint syl_plugin_add_menuitem(const gchar *parent, const gchar *label,
 			     SylPluginCallbackFunc func, gpointer data)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	GtkWidget *menu;
 	GtkWidget *menuitem;
 
@@ -659,7 +679,7 @@ gint syl_plugin_add_menuitem(const gchar *parent, const gchar *label,
 	if (!ifactory)
 		return -1;
 
-	menu = gtk_item_factory_get_widget(ifactory, parent);
+	menu = factory_get_widget(ifactory, parent);
 	if (!menu)
 		return -1;
 
@@ -670,7 +690,7 @@ gint syl_plugin_add_menuitem(const gchar *parent, const gchar *label,
 		gtk_widget_set_sensitive(menuitem, FALSE);
 	}
 	gtk_widget_show(menuitem);
-	gtk_menu_append(GTK_MENU(menu), menuitem);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 	if (func)
 		g_signal_connect(G_OBJECT(menuitem), "activate",
 				 G_CALLBACK(func), data);
@@ -681,14 +701,20 @@ gint syl_plugin_add_menuitem(const gchar *parent, const gchar *label,
 gint syl_plugin_add_factory_item(const gchar *parent, const gchar *label,
 				 SylPluginCallbackFunc func, gpointer data)
 {
-	GtkItemFactory *ifactory;
-	GtkItemFactoryEntry entry = {NULL, NULL, NULL, 0, NULL};
+	MenuFactory *ifactory;
+	MenuFactoryEntry entry = {NULL, NULL, NULL, 0, NULL};
+	void (*create_item)(MenuFactory *, MenuFactoryEntry *, gpointer,
+			    guint);
 
 	if (!parent)
 		return -1;
 
 	ifactory = get_item_factory(parent);
 	if (!ifactory)
+		return -1;
+
+	create_item = syl_plugin_lookup_symbol("menu_factory_create_item");
+	if (!create_item)
 		return -1;
 
 	if (label) {
@@ -704,14 +730,14 @@ gint syl_plugin_add_factory_item(const gchar *parent, const gchar *label,
 	entry.callback = func;
 	g_print("entry.path = %s\n", entry.path);
 
-	gtk_item_factory_create_item(ifactory, &entry, data, 2);
+	create_item(ifactory, &entry, data, 2);
 
 	return 0;
 }
 
 void syl_plugin_menu_set_sensitive(const gchar *path, gboolean sensitive)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	GtkWidget *widget;
 
 	g_return_if_fail(path != NULL);
@@ -720,7 +746,7 @@ void syl_plugin_menu_set_sensitive(const gchar *path, gboolean sensitive)
 	if (!ifactory)
 		return;
 
-	widget = gtk_item_factory_get_item(ifactory, path);
+	widget = factory_get_item(ifactory, path);
 	gtk_widget_set_sensitive(widget, sensitive);
 }
 
@@ -738,7 +764,7 @@ void syl_plugin_menu_set_sensitive_all(GtkMenuShell *menu_shell,
 
 void syl_plugin_menu_set_active(const gchar *path, gboolean is_active)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	GtkWidget *widget;
 
 	g_return_if_fail(path != NULL);
@@ -747,8 +773,34 @@ void syl_plugin_menu_set_active(const gchar *path, gboolean is_active)
 	if (!ifactory)
 		return;
 
-	widget = gtk_item_factory_get_item(ifactory, path);
+	widget = factory_get_item(ifactory, path);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), is_active);
+}
+
+GtkWidget *syl_plugin_menu_factory_get_item(gpointer factory,
+					    const gchar *path)
+{
+	g_return_val_if_fail(path != NULL, NULL);
+
+	if (!factory)
+		factory = get_item_factory(path);
+	if (!factory)
+		return NULL;
+
+	return factory_get_item((MenuFactory *)factory, path);
+}
+
+GtkWidget *syl_plugin_menu_factory_get_widget(gpointer factory,
+					      const gchar *path)
+{
+	g_return_val_if_fail(path != NULL, NULL);
+
+	if (!factory)
+		factory = get_item_factory(path);
+	if (!factory)
+		return NULL;
+
+	return factory_get_widget((MenuFactory *)factory, path);
 }
 
 gpointer syl_plugin_folderview_get(void)

@@ -72,13 +72,15 @@ PangoFontDescription *gtkut_get_default_font_desc(void)
 
 	if (!font_desc) {
 		GtkWidget *window;
+		GtkStyleContext *context;
 
 		window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-		gtk_widget_ensure_style(window);
-		font_desc = pango_font_description_copy
-			(gtk_widget_get_style(window)->font_desc);
-		g_object_ref_sink(window);
-		g_object_unref(window);
+		context = gtk_widget_get_style_context(window);
+		gtk_style_context_get(context,
+				      gtk_style_context_get_state(context),
+				      GTK_STYLE_PROPERTY_FONT, &font_desc,
+				      NULL);
+		gtk_widget_destroy(window);
 	}
 
 	return pango_font_description_copy(font_desc);
@@ -86,17 +88,235 @@ PangoFontDescription *gtkut_get_default_font_desc(void)
 
 void gtkut_widget_set_small_font_size(GtkWidget *widget)
 {
+	g_return_if_fail(widget != NULL);
+
+	gtkut_widget_add_class(widget, GTKUT_CLASS_SMALL);
+}
+
+static GtkCssProvider *css_provider = NULL;
+static GHashTable *css_rules = NULL;
+static GSList *css_selectors = NULL;
+
+static const gchar css_static_rules[] =
+	".sylpheed-title { font-weight: bold; font-size: 120%; }\n"
+	".sylpheed-bold { font-weight: bold; }\n"
+	".sylpheed-small { font-size: 83.33%; }\n"
+	"entry.sylpheed-readonly { background-image: none;"
+	" background-color: @theme_bg_color; }\n"
+	".sylpheed-dim { color: rgb(136, 136, 136); }\n"
+	".sylpheed-part { background-color: @theme_bg_color;"
+	" color: @theme_fg_color;"
+	" border: 1px solid shade(@theme_bg_color, 0.7);"
+	/* not the message font of the text view it is shown in */
+	" font-family: initial; font-size: initial; font-style: initial;"
+	" font-weight: initial; }\n"
+	".sylpheed-part:hover { background-color:"
+	" shade(@theme_bg_color, 1.05); }\n";
+
+static void gtkut_css_update(void)
+{
+	GString *css;
+	GSList *cur;
+	GError *error = NULL;
+
+	css = g_string_new(css_static_rules);
+	for (cur = css_selectors; cur != NULL; cur = cur->next) {
+		const gchar *selector = (const gchar *)cur->data;
+
+		g_string_append_printf(css, "%s { %s }\n", selector,
+				       (gchar *)g_hash_table_lookup
+					(css_rules, selector));
+	}
+
+	if (!gtk_css_provider_load_from_data(css_provider, css->str, -1,
+					     &error)) {
+		g_warning("gtkut_css_update: %s", error->message);
+		g_error_free(error);
+	}
+
+	g_string_free(css, TRUE);
+}
+
+static void gtkut_css_provider_init(void)
+{
+	if (css_provider)
+		return;
+
+	css_provider = gtk_css_provider_new();
+	css_rules = g_hash_table_new_full(g_str_hash, g_str_equal,
+					  NULL, g_free);
+	gtk_style_context_add_provider_for_screen
+		(gdk_screen_get_default(), GTK_STYLE_PROVIDER(css_provider),
+		 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	gtkut_css_update();
+}
+
+/* Installs the application style sheet, and the user's style sheet
+   (which takes the place of the gtkrc file) if it exists. */
+void gtkut_css_init(const gchar *user_css_file)
+{
+	GtkCssProvider *provider;
+	GError *error = NULL;
+
+	gtkut_css_provider_init();
+
+	if (!user_css_file || !is_file_exist(user_css_file))
+		return;
+
+	debug_print("loading style sheet: %s\n", user_css_file);
+	provider = gtk_css_provider_new();
+	if (gtk_css_provider_load_from_path(provider, user_css_file, &error))
+		gtk_style_context_add_provider_for_screen
+			(gdk_screen_get_default(), GTK_STYLE_PROVIDER(provider),
+			 GTK_STYLE_PROVIDER_PRIORITY_USER);
+	else {
+		g_warning("%s: %s", user_css_file, error->message);
+		g_error_free(error);
+	}
+	g_object_unref(provider);
+}
+
+/* Adds or replaces the rule for selector in the application style sheet.
+   NULL declarations remove the rule. */
+void gtkut_css_set_rule(const gchar *selector, const gchar *declarations)
+{
+	GSList *cur;
+	gchar *key = NULL;
+
+	g_return_if_fail(selector != NULL);
+
+	gtkut_css_provider_init();
+
+	for (cur = css_selectors; cur != NULL; cur = cur->next) {
+		if (!strcmp((gchar *)cur->data, selector)) {
+			key = (gchar *)cur->data;
+			break;
+		}
+	}
+
+	if (key) {
+		const gchar *old;
+
+		old = g_hash_table_lookup(css_rules, key);
+		if (declarations && old && !strcmp(old, declarations))
+			return;
+		g_hash_table_remove(css_rules, key);
+		if (!declarations) {
+			css_selectors = g_slist_remove(css_selectors, key);
+			g_free(key);
+		}
+	} else if (declarations) {
+		key = g_strdup(selector);
+		css_selectors = g_slist_append(css_selectors, key);
+	} else
+		return;
+
+	if (declarations)
+		g_hash_table_insert(css_rules, key, g_strdup(declarations));
+
+	gtkut_css_update();
+}
+
+void gtkut_widget_add_class(GtkWidget *widget, const gchar *class_name)
+{
+	gtk_style_context_add_class(gtk_widget_get_style_context(widget),
+				    class_name);
+}
+
+void gtkut_widget_remove_class(GtkWidget *widget, const gchar *class_name)
+{
+	gtk_style_context_remove_class(gtk_widget_get_style_context(widget),
+				       class_name);
+}
+
+static gchar *gtkut_css_font_declarations(const PangoFontDescription *desc)
+{
+	PangoFontMask mask;
+	GString *str;
+
+	mask = pango_font_description_get_set_fields(desc);
+	str = g_string_new(NULL);
+
+	if (mask & PANGO_FONT_MASK_FAMILY) {
+		gchar **families;
+		gint i;
+
+		families = g_strsplit
+			(pango_font_description_get_family(desc), ",", -1);
+		g_string_append(str, "font-family:");
+		for (i = 0; families[i] != NULL; i++) {
+			gchar *family = g_strstrip(families[i]);
+			const gchar *p;
+
+			g_string_append(str, i > 0 ? ", \"" : " \"");
+			for (p = family; *p != '\0'; p++) {
+				if (*p == '"' || *p == '\\')
+					g_string_append_c(str, '\\');
+				g_string_append_c(str, *p);
+			}
+			g_string_append_c(str, '"');
+		}
+		g_string_append(str, "; ");
+		g_strfreev(families);
+	}
+	if (mask & PANGO_FONT_MASK_SIZE) {
+		gchar buf[G_ASCII_DTOSTR_BUF_SIZE];
+
+		g_ascii_formatd(buf, sizeof(buf), "%.2f",
+				(gdouble)pango_font_description_get_size(desc)
+				/ PANGO_SCALE);
+		g_string_append_printf
+			(str, "font-size: %s%s; ", buf,
+			 pango_font_description_get_size_is_absolute(desc)
+			 ? "px" : "pt");
+	}
+	if (mask & PANGO_FONT_MASK_STYLE) {
+		switch (pango_font_description_get_style(desc)) {
+		case PANGO_STYLE_ITALIC:
+			g_string_append(str, "font-style: italic; ");
+			break;
+		case PANGO_STYLE_OBLIQUE:
+			g_string_append(str, "font-style: oblique; ");
+			break;
+		default:
+			g_string_append(str, "font-style: normal; ");
+			break;
+		}
+	}
+	if (mask & PANGO_FONT_MASK_WEIGHT)
+		g_string_append_printf
+			(str, "font-weight: %d; ",
+			 (gint)pango_font_description_get_weight(desc));
+	if (mask & PANGO_FONT_MASK_VARIANT)
+		g_string_append_printf
+			(str, "font-variant: %s; ",
+			 pango_font_description_get_variant(desc) ==
+			 PANGO_VARIANT_SMALL_CAPS ? "small-caps" : "normal");
+
+	return g_string_free(str, FALSE);
+}
+
+/* replaces gtk_widget_modify_font() with prefs_common.textfont: all the
+   widgets that show message text share the class and its rule */
+void gtkut_widget_set_text_font(GtkWidget *widget, const gchar *font_name)
+{
 	PangoFontDescription *font_desc;
-	gint size;
+	gchar *declarations;
 
 	g_return_if_fail(widget != NULL);
-	g_return_if_fail(gtk_widget_get_style(widget) != NULL);
 
-	font_desc = gtkut_get_default_font_desc();
-	size = pango_font_description_get_size(font_desc);
-	pango_font_description_set_size(font_desc, size * PANGO_SCALE_SMALL);
-	gtk_widget_modify_font(widget, font_desc);
+	if (!font_name)
+		return;
+	font_desc = pango_font_description_from_string(font_name);
+	if (!font_desc)
+		return;
+
+	declarations = gtkut_css_font_declarations(font_desc);
+	gtkut_css_set_rule("." GTKUT_CLASS_TEXTFONT, declarations);
+	g_free(declarations);
 	pango_font_description_free(font_desc);
+
+	gtkut_widget_add_class(widget, GTKUT_CLASS_TEXTFONT);
 }
 
 gboolean gtkut_font_can_load(const gchar *str)
@@ -255,10 +475,8 @@ void gtkut_box_set_reverse_order(GtkBox *box, gboolean reverse)
 	g_object_set_data(G_OBJECT(box), "reverse-order",
 			  GINT_TO_POINTER(reverse));
 
-	for (cur = box->children; cur != NULL; cur = cur->next) {
-		GtkBoxChild *cinfo = cur->data;
-		new_order = g_list_prepend(new_order, cinfo->widget);
-	}
+	new_order = g_list_reverse
+		(gtk_container_get_children(GTK_CONTAINER(box)));
 
 	for (cur = new_order; cur != NULL; cur = cur->next) {
 		GtkWidget *child = cur->data;
@@ -266,19 +484,6 @@ void gtkut_box_set_reverse_order(GtkBox *box, gboolean reverse)
 	}
 
 	g_list_free(new_order);
-}
-
-static void combo_button_size_request(GtkWidget *widget,
-				      GtkRequisition *requisition,
-				      gpointer data)
-{
-	ComboButton *combo = (ComboButton *)data;
-	GtkAllocation allocation;
-
-	gtk_widget_get_allocation(combo->arrow, &allocation);
-	if (allocation.height != requisition->height)
-		gtk_widget_set_size_request(combo->arrow,
-					    -1, requisition->height);
 }
 
 static void combo_button_enter(GtkWidget *widget, gpointer data)
@@ -327,12 +532,12 @@ static void combo_button_destroy(GtkWidget *widget, gpointer data)
 {
 	ComboButton *combo = (ComboButton *)data;
 
-	gtk_object_destroy(GTK_OBJECT(combo->factory));
+	menu_factory_destroy(combo->factory);
 	g_free(combo);
 }
 
 ComboButton *gtkut_combo_button_create(GtkWidget *button,
-				       GtkItemFactoryEntry *entries,
+				       MenuFactoryEntry *entries,
 				       gint n_entries, const gchar *path,
 				       gpointer data)
 {
@@ -353,8 +558,9 @@ ComboButton *gtkut_combo_button_create(GtkWidget *button,
 					&combo->factory, data);
 	combo->data = data;
 
-	g_signal_connect(G_OBJECT(combo->button), "size_request",
-			 G_CALLBACK(combo_button_size_request), combo);
+	/* the GTK+ 2 "size_request" handler that gave the arrow the height
+	   of the button is gone: both are tool items of the same toolbar,
+	   which allocates them the same height */
 #if 0
 	g_signal_connect(G_OBJECT(combo->button), "enter",
 			 G_CALLBACK(combo_button_enter), combo);
@@ -371,53 +577,6 @@ ComboButton *gtkut_combo_button_create(GtkWidget *button,
 			 G_CALLBACK(combo_button_destroy), combo);
 
 	return combo;
-}
-
-gint gtkut_ctree_get_nth_from_node(GtkCTree *ctree, GtkCTreeNode *node)
-{
-	g_return_val_if_fail(ctree != NULL, -1);
-	g_return_val_if_fail(node != NULL, -1);
-
-	return g_list_position(GTK_CLIST(ctree)->row_list, (GList *)node);
-}
-
-void gtkut_ctree_set_focus_row(GtkCTree *ctree, GtkCTreeNode *node)
-{
-	gtkut_clist_set_focus_row(GTK_CLIST(ctree),
-				  gtkut_ctree_get_nth_from_node(ctree, node));
-}
-
-void gtkut_clist_set_focus_row(GtkCList *clist, gint row)
-{
-	clist->focus_row = row;
-	GTKUT_CTREE_REFRESH(clist);
-}
-
-#ifdef G_OS_WIN32
-static void vadjustment_changed(GtkAdjustment *adj, gpointer data)
-{
-	GtkWidget *widget = GTK_WIDGET(data);
-
-	gtk_widget_queue_draw(widget);
-}
-#elif defined(__APPLE__)
-static void clist_select_row(GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
-{
-	gtk_widget_queue_draw(GTK_WIDGET(clist));
-}
-#endif
-
-void gtkut_clist_set_redraw(GtkCList *clist)
-{
-#ifdef G_OS_WIN32
-	if (clist->vadjustment) {
-		g_signal_connect(G_OBJECT(clist->vadjustment), "changed",
-				 G_CALLBACK(vadjustment_changed), clist);
-	}
-#elif defined(__APPLE__)
-	g_signal_connect(G_OBJECT(clist), "select-row",
-			 G_CALLBACK(clist_select_row), NULL);
-#endif
 }
 
 gboolean gtkut_tree_model_next(GtkTreeModel *model, GtkTreeIter *iter)
@@ -670,7 +829,7 @@ void gtkut_tree_view_vertical_autoscroll(GtkTreeView *treeview)
 
 	gdk_window_get_pointer(gtk_tree_view_get_bin_window(treeview),
 			       NULL, &wy, NULL);
-	gtk_tree_view_widget_to_tree_coords(treeview, 0, wy, NULL, &y);
+	gtk_tree_view_convert_bin_window_to_tree_coords(treeview, 0, wy, NULL, &y);
 
 	gtk_tree_view_get_visible_rect(treeview, &visible_rect);
 
@@ -700,7 +859,7 @@ void gtkut_tree_view_scroll_to_cell(GtkTreeView *treeview, GtkTreePath *path,
 		return;
 
 	gtk_tree_view_get_cell_area(treeview, path, NULL, &cell_rect);
-	gtk_tree_view_widget_to_tree_coords(treeview, cell_rect.x, cell_rect.y,
+	gtk_tree_view_convert_bin_window_to_tree_coords(treeview, cell_rect.x, cell_rect.y,
 					    NULL, &(cell_rect.y));
 	gtk_tree_view_get_visible_rect(treeview, &vis_rect);
 
@@ -731,6 +890,124 @@ void gtkut_tree_view_scroll_to_cell(GtkTreeView *treeview, GtkTreePath *path,
 	gtk_tree_view_scroll_to_point(treeview, dest_x, dest_y);
 }
 
+/* GtkTreeView list helpers (replacements for GtkCList row idioms) */
+
+gint gtkut_list_view_get_selected_row(GtkTreeView *treeview)
+{
+	GtkTreeSelection *selection;
+	GList *rows;
+	gint row = -1;
+
+	g_return_val_if_fail(treeview != NULL, -1);
+
+	selection = gtk_tree_view_get_selection(treeview);
+	rows = gtk_tree_selection_get_selected_rows(selection, NULL);
+	if (rows) {
+		GtkTreePath *path = (GtkTreePath *)rows->data;
+
+		if (gtk_tree_path_get_depth(path) > 0)
+			row = gtk_tree_path_get_indices(path)[0];
+	}
+	g_list_foreach(rows, (GFunc)gtk_tree_path_free, NULL);
+	g_list_free(rows);
+
+	return row;
+}
+
+gboolean gtkut_list_view_select_row(GtkTreeView *treeview, gint row)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+
+	g_return_val_if_fail(treeview != NULL, FALSE);
+
+	model = gtk_tree_view_get_model(treeview);
+	if (!gtk_tree_model_iter_nth_child(model, &iter, NULL, row))
+		return FALSE;
+
+	path = gtk_tree_model_get_path(model, &iter);
+	gtk_tree_view_set_cursor(treeview, path, NULL, FALSE);
+	gtk_tree_selection_select_path(gtk_tree_view_get_selection(treeview),
+				       path);
+	if (gtk_widget_get_realized(GTK_WIDGET(treeview)))
+		gtkut_tree_view_scroll_to_cell(treeview, path, FALSE);
+	gtk_tree_path_free(path);
+
+	return TRUE;
+}
+
+/* Remove a row of a GtkListStore and select the row now at its position
+   (or the new last row), as GtkCList did in browse mode. */
+void gtkut_list_view_remove_row(GtkTreeView *treeview, gint row)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gint n_rows;
+
+	g_return_if_fail(treeview != NULL);
+
+	model = gtk_tree_view_get_model(treeview);
+	g_return_if_fail(GTK_IS_LIST_STORE(model));
+
+	if (row < 0 || !gtk_tree_model_iter_nth_child(model, &iter, NULL, row))
+		return;
+	gtk_list_store_remove(GTK_LIST_STORE(model), &iter);
+	n_rows = gtk_tree_model_iter_n_children(model, NULL);
+	if (n_rows > 0)
+		gtkut_list_view_select_row(treeview, MIN(row, n_rows - 1));
+}
+
+gint gtkut_list_view_move_selected_row(GtkTreeView *treeview, gint offset)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter, dest;
+	gint row, n_rows;
+
+	g_return_val_if_fail(treeview != NULL, -1);
+	g_return_val_if_fail(offset == 1 || offset == -1, -1);
+
+	model = gtk_tree_view_get_model(treeview);
+	g_return_val_if_fail(GTK_IS_LIST_STORE(model), -1);
+
+	row = gtkut_list_view_get_selected_row(treeview);
+	if (row < 0)
+		return -1;
+	n_rows = gtk_tree_model_iter_n_children(model, NULL);
+	if (row + offset < 0 || row + offset >= n_rows)
+		return -1;
+
+	gtk_tree_model_iter_nth_child(model, &iter, NULL, row);
+	gtk_tree_model_iter_nth_child(model, &dest, NULL, row + offset);
+	gtk_list_store_swap(GTK_LIST_STORE(model), &iter, &dest);
+
+	if (gtk_widget_get_realized(GTK_WIDGET(treeview))) {
+		GtkTreePath *path;
+
+		path = gtk_tree_model_get_path(model, &iter);
+		gtkut_tree_view_scroll_to_cell(treeview, path, FALSE);
+		gtk_tree_path_free(path);
+	}
+
+	return row + offset;
+}
+
+gpointer gtkut_tree_model_get_nth_data(GtkTreeModel *model, gint row,
+				       gint column)
+{
+	GtkTreeIter iter;
+	gpointer data = NULL;
+
+	g_return_val_if_fail(model != NULL, NULL);
+
+	if (row < 0 ||
+	    !gtk_tree_model_iter_nth_child(model, &iter, NULL, row))
+		return NULL;
+	gtk_tree_model_get(model, &iter, column, &data, -1);
+
+	return data;
+}
+
 void gtkut_tree_view_fast_clear(GtkTreeView *treeview, GtkTreeStore *store)
 {
 	/* this is faster than above, but it seems to trigger crashes in
@@ -740,26 +1017,27 @@ void gtkut_tree_view_fast_clear(GtkTreeView *treeview, GtkTreeStore *store)
 	gtk_tree_view_set_model(treeview, GTK_TREE_MODEL(store));
 }
 
-void gtkut_combo_set_items(GtkCombo *combo, const gchar *str1, ...)
+void gtkut_combo_set_items(GtkComboBoxText *combo, const gchar *str1, ...)
 {
 	va_list args;
 	gchar *s;
-	GList *combo_items = NULL;
 
 	g_return_if_fail(str1 != NULL);
 
-	combo_items = g_list_append(combo_items, (gpointer)str1);
+	gtk_list_store_clear(GTK_LIST_STORE(gtk_combo_box_get_model
+					    (GTK_COMBO_BOX(combo))));
+
+	gtk_combo_box_text_append_text(combo, str1);
 	va_start(args, str1);
 	s = va_arg(args, gchar*);
 	while (s) {
-		combo_items = g_list_append(combo_items, (gpointer)s);
+		gtk_combo_box_text_append_text(combo, s);
 		s = va_arg(args, gchar*);
 	}
 	va_end(args);
 
-	gtk_combo_set_popdown_strings(combo, combo_items);
-
-	g_list_free(combo_items);
+	/* GtkCombo selected (and put into its entry) the first string */
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 }
 
 gchar *gtkut_editable_get_selection(GtkEditable *editable)
@@ -1065,42 +1343,120 @@ void gtkut_widget_draw_now(GtkWidget *widget)
 		gdk_window_process_updates(gtk_widget_get_window(widget), FALSE);
 }
 
-static void gtkut_clist_bindings_add(GtkWidget *clist)
+static gboolean initial_size_reset_idle(gpointer data)
 {
-	GtkBindingSet *binding_set;
+	GtkWidget *widget = GTK_WIDGET(data);
 
-	binding_set = gtk_binding_set_by_class(GTK_CLIST_GET_CLASS(clist));
+	gtk_widget_set_size_request(widget, -1, -1);
+	g_object_unref(widget);
 
-	gtk_binding_entry_add_signal(binding_set, GDK_KEY_n, GDK_CONTROL_MASK,
-				     "scroll_vertical", 2,
-				     G_TYPE_ENUM, GTK_SCROLL_STEP_FORWARD,
-				     G_TYPE_FLOAT, 0.0);
-	gtk_binding_entry_add_signal(binding_set, GDK_KEY_p, GDK_CONTROL_MASK,
-				     "scroll_vertical", 2,
-				     G_TYPE_ENUM, GTK_SCROLL_STEP_BACKWARD,
-				     G_TYPE_FLOAT, 0.0);
+	return FALSE;
+}
+
+static void initial_size_allocate_cb(GtkWidget *widget,
+				     GtkAllocation *allocation, gpointer data)
+{
+	g_signal_handlers_disconnect_by_func
+		(widget, initial_size_allocate_cb, data);
+	g_idle_add(initial_size_reset_idle, g_object_ref(widget));
+}
+
+/* Sets the size request of widget until it has been allocated once.
+   This takes the place of a size request inside a GTK+ 2 window with
+   allow_shrink set: the saved size is the initial size, and the user can
+   make the window smaller again (GTK+ 3 never shrinks a window below the
+   size requests of its children). */
+void gtkut_widget_set_initial_size(GtkWidget *widget, gint width, gint height)
+{
+	g_return_if_fail(widget != NULL);
+
+	gtk_widget_set_size_request(widget, width, height);
+	g_signal_handlers_disconnect_by_func
+		(widget, initial_size_allocate_cb, NULL);
+	g_signal_connect(G_OBJECT(widget), "size-allocate",
+			 G_CALLBACK(initial_size_allocate_cb), NULL);
 }
 
 void gtkut_widget_init(void)
 {
-	GtkWidget *clist;
-
-	clist = gtk_clist_new(1);
-	g_object_ref(G_OBJECT(clist));
-	g_object_ref_sink(G_OBJECT(clist));
-	g_object_unref(G_OBJECT(clist));
-	gtkut_clist_bindings_add(clist);
-	g_object_unref(G_OBJECT(clist));
-
-	clist = gtk_ctree_new(1, 0);
-	g_object_ref(G_OBJECT(clist));
-	g_object_ref_sink(G_OBJECT(clist));
-	g_object_unref(G_OBJECT(clist));
-	gtkut_clist_bindings_add(clist);
-	g_object_unref(G_OBJECT(clist));
+	/* GtkCList/GtkCTree needed extra Ctrl+N/Ctrl+P bindings here;
+	   GtkTreeView has them built in. */
 }
 
 void gtkut_events_flush(void)
 {
+	/* ui_update() may be called from a worker thread (e.g. a message
+	   fetch during query search); only the main thread may pump GTK+ */
+	if (!gtkut_is_main_thread())
+		return;
 	GTK_EVENTS_FLUSH();
+}
+
+static GThread *main_thread = NULL;
+
+void gtkut_set_main_thread(void)
+{
+	main_thread = g_thread_self();
+}
+
+gboolean gtkut_is_main_thread(void)
+{
+	return main_thread == NULL || g_thread_self() == main_thread;
+}
+
+typedef struct _MainThreadCall
+{
+	GtkutMainThreadFunc func;
+	gpointer data;
+	gpointer retval;
+	gboolean done;
+	GMutex mutex;
+	GCond cond;
+} MainThreadCall;
+
+static gboolean main_thread_call_func(gpointer data)
+{
+	MainThreadCall *call = (MainThreadCall *)data;
+	gpointer retval;
+
+	retval = call->func(call->data);
+
+	g_mutex_lock(&call->mutex);
+	call->retval = retval;
+	call->done = TRUE;
+	g_cond_signal(&call->cond);
+	g_mutex_unlock(&call->mutex);
+
+	return FALSE;
+}
+
+/* Runs func(data) on the main thread and waits for its result.
+ * Called on the main thread, it just calls func. The main thread must be
+ * running the main loop (the code that waits for a worker thread pumps it
+ * with event_loop_iterate() / gtk_main_iteration()). */
+gpointer gtkut_main_thread_call_sync(GtkutMainThreadFunc func, gpointer data)
+{
+	MainThreadCall call;
+
+	if (gtkut_is_main_thread())
+		return func(data);
+
+	call.func = func;
+	call.data = data;
+	call.retval = NULL;
+	call.done = FALSE;
+	g_mutex_init(&call.mutex);
+	g_cond_init(&call.cond);
+
+	g_main_context_invoke(NULL, main_thread_call_func, &call);
+
+	g_mutex_lock(&call.mutex);
+	while (!call.done)
+		g_cond_wait(&call.cond, &call.mutex);
+	g_mutex_unlock(&call.mutex);
+
+	g_mutex_clear(&call.mutex);
+	g_cond_clear(&call.cond);
+
+	return call.retval;
 }

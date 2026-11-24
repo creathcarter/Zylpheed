@@ -226,7 +226,6 @@ static void notification_window_destroy(void)
 
 static gboolean notify_fadein_timeout_cb(gpointer data)
 {
-	gdk_threads_enter();
 	notify_window.fade_length--;
 	notify_window.fade_count++;
 
@@ -241,16 +240,13 @@ static gboolean notify_fadein_timeout_cb(gpointer data)
 				g_timeout_add(notify_window.timeout * 1000,
 					      notify_timeout_cb, NULL);
 		}
-		gdk_threads_leave();
 		return FALSE;
 	}
-	gdk_threads_leave();
 	return TRUE;
 }
 
 static gboolean notify_fadeout_timeout_cb(gpointer data)
 {
-	gdk_threads_enter();
 	notify_window.fade_length -= FADE_SPEED;
 	notify_window.fade_count++;
 
@@ -261,21 +257,17 @@ static gboolean notify_fadeout_timeout_cb(gpointer data)
 
 	if (notify_window.fade_length <= 0) {
 		notification_window_destroy();
-		gdk_threads_leave();
 		return FALSE;
 	}
-	gdk_threads_leave();
 	return TRUE;
 }
 
 static gboolean notify_timeout_cb(gpointer data)
 {
-	gdk_threads_enter();
 	notify_window.fade_length = gdk_screen_height() - notify_window.y;
 	notify_window.notify_tag = g_timeout_add(FADE_REFRESH_RATE,
 						 notify_fadeout_timeout_cb,
 						 NULL);
-	gdk_threads_leave();
 
 	return FALSE;
 }

@@ -32,8 +32,8 @@ gboolean colorlabel_changed			(void);
 GtkWidget *colorlabel_create_color_widget	(GdkColor	 color);
 GtkWidget *colorlabel_create_check_color_menu_item
 						(gint		 color_index);
-GtkWidget *colorlabel_create_color_menu		(void);
-guint colorlabel_get_color_menu_active_item	(GtkWidget	*menu);
+GtkWidget *colorlabel_create_color_combo	(void);
+guint colorlabel_get_color_combo_active_item	(GtkWidget	*combo);
 void colorlabel_update_menu			(void);
 
 gint colorlabel_read_config			(void);

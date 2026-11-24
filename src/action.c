@@ -97,7 +97,7 @@ struct _ChildInfo
 	GString		*output;
 };
 
-static void action_update_menu		(GtkItemFactory	*ifactory,
+static void action_update_menu		(MenuFactory	*ifactory,
 					 gchar		*branch_path,
 					 gpointer	 callback,
 					 gpointer	 data);
@@ -153,15 +153,27 @@ static gint io_dialog_key_pressed_cb	(GtkWidget	*widget,
 					 GdkEventKey	*event,
 					 gpointer	 data);
 
+typedef void (*ActionInputFunc)		(gpointer		 data,
+					 gint			 source,
+					 GIOCondition		 cond);
+
+static gint action_input_add		(gint			 source,
+					 GIOCondition		 cond,
+					 ActionInputFunc	 func,
+					 gpointer		 data);
+
+#define ACTION_INPUT_READ	(G_IO_IN | G_IO_HUP | G_IO_ERR)
+#define ACTION_INPUT_WRITE	(G_IO_OUT | G_IO_ERR)
+
 static void catch_output		(gpointer		 data,
 					 gint			 source,
-					 GdkInputCondition	 cond);
+					 GIOCondition		 cond);
 static void catch_input			(gpointer		 data, 
 					 gint			 source,
-					 GdkInputCondition	 cond);
+					 GIOCondition		 cond);
 static void catch_status		(gpointer		 data,
 					 gint			 source,
-					 GdkInputCondition	 cond);
+					 GIOCondition		 cond);
 
 static gchar *get_user_string		(const gchar	*action,
 					 ActionType	 type);
@@ -388,25 +400,25 @@ static gboolean parse_append_msgpart(GString *cmd, MsgInfo *msginfo,
 	return TRUE;
 }
 
-void action_update_mainwin_menu(GtkItemFactory *ifactory, MainWindow *mainwin)
+void action_update_mainwin_menu(MenuFactory *ifactory, MainWindow *mainwin)
 {
 	action_update_menu(ifactory, "/Tools/Actions",
 			   mainwin_actions_execute_cb, mainwin);
 }
 
-void action_update_msgview_menu(GtkItemFactory *ifactory, MessageView *msgview)
+void action_update_msgview_menu(MenuFactory *ifactory, MessageView *msgview)
 {
 	action_update_menu(ifactory, "/Tools/Actions",
 			   msgview_actions_execute_cb, msgview);
 }
 
-void action_update_compose_menu(GtkItemFactory *ifactory, Compose *compose)
+void action_update_compose_menu(MenuFactory *ifactory, Compose *compose)
 {
 	action_update_menu(ifactory, "/Tools/Actions",
 			   compose_actions_execute_cb, compose);
 }
 
-static void action_update_menu(GtkItemFactory *ifactory, gchar *branch_path,
+static void action_update_menu(MenuFactory *ifactory, gchar *branch_path,
 			       gpointer callback, gpointer data)
 {
 	GtkWidget *menuitem;
@@ -415,10 +427,10 @@ static void action_update_menu(GtkItemFactory *ifactory, gchar *branch_path,
 	gchar *action, *action_p;
 	GList *amenu;
 	GList *children;
-	GtkItemFactoryEntry ifentry = {NULL, NULL, NULL, 0, "<Branch>"};
+	MenuFactoryEntry ifentry = {NULL, NULL, NULL, 0, "<Branch>"};
 
 	ifentry.path = branch_path;
-	menuitem = gtk_item_factory_get_widget(ifactory, branch_path);
+	menuitem = menu_factory_get_widget(ifactory, branch_path);
 	g_return_if_fail(menuitem != NULL);
 
 	children = gtk_container_get_children(GTK_CONTAINER(menuitem));
@@ -444,7 +456,7 @@ static void action_update_menu(GtkItemFactory *ifactory, gchar *branch_path,
 			menu_path = g_strdup_printf("%s/%s", branch_path,
 						    action);
 			ifentry.path = menu_path;
-			gtk_item_factory_create_item(ifactory, &ifentry, data,
+			menu_factory_create_item(ifactory, &ifentry, data,
 						     1);
 			g_free(menu_path);
 		}
@@ -684,9 +696,9 @@ static gboolean execute_actions(gchar *action, GSList *msg_list,
 		for (cur = children_list; cur; cur = cur->next) {
 			child_info = (ChildInfo *) cur->data;
 			child_info->tag_status = 
-				gdk_input_add(child_info->chld_status,
-					      GDK_INPUT_READ,
-					      catch_status, child_info);
+				action_input_add(child_info->chld_status,
+						 ACTION_INPUT_READ,
+						 catch_status, child_info);
 		}
 	}
 
@@ -847,10 +859,12 @@ static ChildInfo *fork_child(gchar *cmd, const gchar *msg_str,
 	child_info->chld_err    = chld_err[0];
 	child_info->chld_status = chld_status[0];
 	child_info->tag_in      = -1;
-	child_info->tag_out     = gdk_input_add(chld_out[0], GDK_INPUT_READ,
-						catch_output, child_info);
-	child_info->tag_err     = gdk_input_add(chld_err[0], GDK_INPUT_READ,
-						catch_output, child_info);
+	child_info->tag_out     = action_input_add(chld_out[0],
+						   ACTION_INPUT_READ,
+						   catch_output, child_info);
+	child_info->tag_err     = action_input_add(chld_err[0],
+						   ACTION_INPUT_READ,
+						   catch_output, child_info);
 
 	debug_print("Monitoring child (PID: %d)\n", pid);
 
@@ -932,9 +946,9 @@ static void send_input(GtkWidget *w, gpointer data)
 	Children *children = (Children *) data;
 	ChildInfo *child_info = (ChildInfo *) children->list->data;
 
-	child_info->tag_in = gdk_input_add(child_info->chld_in,
-					   GDK_INPUT_WRITE,
-					   catch_input, children);
+	child_info->tag_in = action_input_add(child_info->chld_in,
+					      ACTION_INPUT_WRITE,
+					      catch_input, children);
 	gtk_widget_set_sensitive(children->input_hbox, FALSE);
 }
 
@@ -975,11 +989,11 @@ static void childinfo_close_pipes(ChildInfo *child_info)
 	 * them if necessary
 	 */
 	if (child_info->tag_in > 0)
-		gdk_input_remove(child_info->tag_in);
+		g_source_remove(child_info->tag_in);
 	if (child_info->tag_out > 0)
-		gdk_input_remove(child_info->tag_out);
+		g_source_remove(child_info->tag_out);
 	if (child_info->tag_err > 0)
-		gdk_input_remove(child_info->tag_err);
+		g_source_remove(child_info->tag_err);
 
 	if (child_info->chld_in >= 0)
 		close(child_info->chld_in);
@@ -1120,15 +1134,7 @@ static void create_io_dialog(Children *children)
 
 	text = gtk_text_view_new();
 
-	if (prefs_common.textfont) {
-		PangoFontDescription *font_desc;
-		font_desc = pango_font_description_from_string
-			(prefs_common.textfont);
-		if (font_desc) {
-			gtk_widget_modify_font(text, font_desc);
-			pango_font_description_free(font_desc);
-		}
-	}
+	gtkut_widget_set_text_font(text, prefs_common.textfont);
 
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
@@ -1187,7 +1193,41 @@ static void create_io_dialog(Children *children)
 	gtk_widget_show(dialog);
 }
 
-static void catch_status(gpointer data, gint source, GdkInputCondition cond)
+typedef struct _ActionInput
+{
+	ActionInputFunc func;
+	gpointer data;
+} ActionInput;
+
+static gboolean action_input_cb(GIOChannel *source, GIOCondition cond,
+				gpointer data)
+{
+	ActionInput *input = (ActionInput *)data;
+
+	input->func(input->data, g_io_channel_unix_get_fd(source), cond);
+	return TRUE;
+}
+
+/* replacement for the removed gdk_input_add() */
+static gint action_input_add(gint source, GIOCondition cond,
+			     ActionInputFunc func, gpointer data)
+{
+	GIOChannel *channel;
+	ActionInput *input;
+	gint tag;
+
+	input = g_new(ActionInput, 1);
+	input->func = func;
+	input->data = data;
+	channel = g_io_channel_unix_new(source);
+	tag = g_io_add_watch_full(channel, G_PRIORITY_DEFAULT, cond,
+				  action_input_cb, input, g_free);
+	g_io_channel_unref(channel);
+
+	return tag;
+}
+
+static void catch_status(gpointer data, gint source, GIOCondition cond)
 {
 	ChildInfo *child_info = (ChildInfo *)data;
 	gchar buf;
@@ -1195,9 +1235,7 @@ static void catch_status(gpointer data, gint source, GdkInputCondition cond)
 
 	debug_print("Catching child status (child PID: %d).\n", (gint)child_info->pid);
 
-	gdk_threads_enter();
-
-	gdk_input_remove(child_info->tag_status);
+	g_source_remove(child_info->tag_status);
 
 	c = read(source, &buf, 1);
 	if (c == 1)
@@ -1213,10 +1251,9 @@ static void catch_status(gpointer data, gint source, GdkInputCondition cond)
 
 	wait_for_children(child_info->children);
 
-	gdk_threads_leave();
 }
 	
-static void catch_input(gpointer data, gint source, GdkInputCondition cond)
+static void catch_input(gpointer data, gint source, GIOCondition cond)
 {
 	Children *children = (Children *)data;
 	ChildInfo *child_info = (ChildInfo *)children->list->data;
@@ -1224,12 +1261,10 @@ static void catch_input(gpointer data, gint source, GdkInputCondition cond)
 	gint c, count, len;
 
 	debug_print("Sending input to grand child.\n");
-	if (!(cond && GDK_INPUT_WRITE))
+	if (!(cond && ACTION_INPUT_WRITE))
 		return;
 
-	gdk_threads_enter();
-
-	gdk_input_remove(child_info->tag_in);
+	g_source_remove(child_info->tag_in);
 	child_info->tag_in = -1;
 
 	input = gtk_editable_get_chars(GTK_EDITABLE(children->input_entry),
@@ -1254,16 +1289,13 @@ static void catch_input(gpointer data, gint source, GdkInputCondition cond)
 	child_info->chld_in = -1;
 	debug_print("Input to grand child sent.\n");
 
-	gdk_threads_leave();
 }
 
-static void catch_output(gpointer data, gint source, GdkInputCondition cond)
+static void catch_output(gpointer data, gint source, GIOCondition cond)
 {
 	ChildInfo *child_info = (ChildInfo *)data;
 	gint c;
 	gchar buf[BUFFSIZE];
-
-	gdk_threads_enter();
 
 	debug_print("Catching grand child's output (child PID: %d).\n", (gint)child_info->pid);
 	if (child_info->children->action_type &
@@ -1327,12 +1359,12 @@ static void catch_output(gpointer data, gint source, GdkInputCondition cond)
 	}
 	if (c == 0) {
 		if (source == child_info->chld_out) {
-			gdk_input_remove(child_info->tag_out);
+			g_source_remove(child_info->tag_out);
 			child_info->tag_out = -1;
 			close(child_info->chld_out);
 			child_info->chld_out = -1;
 		} else {
-			gdk_input_remove(child_info->tag_err);
+			g_source_remove(child_info->tag_err);
 			child_info->tag_err = -1;
 			close(child_info->chld_err);
 			child_info->chld_err = -1;
@@ -1341,7 +1373,6 @@ static void catch_output(gpointer data, gint source, GdkInputCondition cond)
 	
 	wait_for_children(child_info->children);
 
-	gdk_threads_leave();
 }
 
 static gchar *get_user_string(const gchar *action, ActionType type)

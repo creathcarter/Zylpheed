@@ -23,6 +23,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 typedef struct _MainWindow	MainWindow;
 
 #include "enums.h"
@@ -70,7 +72,7 @@ struct _MainWindow
 	GtkWidget *vbox;
 	GtkWidget *menubar;
 
-	GtkItemFactory *menu_factory;
+	MenuFactory *menu_factory;
 
 	/* toolbar */
 	GtkWidget *toolbar;

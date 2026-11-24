@@ -118,7 +118,7 @@ static void mimeview_reply		(MimeView	*mimeview,
 static void mimeview_check_signature	(MimeView	*mimeview);
 #endif
 
-static GtkItemFactoryEntry mimeview_popup_entries[] =
+static MenuFactoryEntry mimeview_popup_entries[] =
 {
 	{N_("/_Open"),		  NULL, mimeview_launch,	  0, NULL},
 	{N_("/Open _with..."),	  NULL, mimeview_open_with,	  0, NULL},
@@ -159,7 +159,7 @@ MimeView *mimeview_create(void)
 	GtkCellRenderer *renderer;
 	GtkWidget *mime_vbox;
 	GtkWidget *popupmenu;
-	GtkItemFactory *popupfactory;
+	MenuFactory *popupfactory;
 	gint n_entries;
 	GtkWidget *reply_separator;
 	GtkWidget *reply_menuitem;
@@ -247,7 +247,7 @@ MimeView *mimeview_create(void)
 	popupmenu = menu_create_items(mimeview_popup_entries, n_entries,
 				      "<MimeView>", &popupfactory, mimeview);
 
-	reply_menuitem = gtk_item_factory_get_item(popupfactory, "/Reply");
+	reply_menuitem = menu_factory_get_item(popupfactory, "/Reply");
 	children = gtk_container_get_children(GTK_CONTAINER(popupmenu));
 	child = g_list_find(children, reply_menuitem);
 	reply_separator = GTK_WIDGET(child->prev->data);

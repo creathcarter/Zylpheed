@@ -408,7 +408,7 @@ static GtkTargetEntry addressbook_drag_types[] =
 	{"application/octet-stream", GTK_TARGET_SAME_APP, DRAG_TYPE_OBJ}
 };
 
-static GtkItemFactoryEntry addressbook_entries[] =
+static MenuFactoryEntry addressbook_entries[] =
 {
 	{N_("/_File"),			NULL,	NULL, 0, "<Branch>"},
 	{N_("/_File/New _Book"),	NULL,	addressbook_new_book_cb,        0, NULL},
@@ -466,7 +466,7 @@ static GtkItemFactoryEntry addressbook_entries[] =
 	{N_("/_Tools/Export v_Card"),	NULL,           NULL,				0, NULL},
 */
 
-static GtkItemFactoryEntry addressbook_tree_popup_entries[] =
+static MenuFactoryEntry addressbook_tree_popup_entries[] =
 {
 	{N_("/New _Address"),	NULL, addressbook_new_address_cb, 0, NULL},
 	{N_("/New _Group"),	NULL, addressbook_new_group_cb,   0, NULL},
@@ -476,7 +476,7 @@ static GtkItemFactoryEntry addressbook_tree_popup_entries[] =
 	{N_("/_Delete"),	NULL, addressbook_treenode_delete_cb, 0, NULL}
 };
 
-static GtkItemFactoryEntry addressbook_list_popup_entries[] =
+static MenuFactoryEntry addressbook_list_popup_entries[] =
 {
 	{N_("/New _Address"),	NULL, addressbook_new_address_cb,  0, NULL},
 	{N_("/New _Group"),	NULL, addressbook_new_group_cb,    0, NULL},
@@ -609,9 +609,9 @@ static void addressbook_create(void)
 	GtkWidget *close_btn;
 	GtkWidget *tree_popup;
 	GtkWidget *list_popup;
-	GtkItemFactory *tree_factory;
-	GtkItemFactory *list_factory;
-	GtkItemFactory *menu_factory;
+	MenuFactory *tree_factory;
+	MenuFactory *list_factory;
+	MenuFactory *menu_factory;
 	gint n_entries;
 	GList *nodeIf;
 
@@ -620,7 +620,7 @@ static void addressbook_create(void)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Address book"));
 	gtk_window_set_wmclass(GTK_WINDOW(window), "addressbook", "Sylpheed");
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, TRUE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_widget_set_size_request(window, 620 * gtkut_get_dpi_multiplier(), 360 * gtkut_get_dpi_multiplier());
 	gtk_window_set_default_size(GTK_WINDOW(window),
 				    prefs_common.addressbook_width,
@@ -645,7 +645,7 @@ static void addressbook_create(void)
 	menubar = menubar_create(window, addressbook_entries, n_entries,
 				 "<AddressBook>", NULL);
 	gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, TRUE, 0);
-	menu_factory = gtk_item_factory_from_widget(menubar);
+	menu_factory = menu_factory_from_widget(menubar);
 
 	spc_hbox = gtk_hbox_new(FALSE, 0);
 	gtk_widget_set_size_request(spc_hbox, -1, BORDER_WIDTH);
@@ -803,7 +803,7 @@ static void addressbook_create(void)
 	gtk_tree_view_column_set_sort_column_id(column, COL_NAME);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
 	gtk_tree_view_set_expander_column(GTK_TREE_VIEW(listview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(addressbook_col_resized),
 			 GINT_TO_POINTER(COL_NAME));
 
@@ -820,7 +820,7 @@ static void addressbook_create(void)
 	/* gtk_tree_view_column_set_expand(column, TRUE); */
 	gtk_tree_view_column_set_sort_column_id(column, COL_ADDRESS);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(addressbook_col_resized),
 			 GINT_TO_POINTER(COL_ADDRESS));
 
@@ -837,7 +837,7 @@ static void addressbook_create(void)
 	/* gtk_tree_view_column_set_expand(column, TRUE); */
 	gtk_tree_view_column_set_sort_column_id(column, COL_NICKNAME);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(addressbook_col_resized),
 			 GINT_TO_POINTER(COL_NICKNAME));
 
@@ -852,7 +852,7 @@ static void addressbook_create(void)
 	/* gtk_tree_view_column_set_expand(column, TRUE); */
 	gtk_tree_view_column_set_sort_column_id(column, COL_REMARKS);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",
 			 G_CALLBACK(addressbook_col_resized),
 			 GINT_TO_POINTER(COL_REMARKS));
 
@@ -921,7 +921,6 @@ static void addressbook_create(void)
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbbox1), GTK_BUTTONBOX_END);
 	gtk_box_set_spacing(GTK_BOX(hbbox1), 4);
 	gtk_container_set_border_width(GTK_CONTAINER(hbbox1), 4);
-	gtk_button_box_set_child_size(GTK_BUTTON_BOX(hbbox1), 64, -1);
 	gtk_box_pack_end(GTK_BOX(hbbox), hbbox1, FALSE, FALSE, 0);
 
 	to_btn = gtk_button_new_with_label
@@ -951,7 +950,6 @@ static void addressbook_create(void)
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbbox2), GTK_BUTTONBOX_END);
 	gtk_box_set_spacing(GTK_BOX(hbbox2), 4);
 	gtk_container_set_border_width(GTK_CONTAINER(hbbox2), 4);
-	gtk_button_box_set_child_size(GTK_BUTTON_BOX(hbbox2), 64, -1);
 	gtk_box_pack_end(GTK_BOX(hbbox), hbbox2, TRUE, TRUE, 0);
 
 	del_btn = gtk_button_new_with_label(_("Delete"));
@@ -1821,6 +1819,27 @@ static gboolean addressbook_obj_is_droppable(GtkTreeModel *model,
 	return acceptable;
 }
 
+/* The drag context is read-only in GTK+ 3, so the Win32 correction of the
+   offered actions is computed here for both the motion and the drop handler
+   (GTK+ 2 code wrote it into context->actions). */
+static GdkDragAction addressbook_drag_actions(GtkWidget *widget,
+					      GdkDragContext *context)
+{
+	GdkDragAction actions;
+
+	actions = gdk_drag_context_get_actions(context);
+#ifdef G_OS_WIN32
+	{
+		GdkModifierType state = 0;
+
+		gdk_window_get_pointer(gtk_widget_get_window(widget), NULL, NULL, &state);
+		if ((state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) == 0)
+			actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
+	}
+#endif
+	return actions;
+}
+
 static gboolean addressbook_drag_motion(GtkWidget *widget,
 					GdkDragContext *context,
 					gint x, gint y,
@@ -1833,6 +1852,7 @@ static gboolean addressbook_drag_motion(GtkWidget *widget,
 	AddressDataSource *src_ds;
 	AddressBookFile *src_abf;
 	gboolean acceptable;
+	GdkDragAction actions;
 
 	if (!gtk_tree_view_get_dest_row_at_pos
 		(GTK_TREE_VIEW(widget), x, y, &path, NULL)) {
@@ -1857,22 +1877,14 @@ static gboolean addressbook_drag_motion(GtkWidget *widget,
 	src_abf = src_ds->rawDataSource;
 	g_return_val_if_fail(src_abf != NULL, FALSE);
 
-#ifdef G_OS_WIN32
-	{
-		GdkModifierType state = 0;
-
-		gdk_window_get_pointer(gtk_widget_get_window(widget), NULL, NULL, &state);
-		if ((state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) == 0)
-			context->actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
-	}
-#endif
+	actions = addressbook_drag_actions(widget, context);
 
 	if (!src_ds->iface ||
 	    (src_ds->iface->readOnly || !src_ds->iface->haveLibrary))
-		context->actions &= ~GDK_ACTION_MOVE;
+		actions &= ~GDK_ACTION_MOVE;
 
 	acceptable = addressbook_obj_is_droppable(model, obj);
-	if ((gdk_drag_context_get_actions(context) & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
+	if ((actions & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
 		acceptable = FALSE;
 
 	if (!acceptable) {
@@ -1883,9 +1895,9 @@ static gboolean addressbook_drag_motion(GtkWidget *widget,
 	} else {
 		GdkDragAction action = 0;
 
-		if ((gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0)
+		if ((actions & GDK_ACTION_MOVE) != 0)
 			action = GDK_ACTION_MOVE;
-		else if ((gdk_drag_context_get_actions(context) & GDK_ACTION_COPY) != 0)
+		else if ((actions & GDK_ACTION_COPY) != 0)
 			action = GDK_ACTION_COPY;
 		gtk_tree_view_set_drag_dest_row
 			(GTK_TREE_VIEW(widget), path,
@@ -1920,6 +1932,7 @@ static void addressbook_drag_received(GtkWidget	*widget,
 	AddressBookFile *abf, *src_abf;
 	gboolean acceptable;
 	gboolean is_move;
+	GdkDragAction actions;
 	GList *node;
 	ItemFolder *folder = NULL;
 	ItemPerson *person, *new_person;
@@ -1952,16 +1965,18 @@ static void addressbook_drag_received(GtkWidget	*widget,
 	if (!abf)
 		acceptable = FALSE;
 
-	if ((gdk_drag_context_get_actions(context) & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
+	actions = addressbook_drag_actions(widget, context);
+	if ((actions & (GDK_ACTION_MOVE | GDK_ACTION_COPY)) == 0)
 		acceptable = FALSE;
-	is_move = (gdk_drag_context_get_actions(context) & GDK_ACTION_MOVE) != 0;
+	is_move = (actions & GDK_ACTION_MOVE) != 0;
 
 	if (!src_ds->iface ||
 	    (src_ds->iface->readOnly || !src_ds->iface->haveLibrary))
 		is_move = FALSE;
 
 	if (!_addressListSelection_ || !acceptable) {
-		context->action = 0;
+		/* report no action to the source (was a sealed field write) */
+		gdk_drag_status(context, 0, time);
 		gtk_drag_finish(context, FALSE, FALSE, time);
 		gtk_tree_path_free(path);
 		return;
@@ -2008,7 +2023,8 @@ static void addressbook_drag_received(GtkWidget	*widget,
 		addressbook_reopen();
 	}
 
-	context->action = 0;
+	/* report no action to the source (was a sealed field write) */
+	gdk_drag_status(context, 0, time);
 	gtk_drag_finish(context, TRUE, FALSE, time);
 
 	gtk_tree_path_free(path);

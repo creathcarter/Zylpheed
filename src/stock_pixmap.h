@@ -109,10 +109,6 @@ GtkWidget *stock_pixbuf_widget_scale	(GtkWidget	*window,
 
 GtkWidget *stock_pixbuf_widget_for_toolbar(StockPixmap	 icon);
 
-gint stock_pixmap_gdk		(GtkWidget	 *window,
-				 StockPixmap	  icon,
-				 GdkPixmap	**pixmap,
-				 GdkBitmap	**mask);
 gint stock_pixbuf_gdk		(GtkWidget	 *window,
 				 StockPixmap	  icon,
 				 GdkPixbuf	**pixbuf);

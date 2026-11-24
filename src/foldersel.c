@@ -244,7 +244,7 @@ static void foldersel_create(void)
 	gtk_window_set_position(GTK_WINDOW(window),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_window_set_wmclass
 		(GTK_WINDOW(window), "folder_selection", "Sylpheed");
 	gtk_widget_realize(window);
@@ -328,7 +328,7 @@ static void foldersel_create(void)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
 
 	entry = gtk_entry_new();
-	gtk_entry_set_editable(GTK_ENTRY(entry), FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
 	gtk_box_pack_start(GTK_BOX(vbox), entry, FALSE, FALSE, 0);
 	g_signal_connect(G_OBJECT(entry), "activate",
 			 G_CALLBACK(foldersel_entry_activated), NULL);

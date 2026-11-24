@@ -116,25 +116,53 @@ gchar *input_dialog_combo(const gchar *title, const gchar *message,
 
 	input_dialog_create(INPUT_DIALOG_COMBO);
 
-	if (!list) {
-		GList empty_list;
+	if (!list)
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "");
+	else {
+		GList *cur;
 
-		empty_list.data = (gpointer)"";
-		empty_list.next = NULL;
-		empty_list.prev = NULL;
-		gtk_combo_set_popdown_strings(GTK_COMBO(combo), &empty_list);
-	} else
-		gtk_combo_set_popdown_strings(GTK_COMBO(combo), list);
+		for (cur = list; cur != NULL; cur = cur->next)
+			gtk_combo_box_text_append_text
+				(GTK_COMBO_BOX_TEXT(combo),
+				 (const gchar *)cur->data);
+	}
+	/* GtkCombo put the first string into the entry */
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
-	gtk_combo_set_case_sensitive(GTK_COMBO(combo), case_sensitive);
+	/* case_sensitive only affected GtkCombo's list matching while
+	   typing; GtkComboBox has no such matching */
 
 	return input_dialog_open(title, message, default_string);
+}
+
+typedef struct _QueryPasswordData
+{
+	const gchar *server;
+	const gchar *user;
+} QueryPasswordData;
+
+static gpointer input_dialog_query_password_main(gpointer data)
+{
+	QueryPasswordData *qdata = (QueryPasswordData *)data;
+
+	return input_dialog_query_password(qdata->server, qdata->user);
 }
 
 gchar *input_dialog_query_password(const gchar *server, const gchar *user)
 {
 	gchar *message;
 	gchar *pass;
+
+	/* the input_query_password() function of libsylph; a worker thread
+	   can get here when it has to reconnect */
+	if (!gtkut_is_main_thread()) {
+		QueryPasswordData qdata;
+
+		qdata.server = server;
+		qdata.user = user;
+		return (gchar *)gtkut_main_thread_call_sync
+			(input_dialog_query_password_main, &qdata);
+	}
 
 	message = g_strdup_printf(_("Input password for %s on %s:"),
 				  user, server);
@@ -198,10 +226,10 @@ static void input_dialog_create(InputDialogType dialog_type)
 	type = dialog_type;
 
 	if (dialog_type == INPUT_DIALOG_COMBO) {
-		combo = gtk_combo_new();
+		combo = gtk_combo_box_text_new_with_entry();
 		gtk_box_pack_start(GTK_BOX(hbox), combo, TRUE, TRUE, 0);
-		g_signal_connect(G_OBJECT(GTK_COMBO(combo)->entry), "activate",
-				 G_CALLBACK(combo_activated), NULL);
+		g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(combo))),
+				 "activate", G_CALLBACK(combo_activated), NULL);
 	} else {
 		entry = gtk_entry_new();
 		gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 0);
@@ -257,7 +285,7 @@ static gchar *input_dialog_open(const gchar *title, const gchar *message,
 		GtkEditable *editable;
 
 		if (type == INPUT_DIALOG_COMBO)
-			editable = GTK_EDITABLE(GTK_COMBO(combo)->entry);
+			editable = GTK_EDITABLE(gtk_bin_get_child(GTK_BIN(combo)));
 		else
 			editable = GTK_EDITABLE(entry);
 
@@ -288,7 +316,7 @@ static void input_dialog_set(const gchar *title, const gchar *message,
 	GtkWidget *entry_;
 
 	if (type == INPUT_DIALOG_COMBO)
-		entry_ = GTK_COMBO(combo)->entry;
+		entry_ = gtk_bin_get_child(GTK_BIN(combo));
 	else
 		entry_ = entry;
 
@@ -296,8 +324,8 @@ static void input_dialog_set(const gchar *title, const gchar *message,
 	gtk_label_set_text(GTK_LABEL(msg_label), message);
 	if (default_string && *default_string) {
 		gtk_entry_set_text(GTK_ENTRY(entry_), default_string);
-		gtk_entry_set_position(GTK_ENTRY(entry_), 0);
-		gtk_entry_select_region(GTK_ENTRY(entry_), 0, -1);
+		gtk_editable_set_position(GTK_EDITABLE(entry_), 0);
+		gtk_editable_select_region(GTK_EDITABLE(entry_), 0, -1);
 	} else
 		gtk_entry_set_text(GTK_ENTRY(entry_), "");
 

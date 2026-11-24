@@ -142,8 +142,7 @@ void imageview_clear(ImageView *imageview)
 	GtkAdjustment *hadj, *vadj;
 
 	if (imageview->image)
-		gtk_image_set_from_pixmap(GTK_IMAGE(imageview->image),
-					  NULL, NULL);
+		gtk_image_clear(GTK_IMAGE(imageview->image));
 	hadj = gtk_scrolled_window_get_hadjustment
 		(GTK_SCROLLED_WINDOW(imageview->scrolledwin));
 	gtk_adjustment_set_value(hadj, 0.0);

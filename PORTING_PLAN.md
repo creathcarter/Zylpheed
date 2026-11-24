@@ -179,6 +179,42 @@ Keeping this open costs three habits: keep platform code behind the existing `G_
 
 Accounts (POP3, IMAP4, NNTP, SMTP; TLS/STARTTLS; OAuth2 via `syl-auth-helper`; SOCKS proxy) · receive (manual, auto-check, remote POP3) · send, queue, drafts · compose (reply/forward/redirect, templates, signatures, attachments, external editor, spell check, undo, line wrap, ruler) · folders (MH, IMAP, news, virtual/search folders) · summary (threading, sorting, columns, colour labels, marks, quick search, query search) · message view (headers, X-Face, images, MIME tree, HTML-to-text, links, source view) · filters and junk (bsfilter) · actions · address book (edit, groups, LDIF/CSV/vCard import, CSV export, completion; LDAP and JPilot where built) · PGP sign/encrypt/verify · import/export mbox · printing · preferences (all pages, key-binding presets, toolbar customisation) · plugins and plugin manager · tray icon and notifications · update check · command-line remote operations · localisation and IME.
 
-## 8. Notes
+## 8. Status and to-do
+
+### Done
+- **Phase 0 (baseline, Win64):** builds and starts against GTK 2.24.33 with GCC 16.2, OpenSSL 4.1.0, compface built by hand. Win64 audit complete with zero remaining casts or format issues under strict warnings. See BUILD-WIN64.md and TESTING.md.
+- **Phase 1 (hygiene):** version branches, eggtrayicon, single includes, keysyms, tooltips, `GTK_WIDGET_*` macros done. `GSEAL` is not yet fully clean (59 sites, see below), so it stays off by default.
+- **Phase 2 (widget replacements):** `MenuFactory` facade in `menu.c` replaces `GtkItemFactory`; `GtkCList`/`GtkCTree`/`GtkOptionMenu`/`GtkCombo` replaced; custom drawing in cairo; `GtkSHRuler` is a `GtkDrawingArea`.
+- **GTK2 clean-up:** the GTK 2.24 tree built with `GTK_DISABLE_DEPRECATED` + `GDK_DISABLE_DEPRECATED`. Snapshot of that state for comparison: `snapshots\gtk2-final` (outside the repo, see BUILD-WIN64.md section 9).
+- **Phase 3 (threading):** `gdk_threads_*` and the custom recursive lock removed. Worker threads (IMAP pool, async connect, async command, query search, LDAP) reach the UI only through `gtkut_main_thread_call_sync()` (password and certificate dialogs) or `g_idle_add()` (status bar, progress, log window). The console control handler hands exit to the main loop.
+- **Phase 4 (GTK 3.24):** builds against GTK 3.24.52; starts, and the main, compose, preferences, account, filter, address book and plug-in windows open without GTK warnings (scripted smoke test). One application `GtkCssProvider` replaces `gtk_widget_modify_*`, `GtkStyle` and gtkrc (optional `gtk.css` in the configuration directory). Spell checking is back with gtkspell3 + enchant-2. Plug-in interface version 0x0200, libraries `-0-6`, new `syl_plugin_menu_factory_get_item/_widget`. About 1800 deprecation warnings remain (phase 6 work).
+- **Phase 5, packaging:** `nsis/make-dist-win64.sh` builds a self-contained, relocatable folder (DLLs found by walking the import tables; GTK 3 run-time data, CA bundle, licences); it runs with only `C:\Windows` on `PATH` (snapshot `snapshots\gtk3-portable` with `run-test.bat`). `nsis/sylpheed.nsi` rewritten for 64-bit, packages that folder, needs no third-party NSIS plug-ins; `nsis/make-installer-win64.sh` builds it with MSYS2's NSIS 3.13 (not yet run on a test machine). enchant does not relocate unless its DLL is in `bin\`; `main.c` now sets its prefix to the exe directory. See BUILD-WIN64.md section 10.
+
+### Corrections from the Phase 0/1 report
+- OpenSSL is 4.x, not 3.x. Check OpenSSL 4 against very old TLS 1.0/1.1 servers.
+- GtkSpell 2 and compface are not packaged in MSYS2.
+- The section 3 census missed deprecated calls that block `GTK_DISABLE_DEPRECATED`: `gtk_window_set_policy`, `gtk_widget_ref/unref`, `gtk_menu_append`, `gtk_progress_*`, `gtk_toolbar_set_orientation`, `gtk_combo_box_new_text`, `GtkNotebookPage`, `gdk_window_get_colormap`, `gtk_dialog_set_has_separator`.
+- `GtkTreeViewColumn->button` has no GTK 2.24 accessor; fixed in Phase 4 (`gtk_tree_view_column_get_button`).
+- Plugins on Windows load from `<configdir>\plugins` and `plugins\` beside the executable.
+- A static `libcompface.a` silently produces no plugin DLLs. compface must be built as a DLL.
+- GLib 2.90 deprecations (`g_get_current_time`, `GTimeVal`, `g_basename`, etc.) are not in the plan. `--disable-deprecated` no longer adds `G_DISABLE_DEPRECATED` (it adds the GTK/GDK defines only, and was also triggered by `--enable-deprecated`); with GTK 3 it does not build yet.
+
+### Open decisions
+- Spell check: decided, gtkspell3 + enchant-2 (Windows spell checker via enchant's winspell provider).
+- Name of the user style sheet: `gtk.css` in the configuration directory (replaces `gtkrc` there); no migration of old gtkrc contents.
+- Main window, compose and separate windows: GTK 3 cannot shrink a window below its children's size requests, so the saved pane sizes are now initial sizes only (`gtkut_widget_set_initial_size`), the main window gets its saved size as default size and the paned positions are set from the saved sizes. Check that window and pane sizes are remembered as expected.
+- `quick_search.c:289` pointer-vs-`'\0'` bug: fix now or later (changes behaviour).
+- Cache format: bump version to store 64-bit times? No format change made yet.
+- compface: robustness review (parses untrusted X-Face headers).
+- OpenSSL 4 legacy TLS behaviour: test against real servers.
+
+### To-do
+- **Security review (after the port, on a dedicated always-on machine):** targeted review plus fuzzing with sanitizers of the untrusted-input code: POP3/IMAP/SMTP/NNTP response parsing, MIME and header parsing, charset conversion, summary/mark cache readers, compface (X-Face), HTML-to-text, TLS setup and certificate hostname validation, and the GTK3 display code that handles message content. Use a fake hostile server and throwaway profiles. Until this is done, treat builds as unreviewed: no public binary releases. Add `SECURITY.md` when the repository goes public.
+- **`quick_search.c:289`:** fix approved (`keys[i][0] == '\0'`), so empty search tokens are skipped instead of matching every message.
+- **Cache format:** when 64-bit time storage is implemented, bump `CACHE_VERSION` in the same change. Not before.
+- **Spell checking (GTK3 port):** done with gtkspell3; check language switching and the context menu manually.
+- **Installer (phase 5):** compiles; install, upgrade and uninstall still to be tried on a clean Windows 10/11 machine or VM (never next to the real installation). Open: licence texts for atk, ca-certificates, libidn2 and oniguruma (MSYS2 ships none); the Japanese licence page (`COPYING.ja.txt` is Shift_JIS, read as ANSI by Unicode NSIS); whether to keep the update check (its URL is plain HTTP and the server now answers 301, which `curl` without `-L` does not follow), `plugin-updater.exe`/`update-manager.exe` are not built; GnuPG is not bundled (GPGME needs Gpg4win/GnuPG installed). Rest of phase 5 (tray, IME, DnD, printing, HiDPI, dark mode) unchanged.
+
+## 9. Notes
 
 `PROJECT_NOTES.md` still lists Windows 7 as a target. With a Windows 10 floor GTK4 becomes technically possible, but it removes `GtkMenu`, `GtkStatusIcon`, `gtk_main` nesting and more, and would be a much larger rewrite. GTK 3.24 remains the right target; the follow-up work in 4.3 is what would make GTK4 reachable later.

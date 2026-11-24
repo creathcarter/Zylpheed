@@ -1,11 +1,57 @@
-NSIS scripts for Sylpheed installer
-===================================
+NSIS scripts for Sylpheed installer (64-bit Windows, GTK 3)
+===========================================================
 
-How to compile installer:
+The installer packages a self-contained Sylpheed folder (program, all DLLs,
+GTK 3 run-time data, plug-ins). Both steps run in MSYS2 (UCRT64); see
+BUILD-WIN64.md in the top directory for the build itself.
 
-1. Install latest version of NSIS.
-2. Install NsProcess plug-in into NSIS.
-3. Install nsisunz plug-in (http://nsis.sourceforge.net/Nsisunz_plug-in).
-4. Make Sylpheed/ bsfilter/ plugins/ folders here.
-5. Run compile.bat.
-6. If successful, Sylpheed-x.y.z_setup.exe should be made.
+1. Build and install Sylpheed (BUILD-WIN64.md, section 5):
+
+     cd build-win64 && make && make install
+
+2. Make the portable folder:
+
+     nsis/make-dist-win64.sh build-win64 <dist folder>
+
+   The folder runs as it is, from any location, without MSYS2 on PATH.
+   With TEST_LAUNCHER=1 the script also writes run-test.bat (throwaway
+   profile in <dist folder>\profile, own IPC port and instance id).
+   COMPFACE_SRC=<compface source dir> adds the compface licence text.
+
+3. Install NSIS:
+
+     pacman -S mingw-w64-ucrt-x86_64-nsis
+
+   No third-party NSIS plug-ins are needed for sylpheed.nsi.
+
+4. Build the installer:
+
+     nsis/make-installer-win64.sh <dist folder> [<output folder>] [-D...]
+
+   or, from cmd.exe, "compile.bat <dist folder> [<output folder>]".
+   The result is Sylpheed-<version>-x64_setup.exe. The script generates the
+   uninstaller's file list from the dist folder, so the uninstaller removes
+   exactly the files it installed.
+
+   Options (makensis -D...): PRODUCT_VERSION=x.y.z, WITH_TEST_PLUGIN (offer
+   the "test" demo plug-in; it is left out by default because it adds demo
+   menus and redirects the update check URL), TARGET_X86 (when using an x86
+   NSIS; untested).
+
+Differences from the official 32-bit installer:
+
+- 64-bit only: Program Files (not "Program Files (x86)"), 64-bit registry
+  view, uninstall entry "Sylpheed <version> (64-bit)". A 32-bit Sylpheed is
+  detected and left installed (warning only); both use the same profile.
+- Files come from the dist folder recursively instead of per-DLL lists.
+- "Sylpheed is running" is detected through Sylpheed's own single-instance
+  mutex (System plug-in) instead of the nsProcess plug-in; the uninstaller
+  asks the user to quit Sylpheed instead of killing it.
+- Dropped: Quick Launch shortcut (no Quick Launch in Windows 10/11), writing
+  the UserChoice keys for mailto:/.eml (protected since Windows 8; choose
+  Sylpheed in Settings > Apps > Default apps), README-win32*.txt.
+- Optional, off unless their folders are provided: sylfilter
+  (-DHAVE_SYLFILTER, folder sylfilter\), bsfilter (-DHAVE_BSFILTER, folder
+  bsfilter\), autoenc (-DHAVE_AUTOENC_PLUGIN), Sylpheed Pro (-DSYLPHEED_PRO).
+- plugin-updater.nsi and update-manager.nsi (helpers for the official update
+  service) are not built; they need the nsisunz and nsProcess plug-ins.

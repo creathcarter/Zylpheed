@@ -120,8 +120,7 @@ struct _CondHBox {
 	GtkWidget *spin_btn;
 	GtkWidget *label;
 
-	GtkWidget *match_menu_in_addr;
-	GtkWidget *match_menu_not_in_addr;
+	gboolean match_addr_items_shown;
 
 	GtkWidget *del_btn;
 	GtkWidget *add_btn;
@@ -143,8 +142,6 @@ struct _ActionHBox {
 	GtkWidget *clabel_optmenu;
 
 	GtkWidget *folder_sel_btn;
-
-	GtkWidget *action_type_menu_items[PF_ACTION_NONE];
 
 	GtkWidget *del_btn;
 	GtkWidget *add_btn;

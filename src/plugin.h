@@ -47,7 +47,7 @@ typedef void (*SylPluginLoadFunc)	(void);
 typedef void (*SylPluginUnloadFunc)	(void);
 typedef void (*SylPluginCallbackFunc)	(void);
 
-#define SYL_PLUGIN_INTERFACE_VERSION	0x010a
+#define SYL_PLUGIN_INTERFACE_VERSION	0x0200
 
 struct _SylPlugin
 {
@@ -185,6 +185,20 @@ void syl_plugin_menu_set_sensitive_all		(GtkMenuShell	*menu_shell,
 						 gboolean	 sensitive);
 void syl_plugin_menu_set_active			(const gchar	*path,
 						 gboolean	 is_active);
+
+/* Look up a menu item, or the submenu of a branch, by path.
+ * factory is the opaque menu factory passed to the "folderview-menu-popup"
+ * and "summaryview-menu-popup" signals, or NULL to pick the factory from
+ * the prefix of path ("<Main>", "<MailFolder>", "<IMAPFolder>",
+ * "<NewsFolder>", "<SummaryView>"; no prefix means the main menu).
+ * The path may include that prefix or start with the first "/".
+ * get_item returns the GtkMenuItem (also for a branch), get_widget the
+ * GtkMenu of a branch or the item itself; both return NULL if not found.
+ * Available since plug-in interface version 0x0200. */
+GtkWidget *syl_plugin_menu_factory_get_item	(gpointer	 factory,
+						 const gchar	*path);
+GtkWidget *syl_plugin_menu_factory_get_widget	(gpointer	 factory,
+						 const gchar	*path);
 
 
 /* FolderView */

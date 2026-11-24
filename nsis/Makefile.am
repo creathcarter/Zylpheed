@@ -5,6 +5,8 @@ EXTRA_DIST = \
 	compile.bat \
 	english.nsh \
 	japanese.nsh \
+	make-dist-win64.sh \
+	make-installer-win64.sh \
 	plugin-updater.nsi \
 	spanish.nsh \
 	sylpheed-defs.nsh \

@@ -27,6 +27,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 #include "compose.h"
 #include "addrindex.h"
 
@@ -74,9 +76,9 @@ struct _AddressBook_win
 
 	GtkWidget *tree_popup;
 	GtkWidget *list_popup;
-	GtkItemFactory *tree_factory;
-	GtkItemFactory *list_factory;
-	GtkItemFactory *menu_factory;
+	MenuFactory *tree_factory;
+	MenuFactory *list_factory;
+	MenuFactory *menu_factory;
 
 	GtkTreeRowReference *tree_selected;
 	GtkTreeRowReference *tree_opened;

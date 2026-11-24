@@ -106,6 +106,19 @@ static void prefs_filter_edit_remove_action_hbox(ActionHBox	*hbox);
 
 static void prefs_filter_edit_add_rule_action	(FilterRule	*rule);
 
+static void prefs_filter_edit_show_match_addr_items
+						(CondHBox	*hbox,
+						 gboolean	 show);
+
+/* set the active item without running the "changed" handler (as
+   gtk_option_menu_set_history() did not activate the menu item) */
+#define COMBO_SET_ACTIVE_SILENT(combo, index, func, data)		\
+{									\
+	g_signal_handlers_block_by_func(G_OBJECT(combo), func, data);	\
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), index);		\
+	g_signal_handlers_unblock_by_func(G_OBJECT(combo), func, data);	\
+}
+
 static void prefs_filter_edit_set_cond_header_menu
 						(FilterCondEdit	*cond_edit,
 						 CondHBox	*hbox);
@@ -205,8 +218,6 @@ static void prefs_filter_edit_create(void)
 	GtkWidget *name_entry;
 
 	GtkWidget *bool_op_optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 
 	GtkWidget *cond_scrolled_win;
 	GtkWidget *cond_vbox;
@@ -221,9 +232,9 @@ static void prefs_filter_edit_create(void)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
 	gtk_widget_set_size_request(window, 632 * gtkut_get_dpi_multiplier(), 405 * gtkut_get_dpi_multiplier());
-	gtk_window_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_widget_realize(window);
 
 	vbox = gtk_vbox_new(FALSE, 6);
@@ -265,18 +276,13 @@ static void prefs_filter_edit_create(void)
 	gtk_widget_show(hbox);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-	bool_op_optmenu = gtk_option_menu_new();
+	bool_op_optmenu = menu_combo_new();
 	gtk_widget_show(bool_op_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), bool_op_optmenu, FALSE, FALSE, 0);
 
-	menu = gtk_menu_new();
-	gtk_widget_show(menu);
-	MENUITEM_ADD(menu, menuitem,
-		     _("If any of the following condition matches"), FLT_OR);
-	MENUITEM_ADD(menu, menuitem,
-		     _("If all of the following conditions match"), FLT_AND);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(bool_op_optmenu), menu);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(bool_op_optmenu), FLT_AND);
+	COMBOBOX_ADD(bool_op_optmenu, _("If any of the following condition matches"), FLT_OR);
+	COMBOBOX_ADD(bool_op_optmenu, _("If all of the following conditions match"), FLT_AND);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(bool_op_optmenu), FLT_AND);
 
 	cond_scrolled_win = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_show(cond_scrolled_win);
@@ -391,14 +397,14 @@ static void prefs_filter_edit_rule_to_dialog(FilterRule *rule,
 
 	if (rule) {
 		index = menu_find_option_menu_index
-			(GTK_OPTION_MENU(rule_edit_window.bool_op_optmenu),
+			(GTK_COMBO_BOX(rule_edit_window.bool_op_optmenu),
 			 GINT_TO_POINTER(rule->bool_op), NULL);
 		if (index < 0)
 			index = 1;
 	}
 	if (index >= 0) {
-		gtk_option_menu_set_history
-			(GTK_OPTION_MENU(rule_edit_window.bool_op_optmenu),
+		gtk_combo_box_set_active
+			(GTK_COMBO_BOX(rule_edit_window.bool_op_optmenu),
 			 index);
 	}
 
@@ -468,8 +474,6 @@ CondHBox *prefs_filter_edit_cond_hbox_create(FilterCondEdit *cond_edit)
 	GtkWidget *size_match_optmenu;
 	GtkWidget *age_match_optmenu;
 	GtkWidget *status_match_optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	GtkWidget *key_entry;
 	GtkAdjustment *spin_btn_adj;
 	GtkWidget *spin_btn;
@@ -478,63 +482,49 @@ CondHBox *prefs_filter_edit_cond_hbox_create(FilterCondEdit *cond_edit)
 	GtkWidget *add_btn;
 	GtkWidget *del_img;
 	GtkWidget *add_img;
-	GtkWidget *match_menu_in_addr;
-	GtkWidget *match_menu_not_in_addr;
 
 	cond_hbox = g_new0(CondHBox, 1);
 
 	hbox = gtk_hbox_new(FALSE, 4);
 	gtk_widget_show(hbox);
 
-	cond_type_optmenu = gtk_option_menu_new();
+	cond_type_optmenu = menu_combo_new();
 	gtk_widget_show(cond_type_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), cond_type_optmenu, FALSE, FALSE, 0);
 
 #define COND_MENUITEM_ADD(str, action)					    \
-{									    \
-	MENUITEM_ADD(menu, menuitem, str, action);			    \
-	g_signal_connect(G_OBJECT(menuitem), "activate",		    \
-			 G_CALLBACK(prefs_filter_cond_activated_cb),	    \
-			 cond_hbox);					    \
-}
+	COMBOBOX_ADD(cond_type_optmenu, str, action)
 
-	menu = gtk_menu_new();
-	gtk_widget_show(menu);
-	MENUITEM_ADD(menu, menuitem, NULL,        PF_COND_SEPARATOR);
+	COMBOBOX_ADD(cond_type_optmenu, NULL,        PF_COND_SEPARATOR);
 	COND_MENUITEM_ADD(_("To or Cc"),          PF_COND_TO_OR_CC);
 	COND_MENUITEM_ADD(_("Any header"),        PF_COND_ANY_HEADER);
 	COND_MENUITEM_ADD(_("Edit header..."),    PF_COND_EDIT_HEADER);
 
-	MENUITEM_ADD(menu, menuitem, NULL,        PF_COND_SEPARATOR);
+	COMBOBOX_ADD(cond_type_optmenu, NULL,        PF_COND_SEPARATOR);
 	COND_MENUITEM_ADD(_("Message body"),      PF_COND_BODY);
 	COND_MENUITEM_ADD(_("Result of command"), PF_COND_CMD_TEST);
 	COND_MENUITEM_ADD(_("Size"),              PF_COND_SIZE);
 	COND_MENUITEM_ADD(_("Age"),               PF_COND_AGE);
 
-	MENUITEM_ADD(menu, menuitem, NULL,        PF_COND_SEPARATOR);
+	COMBOBOX_ADD(cond_type_optmenu, NULL,        PF_COND_SEPARATOR);
 	COND_MENUITEM_ADD(_("Unread"),            PF_COND_UNREAD);
 	COND_MENUITEM_ADD(_("Marked"),            PF_COND_MARK);
 	COND_MENUITEM_ADD(_("Has color label"),   PF_COND_COLOR_LABEL);
 	COND_MENUITEM_ADD(_("Has attachment"),    PF_COND_MIME);
 	/* COND_MENUITEM_ADD(_("Account"),           PF_COND_ACCOUNT); */
 
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(cond_type_optmenu), menu);
-
 #undef COND_MENUITEM_ADD
 
-	match_type_optmenu = gtk_option_menu_new();
+	g_signal_connect(G_OBJECT(cond_type_optmenu), "changed",
+			 G_CALLBACK(prefs_filter_cond_activated_cb), cond_hbox);
+
+	match_type_optmenu = menu_combo_new();
 	gtk_widget_show(match_type_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), match_type_optmenu, FALSE, FALSE, 0);
 
 #define MATCH_MENUITEM_ADD(str, action)					    \
-{									    \
-	MENUITEM_ADD(menu, menuitem, str, action);			    \
-	g_signal_connect(G_OBJECT(menuitem), "activate",		    \
-			 G_CALLBACK(prefs_filter_match_activated_cb),	    \
-			 cond_hbox);					    \
-}
-	menu = gtk_menu_new();
-	gtk_widget_show(menu);
+	COMBOBOX_ADD(match_type_optmenu, str, action)
+
 	MATCH_MENUITEM_ADD(_("contains"),               PF_MATCH_CONTAIN);
 	MATCH_MENUITEM_ADD(_("doesn't contain"),        PF_MATCH_NOT_CONTAIN);
 	MATCH_MENUITEM_ADD(_("is"),                     PF_MATCH_EQUAL);
@@ -543,45 +533,36 @@ CondHBox *prefs_filter_edit_cond_hbox_create(FilterCondEdit *cond_edit)
 	MATCH_MENUITEM_ADD(_("match to regex"),         PF_MATCH_REGEX);
 	MATCH_MENUITEM_ADD(_("doesn't match to regex"), PF_MATCH_NOT_REGEX);
 #endif
-	MATCH_MENUITEM_ADD(_("is in addressbook"),      PF_MATCH_IN_ADDRESSBOOK);
-	match_menu_in_addr = menuitem;
-	MATCH_MENUITEM_ADD(_("is not in addressbook"),  PF_MATCH_NOT_IN_ADDRESSBOOK);
-	match_menu_not_in_addr = menuitem;
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(match_type_optmenu), menu);
+	/* "is in addressbook" and "is not in addressbook" are added by
+	   prefs_filter_edit_show_match_addr_items() when shown */
 
 #undef MATCH_MENUITEM_ADD
 
-	size_match_optmenu = gtk_option_menu_new();
+	g_signal_connect(G_OBJECT(match_type_optmenu), "changed",
+			 G_CALLBACK(prefs_filter_match_activated_cb), cond_hbox);
+
+	size_match_optmenu = menu_combo_new();
 	gtk_widget_show(size_match_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), size_match_optmenu, FALSE, FALSE, 0);
 
-	menu = gtk_menu_new();
-	gtk_widget_show(menu);
-	MENUITEM_ADD(menu, menuitem, _("is larger than"), PF_SIZE_LARGER);
-	MENUITEM_ADD(menu, menuitem, _("is smaller than"), PF_SIZE_SMALLER);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(size_match_optmenu), menu);
+	COMBOBOX_ADD(size_match_optmenu, _("is larger than"), PF_SIZE_LARGER);
+	COMBOBOX_ADD(size_match_optmenu, _("is smaller than"), PF_SIZE_SMALLER);
 
-	age_match_optmenu = gtk_option_menu_new();
+	age_match_optmenu = menu_combo_new();
 	gtk_widget_show(age_match_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), age_match_optmenu, FALSE, FALSE, 0);
 
-	menu = gtk_menu_new();
-	gtk_widget_show(menu);
-	MENUITEM_ADD(menu, menuitem, _("is shorter than"), PF_AGE_SHORTER);
-	MENUITEM_ADD(menu, menuitem, _("is longer than"), PF_AGE_LONGER);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(age_match_optmenu), menu);
+	COMBOBOX_ADD(age_match_optmenu, _("is shorter than"), PF_AGE_SHORTER);
+	COMBOBOX_ADD(age_match_optmenu, _("is longer than"), PF_AGE_LONGER);
 
-	status_match_optmenu = gtk_option_menu_new();
+	status_match_optmenu = menu_combo_new();
 	gtk_widget_show(status_match_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), status_match_optmenu,
 			   FALSE, FALSE, 0);
 
-	menu = gtk_menu_new();
-	gtk_widget_show(menu);
-	MENUITEM_ADD(menu, menuitem, _("matches to status"), PF_STATUS_MATCH);
-	MENUITEM_ADD(menu, menuitem, _("doesn't match to status"),
+	COMBOBOX_ADD(status_match_optmenu, _("matches to status"), PF_STATUS_MATCH);
+	COMBOBOX_ADD(status_match_optmenu, _("doesn't match to status"),
 		     PF_STATUS_NOT_MATCH);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(status_match_optmenu), menu);
 
 	key_entry = gtk_entry_new();
 	gtk_widget_show(key_entry);
@@ -627,16 +608,17 @@ CondHBox *prefs_filter_edit_cond_hbox_create(FilterCondEdit *cond_edit)
 	cond_hbox->key_entry = key_entry;
 	cond_hbox->spin_btn = spin_btn;
 	cond_hbox->label = label;
-	cond_hbox->match_menu_in_addr = match_menu_in_addr;
-	cond_hbox->match_menu_not_in_addr = match_menu_not_in_addr;
+	cond_hbox->match_addr_items_shown = FALSE;
 	cond_hbox->del_btn = del_btn;
 	cond_hbox->add_btn = add_btn;
 	cond_hbox->cur_type = PF_COND_HEADER;
 	cond_hbox->cur_header_name = NULL;
 	cond_hbox->cond_edit = cond_edit;
 
+	prefs_filter_edit_show_match_addr_items(cond_hbox, TRUE);
 	prefs_filter_edit_set_cond_header_menu(cond_edit, cond_hbox);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(cond_type_optmenu), 0);
+	COMBO_SET_ACTIVE_SILENT(cond_type_optmenu, 0,
+				prefs_filter_cond_activated_cb, cond_hbox);
 
 	return cond_hbox;
 }
@@ -646,8 +628,6 @@ ActionHBox *prefs_filter_edit_action_hbox_create(void)
 	ActionHBox *action_hbox;
 	GtkWidget *hbox;
 	GtkWidget *action_type_optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	GtkWidget *label;
 	GtkWidget *folder_entry;
 	GtkWidget *cmd_entry;
@@ -665,50 +645,41 @@ ActionHBox *prefs_filter_edit_action_hbox_create(void)
 	hbox = gtk_hbox_new(FALSE, 4);
 	gtk_widget_show(hbox);
 
-	action_type_optmenu = gtk_option_menu_new();
+	action_type_optmenu = menu_combo_new();
 	gtk_widget_show(action_type_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), action_type_optmenu, FALSE, FALSE, 0);
 
-	memset(action_hbox->action_type_menu_items, 0,
-	       sizeof(action_hbox->action_type_menu_items));
-
 #define ACTION_MENUITEM_ADD(str, action)				      \
-{									      \
-	MENUITEM_ADD(menu, menuitem, str, action);			      \
-	action_hbox->action_type_menu_items[action] = menuitem;		      \
-	g_signal_connect(G_OBJECT(menuitem), "activate",		      \
-			 G_CALLBACK(prefs_filter_action_activated_cb),	      \
-			 action_hbox);					      \
-}
+	COMBOBOX_ADD(action_type_optmenu, str, action)
 
-	menu = gtk_menu_new();
-	gtk_widget_show(menu);
 	ACTION_MENUITEM_ADD(_("Move to"),               PF_ACTION_MOVE);
 	ACTION_MENUITEM_ADD(_("Copy to"),               PF_ACTION_COPY);
 	ACTION_MENUITEM_ADD(_("Don't receive"),         PF_ACTION_NOT_RECEIVE);
 	ACTION_MENUITEM_ADD(_("Delete from server"),    PF_ACTION_DELETE);
 
-	MENUITEM_ADD(menu, menuitem, NULL,              PF_ACTION_SEPARATOR);
+	COMBOBOX_ADD(action_type_optmenu, NULL,              PF_ACTION_SEPARATOR);
 	ACTION_MENUITEM_ADD(_("Set mark"),              PF_ACTION_MARK);
 	ACTION_MENUITEM_ADD(_("Set color"),             PF_ACTION_COLOR_LABEL);
 	ACTION_MENUITEM_ADD(_("Mark as read"),          PF_ACTION_MARK_READ);
 
 #if 0
-	MENUITEM_ADD(menu, menuitem, NULL,              PF_ACTION_SEPARATOR);
+	COMBOBOX_ADD(action_type_optmenu, NULL,              PF_ACTION_SEPARATOR);
 	ACTION_MENUITEM_ADD(_("Forward"),               PF_ACTION_FORWARD);
 	ACTION_MENUITEM_ADD(_("Forward as attachment"), PF_ACTION_FORWARD_AS_ATTACHMENT);
 	ACTION_MENUITEM_ADD(_("Redirect"),              PF_ACTION_REDIRECT);
 #endif
 
-	MENUITEM_ADD(menu, menuitem, NULL,              PF_ACTION_SEPARATOR);
+	COMBOBOX_ADD(action_type_optmenu, NULL,              PF_ACTION_SEPARATOR);
 	ACTION_MENUITEM_ADD(_("Execute command"),       PF_ACTION_EXEC);
 
-	MENUITEM_ADD(menu, menuitem, NULL,              PF_ACTION_SEPARATOR);
+	COMBOBOX_ADD(action_type_optmenu, NULL,              PF_ACTION_SEPARATOR);
 	ACTION_MENUITEM_ADD(_("Stop rule evaluation"),  PF_ACTION_STOP_EVAL);
 
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(action_type_optmenu), menu);
-
 #undef ACTION_MENUITEM_ADD
+
+	g_signal_connect(G_OBJECT(action_type_optmenu), "changed",
+			 G_CALLBACK(prefs_filter_action_activated_cb),
+			 action_hbox);
 
 	label = gtk_label_new(_("folder:"));
 	gtk_widget_show(label);
@@ -735,12 +706,9 @@ ActionHBox *prefs_filter_edit_action_hbox_create(void)
 	gtk_widget_show(address_entry);
 	gtk_box_pack_start(GTK_BOX(hbox), address_entry, TRUE, TRUE, 0);
 
-	clabel_optmenu = gtk_option_menu_new();
+	clabel_optmenu = colorlabel_create_color_combo();
 	gtk_widget_show(clabel_optmenu);
 	gtk_box_pack_start(GTK_BOX(hbox), clabel_optmenu, FALSE, FALSE, 0);
-
-	menu = colorlabel_create_color_menu();
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(clabel_optmenu), menu);
 
 	del_img = gtk_image_new_from_stock
 		(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
@@ -783,10 +751,10 @@ ActionHBox *prefs_filter_edit_action_hbox_create(void)
 
 void prefs_filter_edit_cond_hbox_set(CondHBox *hbox, FilterCond *cond)
 {
-	GtkOptionMenu *cond_type_optmenu =
-		GTK_OPTION_MENU(hbox->cond_type_optmenu);
-	GtkOptionMenu *match_type_optmenu =
-		GTK_OPTION_MENU(hbox->match_type_optmenu);
+	GtkComboBox *cond_type_optmenu =
+		GTK_COMBO_BOX(hbox->cond_type_optmenu);
+	GtkComboBox *match_type_optmenu =
+		GTK_COMBO_BOX(hbox->match_type_optmenu);
 	gint cond_index = -1;
 	gint match_index = -1;
 	CondMenuType cond_type = PF_COND_NONE;
@@ -886,8 +854,6 @@ void prefs_filter_edit_cond_hbox_set(CondHBox *hbox, FilterCond *cond)
 		cond_index = menu_find_option_menu_index
 			(cond_type_optmenu, GINT_TO_POINTER(cond_type), NULL);
 	if (cond_index >= 0) {
-		GtkWidget *menuitem;
-
 		if (cond_type == PF_COND_SIZE || cond_type == PF_COND_AGE) {
 			gtk_spin_button_set_value
 				(GTK_SPIN_BUTTON(hbox->spin_btn),
@@ -897,26 +863,28 @@ void prefs_filter_edit_cond_hbox_set(CondHBox *hbox, FilterCond *cond)
 					   cond->str_value ?
 					   cond->str_value : "");
 		}
-		gtk_option_menu_set_history(cond_type_optmenu, cond_index);
-		menuitem = gtk_menu_get_active
-			(GTK_MENU(gtk_option_menu_get_menu(cond_type_optmenu)));
-		gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
+		COMBO_SET_ACTIVE_SILENT(cond_type_optmenu, cond_index,
+					prefs_filter_cond_activated_cb, hbox);
+		/* the option menu item was activated here */
+		prefs_filter_cond_activated_cb(GTK_WIDGET(cond_type_optmenu),
+					       hbox);
 	}
 
 	match_index = menu_find_option_menu_index
 		(match_type_optmenu, GINT_TO_POINTER(match_type), NULL);
 	if (match_index >= 0)
-		gtk_option_menu_set_history(match_type_optmenu, match_index);
+		COMBO_SET_ACTIVE_SILENT(match_type_optmenu, match_index,
+					prefs_filter_match_activated_cb, hbox);
 	if (cond_type == PF_COND_SIZE)
-		gtk_option_menu_set_history
-			(GTK_OPTION_MENU(hbox->size_match_optmenu), size_type);
+		gtk_combo_box_set_active
+			(GTK_COMBO_BOX(hbox->size_match_optmenu), size_type);
 	else if (cond_type == PF_COND_AGE)
-		gtk_option_menu_set_history
-			(GTK_OPTION_MENU(hbox->age_match_optmenu), age_type);
+		gtk_combo_box_set_active
+			(GTK_COMBO_BOX(hbox->age_match_optmenu), age_type);
 	else if (cond_type == PF_COND_UNREAD || cond_type == PF_COND_MARK ||
 		 cond_type == PF_COND_COLOR_LABEL || cond_type == PF_COND_MIME)
-		gtk_option_menu_set_history
-			(GTK_OPTION_MENU(hbox->status_match_optmenu),
+		gtk_combo_box_set_active
+			(GTK_COMBO_BOX(hbox->status_match_optmenu),
 			 status_type);
 
 	if (match_type == PF_MATCH_IN_ADDRESSBOOK ||
@@ -926,11 +894,7 @@ void prefs_filter_edit_cond_hbox_set(CondHBox *hbox, FilterCond *cond)
 
 void prefs_filter_edit_action_hbox_set(ActionHBox *hbox, FilterAction *action)
 {
-	GtkOptionMenu *type_optmenu = GTK_OPTION_MENU(hbox->action_type_optmenu);
-	GtkWidget *menu;
 	ActionMenuType type = PF_ACTION_NONE;
-
-	menu = gtk_option_menu_get_menu(type_optmenu);
 
 	switch (action->type) {
 	case FLT_ACTION_MOVE:
@@ -966,8 +930,8 @@ void prefs_filter_edit_action_hbox_set(ActionHBox *hbox, FilterAction *action)
 				   action->str_value ? action->str_value : "");
 		break;
 	case PF_ACTION_COLOR_LABEL:
-		gtk_option_menu_set_history
-			(GTK_OPTION_MENU(hbox->clabel_optmenu),
+		gtk_combo_box_set_active
+			(GTK_COMBO_BOX(hbox->clabel_optmenu),
 			 action->int_value - 1);
 		break;
 	default:
@@ -981,9 +945,8 @@ void prefs_filter_edit_cond_hbox_select(CondHBox *hbox, CondMenuType type,
 					const gchar *header_name)
 {
 	gint index;
-	GtkOptionMenu *cond_type_optmenu =
-		GTK_OPTION_MENU(hbox->cond_type_optmenu);
-	GtkWidget *menu;
+	GtkComboBox *cond_type_optmenu =
+		GTK_COMBO_BOX(hbox->cond_type_optmenu);
 
 	if (type == PF_COND_HEADER) {
 		if (header_name)
@@ -998,8 +961,44 @@ void prefs_filter_edit_cond_hbox_select(CondHBox *hbox, CondMenuType type,
 	if (index < 0)
 		index = 0;
 
-	menu = gtk_option_menu_get_menu(cond_type_optmenu);
-	gtk_option_menu_set_history(cond_type_optmenu, index);
+	COMBO_SET_ACTIVE_SILENT(cond_type_optmenu, index,
+				prefs_filter_cond_activated_cb, hbox);
+}
+
+/* Add or remove the "is in addressbook" items of the match type menu
+   (the option menu items were shown or hidden) */
+static void prefs_filter_edit_show_match_addr_items(CondHBox *hbox,
+						    gboolean show)
+{
+	GtkComboBox *combo = GTK_COMBO_BOX(hbox->match_type_optmenu);
+	gint index;
+
+	if (hbox->match_addr_items_shown == show)
+		return;
+
+	g_signal_handlers_block_by_func(G_OBJECT(combo),
+					prefs_filter_match_activated_cb, hbox);
+	if (show) {
+		COMBOBOX_ADD(combo, _("is in addressbook"),
+			     PF_MATCH_IN_ADDRESSBOOK);
+		COMBOBOX_ADD(combo, _("is not in addressbook"),
+			     PF_MATCH_NOT_IN_ADDRESSBOOK);
+	} else {
+		index = menu_find_option_menu_index
+			(combo, GINT_TO_POINTER(PF_MATCH_IN_ADDRESSBOOK), NULL);
+		if (index >= 0)
+			menu_combo_remove(combo, index);
+		index = menu_find_option_menu_index
+			(combo, GINT_TO_POINTER(PF_MATCH_NOT_IN_ADDRESSBOOK),
+			 NULL);
+		if (index >= 0)
+			menu_combo_remove(combo, index);
+	}
+	g_signal_handlers_unblock_by_func(G_OBJECT(combo),
+					  prefs_filter_match_activated_cb,
+					  hbox);
+
+	hbox->match_addr_items_shown = show;
 }
 
 void prefs_filter_edit_set_cond_hbox_widgets(CondHBox *hbox, CondMenuType type)
@@ -1016,7 +1015,7 @@ void prefs_filter_edit_set_cond_hbox_widgets(CondHBox *hbox, CondMenuType type)
 		gtk_widget_hide(hbox->age_match_optmenu);
 		gtk_widget_hide(hbox->status_match_optmenu);
 		match_type = menu_get_option_menu_active_index
-			(GTK_OPTION_MENU(hbox->match_type_optmenu));
+			(GTK_COMBO_BOX(hbox->match_type_optmenu));
 		if (match_type == PF_MATCH_IN_ADDRESSBOOK ||
 		    match_type == PF_MATCH_NOT_IN_ADDRESSBOOK)
 			gtk_widget_hide(hbox->key_entry);
@@ -1025,14 +1024,14 @@ void prefs_filter_edit_set_cond_hbox_widgets(CondHBox *hbox, CondMenuType type)
 		gtk_widget_hide(hbox->spin_btn);
 		gtk_widget_hide(hbox->label);
 		if (type == PF_COND_HEADER || type == PF_COND_TO_OR_CC) {
-			gtk_widget_show(hbox->match_menu_in_addr);
-			gtk_widget_show(hbox->match_menu_not_in_addr);
+			prefs_filter_edit_show_match_addr_items(hbox, TRUE);
 		} else {
-			gtk_widget_hide(hbox->match_menu_in_addr);
-			gtk_widget_hide(hbox->match_menu_not_in_addr);
+			prefs_filter_edit_show_match_addr_items(hbox, FALSE);
 			if (match_type == PF_MATCH_IN_ADDRESSBOOK ||
 			    match_type == PF_MATCH_NOT_IN_ADDRESSBOOK) {
-				gtk_option_menu_set_history(GTK_OPTION_MENU(hbox->match_type_optmenu), 0);
+				COMBO_SET_ACTIVE_SILENT
+					(hbox->match_type_optmenu, 0,
+					 prefs_filter_match_activated_cb, hbox);
 				gtk_widget_show(hbox->key_entry);
 			}
 		}
@@ -1096,7 +1095,7 @@ void prefs_filter_edit_set_cond_hbox_widgets(CondHBox *hbox, CondMenuType type)
 void prefs_filter_edit_set_action_hbox_widgets(ActionHBox *hbox,
 					       ActionMenuType type)
 {
-	GtkOptionMenu *type_optmenu = GTK_OPTION_MENU(hbox->action_type_optmenu);
+	GtkComboBox *type_optmenu = GTK_COMBO_BOX(hbox->action_type_optmenu);
 	gint index;
 
 	switch (type) {
@@ -1156,18 +1155,23 @@ void prefs_filter_edit_set_action_hbox_widgets(ActionHBox *hbox,
 
 	index = menu_find_option_menu_index(type_optmenu, GINT_TO_POINTER(type),
 					    NULL);
-	gtk_option_menu_set_history(type_optmenu, index);
+	COMBO_SET_ACTIVE_SILENT(type_optmenu, index,
+				prefs_filter_action_activated_cb, hbox);
 	prefs_filter_edit_set_action_hbox_menus_sensitive();
 }
 
 static void prefs_filter_edit_set_action_hbox_menu_sensitive
 	(ActionHBox *hbox, ActionMenuType type, gboolean sensitive)
 {
-	GtkWidget *menuitem;
+	GtkComboBox *combo = GTK_COMBO_BOX(hbox->action_type_optmenu);
+	gint index;
 
-	menuitem = hbox->action_type_menu_items[type];
-	if (menuitem)
-		gtk_widget_set_sensitive(menuitem, sensitive);
+	if (type == PF_ACTION_SEPARATOR)
+		return;
+	index = menu_find_option_menu_index(combo, GINT_TO_POINTER(type),
+					    NULL);
+	if (index >= 0)
+		menu_combo_set_item_sensitive(combo, index, sensitive);
 }
 
 static void prefs_filter_edit_set_action_hbox_menus_sensitive(void)
@@ -1246,16 +1250,12 @@ static void prefs_filter_edit_get_action_hbox_menus_selection(gboolean *selectio
 
 static ActionMenuType prefs_filter_edit_get_action_hbox_type(ActionHBox *hbox)
 {
-	GtkWidget *menuitem;
 	ActionMenuType type;
 
 	g_return_val_if_fail(hbox != NULL, PF_ACTION_NONE);
 
-	menuitem = gtk_menu_get_active
-		(GTK_MENU(gtk_option_menu_get_menu
-			(GTK_OPTION_MENU(hbox->action_type_optmenu))));
-	type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menuitem),
-						 MENU_VAL_ID));
+	type = menu_get_option_menu_active_index
+		(GTK_COMBO_BOX(hbox->action_type_optmenu));
 
 	return type;
 }
@@ -1399,39 +1399,28 @@ static void prefs_filter_edit_set_cond_header_menu(FilterCondEdit *cond_edit,
 						   CondHBox *hbox)
 {
 	GSList *cur;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
+	GtkComboBox *combo = GTK_COMBO_BOX(hbox->cond_type_optmenu);
 	gint pos = 0;
-	GList *child;
 
-	menu = gtk_option_menu_get_menu
-		(GTK_OPTION_MENU(hbox->cond_type_optmenu));
+	g_signal_handlers_block_by_func(G_OBJECT(combo),
+					prefs_filter_cond_activated_cb, hbox);
 
-	/* destroy header items */
-	child = GTK_MENU_SHELL(menu)->children;
-	while (child != NULL) {
-		GList *next = child->next;
-		menuitem = GTK_WIDGET(child->data);
-		if (!g_object_get_data(G_OBJECT(menuitem), "header_str"))
-			break;
-		gtk_widget_destroy(menuitem);
-		child = next;
-	}
+	/* remove header items ("header_str" is the row extra data) */
+	while (menu_combo_get_n_items(combo) > 0 &&
+	       menu_combo_get_nth_extra(combo, 0) != NULL)
+		menu_combo_remove(combo, 0);
 
 	for (cur = cond_edit->hdr_list; cur != NULL; cur = cur->next, pos++) {
 		Header *header = (Header *)cur->data;
 
-		menuitem = gtk_menu_item_new_with_label(header->name);
-		gtk_widget_show(menuitem);
-		gtk_menu_insert(GTK_MENU(menu), menuitem, pos);
-		g_object_set_data(G_OBJECT(menuitem), MENU_VAL_ID,
+		menu_combo_insert(combo, pos, header->name,
 				  GINT_TO_POINTER(PF_COND_HEADER));
-		g_object_set_data(G_OBJECT(menuitem), "header_str",
-				  header->name);
-		g_signal_connect(G_OBJECT(menuitem), "activate",
-				 G_CALLBACK(prefs_filter_cond_activated_cb),
-				 hbox);
+		menu_combo_set_nth_extra(combo, pos, header->name);
 	}
+
+	g_signal_handlers_unblock_by_func(G_OBJECT(combo),
+					  prefs_filter_cond_activated_cb,
+					  hbox);
 
 	if (hbox->cur_type == PF_COND_HEADER)
 		prefs_filter_edit_cond_hbox_select
@@ -1443,9 +1432,7 @@ static void prefs_filter_edit_activate_cond_header(FilterCondEdit *cond_edit,
 {
 	gint index;
 	CondHBox *hbox;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
-	GList *cur;
+	GtkComboBox *combo;
 	gchar *menu_header;
 
 	g_return_if_fail(header != NULL);
@@ -1453,21 +1440,18 @@ static void prefs_filter_edit_activate_cond_header(FilterCondEdit *cond_edit,
 	g_return_if_fail(cond_edit->cond_hbox_list != NULL);
 
 	hbox = (CondHBox *)cond_edit->cond_hbox_list->data;
-	menu = gtk_option_menu_get_menu
-		(GTK_OPTION_MENU(hbox->cond_type_optmenu));
+	combo = GTK_COMBO_BOX(hbox->cond_type_optmenu);
 
-	for (cur = GTK_MENU_SHELL(menu)->children, index = 0;
-	     cur != NULL; cur = cur->next, index++) {
-		menuitem = GTK_WIDGET(cur->data);
-		menu_header = g_object_get_data(G_OBJECT(menuitem),
-						"header_str");
+	for (index = 0; index < menu_combo_get_n_items(combo); index++) {
+		menu_header = menu_combo_get_nth_extra(combo, index);
 		if (!menu_header)
 			break;
 		if (!g_ascii_strcasecmp(menu_header, header)) {
-			gtk_option_menu_set_history
-				(GTK_OPTION_MENU(hbox->cond_type_optmenu),
-				 index);
-			gtk_menu_item_activate(GTK_MENU_ITEM(menuitem));
+			COMBO_SET_ACTIVE_SILENT(combo, index,
+						prefs_filter_cond_activated_cb,
+						hbox);
+			/* the option menu item was activated here */
+			prefs_filter_cond_activated_cb(GTK_WIDGET(combo), hbox);
 			break;
 		}
 	}
@@ -1491,33 +1475,44 @@ static gboolean edit_header_list_dialog_key_pressed(GtkWidget *widget,
 
 static void edit_header_list_dialog_add(void)
 {
-	GtkCList *clist = GTK_CLIST(edit_header_list_dialog.clist);
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid;
 	const gchar *text;
-	gchar *ctext[1];
-	gint row;
 	gchar *row_text;
 
 	text = gtk_entry_get_text(GTK_ENTRY(edit_header_list_dialog.entry));
 	if (text[0] == '\0') return;
 
-	for (row = 0; gtk_clist_get_text(clist, row, 0, &row_text) != 0;
-	     row++) {
-		if (g_ascii_strcasecmp(row_text, text) == 0) return;
+	model = gtk_tree_view_get_model
+		(GTK_TREE_VIEW(edit_header_list_dialog.clist));
+	for (valid = gtk_tree_model_get_iter_first(model, &iter); valid;
+	     valid = gtk_tree_model_iter_next(model, &iter)) {
+		gtk_tree_model_get(model, &iter, 0, &row_text, -1);
+		if (g_ascii_strcasecmp(row_text, text) == 0) {
+			g_free(row_text);
+			return;
+		}
+		g_free(row_text);
 	}
 
-	ctext[0] = (gchar *)text;
-	gtk_clist_append(clist, ctext);
+	gtk_list_store_append(GTK_LIST_STORE(model), &iter);
+	gtk_list_store_set(GTK_LIST_STORE(model), &iter, 0, text, -1);
+	/* GtkCList in browse mode selected the first row */
+	if (gtk_tree_model_iter_n_children(model, NULL) == 1)
+		gtkut_list_view_select_row
+			(GTK_TREE_VIEW(edit_header_list_dialog.clist), 0);
 }
 
 static void edit_header_list_dialog_delete(void)
 {
-	GtkCList *clist = GTK_CLIST(edit_header_list_dialog.clist);
+	GtkTreeView *treeview = GTK_TREE_VIEW(edit_header_list_dialog.clist);
 	gint row;
 
-	if (!clist->selection) return;
+	row = gtkut_list_view_get_selected_row(treeview);
+	if (row < 0) return;
 
-	row = GPOINTER_TO_INT(clist->selection->data);
-	gtk_clist_remove(clist, row);
+	gtkut_list_view_remove_row(treeview, row);
 }
 
 static void edit_header_list_dialog_ok(void)
@@ -1553,13 +1548,14 @@ static void prefs_filter_edit_edit_header_list_dialog_create(void)
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
 
-	gchar *title[1];
+	GtkListStore *store;
+	GtkTreeViewColumn *column;
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
-	gtk_window_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
+	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_window_set_title(GTK_WINDOW(window), _("Edit header list"));
 
 	g_signal_connect(G_OBJECT(window), "delete_event",
@@ -1583,14 +1579,17 @@ static void prefs_filter_edit_edit_header_list_dialog_create(void)
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
 
-	title[0] = _("Headers");
-	clist = gtk_clist_new_with_titles(1, title);
+	store = gtk_list_store_new(1, G_TYPE_STRING);
+	clist = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
 	gtk_container_add(GTK_CONTAINER(scrwin), clist);
-	gtk_clist_set_column_width(GTK_CLIST(clist), 0, 80);
-	gtk_clist_set_selection_mode(GTK_CLIST(clist), GTK_SELECTION_BROWSE);
-	gtkut_clist_set_redraw(GTK_CLIST(clist));
-	gtk_widget_set_can_focus(GTK_CLIST(clist)->column[0].button,
-			       FALSE);
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Headers"), gtk_cell_renderer_text_new(), "text", 0, NULL);
+	gtk_tree_view_column_set_min_width(column, 80);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(clist), column);
+	gtk_tree_selection_set_mode
+		(gtk_tree_view_get_selection(GTK_TREE_VIEW(clist)),
+		 GTK_SELECTION_BROWSE);
 
 	entry_hbox = gtk_hbox_new(FALSE, 8);
 	gtk_box_pack_start(GTK_BOX(vbox), entry_hbox, FALSE, TRUE, 0);
@@ -1638,32 +1637,42 @@ static void prefs_filter_edit_edit_header_list_dialog_create(void)
 
 static void prefs_filter_edit_edit_header_list_dialog_set(void)
 {
-	GtkCList *clist = GTK_CLIST(edit_header_list_dialog.clist);
+	GtkListStore *store;
+	GtkTreeIter iter;
 	GSList *list;
 	GSList *cur;
-	gchar *text[1];
 
-	gtk_clist_freeze(clist);
+	store = GTK_LIST_STORE(gtk_tree_view_get_model
+			       (GTK_TREE_VIEW(edit_header_list_dialog.clist)));
 
 	list = prefs_filter_get_user_header_list();
 	for (cur = list; cur != NULL; cur = cur->next) {
 		Header *header = (Header *)cur->data;
-		text[0] = header->name;
-		gtk_clist_append(clist, text);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, 0, header->name, -1);
 	}
 
-	gtk_clist_thaw(clist);
+	/* GtkCList in browse mode selected the first row */
+	gtkut_list_view_select_row
+		(GTK_TREE_VIEW(edit_header_list_dialog.clist), 0);
 }
 
 static GSList *prefs_filter_edit_edit_header_list_dialog_get(void)
 {
-	GtkCList *clist = GTK_CLIST(edit_header_list_dialog.clist);
-	gint row;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid;
 	gchar *text;
 	GSList *list = NULL;
 
-	for (row = 0; gtk_clist_get_text(clist, row, 0, &text) != 0; row++)
+	model = gtk_tree_view_get_model
+		(GTK_TREE_VIEW(edit_header_list_dialog.clist));
+	for (valid = gtk_tree_model_get_iter_first(model, &iter); valid;
+	     valid = gtk_tree_model_iter_next(model, &iter)) {
+		gtk_tree_model_get(model, &iter, 0, &text, -1);
 		list = procheader_add_header_list(list, text, NULL);
+		g_free(text);
+	}
 
 	return list;
 }
@@ -1704,7 +1713,6 @@ FilterCond *prefs_filter_edit_cond_hbox_to_cond(CondHBox *hbox,
 						gchar **error_msg)
 {
 	FilterCond *cond = NULL;
-	GtkWidget *cond_type_menuitem;
 	CondMenuType cond_menu_type;
 	MatchMenuType match_menu_type;
 	const gchar *header_name;
@@ -1717,14 +1725,11 @@ FilterCond *prefs_filter_edit_cond_hbox_to_cond(CondHBox *hbox,
 	StatusMatchType status_type;
 	gchar *error_msg_ = NULL;
 
-	cond_type_menuitem = gtk_menu_get_active
-		(GTK_MENU(gtk_option_menu_get_menu
-			(GTK_OPTION_MENU(hbox->cond_type_optmenu))));
-	cond_menu_type = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(cond_type_menuitem), MENU_VAL_ID));
+	cond_menu_type = menu_get_option_menu_active_index
+		(GTK_COMBO_BOX(hbox->cond_type_optmenu));
 
 	match_menu_type = menu_get_option_menu_active_index
-		(GTK_OPTION_MENU(hbox->match_type_optmenu));
+		(GTK_COMBO_BOX(hbox->match_type_optmenu));
 
 	key_str = gtk_entry_get_text(GTK_ENTRY(hbox->key_entry));
 
@@ -1766,8 +1771,10 @@ FilterCond *prefs_filter_edit_cond_hbox_to_cond(CondHBox *hbox,
 
 	switch (cond_menu_type) {
 	case PF_COND_HEADER:
-		header_name = g_object_get_data
-			(G_OBJECT(cond_type_menuitem), "header_str");
+		header_name = menu_combo_get_nth_extra
+			(GTK_COMBO_BOX(hbox->cond_type_optmenu),
+			 gtk_combo_box_get_active
+				(GTK_COMBO_BOX(hbox->cond_type_optmenu)));
 		cond = filter_cond_new(FLT_COND_HEADER,
 				       match_type, match_flag,
 				       header_name, key_str);
@@ -1793,7 +1800,7 @@ FilterCond *prefs_filter_edit_cond_hbox_to_cond(CondHBox *hbox,
 		break;
 	case PF_COND_SIZE:
 		size_type = menu_get_option_menu_active_index
-			 (GTK_OPTION_MENU(hbox->size_match_optmenu));
+			 (GTK_COMBO_BOX(hbox->size_match_optmenu));
 		match_flag = size_type == PF_SIZE_LARGER ? 0 : FLT_NOT_MATCH;
 		int_value = gtk_spin_button_get_value_as_int
 			(GTK_SPIN_BUTTON(hbox->spin_btn));
@@ -1802,7 +1809,7 @@ FilterCond *prefs_filter_edit_cond_hbox_to_cond(CondHBox *hbox,
 		break;
 	case PF_COND_AGE:
 		age_type = menu_get_option_menu_active_index
-			 (GTK_OPTION_MENU(hbox->age_match_optmenu));
+			 (GTK_COMBO_BOX(hbox->age_match_optmenu));
 		match_flag = age_type == PF_AGE_LONGER ? 0 : FLT_NOT_MATCH;
 		int_value = gtk_spin_button_get_value_as_int
 			(GTK_SPIN_BUTTON(hbox->spin_btn));
@@ -1811,28 +1818,28 @@ FilterCond *prefs_filter_edit_cond_hbox_to_cond(CondHBox *hbox,
 		break;
 	case PF_COND_UNREAD:
 		status_type = menu_get_option_menu_active_index
-			(GTK_OPTION_MENU(hbox->status_match_optmenu));
+			(GTK_COMBO_BOX(hbox->status_match_optmenu));
 		match_flag = status_type == PF_STATUS_MATCH ? 0 : FLT_NOT_MATCH;
 		cond = filter_cond_new(FLT_COND_UNREAD, 0, match_flag,
 				       NULL, NULL);
 		break;
 	case PF_COND_MARK:
 		status_type = menu_get_option_menu_active_index
-			(GTK_OPTION_MENU(hbox->status_match_optmenu));
+			(GTK_COMBO_BOX(hbox->status_match_optmenu));
 		match_flag = status_type == PF_STATUS_MATCH ? 0 : FLT_NOT_MATCH;
 		cond = filter_cond_new(FLT_COND_MARK, 0, match_flag,
 				       NULL, NULL);
 		break;
 	case PF_COND_COLOR_LABEL:
 		status_type = menu_get_option_menu_active_index
-			(GTK_OPTION_MENU(hbox->status_match_optmenu));
+			(GTK_COMBO_BOX(hbox->status_match_optmenu));
 		match_flag = status_type == PF_STATUS_MATCH ? 0 : FLT_NOT_MATCH;
 		cond = filter_cond_new(FLT_COND_COLOR_LABEL, 0, match_flag,
 				       NULL, NULL);
 		break;
 	case PF_COND_MIME:
 		status_type = menu_get_option_menu_active_index
-			(GTK_OPTION_MENU(hbox->status_match_optmenu));
+			(GTK_COMBO_BOX(hbox->status_match_optmenu));
 		match_flag = status_type == PF_STATUS_MATCH ? 0 : FLT_NOT_MATCH;
 		cond = filter_cond_new(FLT_COND_MIME, 0, match_flag,
 				       NULL, NULL);
@@ -1913,9 +1920,8 @@ FilterAction *prefs_filter_edit_action_hbox_to_action(ActionHBox *hbox,
 		action = filter_action_new(FLT_ACTION_MARK, NULL);
 		break;
 	case PF_ACTION_COLOR_LABEL:
-		color = colorlabel_get_color_menu_active_item
-			(gtk_option_menu_get_menu
-			 (GTK_OPTION_MENU(hbox->clabel_optmenu)));
+		color = colorlabel_get_color_combo_active_item
+			(hbox->clabel_optmenu);
 		action = filter_action_new(FLT_ACTION_COLOR_LABEL,
 					   itos(color));
 		break;
@@ -1975,7 +1981,6 @@ static FilterRule *prefs_filter_edit_dialog_to_rule(void)
 	FilterBoolOp bool_op;
 	GSList *cond_list = NULL;
 	GSList *action_list = NULL;
-	GtkWidget *bool_op_menuitem;
 	gchar *error_msg = NULL;
 
 	rule_name = gtk_entry_get_text(GTK_ENTRY(rule_edit_window.name_entry));
@@ -1984,11 +1989,8 @@ static FilterRule *prefs_filter_edit_dialog_to_rule(void)
 		goto error;
 	}
 
-	bool_op_menuitem = gtk_menu_get_active
-		(GTK_MENU(gtk_option_menu_get_menu
-			(GTK_OPTION_MENU(rule_edit_window.bool_op_optmenu))));
-	bool_op = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(bool_op_menuitem), MENU_VAL_ID));
+	bool_op = menu_get_option_menu_active_index
+		(GTK_COMBO_BOX(rule_edit_window.bool_op_optmenu));
 
 	cond_list = prefs_filter_edit_cond_edit_to_list
 		(&rule_edit_window.cond_edit, FALSE);
@@ -2072,9 +2074,13 @@ static void prefs_filter_cond_activated_cb(GtkWidget *widget, gpointer data)
 	CondHBox *hbox = (CondHBox *)data;
 	FilterCondEdit *cond_edit = hbox->cond_edit;
 	CondMenuType type;
+	gint active;
 
+	active = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
+	if (active < 0)
+		return;
 	type = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(widget), MENU_VAL_ID));
+		(menu_combo_get_nth_data(GTK_COMBO_BOX(widget), active));
 
 	if (type == PF_COND_EDIT_HEADER) {
 		prefs_filter_edit_edit_header_list(cond_edit);
@@ -2090,8 +2096,8 @@ static void prefs_filter_cond_activated_cb(GtkWidget *widget, gpointer data)
 			gchar *header_name;
 			gchar *header_field;
 
-			header_name = (gchar *)g_object_get_data
-				(G_OBJECT(widget), "header_str");
+			header_name = (gchar *)menu_combo_get_nth_extra
+				(GTK_COMBO_BOX(widget), active);
 			header_field = prefs_filter_get_msg_header_field
 				(header_name);
 			if (header_field)
@@ -2105,14 +2111,13 @@ static void prefs_filter_cond_activated_cb(GtkWidget *widget, gpointer data)
 static void prefs_filter_match_activated_cb(GtkWidget *widget, gpointer data)
 {
 	CondHBox *hbox = (CondHBox *)data;
-	GtkWidget *cond_type_menuitem;
 	CondMenuType cond_menu_type;
 
-	cond_type_menuitem = gtk_menu_get_active
-		(GTK_MENU(gtk_option_menu_get_menu
-			(GTK_OPTION_MENU(hbox->cond_type_optmenu))));
-	cond_menu_type = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(cond_type_menuitem), MENU_VAL_ID));
+	if (gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) < 0)
+		return;
+
+	cond_menu_type = menu_get_option_menu_active_index
+		(GTK_COMBO_BOX(hbox->cond_type_optmenu));
 
 	prefs_filter_edit_set_cond_hbox_widgets(hbox, cond_menu_type);
 }
@@ -2122,8 +2127,10 @@ static void prefs_filter_action_activated_cb(GtkWidget *widget, gpointer data)
 	ActionHBox *hbox = (ActionHBox *)data;
 	ActionMenuType type;
 
-	type = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(widget), MENU_VAL_ID));
+	if (gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) < 0)
+		return;
+
+	type = menu_get_option_menu_active_index(GTK_COMBO_BOX(widget));
 	prefs_filter_edit_set_action_hbox_widgets(hbox, type);
 }
 

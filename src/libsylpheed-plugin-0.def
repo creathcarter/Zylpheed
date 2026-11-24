@@ -112,3 +112,5 @@ EXPORTS
 	syl_plugin_compose_send @ 111
 	syl_plugin_get_attach_list @ 112
 	syl_plugin_main_window_get_toolbar @ 113
+	syl_plugin_menu_factory_get_item @ 114
+	syl_plugin_menu_factory_get_widget @ 115

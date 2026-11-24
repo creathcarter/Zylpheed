@@ -463,37 +463,20 @@ static void addressbook_edit_ldap_create( gboolean *cancelled ) {
 	gtk_widget_show_all( ldapedit.window );
 }
 
-void edit_ldap_set_optmenu( GtkOptionMenu *optmenu, const gint value ) {
-	GList *cur;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
-	gint menuVal;
-	gint n = 0;
+/* optmenu is a menu_combo_new() combo box; the values are the item data */
+void edit_ldap_set_optmenu( GtkComboBox *optmenu, const gint value ) {
+	gint n;
 
 	g_return_if_fail(optmenu != NULL);
 
-	menu = gtk_option_menu_get_menu(optmenu);
-	for( cur = GTK_MENU_SHELL(menu)->children; cur != NULL; cur = cur->next ) {
-		menuitem = GTK_WIDGET(cur->data);
-		menuVal = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menuitem), "user_data"));
-		if( menuVal == value ) {
-			gtk_option_menu_set_history(optmenu, n);
-			return;
-		}
-		n++;
-	}
-	gtk_option_menu_set_history(optmenu, 0);
+	n = menu_find_option_menu_index( optmenu, GINT_TO_POINTER(value), NULL );
+	gtk_combo_box_set_active( optmenu, n >= 0 ? n : 0 );
 }
 
-gint edit_ldap_get_optmenu( GtkOptionMenu *optmenu ) {
-	GtkWidget *menu;
-	GtkWidget *menuitem;
-
+gint edit_ldap_get_optmenu( GtkComboBox *optmenu ) {
 	g_return_val_if_fail(optmenu != NULL, -1);
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(optmenu));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
-	return GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menuitem), "user_data"));
+	return GPOINTER_TO_INT( menu_combo_get_active_data( optmenu ) );
 }
 
 AdapterDSource *addressbook_edit_ldap( AddressIndex *addrIndex, AdapterDSource *ads ) {

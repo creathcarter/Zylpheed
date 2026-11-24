@@ -23,6 +23,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 typedef struct _Compose		Compose;
 typedef struct _AttachInfo	AttachInfo;
 
@@ -125,7 +127,7 @@ struct _Compose
 
 	GtkWidget *popupmenu;
 
-	GtkItemFactory *popupfactory;
+	MenuFactory *popupfactory;
 
 	GtkWidget *tmpl_menu;
 

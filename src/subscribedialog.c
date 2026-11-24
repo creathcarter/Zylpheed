@@ -176,7 +176,7 @@ static void subscribe_dialog_create(void)
 	GtkTreeSelection *selection;
 
 	dialog = gtk_dialog_new();
-	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
 	gtk_widget_set_size_request(dialog,
 				    SUBSCRIBE_DIALOG_WIDTH * gtkut_get_dpi_multiplier(),
 				    SUBSCRIBE_DIALOG_HEIGHT * gtkut_get_dpi_multiplier());

@@ -123,12 +123,9 @@ static PrefsSearchFolderDialog *prefs_search_folder_create(FolderItem *item)
 	GtkWidget *name_hbox;
 	GtkWidget *name_label;
 	GtkWidget *name_entry;
-	GtkStyle *style;
 
 	GtkWidget *bool_hbox;
 	GtkWidget *bool_optmenu;
-	GtkWidget *bool_menu;
-	GtkWidget *menuitem;
 
 	GtkWidget *scrolledwin;
 	FilterCondEdit *cond_edit;
@@ -181,24 +178,20 @@ static PrefsSearchFolderDialog *prefs_search_folder_create(FolderItem *item)
 	gtk_editable_set_editable(GTK_EDITABLE(name_entry), FALSE);
 	gtk_box_pack_start(GTK_BOX(name_hbox), name_entry, TRUE, TRUE, 0);
 
-	style = gtk_widget_get_style(dialog->window);
-	gtk_widget_modify_base(name_entry, GTK_STATE_NORMAL,
-			       &style->bg[GTK_STATE_NORMAL]);
+	gtkut_widget_add_class(name_entry, GTKUT_CLASS_READONLY);
 	
 	bool_hbox = gtk_hbox_new(FALSE, 12);
 	gtk_widget_show(bool_hbox);
 	gtk_box_pack_start(GTK_BOX(vbox), bool_hbox, FALSE, FALSE, 0);
 
-	bool_optmenu = gtk_option_menu_new();
+	bool_optmenu = menu_combo_new();
 	gtk_widget_show(bool_optmenu);
 	gtk_box_pack_start(GTK_BOX(bool_hbox), bool_optmenu, FALSE, FALSE, 0);
 
-	bool_menu = gtk_menu_new();
-	MENUITEM_ADD(bool_menu, menuitem, _("Match any of the following"),
+	COMBOBOX_ADD(bool_optmenu, _("Match any of the following"),
 		     FLT_OR);
-	MENUITEM_ADD(bool_menu, menuitem, _("Match all of the following"),
+	COMBOBOX_ADD(bool_optmenu, _("Match all of the following"),
 		     FLT_AND);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(bool_optmenu), bool_menu);
 
 	scrolledwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_show(scrolledwin);
@@ -298,11 +291,11 @@ static void prefs_search_folder_set_dialog(PrefsSearchFolderDialog *dialog)
 	rule = (FilterRule *)flist->data;
 
 	index = menu_find_option_menu_index
-		(GTK_OPTION_MENU(dialog->bool_optmenu),
+		(GTK_COMBO_BOX(dialog->bool_optmenu),
 		 GINT_TO_POINTER(rule->bool_op), NULL);
 	if (index < 0)
 		index = 0;
-	gtk_option_menu_set_history(GTK_OPTION_MENU(dialog->bool_optmenu),
+	gtk_combo_box_set_active(GTK_COMBO_BOX(dialog->bool_optmenu),
 				    index);
 
 	gtk_entry_set_text(GTK_ENTRY(dialog->folder_entry),
@@ -398,7 +391,7 @@ static void prefs_search_folder_apply_cb(GtkWidget *widget,
 		return;
 
 	bool_op = menu_get_option_menu_active_index
-		(GTK_OPTION_MENU(dialog->bool_optmenu));
+		(GTK_COMBO_BOX(dialog->bool_optmenu));
 	recursive = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON(dialog->subfolder_checkbtn));
 	case_sens = gtk_toggle_button_get_active

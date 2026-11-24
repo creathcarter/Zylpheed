@@ -209,7 +209,6 @@ static void alertpanel_create(const gchar *title,
 			      const gchar *button2_label,
 			      const gchar *button3_label)
 {
-	static PangoFontDescription *font_desc;
 	GtkWidget *image;
 	GtkWidget *label;
 	GtkWidget *hbox;
@@ -227,12 +226,11 @@ static void alertpanel_create(const gchar *title,
 
 	dialog = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(dialog), title);
-	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
 	gtk_window_set_position(GTK_WINDOW(dialog),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	manage_window_set_transient(GTK_WINDOW(dialog));
-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
 	gtk_widget_realize(dialog);
 	g_signal_connect(G_OBJECT(dialog), "delete_event",
 			 G_CALLBACK(alertpanel_deleted),
@@ -281,19 +279,7 @@ static void alertpanel_create(const gchar *title,
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-	if (!font_desc) {
-		gint size;
-
-		size = pango_font_description_get_size
-			(gtk_widget_get_style(label)->font_desc);
-		font_desc = pango_font_description_new();
-		pango_font_description_set_weight
-			(font_desc, PANGO_WEIGHT_BOLD);
-		pango_font_description_set_size
-			(font_desc, size * PANGO_SCALE_LARGE);
-	}
-	if (font_desc)
-		gtk_widget_modify_font(label, font_desc);
+	gtkut_widget_add_class(label, GTKUT_CLASS_TITLE);
 
 	/* message label */
 	label = gtk_label_new(message);
@@ -302,16 +288,6 @@ static void alertpanel_create(const gchar *title,
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
 	gtk_widget_set_can_focus(label, FALSE);
-#ifdef G_OS_WIN32
-	{
-		GtkStyle *style;
-		style = gtk_widget_get_style(dialog);
-		gtk_widget_modify_base(label, GTK_STATE_ACTIVE,
-				       &style->base[GTK_STATE_SELECTED]);
-		gtk_widget_modify_text(label, GTK_STATE_ACTIVE,
-				       &style->text[GTK_STATE_SELECTED]);
-	}
-#endif
 
 	if (can_disable) {
 		hbox = gtk_hbox_new(FALSE, 0);

@@ -429,8 +429,6 @@ static void update_check_cb(GPid pid, gint status, gpointer data)
 	g_strfreev(lines);
 	g_free(str);
 
-	gdk_threads_enter();
-
 	if (!gtkut_window_modal_exist() && !inc_is_active()) {
 		if (result) {
 			if (rel_result)
@@ -453,7 +451,6 @@ static void update_check_cb(GPid pid, gint status, gpointer data)
 	g_free(disp_dev_ver);
 	g_free(new_ver);
 
-	gdk_threads_leave();
 }
 
 static void spawn_curl(gchar *url, GChildWatchFunc func, gpointer data)
@@ -711,8 +708,6 @@ static void update_check_plugin_cb(GPid pid, gint status, gpointer data)
 
 	debug_print("%s\n", text->str);
 
-	gdk_threads_enter();
-
 	if (!gtkut_window_modal_exist() && !inc_is_active()) {
 		if (result) {
 			update_plugin_dialog(text, list);
@@ -733,7 +728,6 @@ static void update_check_plugin_cb(GPid pid, gint status, gpointer data)
 	g_slist_foreach(list, (GFunc)download_plugin_info_free, NULL);
 	g_slist_free(list);
 
-	gdk_threads_leave();
 }
 
 void update_check_plugin(gboolean show_dialog_always)

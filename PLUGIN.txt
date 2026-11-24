@@ -125,6 +125,9 @@ Ex.1: Sylpheed plug-in interface version: 0x0102
       A plug-in plug-in interface version: 0x0100: OK
 Ex.2: Sylpheed plug-in interface version: 0x0102
       A plug-in plug-in interface version: 0x0103: NG
+
+The GTK+ 3 build has interface version 0x0200, so all plug-ins built for
+the GTK+ 2 versions (0x01xx) are refused.
 -------------------------------------------------------------------------
 
 
@@ -156,10 +159,13 @@ Emitted on plug-in unloading by syl_plugin_unload_all().
 void (* folderview_menu_popup)  (GObject *obj, gpointer ifactory);
 
 Emitted on popup of the context menu of FolderView.
+ifactory is an opaque menu factory; look up its items with
+syl_plugin_menu_factory_get_item() (see "Porting plugins to the GTK3 build").
 -------------------------------------------------------------------------
 void (* summaryview_menu_popup)  (GObject *obj, gpointer ifactory);
 
 Emitted on popup of the context menu of SummaryView.
+ifactory is an opaque menu factory, as for folderview_menu_popup.
 -------------------------------------------------------------------------
 void (* compose_created)        (GObject *obj, gpointer compose);
 
@@ -392,6 +398,95 @@ Attachment Tool Plug-in
 This is a plug-in for handling messages with attached files.
 
 See plugin/attachment_tool/README for the details.
+
+
+Porting plugins to the GTK3 build
+=================================
+
+This version of Sylpheed is built with GTK+ 3.24. GTK+ 2 and GTK+ 3 cannot
+be loaded into the same process, so every plug-in built for an earlier
+version has to be rebuilt against GTK+ 3 and this version of
+libsylpheed-plugin-0.
+
+Interface version and library names
+-----------------------------------
+
+- SYL_PLUGIN_INTERFACE_VERSION is now 0x0200. Plug-ins built with an
+  interface version 0x01xx are refused with the warning "Plugin interface
+  version mismatch" and are not loaded (plugin_load() is never called).
+- The libtool version of libsylph-0 and libsylpheed-plugin-0 was bumped
+  (6:0:0), so the Windows DLLs are now libsylph-0-6.dll and
+  libsylpheed-plugin-0-6.dll. A plug-in DLL linked against the old
+  libsylph-0-1.dll / libsylpheed-plugin-0-1.dll fails to load unless the old
+  DLLs are still present, in which case the version check refuses it.
+- Every function exported in libsylpheed-plugin-0.def keeps its name and
+  signature. Two functions were added (see "Menus" below).
+
+Menus
+-----
+
+The GtkItemFactory of GTK+ 2 is gone. Menus are built by an item factory
+compatible facade inside Sylpheed (MenuFactory, src/menu.c). Menu paths,
+accelerator paths and the menurc file are unchanged.
+
+- The argument of the "folderview-menu-popup" and "summaryview-menu-popup"
+  signals is still declared as gpointer, but it is now an opaque
+  MenuFactory pointer, not a GtkItemFactory. Do not cast it to
+  GtkItemFactory or call gtk_item_factory_*() on it.
+- To look up items, use the new functions
+    GtkWidget *syl_plugin_menu_factory_get_item  (gpointer factory,
+                                                  const gchar *path);
+    GtkWidget *syl_plugin_menu_factory_get_widget(gpointer factory,
+                                                  const gchar *path);
+  factory is the pointer passed to the popup signal, or NULL to select the
+  menu from the path prefix ("<Main>", "<MailFolder>", "<IMAPFolder>",
+  "<NewsFolder>", "<SummaryView>"; no prefix means the main menu). They
+  replace gtk_item_factory_get_item() / gtk_item_factory_get_widget() and
+  the lookup of internal symbols such as "menu_factory_get_item".
+  get_item returns the GtkMenuItem (also for a branch), get_widget the
+  GtkMenu of a branch; both return NULL if the path does not exist.
+- syl_plugin_add_menuitem(), syl_plugin_add_factory_item(),
+  syl_plugin_menu_set_sensitive() and syl_plugin_menu_set_active() take the
+  same paths as before. Paths are written without mnemonic underscores.
+
+Widgets found in Sylpheed's windows
+-----------------------------------
+
+Plug-ins that receive a window (prefs_common_open, prefs_account_open,
+prefs_filter_open, prefs_filter_edit_open, prefs_template_open,
+plugin_manager_open, compose_created) and walk its widgets will find other
+widget types than in the GTK+ 2 versions:
+
+- GtkOptionMenu is replaced by GtkComboBox (option menus in preferences,
+  account and filter dialogs, quick search, compose "From" selector).
+- GtkCombo is replaced by GtkComboBoxText with an entry
+  (gtk_bin_get_child() of the combo box is the GtkEntry).
+- GtkCList and GtkCTree are replaced by GtkTreeView with a GtkListStore or
+  GtkTreeStore (all list dialogs, address book selection, completion
+  window).
+- The colour label menu in preferences and filter rules is a GtkComboBox.
+- Custom drawing uses the GTK+ 3 "draw" signal and cairo; the
+  "expose-event" signal, GdkPixmap, GdkGC and gdk_draw_*() no longer exist.
+- Styles: Sylpheed installs one application GtkCssProvider and uses style
+  classes (sylpheed-title, sylpheed-bold, sylpheed-small, sylpheed-readonly,
+  sylpheed-dim, sylpheed-part, sylpheed-textfont). gtk_widget_modify_*(),
+  GtkStyle and gtkrc files are not used any more; a user style sheet
+  gtk.css in the configuration directory replaces the gtkrc file there.
+
+GTK+ 3 changes that affect plug-in code generally
+-------------------------------------------------
+
+- Include only <gtk/gtk.h> (and <gdk/gdkkeysyms.h>, backend headers).
+  Key symbols are GDK_KEY_*.
+- No direct access to widget structure fields (widget->window,
+  ->allocation, GTK_WIDGET_FLAGS() etc.); use the accessor functions.
+- gdk_threads_enter() / gdk_threads_leave() are not used by Sylpheed any
+  more. All GTK+ calls must be made from the main thread; a plug-in that
+  starts threads must hand work back with g_idle_add() or
+  g_main_context_invoke().
+- The callback of syl_plugin_add_menuitem() / syl_plugin_add_factory_item()
+  is still a SylPluginCallbackFunc connected to the "activate" signal of
+  the GtkMenuItem.
 
 
 About license

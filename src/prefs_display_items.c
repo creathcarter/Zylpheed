@@ -40,6 +40,13 @@
 #define SCROLLED_WINDOW_WIDTH	180
 #define SCROLLED_WINDOW_HEIGHT	210
 
+enum {
+	DISPITEM_COL_NAME,
+	DISPITEM_COL_DATA,
+	DISPITEM_COL_FG,
+	DISPITEM_N_COLS
+};
+
 static void prefs_display_items_set_sensitive(PrefsDisplayItemsDialog *dialog);
 
 /* callback functions */
@@ -61,15 +68,11 @@ static void prefs_display_items_ok	(GtkWidget	*widget,
 static void prefs_display_items_cancel	(GtkWidget	*widget,
 					 gpointer	 data);
 
-static void prefs_display_items_shown_select_row(GtkWidget	*widget,
-						 gint		 row,
-						 gint		 column,
-						 GdkEventButton	*event,
+static void prefs_display_items_shown_select_row(GtkTreeSelection *selection,
 						 gpointer	 data);
-static void prefs_display_items_shown_row_move	(GtkWidget	*widget,
-						 gint		 row,
-						 gint		 column,
-						 gpointer	 data);
+
+static GtkWidget *prefs_display_items_list_view_create
+						(const gchar	*title);
 
 static gint prefs_display_items_delete_event	(GtkWidget	*widget,
 						 GdkEventAny	*event,
@@ -109,8 +112,6 @@ PrefsDisplayItemsDialog *prefs_display_items_dialog_create(void)
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
 
-	gchar *title[1];
-
 	dialog = g_new0(PrefsDisplayItemsDialog, 1);
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -118,7 +119,7 @@ PrefsDisplayItemsDialog *prefs_display_items_dialog_create(void)
 	gtk_window_set_position(GTK_WINDOW(window),
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	gtk_window_set_title(GTK_WINDOW(window), _("Display items setting"));
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(prefs_display_items_delete_event), dialog);
@@ -162,15 +163,9 @@ PrefsDisplayItemsDialog *prefs_display_items_dialog_create(void)
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
 
-	title[0] = _("Available items");
-	stock_clist = gtk_clist_new_with_titles(1, title);
-	gtk_widget_show(stock_clist);
+	stock_clist = prefs_display_items_list_view_create
+		(_("Available items"));
 	gtk_container_add(GTK_CONTAINER(scrolledwin), stock_clist);
-	gtk_clist_set_selection_mode(GTK_CLIST(stock_clist),
-				     GTK_SELECTION_BROWSE);
-	gtk_widget_set_can_focus(GTK_CLIST(stock_clist)->column[0].button,
-			       FALSE);
-	gtkut_clist_set_redraw(GTK_CLIST(stock_clist));
 
 	/* add/remove button */
 	btn_vbox = gtk_vbox_new(FALSE, 0);
@@ -209,26 +204,14 @@ PrefsDisplayItemsDialog *prefs_display_items_dialog_create(void)
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
 
-	title[0] = _("Displayed items");
-	shown_clist = gtk_clist_new_with_titles(1, title);
-	gtk_widget_show(shown_clist);
+	shown_clist = prefs_display_items_list_view_create
+		(_("Displayed items"));
 	gtk_container_add(GTK_CONTAINER(scrolledwin), shown_clist);
-	gtk_clist_set_selection_mode(GTK_CLIST(shown_clist),
-				     GTK_SELECTION_BROWSE);
-#if 0
-	gtk_clist_set_reorderable(GTK_CLIST(shown_clist), TRUE);
-	gtk_clist_set_use_drag_icons(GTK_CLIST(shown_clist), FALSE);
-#endif
-	gtk_widget_set_can_focus(GTK_CLIST(shown_clist)->column[0].button,
-			       FALSE);
-	gtkut_clist_set_redraw(GTK_CLIST(shown_clist));
 
-	g_signal_connect(G_OBJECT(shown_clist), "select-row",
+	g_signal_connect(G_OBJECT(gtk_tree_view_get_selection
+				  (GTK_TREE_VIEW(shown_clist))), "changed",
 			 G_CALLBACK(prefs_display_items_shown_select_row),
 			 dialog);
-	g_signal_connect_after(G_OBJECT(shown_clist), "row-move",
-			       G_CALLBACK(prefs_display_items_shown_row_move),
-			       dialog);
 
 	/* up/down button */
 	btn_vbox = gtk_vbox_new(FALSE, 0);
@@ -315,27 +298,59 @@ void prefs_display_items_dialog_destroy(PrefsDisplayItemsDialog *dialog)
 	g_free(dialog);
 }
 
+static GtkWidget *prefs_display_items_list_view_create(const gchar *title)
+{
+	GtkListStore *store;
+	GtkWidget *treeview;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
+
+	store = gtk_list_store_new(DISPITEM_N_COLS, G_TYPE_STRING,
+				   G_TYPE_POINTER, GDK_TYPE_RGBA);
+	treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
+	gtk_widget_show(treeview);
+
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes
+		(title, renderer, "text", DISPITEM_COL_NAME,
+		 "foreground-rgba", DISPITEM_COL_FG, NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+	gtk_tree_selection_set_mode
+		(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview)),
+		 GTK_SELECTION_BROWSE);
+
+	return treeview;
+}
+
 static void prefs_display_items_update_available
 	(PrefsDisplayItemsDialog *dialog)
 {
-	GtkCList *stock_clist = GTK_CLIST(dialog->stock_clist);
+	GtkListStore *store;
+	GtkTreeIter iter;
 	GList *cur;
 
 	g_return_if_fail(dialog->available_items != NULL);
 
-	gtk_clist_clear(stock_clist);
+	store = GTK_LIST_STORE(gtk_tree_view_get_model
+			       (GTK_TREE_VIEW(dialog->stock_clist)));
+	gtk_list_store_clear(store);
 
 	for (cur = dialog->available_items; cur != NULL; cur = cur->next) {
 		PrefsDisplayItem *item = cur->data;
-		gint row;
 		gchar *name;
 
 		if (item->allow_multiple || item->in_use == FALSE) {
 			name = gettext(item->label);
-			row = gtk_clist_append(stock_clist, (gchar **)&name);
-			gtk_clist_set_row_data(stock_clist, row, item);
+			gtk_list_store_append(store, &iter);
+			gtk_list_store_set(store, &iter,
+					   DISPITEM_COL_NAME, name,
+					   DISPITEM_COL_DATA, item, -1);
 		}
 	}
+
+	/* GtkCList in browse mode selected the first row */
+	gtkut_list_view_select_row(GTK_TREE_VIEW(dialog->stock_clist), 0);
 }
 
 static PrefsDisplayItem *prefs_display_items_get_item_from_id
@@ -380,11 +395,11 @@ void prefs_display_items_dialog_set_default_visible
 void prefs_display_items_dialog_set_visible(PrefsDisplayItemsDialog *dialog,
 					    const gint *ids)
 {
-	GtkCList *shown_clist = GTK_CLIST(dialog->shown_clist);
+	GtkListStore *store;
+	GtkTreeIter iter;
 	GList *cur;
 	PrefsDisplayItem *item;
 	gint i;
-	gint row;
 	gchar *name;
 
 	g_return_if_fail(dialog->available_items != NULL);
@@ -393,7 +408,9 @@ void prefs_display_items_dialog_set_visible(PrefsDisplayItemsDialog *dialog,
 		ids = dialog->default_visible_ids;
 	g_return_if_fail(ids != NULL);
 
-	gtk_clist_clear(shown_clist);
+	store = GTK_LIST_STORE(gtk_tree_view_get_model
+			       (GTK_TREE_VIEW(dialog->shown_clist)));
+	gtk_list_store_clear(store);
 
 	if (dialog->visible_items) {
 		g_list_free(dialog->visible_items);
@@ -416,79 +433,102 @@ void prefs_display_items_dialog_set_visible(PrefsDisplayItemsDialog *dialog,
 		item->in_use = TRUE;
 
 		name = gettext(item->label);
-		row = gtk_clist_append(shown_clist, (gchar **)&name);
-		gtk_clist_set_row_data(shown_clist, row, item);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, DISPITEM_COL_NAME, name,
+				   DISPITEM_COL_DATA, item, -1);
 	}
 
 	name = "--------";
-	row = gtk_clist_append(shown_clist, (gchar **)&name);
-	gtk_widget_ensure_style(GTK_WIDGET(shown_clist));
-	gtk_clist_set_foreground
-		(shown_clist, row,
-		 &gtk_widget_get_style(GTK_WIDGET(shown_clist))->text[GTK_STATE_INSENSITIVE]);
+	gtk_list_store_append(store, &iter);
+	{
+		GtkStyleContext *context;
+		GdkRGBA color;
+
+		/* the insensitive text colour of the list */
+		context = gtk_widget_get_style_context(dialog->shown_clist);
+		gtk_style_context_save(context);
+		gtk_style_context_set_state(context,
+					    GTK_STATE_FLAG_INSENSITIVE);
+		gtk_style_context_get_color
+			(context, gtk_style_context_get_state(context), &color);
+		gtk_style_context_restore(context);
+		gtk_list_store_set(store, &iter, DISPITEM_COL_NAME, name,
+				   DISPITEM_COL_FG, &color, -1);
+	}
+
+	/* GtkCList in browse mode selected the first row */
+	gtkut_list_view_select_row(GTK_TREE_VIEW(dialog->shown_clist), 0);
 
 	prefs_display_items_update_available(dialog);
 	prefs_display_items_set_sensitive(dialog);
-	gtk_clist_moveto(shown_clist, 0, 0, 0, 0);
+	if (gtk_widget_get_realized(dialog->shown_clist))
+		gtk_tree_view_scroll_to_point
+			(GTK_TREE_VIEW(dialog->shown_clist), -1, 0);
 }
 
 static void prefs_display_items_set_sensitive(PrefsDisplayItemsDialog *dialog)
 {
-	GtkCList *clist = GTK_CLIST(dialog->shown_clist);
-	gint row;
+	GtkTreeView *treeview = GTK_TREE_VIEW(dialog->shown_clist);
+	GtkTreeModel *model = gtk_tree_view_get_model(treeview);
+	GtkTreePath *path;
+	gint row, n_rows;
 
-	if (!clist->selection) return;
+	row = gtkut_list_view_get_selected_row(treeview);
+	if (row < 0) return;
+	n_rows = gtk_tree_model_iter_n_children(model, NULL);
 
-	row = GPOINTER_TO_INT(clist->selection->data);
-
-	if (gtk_clist_get_row_data(clist, row))
+	if (gtkut_tree_model_get_nth_data(model, row, DISPITEM_COL_DATA))
 		gtk_widget_set_sensitive(dialog->remove_btn, TRUE);
 	else
 		gtk_widget_set_sensitive(dialog->remove_btn, FALSE);
 
-	if (row > 0 && row < clist->rows - 1)
+	if (row > 0 && row < n_rows - 1)
 		gtk_widget_set_sensitive(dialog->up_btn, TRUE);
 	else
 		gtk_widget_set_sensitive(dialog->up_btn, FALSE);
 
-	if (row >= 0 && row < clist->rows - 2)
+	if (row >= 0 && row < n_rows - 2)
 		gtk_widget_set_sensitive(dialog->down_btn, TRUE);
 	else
 		gtk_widget_set_sensitive(dialog->down_btn, FALSE);
 
-	if (gtk_clist_row_is_visible(clist, row) != GTK_VISIBILITY_FULL)
-		gtk_clist_moveto(clist, row, 0, 0.5, 0);
+	if (gtk_widget_get_realized(GTK_WIDGET(treeview))) {
+		path = gtk_tree_path_new_from_indices(row, -1);
+		gtkut_tree_view_scroll_to_cell(treeview, path, TRUE);
+		gtk_tree_path_free(path);
+	}
 }
 
 static void prefs_display_items_add(GtkWidget *widget, gpointer data)
 {
 	PrefsDisplayItemsDialog *dialog = data;
-	GtkCList *stock_clist = GTK_CLIST(dialog->stock_clist);
-	GtkCList *shown_clist = GTK_CLIST(dialog->shown_clist);
+	GtkTreeView *stock_view = GTK_TREE_VIEW(dialog->stock_clist);
+	GtkTreeView *shown_view = GTK_TREE_VIEW(dialog->shown_clist);
+	GtkListStore *shown_store;
+	GtkTreeIter iter;
 	PrefsDisplayItem *item;
 	gint row;
 	gchar *name;
 
-	if (!stock_clist->selection) return;
+	row = gtkut_list_view_get_selected_row(stock_view);
+	if (row < 0) return;
 
-	row = GPOINTER_TO_INT(stock_clist->selection->data);
-	item = (PrefsDisplayItem *)gtk_clist_get_row_data(stock_clist, row);
-	if (!item->allow_multiple) {
-		gtk_clist_remove(stock_clist, row);
-		if (stock_clist->rows == row)
-			gtk_clist_select_row(stock_clist, row - 1, -1);
-	}
+	item = (PrefsDisplayItem *)gtkut_tree_model_get_nth_data
+		(gtk_tree_view_get_model(stock_view), row, DISPITEM_COL_DATA);
+	if (!item->allow_multiple)
+		gtkut_list_view_remove_row(stock_view, row);
 
-	if (!shown_clist->selection)
+	row = gtkut_list_view_get_selected_row(shown_view);
+	if (row < 0)
 		row = 0;
-	else
-		row = GPOINTER_TO_INT(shown_clist->selection->data);
 
 	item->in_use = TRUE;
 
 	name = gettext(item->label);
-	row = gtk_clist_insert(shown_clist, row, (gchar **)&name);
-	gtk_clist_set_row_data(shown_clist, row, item);
+	shown_store = GTK_LIST_STORE(gtk_tree_view_get_model(shown_view));
+	gtk_list_store_insert(shown_store, &iter, row);
+	gtk_list_store_set(shown_store, &iter, DISPITEM_COL_NAME, name,
+			   DISPITEM_COL_DATA, item, -1);
 
 	prefs_display_items_set_sensitive(dialog);
 }
@@ -496,19 +536,18 @@ static void prefs_display_items_add(GtkWidget *widget, gpointer data)
 static void prefs_display_items_remove(GtkWidget *widget, gpointer data)
 {
 	PrefsDisplayItemsDialog *dialog = data;
-	GtkCList *shown_clist = GTK_CLIST(dialog->shown_clist);
+	GtkTreeView *shown_view = GTK_TREE_VIEW(dialog->shown_clist);
 	PrefsDisplayItem *item;
 	gint row;
 
-	if (!shown_clist->selection) return;
+	row = gtkut_list_view_get_selected_row(shown_view);
+	if (row < 0) return;
 
-	row = GPOINTER_TO_INT(shown_clist->selection->data);
-	item = (PrefsDisplayItem *)gtk_clist_get_row_data(shown_clist, row);
+	item = (PrefsDisplayItem *)gtkut_tree_model_get_nth_data
+		(gtk_tree_view_get_model(shown_view), row, DISPITEM_COL_DATA);
 	if (!item)
 		return;
-	gtk_clist_remove(shown_clist, row);
-	if (shown_clist->rows == row)
-		gtk_clist_select_row(shown_clist, row - 1, -1);
+	gtkut_list_view_remove_row(shown_view, row);
 
 	if (!item->allow_multiple) {
 		item->in_use = FALSE;
@@ -521,27 +560,35 @@ static void prefs_display_items_remove(GtkWidget *widget, gpointer data)
 static void prefs_display_items_up(GtkWidget *widget, gpointer data)
 {
 	PrefsDisplayItemsDialog *dialog = data;
-	GtkCList *shown_clist = GTK_CLIST(dialog->shown_clist);
-	gint row;
+	GtkTreeView *shown_view = GTK_TREE_VIEW(dialog->shown_clist);
+	gint row, n_rows;
 
-	if (!shown_clist->selection) return;
+	row = gtkut_list_view_get_selected_row(shown_view);
+	if (row < 0) return;
 
-	row = GPOINTER_TO_INT(shown_clist->selection->data);
-	if (row > 0 && row < shown_clist->rows - 1)
-		gtk_clist_row_move(shown_clist, row, row - 1);
+	n_rows = gtk_tree_model_iter_n_children
+		(gtk_tree_view_get_model(shown_view), NULL);
+	if (row > 0 && row < n_rows - 1) {
+		gtkut_list_view_move_selected_row(shown_view, -1);
+		prefs_display_items_set_sensitive(dialog);
+	}
 }
 
 static void prefs_display_items_down(GtkWidget *widget, gpointer data)
 {
 	PrefsDisplayItemsDialog *dialog = data;
-	GtkCList *shown_clist = GTK_CLIST(dialog->shown_clist);
-	gint row;
+	GtkTreeView *shown_view = GTK_TREE_VIEW(dialog->shown_clist);
+	gint row, n_rows;
 
-	if (!shown_clist->selection) return;
+	row = gtkut_list_view_get_selected_row(shown_view);
+	if (row < 0) return;
 
-	row = GPOINTER_TO_INT(shown_clist->selection->data);
-	if (row >= 0 && row < shown_clist->rows - 2)
-		gtk_clist_row_move(shown_clist, row, row + 1);
+	n_rows = gtk_tree_model_iter_n_children
+		(gtk_tree_view_get_model(shown_view), NULL);
+	if (row >= 0 && row < n_rows - 2) {
+		gtkut_list_view_move_selected_row(shown_view, 1);
+		prefs_display_items_set_sensitive(dialog);
+	}
 }
 
 static void prefs_display_items_default(GtkWidget *widget, gpointer data)
@@ -554,13 +601,16 @@ static void prefs_display_items_default(GtkWidget *widget, gpointer data)
 static void prefs_display_items_ok(GtkWidget *widget, gpointer data)
 {
 	PrefsDisplayItemsDialog *dialog = data;
-	GtkCList *shown_clist = GTK_CLIST(dialog->shown_clist);
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid;
 	GList *list = NULL;
 	PrefsDisplayItem *item;
-	gint row;
 
-	for (row = 0; row < shown_clist->rows; row++) {
-		item = gtk_clist_get_row_data(shown_clist, row);
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(dialog->shown_clist));
+	for (valid = gtk_tree_model_get_iter_first(model, &iter); valid;
+	     valid = gtk_tree_model_iter_next(model, &iter)) {
+		gtk_tree_model_get(model, &iter, DISPITEM_COL_DATA, &item, -1);
 		if (item)
 			list = g_list_append(list, item);
 	}
@@ -577,20 +627,7 @@ static void prefs_display_items_cancel(GtkWidget *widget, gpointer data)
 	dialog->cancelled = TRUE;
 }
 
-static void prefs_display_items_shown_select_row(GtkWidget	*widget,
-						 gint		 row,
-						 gint		 column,
-						 GdkEventButton	*event,
-						 gpointer	 data)
-{
-	PrefsDisplayItemsDialog *dialog = data;
-
-	prefs_display_items_set_sensitive(dialog);
-}
-
-static void prefs_display_items_shown_row_move	(GtkWidget	*widget,
-						 gint		 row,
-						 gint		 column,
+static void prefs_display_items_shown_select_row(GtkTreeSelection *selection,
 						 gpointer	 data)
 {
 	PrefsDisplayItemsDialog *dialog = data;

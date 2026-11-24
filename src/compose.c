@@ -35,11 +35,7 @@
 
 #if USE_GTKSPELL
 #  include <gtkspell/gtkspell.h>
-#if USE_ENCHANT
-#  include <enchant/enchant.h>
-#else
-#  include <aspell.h>
-#endif
+#  include <enchant.h>
 #endif
 
 #include <stdio.h>
@@ -142,7 +138,6 @@ typedef enum
 
 #define TEXTVIEW_MARGIN		6
 
-static GdkColor quote_color = {0, 0, 0, 0xbfff};
 
 static GList *compose_list = NULL;
 
@@ -342,7 +337,7 @@ static gboolean toolbar_button_pressed	(GtkWidget	*widget,
 					 GdkEventButton	*event,
 					 gpointer	 data);
 
-static void account_activated		(GtkMenuItem	*menuitem,
+static void account_activated		(GtkComboBox	*combo,
 					 gpointer	 data);
 static void sig_combo_changed		(GtkComboBox	*combo,
 					 gpointer	 data);
@@ -533,7 +528,7 @@ static void text_inserted		(GtkTextBuffer	*buffer,
 static gboolean autosave_timeout	(gpointer	 data);
 
 
-static GtkItemFactoryEntry compose_popup_entries[] =
+static MenuFactoryEntry compose_popup_entries[] =
 {
 	{N_("/_Open"),		NULL, compose_attach_open_cb, 0, NULL},
 	{N_("/---"),		NULL, NULL, 0, "<Separator>"},
@@ -543,7 +538,7 @@ static GtkItemFactoryEntry compose_popup_entries[] =
 	{N_("/_Properties..."),	NULL, compose_attach_property, 0, NULL}
 };
 
-static GtkItemFactoryEntry compose_entries[] =
+static MenuFactoryEntry compose_entries[] =
 {
 	{N_("/_File"),				NULL, NULL, 0, "<Branch>"},
 	{N_("/_File/_Send"),			"<shift><control>E",
@@ -889,9 +884,9 @@ Compose *compose_reply(MsgInfo *msginfo, FolderItem *item, ComposeMode mode,
 #if USE_GPGME
 	if (rfc2015_is_available() && account->encrypt_reply &&
 	    MSG_IS_ENCRYPTED(replyinfo->flags)) {
-		GtkItemFactory *ifactory;
+		MenuFactory *ifactory;
 
-		ifactory = gtk_item_factory_from_widget(compose->menubar);
+		ifactory = menu_factory_from_widget(compose->menubar);
 		menu_set_active(ifactory, "/Tools/PGP Encrypt", TRUE);
 	}
 #endif
@@ -1129,7 +1124,7 @@ Compose *compose_reedit(MsgInfo *msginfo)
 	gchar buf[BUFFSIZE];
 	const gchar *str;
 	GtkWidget *focus_widget = NULL;
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
 	g_return_val_if_fail(msginfo != NULL, NULL);
 	g_return_val_if_fail(msginfo->folder != NULL, NULL);
@@ -1208,7 +1203,7 @@ Compose *compose_reedit(MsgInfo *msginfo)
 	compose_connect_changed_callbacks(compose);
 	compose_set_title(compose);
 
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 	if (compose->use_mdn) {
 		menu_set_active(ifactory, "/Tools/Request disposition notification", TRUE);
 	}
@@ -1242,9 +1237,9 @@ GList *compose_get_compose_list(void)
 
 static void compose_entry_show(Compose *compose, ComposeEntryType type)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 
 	switch (type) {
 	case COMPOSE_ENTRY_CC:
@@ -2292,9 +2287,9 @@ void compose_attach_append(Compose *compose, const gchar *file,
 	fclose(fp);
 
 	if (!compose->use_attach) {
-		GtkItemFactory *ifactory;
+		MenuFactory *ifactory;
 
-		ifactory = gtk_item_factory_from_widget(compose->menubar);
+		ifactory = menu_factory_from_widget(compose->menubar);
 		menu_set_active(ifactory, "/View/Attachment", TRUE);
 	}
 
@@ -2882,7 +2877,7 @@ static void compose_set_title(Compose *compose)
 static void compose_select_account(Compose *compose, PrefsAccount *account,
 				   gboolean init)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 	PrefsAccount *prev_account;
 
 	g_return_if_fail(account != NULL);
@@ -2892,7 +2887,7 @@ static void compose_select_account(Compose *compose, PrefsAccount *account,
 
 	compose_set_title(compose);
 
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 
 	if (account->protocol == A_NNTP &&
 	    (init || prev_account->protocol != A_NNTP)) {
@@ -3174,8 +3169,6 @@ static gboolean compose_check_recipients(Compose *compose)
 	GtkWidget *hbbox;
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
-	static PangoFontDescription *font_desc;
-	GtkStyle *style;
 
 	GSList *cur, *to_list = NULL;
 	gboolean check_recp = FALSE;
@@ -3265,19 +3258,7 @@ static gboolean compose_check_recipients(Compose *compose)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
         gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 
-	if (!font_desc) {
-		gint size;
-
-		size = pango_font_description_get_size
-			(gtk_widget_get_style(label)->font_desc);
-		font_desc = pango_font_description_new();
-		pango_font_description_set_weight
-			(font_desc, PANGO_WEIGHT_BOLD);
-		pango_font_description_set_size
-			(font_desc, size * PANGO_SCALE_LARGE);
-	}
-	if (font_desc)
-		gtk_widget_modify_font(label, font_desc);
+	gtkut_widget_add_class(label, GTKUT_CLASS_TITLE);
 
 	label = gtk_label_new
 		(_("Really send this mail to the following addresses?"));
@@ -3301,9 +3282,7 @@ static gboolean compose_check_recipients(Compose *compose)
 	entry = gtk_entry_new();
 	gtk_entry_set_max_length(GTK_ENTRY(entry), MAX_ENTRY_LENGTH);
 	gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
-	style = gtk_widget_get_style(window);
-	gtk_widget_modify_base(entry, GTK_STATE_NORMAL,
-			       &style->bg[GTK_STATE_NORMAL]);
+	gtkut_widget_add_class(entry, GTKUT_CLASS_READONLY);
 	gtk_table_attach_defaults
                 (GTK_TABLE(table), entry, 1, 2, 0, 1);
 
@@ -3323,9 +3302,7 @@ static gboolean compose_check_recipients(Compose *compose)
 	entry = gtk_entry_new();
 	gtk_entry_set_max_length(GTK_ENTRY(entry), MAX_ENTRY_LENGTH);
 	gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
-	style = gtk_widget_get_style(window);
-	gtk_widget_modify_base(entry, GTK_STATE_NORMAL,
-			       &style->bg[GTK_STATE_NORMAL]);
+	gtkut_widget_add_class(entry, GTKUT_CLASS_READONLY);
 	gtk_table_attach_defaults
                 (GTK_TABLE(table), entry, 1, 2, 1, 2);
 
@@ -5360,12 +5337,9 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	UndoMain *undostruct;
 
 	guint n_menu_entries;
-	GdkColormap *cmap;
-	GdkColor color[1];
-	gboolean success[1];
 	GtkWidget *popupmenu;
-	GtkItemFactory *popupfactory;
-	GtkItemFactory *ifactory;
+	MenuFactory *popupfactory;
+	MenuFactory *ifactory;
 	GtkWidget *tmpl_menu;
 	gint n_entries;
 	gint count = 0;
@@ -5383,8 +5357,9 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(window), "compose", "Sylpheed");
-	gtk_window_set_policy(GTK_WINDOW(window), TRUE, TRUE, FALSE);
-	gtk_widget_set_size_request(window, -1, prefs_common.compose_height);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
+	gtk_window_set_default_size(GTK_WINDOW(window), -1,
+				    prefs_common.compose_height);
 	gtkut_window_move(GTK_WINDOW(window), prefs_common.compose_x,
 			  prefs_common.compose_y);
 
@@ -5590,7 +5565,7 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	/* pane between attach tree view and text */
 	paned = gtk_vpaned_new();
 	gtk_paned_add1(GTK_PANED(paned), attach_scrwin);
-	gtk_widget_ref(paned);
+	g_object_ref(paned);
 	gtk_widget_show_all(paned);
 
 	edit_vbox = gtk_vbox_new(FALSE, 0);
@@ -5601,7 +5576,7 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	gtk_box_pack_start(GTK_BOX(edit_vbox), ruler_hbox, FALSE, FALSE, 0);
 
 	ruler = gtk_shruler_new();
-	gtk_ruler_set_range(GTK_RULER(ruler), 0.0, 100.0, 1.0, 100.0);
+	gtk_shruler_set_range(GTK_SHRULER(ruler), 0.0, 100.0, 1.0, 100.0);
 	gtk_box_pack_start(GTK_BOX(ruler_hbox), ruler, TRUE, TRUE, 0);
 
 	/* text widget */
@@ -5612,8 +5587,8 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwin),
 					    GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(edit_vbox), scrolledwin, TRUE, TRUE, 0);
-	gtk_widget_set_size_request(scrolledwin, prefs_common.compose_width,
-				    -1);
+	gtkut_widget_set_initial_size(scrolledwin, prefs_common.compose_width,
+				      -1);
 
 	text = gtk_text_view_new();
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
@@ -5626,8 +5601,19 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 	sig_tag = gtk_text_buffer_create_tag(buffer, "signature", NULL);
 	gtk_container_add(GTK_CONTAINER(scrolledwin), text);
 
-	gtk_shruler_set_start_pos(GTK_SHRULER(ruler),
-				  gtk_widget_get_style(text)->xthickness + TEXTVIEW_MARGIN);
+	{
+		GtkStyleContext *context;
+		GtkBorder border;
+
+		/* the frame width of the scrolled window (the text view's
+		   GtkStyle xthickness was used with GTK+ 2) */
+		context = gtk_widget_get_style_context(scrolledwin);
+		gtk_style_context_get_border
+			(context, gtk_style_context_get_state(context),
+			 &border);
+		gtk_shruler_set_start_pos(GTK_SHRULER(ruler),
+					  border.left + TEXTVIEW_MARGIN);
+	}
 
 	g_signal_connect(G_OBJECT(text), "grab_focus",
 			 G_CALLBACK(compose_grab_focus_cb), compose);
@@ -5646,16 +5632,7 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 
 	gtk_widget_show_all(vbox);
 
-	if (prefs_common.textfont) {
-		PangoFontDescription *font_desc;
-
-		font_desc = pango_font_description_from_string
-			(prefs_common.textfont);
-		if (font_desc) {
-			gtk_widget_modify_font(text, font_desc);
-			pango_font_description_free(font_desc);
-		}
-	}
+	gtkut_widget_set_text_font(text, prefs_common.textfont);
 
 	gtk_text_view_set_pixels_above_lines
 		(GTK_TEXT_VIEW(text),
@@ -5671,14 +5648,14 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 				      "<Compose>", &popupfactory,
 				      compose);
 
-	ifactory = gtk_item_factory_from_widget(menubar);
+	ifactory = menu_factory_from_widget(menubar);
 	menu_set_sensitive(ifactory, "/Edit/Undo", FALSE);
 	menu_set_sensitive(ifactory, "/Edit/Redo", FALSE);
 
-	tmpl_menu = gtk_item_factory_get_item(ifactory, "/Tools/Template");
+	tmpl_menu = menu_factory_get_item(ifactory, "/Tools/Template");
 
 #if USE_GTKSPELL
-	spell_menu = gtk_item_factory_get_item
+	spell_menu = menu_factory_get_item
 		(ifactory, "/Tools/Set spell language");
 #endif
 
@@ -5911,18 +5888,17 @@ static Compose *compose_create(PrefsAccount *account, ComposeMode mode)
 
 	compose_list = g_list_append(compose_list, compose);
 
-	gtk_widget_show(window);
+	/* GTK+ 3 sizes a new window to the natural size of its contents;
+	   GTK+ 2 used the size requests (compose_width / compose_height) */
+	{
+		gint width;
 
-	color[0] = quote_color;
-	cmap = gdk_window_get_colormap(gtk_widget_get_window(window));
-	gdk_colormap_alloc_colors(cmap, color, 1, FALSE, TRUE, success);
-	if (success[0] == FALSE) {
-		GtkStyle *style;
-
-		g_warning("Compose: color allocation failed.\n");
-		style = gtk_widget_get_style(text);
-		quote_color = style->black;
+		gtk_widget_get_preferred_width(vbox, &width, NULL);
+		gtk_window_set_default_size(GTK_WINDOW(window), width,
+					    prefs_common.compose_height);
 	}
+
+	gtk_widget_show(window);
 
 	return compose;
 }
@@ -6030,7 +6006,7 @@ static GtkWidget *compose_toolbar_create_from_list(Compose *compose,
 	GList *cur;
 
 	toolbar = gtk_toolbar_new();
-	gtk_toolbar_set_orientation(GTK_TOOLBAR(toolbar),
+	gtk_orientable_set_orientation(GTK_ORIENTABLE(toolbar),
 				    GTK_ORIENTATION_HORIZONTAL);
 	gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH);
 	g_signal_connect(G_OBJECT(toolbar), "button_press_event",
@@ -6125,19 +6101,16 @@ static GtkWidget *compose_account_option_menu_create(Compose *compose,
 {
 	GList *accounts;
 	GtkWidget *optmenu;
-	GtkWidget *menu;
 	gint num = 0, def_menu = 0;
 
 	accounts = account_get_list();
 	g_return_val_if_fail(accounts != NULL, NULL);
 
-	optmenu = gtk_option_menu_new();
+	optmenu = menu_combo_new();
 	gtk_box_pack_start(GTK_BOX(hbox), optmenu, FALSE, FALSE, 0);
-	menu = gtk_menu_new();
 
 	for (; accounts != NULL; accounts = accounts->next, num++) {
 		PrefsAccount *ac = (PrefsAccount *)accounts->data;
-		GtkWidget *menuitem;
 		gchar *name;
 
 		if (ac == compose->account) def_menu = num;
@@ -6149,15 +6122,13 @@ static GtkWidget *compose_account_option_menu_create(Compose *compose,
 		else
 			name = g_strdup_printf("%s: %s",
 					       ac->account_name, ac->address);
-		MENUITEM_ADD(menu, menuitem, name, ac);
+		menu_combo_append(GTK_COMBO_BOX(optmenu), name, ac);
 		g_free(name);
-		g_signal_connect(G_OBJECT(menuitem), "activate",
-				 G_CALLBACK(account_activated),
-				 compose);
 	}
 
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(optmenu), menu);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(optmenu), def_menu);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(optmenu), def_menu);
+	g_signal_connect(G_OBJECT(optmenu), "changed",
+			 G_CALLBACK(account_activated), compose);
 
 	return optmenu;
 }
@@ -6172,13 +6143,13 @@ static GtkWidget *compose_signature_menu_create(Compose *compose,
 	label = gtk_label_new(_("Signature:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 4);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 	gtk_box_pack_start(GTK_BOX(hbox), combo, FALSE, FALSE, 0);
 
 	for (i = 0; i < 10; i++) {
 		gchar buf[256];
 		g_snprintf(buf, sizeof(buf), _("Signature %d"), i + 1);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), buf);
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 	g_signal_connect(GTK_COMBO_BOX(combo), "changed",
@@ -6191,14 +6162,14 @@ static GtkWidget *compose_signature_menu_create(Compose *compose,
 
 static void compose_set_out_encoding(Compose *compose)
 {
-	GtkItemFactoryEntry *entry;
-	GtkItemFactory *ifactory;
+	MenuFactoryEntry *entry;
+	MenuFactory *ifactory;
 	CharSet out_encoding;
 	gchar *path, *p, *q;
 	GtkWidget *item;
 
 	out_encoding = conv_get_charset_from_str(prefs_common.outgoing_charset);
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 
 	for (entry = compose_entries; entry->callback != compose_address_cb;
 	     entry++) {
@@ -6216,7 +6187,7 @@ static void compose_set_out_encoding(Compose *compose)
 				p++;
 			}
 			*q = '\0';
-			item = gtk_item_factory_get_item(ifactory, path);
+			item = menu_factory_get_item(ifactory, path);
 			gtk_widget_activate(item);
 			g_free(path);
 			break;
@@ -6225,7 +6196,6 @@ static void compose_set_out_encoding(Compose *compose)
 }
 
 #if USE_GTKSPELL
-#if USE_ENCHANT
 static void ench_dict_desc_cb(const char *const lang_tag,
 			      const char *const provider_name,
 			      const char *const provider_desc,
@@ -6253,30 +6223,6 @@ static void compose_set_spell_lang_menu(Compose *compose)
 				       (gchar *)cur->data) == 0)
 			lang_set = TRUE;
 	}
-#else  /* !USE_ENCHANT */
-static void compose_set_spell_lang_menu(Compose *compose)
-{
-	AspellConfig *config;
-	AspellDictInfoList *dlist;
-	AspellDictInfoEnumeration *dels;
-	const AspellDictInfo *entry;
-	GSList *dict_list = NULL, *menu_list = NULL, *cur;
-	GtkWidget *menu;
-	gboolean lang_set = FALSE;
-
-	config = new_aspell_config();
-	dlist = get_aspell_dict_info_list(config);
-	delete_aspell_config(config);
-
-	dels = aspell_dict_info_list_elements(dlist);
-	while ((entry = aspell_dict_info_enumeration_next(dels)) != 0) {
-		dict_list = g_slist_append(dict_list, g_strdup(entry->name));
-		if (compose->spell_lang != NULL &&
-		    g_ascii_strcasecmp(compose->spell_lang, entry->name) == 0)
-			lang_set = TRUE;
-	}
-	delete_aspell_dict_info_enumeration(dels);
-#endif /* USE_ENCHANT */
 
 	compose->dict_list = dict_list;
 
@@ -6318,14 +6264,15 @@ static void compose_change_spell_lang_menu(Compose *compose, const gchar *lang)
 {
 	GtkWidget *menu;
 	GtkWidget *def_item = NULL;
-	GList *cur_item;
+	GList *children, *cur_item;
 	const gchar *dict;
 
 	if (!lang)
 		return;
 
 	menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(compose->spell_menu));
-	for (cur_item = GTK_MENU_SHELL(menu)->children; cur_item != NULL;
+	children = gtk_container_get_children(GTK_CONTAINER(menu));
+	for (cur_item = children; cur_item != NULL;
 	     cur_item = cur_item->next) {
 		if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(cur_item->data)))
 			def_item = GTK_WIDGET(cur_item->data);
@@ -6333,9 +6280,11 @@ static void compose_change_spell_lang_menu(Compose *compose, const gchar *lang)
 		if (dict && !g_ascii_strcasecmp(dict, lang)) {
 			gtk_check_menu_item_set_active
 				(GTK_CHECK_MENU_ITEM(cur_item->data), TRUE);
+			g_list_free(children);
 			return;
 		}
 	}
+	g_list_free(children);
 
 	if (def_item) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(def_item),
@@ -6698,7 +6647,7 @@ static void compose_attach_property(Compose *compose)
 	GList *rows;
 	AttachInfo *ainfo;
 	gchar *path = NULL;
-	GtkOptionMenu *optmenu;
+	GtkComboBox *optmenu;
 	static gboolean cancelled;
 
 	selection = gtk_tree_view_get_selection
@@ -6721,11 +6670,11 @@ static void compose_attach_property(Compose *compose)
 	manage_window_focus_in(compose->window, NULL, NULL);
 	manage_window_set_transient(GTK_WINDOW(attach_prop.window));
 
-	optmenu = GTK_OPTION_MENU(attach_prop.encoding_optmenu);
+	optmenu = GTK_COMBO_BOX(attach_prop.encoding_optmenu);
 	if (ainfo->encoding == ENC_UNKNOWN)
-		gtk_option_menu_set_history(optmenu, ENC_BASE64);
+		gtk_combo_box_set_active(optmenu, ENC_BASE64);
 	else
-		gtk_option_menu_set_history(optmenu, ainfo->encoding);
+		gtk_combo_box_set_active(optmenu, ainfo->encoding);
 
 	if (ainfo->file)
 		path = conv_filename_to_utf8(ainfo->file);
@@ -6744,8 +6693,6 @@ static void compose_attach_property(Compose *compose)
 		gchar *cnttype = NULL;
 		gchar *file = NULL;
 		off_t size = 0;
-		GtkWidget *menu;
-		GtkWidget *menuitem;
 
 		cancelled = FALSE;
 		gtk_main();
@@ -6769,10 +6716,8 @@ static void compose_attach_property(Compose *compose)
 			}
 		}
 
-		menu = gtk_option_menu_get_menu(optmenu);
-		menuitem = gtk_menu_get_active(GTK_MENU(menu));
 		ainfo->encoding = GPOINTER_TO_INT
-			(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+			(menu_combo_get_active_data(optmenu));
 
 		entry_text = gtk_entry_get_text
 			(GTK_ENTRY(attach_prop.path_entry));
@@ -6837,8 +6782,6 @@ static void compose_attach_property_create(gboolean *cancelled)
 	GtkWidget *mimetype_entry;
 	GtkWidget *hbox;
 	GtkWidget *optmenu;
-	GtkWidget *optmenu_menu;
-	GtkWidget *menuitem;
 	GtkWidget *path_entry;
 	GtkWidget *filename_entry;
 	GtkWidget *hbbox;
@@ -6879,19 +6822,18 @@ static void compose_attach_property_create(gboolean *cancelled)
 	gtk_table_attach(GTK_TABLE(table), hbox, 1, 2, 1, 2,
 			 GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0, 0);
 
-	optmenu = gtk_option_menu_new();
+	optmenu = menu_combo_new();
 	gtk_box_pack_start(GTK_BOX(hbox), optmenu, FALSE, FALSE, 0);
 
-	optmenu_menu = gtk_menu_new();
-	MENUITEM_ADD(optmenu_menu, menuitem, "7bit", ENC_7BIT);
-	gtk_widget_set_sensitive(menuitem, FALSE);
-	MENUITEM_ADD(optmenu_menu, menuitem, "8bit", ENC_8BIT);
-	gtk_widget_set_sensitive(menuitem, FALSE);
-	MENUITEM_ADD(optmenu_menu, menuitem, "quoted-printable",
+	menu_combo_set_item_sensitive(GTK_COMBO_BOX(optmenu),
+				      COMBOBOX_ADD(optmenu, "7bit", ENC_7BIT),
+				      FALSE);
+	menu_combo_set_item_sensitive(GTK_COMBO_BOX(optmenu),
+				      COMBOBOX_ADD(optmenu, "8bit", ENC_8BIT),
+				      FALSE);
+	COMBOBOX_ADD(optmenu, "quoted-printable",
 		     ENC_QUOTED_PRINTABLE);
-	MENUITEM_ADD(optmenu_menu, menuitem, "base64", ENC_BASE64);
-
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(optmenu), optmenu_menu);
+	COMBOBOX_ADD(optmenu, "base64", ENC_BASE64);
 
 	SET_LABEL_AND_ENTRY(_("Path"),      path_entry,     2);
 	SET_LABEL_AND_ENTRY(_("File name"), filename_entry, 3);
@@ -7188,9 +7130,9 @@ static void compose_ext_editor_child_exit(GPid pid, gint status, gpointer data)
 static void compose_set_ext_editor_sensitive(Compose *compose,
 					     gboolean sensitive)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 
 	menu_set_sensitive(ifactory, "/File/Send", sensitive);
 	menu_set_sensitive(ifactory, "/File/Send later", sensitive);
@@ -7229,11 +7171,11 @@ static void compose_undo_state_changed(UndoMain *undostruct, gint undo_state,
 				       gint redo_state, gpointer data)
 {
 	GtkWidget *widget = GTK_WIDGET(data);
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
 	g_return_if_fail(widget != NULL);
 
-	ifactory = gtk_item_factory_from_widget(widget);
+	ifactory = menu_factory_from_widget(widget);
 
 	switch (undo_state) {
 	case UNDO_STATE_TRUE:
@@ -7318,7 +7260,7 @@ static gboolean compose_edit_size_alloc(GtkEditable *widget,
 			(allocation->width - allocation->x) / char_width;
 
 		/* got the maximum */
-		gtk_ruler_set_range(GTK_RULER(shruler),
+		gtk_shruler_set_range(shruler,
 				    0.0, line_width_in_chars,
 				    calc_cursor_xpos(GTK_TEXT_VIEW(widget),
 						     allocation->x,
@@ -7453,13 +7395,13 @@ static gboolean toolbar_button_pressed(GtkWidget *widget, GdkEventButton *event,
 	return TRUE;
 }
 
-static void account_activated(GtkMenuItem *menuitem, gpointer data)
+static void account_activated(GtkComboBox *combo, gpointer data)
 {
 	Compose *compose = (Compose *)data;
 
 	PrefsAccount *ac;
 
-	ac = (PrefsAccount *)g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID);
+	ac = (PrefsAccount *)menu_combo_get_active_data(combo);
 	g_return_if_fail(ac != NULL);
 
 	if (ac != compose->account)
@@ -8050,7 +7992,7 @@ static void compose_grab_focus_cb(GtkWidget *widget, Compose *compose)
 #if USE_GPGME
 static void compose_signing_toggled(GtkWidget *widget, Compose *compose)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
 	if (!rfc2015_is_available())
 		return;
@@ -8060,13 +8002,13 @@ static void compose_signing_toggled(GtkWidget *widget, Compose *compose)
 	else
 		compose->use_signing = FALSE;
 
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 	menu_set_active(ifactory, "/Tools/PGP Sign", compose->use_signing);
 }
 
 static void compose_encrypt_toggled(GtkWidget *widget, Compose *compose)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
 	if (!rfc2015_is_available())
 		return;
@@ -8076,7 +8018,7 @@ static void compose_encrypt_toggled(GtkWidget *widget, Compose *compose)
 	else
 		compose->use_encryption = FALSE;
 
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 	menu_set_active(ifactory, "/Tools/PGP Encrypt",
 			compose->use_encryption);
 }
@@ -8085,14 +8027,14 @@ static void compose_encrypt_toggled(GtkWidget *widget, Compose *compose)
 #if 0
 static void compose_attach_toggled(GtkWidget *widget, Compose *compose)
 {
-	GtkItemFactory *ifactory;
+	MenuFactory *ifactory;
 
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		compose->use_attach = TRUE;
 	else
 		compose->use_attach = FALSE;
 
-	ifactory = gtk_item_factory_from_widget(compose->menubar);
+	ifactory = menu_factory_from_widget(compose->menubar);
 	menu_set_active(ifactory, "/View/Attachment", compose->use_attach);
 }
 #endif
@@ -8236,7 +8178,7 @@ static void compose_toggle_attach_cb(gpointer data, guint action,
 	Compose *compose = (Compose *)data;
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
-		gtk_widget_ref(compose->edit_vbox);
+		g_object_ref(compose->edit_vbox);
 
 		gtkut_container_remove(GTK_CONTAINER(compose->vbox2),
 		 		       compose->edit_vbox);
@@ -8245,13 +8187,13 @@ static void compose_toggle_attach_cb(gpointer data, guint action,
 				   TRUE, TRUE, 0);
 		gtk_widget_show(compose->paned);
 
-		gtk_widget_unref(compose->edit_vbox);
-		gtk_widget_unref(compose->paned);
+		g_object_unref(compose->edit_vbox);
+		g_object_unref(compose->paned);
 
 		compose->use_attach = TRUE;
 	} else {
-		gtk_widget_ref(compose->paned);
-		gtk_widget_ref(compose->edit_vbox);
+		g_object_ref(compose->paned);
+		g_object_ref(compose->edit_vbox);
 
 		gtkut_container_remove(GTK_CONTAINER(compose->vbox2),
 		  		       compose->paned);
@@ -8260,7 +8202,7 @@ static void compose_toggle_attach_cb(gpointer data, guint action,
 		gtk_box_pack_start(GTK_BOX(compose->vbox2),
 				   compose->edit_vbox, TRUE, TRUE, 0);
 
-		gtk_widget_unref(compose->edit_vbox);
+		g_object_unref(compose->edit_vbox);
 
 		compose->use_attach = FALSE;
 	}
@@ -8331,20 +8273,31 @@ static void compose_toggle_spell_cb(gpointer data, guint action,
 				    GtkWidget *widget)
 {
 	Compose *compose = (Compose *)data;
-	GtkSpell *speller;
+	GtkSpellChecker *speller;
 
-	if (GTK_CHECK_MENU_ITEM(widget)->active) {
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		debug_print("Spell checking enabled: %s\n",
 			    compose->spell_lang ? compose->spell_lang : "(none)");
-		speller = gtkspell_new_attach(GTK_TEXT_VIEW(compose->text),
-					      compose->spell_lang, NULL);
+		speller = gtk_spell_checker_get_from_text_view
+			(GTK_TEXT_VIEW(compose->text));
+		if (speller == NULL) {
+			/* gtkspell_new_attach() of GtkSpell 2 did not attach
+			   when the language could not be set */
+			speller = gtk_spell_checker_new();
+			if (gtk_spell_checker_set_language
+				(speller, compose->spell_lang, NULL))
+				gtk_spell_checker_attach
+					(speller, GTK_TEXT_VIEW(compose->text));
+			else
+				g_object_unref(g_object_ref_sink(speller));
+		}
 		compose->check_spell = TRUE;
 	} else {
 		debug_print("Spell checking disabled\n");
-		speller = gtkspell_get_from_text_view
+		speller = gtk_spell_checker_get_from_text_view
 			(GTK_TEXT_VIEW(compose->text));
 		if (speller != NULL)
-			gtkspell_detach(speller);
+			gtk_spell_checker_detach(speller);
 		compose->check_spell = FALSE;
 	}
 }
@@ -8354,7 +8307,7 @@ static void compose_set_spell_lang_cb(GtkWidget *widget,
 {
 	Compose *compose = (Compose *)data;
 	gchar *dict;
-	GtkSpell *speller;
+	GtkSpellChecker *speller;
 
 	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)))
 		return;
@@ -8364,9 +8317,10 @@ static void compose_set_spell_lang_cb(GtkWidget *widget,
 	g_free(compose->spell_lang);
 	compose->spell_lang = g_strdup(dict);
  
-	speller = gtkspell_get_from_text_view(GTK_TEXT_VIEW(compose->text));
+	speller = gtk_spell_checker_get_from_text_view
+		(GTK_TEXT_VIEW(compose->text));
 	if (speller != NULL)
-		gtkspell_set_language(speller, dict, NULL);
+		gtk_spell_checker_set_language(speller, dict, NULL);
 
 	debug_print("Spell lang set to \"%s\"\n", dict);
 }
@@ -8420,7 +8374,8 @@ static void compose_attach_drag_received_cb (GtkWidget		*widget,
 	g_list_free(list);
 
 	if ((gdk_drag_context_get_actions(drag_context) & GDK_ACTION_MOVE) != 0)
-		drag_context->action = 0;
+		/* report no action to the source (was a sealed field write) */
+		gdk_drag_status(drag_context, 0, time);
 	gtk_drag_finish(drag_context, TRUE, FALSE, time);
 }
 
@@ -8564,14 +8519,10 @@ static gboolean autosave_timeout(gpointer data)
 {
 	Compose *compose = (Compose *)data;
 
-	gdk_threads_enter();
-
 	debug_print("auto-saving...\n");
 
 	if (compose->modified)
 		compose_draft_cb(data, 1, NULL);
-
-	gdk_threads_leave();
 
 	return TRUE;
 }

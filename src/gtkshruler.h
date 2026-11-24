@@ -31,9 +31,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 
-#define GTK_SHRULER(obj)            (GTK_CHECK_CAST ((obj), gtk_shruler_get_type (), GtkSHRuler))
-#define GTK_SHRULER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), gtk_shruler_get_type (), GtkSHRulerClass))
-#define GTK_IS_SHRULER(obj)         (GTK_CHECK_TYPE ((obj), gtk_shruler_get_type ()))
+#define GTK_SHRULER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), gtk_shruler_get_type (), GtkSHRuler))
+#define GTK_SHRULER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), gtk_shruler_get_type (), GtkSHRulerClass))
+#define GTK_IS_SHRULER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), gtk_shruler_get_type ()))
 
 
 typedef struct _GtkSHRuler        GtkSHRuler;
@@ -41,14 +41,20 @@ typedef struct _GtkSHRulerClass   GtkSHRulerClass;
 
 struct _GtkSHRuler
 {
-	GtkHRuler ruler;
+	GtkDrawingArea parent;
 
 	gint start_pos;
+
+	/* formerly kept by GtkRuler */
+	gdouble lower;
+	gdouble upper;
+	gdouble position;
+	gdouble max_size;
 };
 
 struct _GtkSHRulerClass
 {
- 	GtkHRulerClass parent_class;
+ 	GtkDrawingAreaClass parent_class;
 };
 
 
@@ -58,6 +64,12 @@ GtkWidget* gtk_shruler_new      (void);
 void       gtk_shruler_set_start_pos	(GtkSHRuler *ruler,
 					 gint        pos);
 gint       gtk_shruler_get_start_pos	(GtkSHRuler *ruler);
+
+void       gtk_shruler_set_range	(GtkSHRuler *ruler,
+					 gdouble     lower,
+					 gdouble     upper,
+					 gdouble     position,
+					 gdouble     max_size);
 
 void       gtk_shruler_set_pos  (GtkSHRuler *ruler,
 				 gfloat      pos);

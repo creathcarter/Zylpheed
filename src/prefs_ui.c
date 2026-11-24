@@ -59,7 +59,7 @@ void prefs_dialog_create(PrefsDialog *dialog)
 	gtk_container_set_border_width (GTK_CONTAINER (window), 6);
 	gtk_window_set_position (GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal (GTK_WINDOW (window), TRUE);
-	gtk_window_set_policy (GTK_WINDOW(window), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW(window), TRUE);
 
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show(vbox);
@@ -540,39 +540,35 @@ void prefs_set_fontbtn(PrefParam *pparam)
 void prefs_set_data_from_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	menu = gtk_option_menu_get_menu(GTK_OPTION_MENU(*ui_data->widget));
-	menuitem = gtk_menu_get_active(GTK_MENU(menu));
 	*((DummyEnum *)pparam->data) = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+		(menu_combo_get_active_data(GTK_COMBO_BOX(*ui_data->widget)));
 }
 
 void prefs_set_optmenu(PrefParam *pparam)
 {
 	PrefsUIData *ui_data;
 	DummyEnum val = *((DummyEnum *)pparam->data);
-	GtkOptionMenu *optmenu;
+	GtkComboBox *optmenu;
 	gint index;
 
 	ui_data = (PrefsUIData *)pparam->ui_data;
 	g_return_if_fail(ui_data != NULL);
 	g_return_if_fail(*ui_data->widget != NULL);
 
-	optmenu = GTK_OPTION_MENU(*ui_data->widget);
+	optmenu = GTK_COMBO_BOX(*ui_data->widget);
 	g_return_if_fail(optmenu != NULL);
 
 	index = menu_find_option_menu_index(optmenu, GINT_TO_POINTER(val),
 					    NULL);
 	if (index >= 0)
-		gtk_option_menu_set_history(optmenu, index);
+		gtk_combo_box_set_active(optmenu, index);
 	else {
-		gtk_option_menu_set_history(optmenu, 0);
+		gtk_combo_box_set_active(optmenu, 0);
 		prefs_set_data_from_optmenu(pparam);
 	}
 }

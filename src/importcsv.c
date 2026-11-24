@@ -60,7 +60,9 @@
 typedef enum {
 	FIELD_COL_SELECT  = 0,
 	FIELD_COL_FIELD   = 1,
-	FIELD_COL_ATTRIB  = 2
+	FIELD_COL_ATTRIB  = 2,
+	FIELD_COL_DATA    = 3,
+	FIELD_N_STORE_COLS
 } ImpCSV_FieldColPos;
 
 static struct _ImpCSVDlg {
@@ -119,8 +121,7 @@ static AddressIndex *_imp_addressIndex_;
 static gint importCount = 0;
 static gint result;
 
-static GdkPixmap *markxpm;
-static GdkBitmap *markxpmmask;
+static GdkPixbuf *markxpm;
 
 static void imp_csv_status_show( gchar *msg ) {
 	if( impcsv_dlg.statusbar != NULL ) {
@@ -162,8 +163,14 @@ static gchar *imp_csv_guess_file( AddressBookFile *abf ) {
 	return newFile;
 }
 
+static GtkListStore *imp_csv_field_store( void ) {
+	return GTK_LIST_STORE( gtk_tree_view_get_model(
+		GTK_TREE_VIEW(impcsv_dlg.clist_field) ) );
+}
+
 static gboolean imp_csv_load_fields( gchar *sFile ) {
-	GtkCList *clist = GTK_CLIST(impcsv_dlg.clist_field);
+	GtkListStore *store = imp_csv_field_store();
+	GtkTreeIter iter;
 	FILE *fp;
 	gchar buf[BUFFSIZE];
 	CharSet enc;
@@ -171,7 +178,7 @@ static gboolean imp_csv_load_fields( gchar *sFile ) {
 	g_return_val_if_fail(sFile != NULL, FALSE);
 
 	impcsv_dlg.rowCount = 0;
-	gtk_clist_clear( clist );
+	gtk_list_store_clear( store );
 
 	enc = conv_check_file_encoding(sFile);
 
@@ -188,6 +195,8 @@ static gboolean imp_csv_load_fields( gchar *sFile ) {
 		guint data_len = 0;
 		guint len;
 		gint row;
+		gpointer attr;
+		GdkPixbuf *mark;
 
 		strretchomp(buf);
 		if (enc == C_UTF_8)
@@ -200,8 +209,6 @@ static gboolean imp_csv_load_fields( gchar *sFile ) {
 			++data_len;
 		len = MAX(fields_len, data_len);
 
-		gtk_clist_freeze(clist);
-
 		for (i = 0; i < len; i++) {
 			text[ FIELD_COL_SELECT ] = "";
 			if (i < data_len)
@@ -213,19 +220,28 @@ static gboolean imp_csv_load_fields( gchar *sFile ) {
 					gettext(imp_csv_attrib[i].name);
 			else
 				text[ FIELD_COL_ATTRIB ] = "";
-			row = gtk_clist_append(clist, text);
+			gtk_list_store_append(store, &iter);
+			row = i;
+			attr = NULL;
+			mark = NULL;
 			if (i < fields_len) {
 				imp_csv_attrib[i].value = NULL;
 				imp_csv_attrib[i].col = row;
-				gtk_clist_set_row_data
-					(clist, row, &imp_csv_attrib[i]);
+				attr = &imp_csv_attrib[i];
 				if (imp_csv_attrib[i].enabled)
-					gtk_clist_set_pixmap(clist, row, FIELD_COL_SELECT, markxpm, markxpmmask);
+					mark = markxpm;
 			}
+			gtk_list_store_set(store, &iter,
+					   FIELD_COL_SELECT, mark,
+					   FIELD_COL_FIELD, text[FIELD_COL_FIELD],
+					   FIELD_COL_ATTRIB, text[FIELD_COL_ATTRIB],
+					   FIELD_COL_DATA, attr, -1);
 		}
 
-		gtk_clist_thaw(clist);
-		gtk_widget_queue_resize(GTK_WIDGET(clist));
+		/* GtkCList in browse mode selected the first row */
+		gtkut_list_view_select_row
+			(GTK_TREE_VIEW(impcsv_dlg.clist_field), 0);
+		gtk_widget_queue_resize(impcsv_dlg.clist_field);
 
 		g_strfreev(strv);
 		g_free(str);
@@ -236,105 +252,96 @@ static gboolean imp_csv_load_fields( gchar *sFile ) {
 	return TRUE;
 }
 
-static void imp_csv_field_list_selected( GtkCList *clist, gint row, gint column, GdkEvent *event ) {
-	if (event && event->type == GDK_2BUTTON_PRESS)
-		return;
+/* A click in the "S" column toggles the field, as the GtkCList
+   select_row handler did. */
+static gboolean imp_csv_field_list_button_pressed( GtkWidget *widget,
+						   GdkEventButton *event,
+						   gpointer data ) {
+	GtkTreeView *treeview = GTK_TREE_VIEW(widget);
+	GtkTreeModel *model = gtk_tree_view_get_model(treeview);
+	GtkTreePath *path = NULL;
+	GtkTreeViewColumn *column = NULL;
+	GtkTreeIter iter;
+	struct _ImpCSVAttrib *attr;
 
-	if (column == FIELD_COL_SELECT) {
-		struct _ImpCSVAttrib *attr;
-		attr = gtk_clist_get_row_data( clist, row );
+	if (!event || event->type != GDK_BUTTON_PRESS || event->button != 1)
+		return FALSE;
+	if (event->window != gtk_tree_view_get_bin_window(treeview))
+		return FALSE;
+	if (!gtk_tree_view_get_path_at_pos(treeview, (gint)event->x,
+					   (gint)event->y, &path, &column,
+					   NULL, NULL))
+		return FALSE;
+
+	if (column == gtk_tree_view_get_column(treeview, FIELD_COL_SELECT) &&
+	    gtk_tree_model_get_iter(model, &iter, path)) {
+		gtk_tree_model_get(model, &iter, FIELD_COL_DATA, &attr, -1);
 		if (attr) {
 			attr->enabled ^= TRUE;
-			if (attr->enabled)
-				gtk_clist_set_pixmap(clist, row, FIELD_COL_SELECT, markxpm, markxpmmask);
-			else
-				gtk_clist_set_text(clist, row, FIELD_COL_SELECT, "");
+			gtk_list_store_set(GTK_LIST_STORE(model), &iter,
+					   FIELD_COL_SELECT,
+					   attr->enabled ? markxpm : NULL, -1);
 		}
+	}
+	gtk_tree_path_free(path);
+
+	return FALSE;
+}
+
+/* Move the selected row's attribute (mark, name, data) by offset; the CSV
+   field column stays where it is. */
+static void imp_csv_field_list_move( gint offset ) {
+	GtkTreeView *treeview = GTK_TREE_VIEW(impcsv_dlg.clist_field);
+	GtkTreeModel *model = gtk_tree_view_get_model(treeview);
+	GtkTreeIter src_iter, dest_iter;
+	gint row;
+	struct _ImpCSVAttrib *src_attr;
+	struct _ImpCSVAttrib *dest_attr;
+	gchar *src_text;
+	gchar *dest_text;
+
+	row = gtkut_list_view_get_selected_row( treeview );
+	if (row < 0) return;
+	if (!gtk_tree_model_iter_nth_child( model, &src_iter, NULL, row ) ||
+	    !gtk_tree_model_iter_nth_child( model, &dest_iter, NULL,
+					    row + offset ))
+		return;
+
+	gtk_tree_model_get( model, &src_iter, FIELD_COL_DATA, &src_attr,
+			    FIELD_COL_FIELD, &src_text, -1 );
+	gtk_tree_model_get( model, &dest_iter, FIELD_COL_DATA, &dest_attr,
+			    FIELD_COL_FIELD, &dest_text, -1 );
+
+	gtkut_list_view_move_selected_row( treeview, offset );
+
+	/* after the swap, src_iter is at row + offset */
+	gtk_list_store_set( GTK_LIST_STORE(model), &src_iter,
+			    FIELD_COL_FIELD, dest_text, -1 );
+	gtk_list_store_set( GTK_LIST_STORE(model), &dest_iter,
+			    FIELD_COL_FIELD, src_text, -1 );
+	g_free( dest_text );
+	g_free( src_text );
+
+	if ( src_attr )
+		src_attr->col = row + offset;
+	if ( dest_attr )
+		dest_attr->col = row;
+
+	if (gtk_widget_get_realized(GTK_WIDGET(treeview))) {
+		GtkTreePath *path;
+
+		path = gtk_tree_path_new_from_indices( row + offset, -1 );
+		gtkut_tree_view_scroll_to_cell( treeview, path, TRUE );
+		gtk_tree_path_free( path );
 	}
 }
 
 static void imp_csv_field_list_up( GtkWidget *button, gpointer data ) {
-	GtkCList *clist = GTK_CLIST(impcsv_dlg.clist_field);
-	gchar *text;
-	gint row;
-	struct _ImpCSVAttrib *src_attr;
-	struct _ImpCSVAttrib *dest_attr;
-	gchar *src_text;
-	gchar *dest_text;
-
-	if (!clist->selection) return;
-
-	row = GPOINTER_TO_INT( clist->selection->data );
-	if ( row > 0 && row < clist->rows ) {
-		gtk_clist_freeze( clist );
-
-		src_attr = gtk_clist_get_row_data( clist, row );
-		dest_attr = gtk_clist_get_row_data( clist, row - 1 );
-
-		gtk_clist_row_move( clist, row, row - 1 );
-
-		gtk_clist_get_text( clist, row, FIELD_COL_FIELD, &text );
-		src_text = g_strdup( text );
-		gtk_clist_get_text( clist, row - 1, FIELD_COL_FIELD, &text );
-		dest_text = g_strdup( text );
-		gtk_clist_set_text( clist, row - 1, FIELD_COL_FIELD, src_text );
-		gtk_clist_set_text( clist, row, FIELD_COL_FIELD, dest_text );
-		g_free( dest_text );
-		g_free( src_text );
-
-		if ( src_attr )
-			src_attr->col = row - 1;
-		if ( dest_attr )
-			dest_attr->col = row;
-
-		gtk_clist_thaw( clist );
-
-		if (gtk_clist_row_is_visible(clist, row - 1)
-			!= GTK_VISIBILITY_FULL)
-			gtk_clist_moveto(clist, row - 1, 0, 0.5, 0);
-	}
+	imp_csv_field_list_move( -1 );
 }
 
 static void imp_csv_field_list_down( GtkWidget *button, gpointer data ) {
-	GtkCList *clist = GTK_CLIST(impcsv_dlg.clist_field);
-	gchar *text;
-	gint row;
-	struct _ImpCSVAttrib *src_attr;
-	struct _ImpCSVAttrib *dest_attr;
-	gchar *src_text;
-	gchar *dest_text;
-
-	if (!clist->selection) return;
-
-	row = GPOINTER_TO_INT( clist->selection->data );
-	if ( row >= 0 && row < clist->rows - 1 ) {
-		gtk_clist_freeze( clist );
-
-		src_attr = gtk_clist_get_row_data( clist, row );
-		dest_attr = gtk_clist_get_row_data( clist, row + 1 );
-
-		gtk_clist_row_move( clist, row, row + 1 );
-
-		gtk_clist_get_text( clist, row, FIELD_COL_FIELD, &text );
-		src_text = g_strdup( text );
-		gtk_clist_get_text( clist, row + 1, FIELD_COL_FIELD, &text );
-		dest_text = g_strdup( text );
-		gtk_clist_set_text( clist, row + 1, FIELD_COL_FIELD, src_text );
-		gtk_clist_set_text( clist, row, FIELD_COL_FIELD, dest_text );
-		g_free( dest_text );
-		g_free( src_text );
-
-		if ( src_attr )
-			src_attr->col = row + 1;
-		if ( dest_attr )
-			dest_attr->col = row;
-
-		gtk_clist_thaw( clist );
-
-		if (gtk_clist_row_is_visible(clist, row + 1)
-			!= GTK_VISIBILITY_FULL)
-			gtk_clist_moveto(clist, row + 1, 0, 0.5, 0);
-	}
+	imp_csv_field_list_move( 1 );
 }
 
 static gint imp_csv_import_data( gchar *csvFile, AddressCache *cache ) {
@@ -722,6 +729,12 @@ static void imp_csv_page_fields( gint pageNum, gchar *pageLbl ) {
 	GtkWidget *down_btn;
 
 	gchar *titles[ FIELDS_N_COLS ];
+	static const gint widths[ FIELDS_N_COLS ] = {
+		FIELDS_COL_WIDTH_SELECT, FIELDS_COL_WIDTH_FIELD,
+		FIELDS_COL_WIDTH_ATTRIB
+	};
+	GtkListStore *store;
+	GtkTreeViewColumn *column;
 	gint i;
 
 	titles[ FIELD_COL_SELECT ] = _("S");
@@ -757,19 +770,33 @@ static void imp_csv_page_fields( gint pageNum, gchar *pageLbl ) {
 				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_ALWAYS);
 
-	clist_field = gtk_clist_new_with_titles( FIELDS_N_COLS, titles );
+	store = gtk_list_store_new( FIELD_N_STORE_COLS, GDK_TYPE_PIXBUF,
+				    G_TYPE_STRING, G_TYPE_STRING,
+				    G_TYPE_POINTER );
+	clist_field = gtk_tree_view_new_with_model( GTK_TREE_MODEL(store) );
+	g_object_unref( G_OBJECT(store) );
 	gtk_container_add( GTK_CONTAINER(clist_swin), clist_field );
-	gtk_clist_set_selection_mode( GTK_CLIST(clist_field), GTK_SELECTION_BROWSE );
-	gtk_clist_set_column_width(
-			GTK_CLIST(clist_field), FIELD_COL_SELECT, FIELDS_COL_WIDTH_SELECT );
-	gtk_clist_set_column_width(
-			GTK_CLIST(clist_field), FIELD_COL_FIELD, FIELDS_COL_WIDTH_FIELD );
-	gtk_clist_set_column_width(
-			GTK_CLIST(clist_field), FIELD_COL_ATTRIB, FIELDS_COL_WIDTH_ATTRIB );
-	gtkut_clist_set_redraw( GTK_CLIST(clist_field) );
-
-	for( i = 0; i < FIELDS_N_COLS; i++ )
-		gtk_widget_set_can_focus(GTK_CLIST(clist_field)->column[i].button, FALSE);
+	gtk_tree_selection_set_mode(
+		gtk_tree_view_get_selection( GTK_TREE_VIEW(clist_field) ),
+		GTK_SELECTION_BROWSE );
+	for( i = 0; i < FIELDS_N_COLS; i++ ) {
+		if( i == FIELD_COL_SELECT )
+			column = gtk_tree_view_column_new_with_attributes(
+				titles[i], gtk_cell_renderer_pixbuf_new(),
+				"pixbuf", i, NULL );
+		else
+			column = gtk_tree_view_column_new_with_attributes(
+				titles[i], gtk_cell_renderer_text_new(),
+				"text", i, NULL );
+		if( i == FIELD_COL_SELECT )
+			gtk_tree_view_column_set_min_width( column, widths[i] );
+		else {
+			gtk_tree_view_column_set_sizing( column, GTK_TREE_VIEW_COLUMN_FIXED );
+			gtk_tree_view_column_set_fixed_width( column, widths[i] );
+			gtk_tree_view_column_set_resizable( column, TRUE );
+		}
+		gtk_tree_view_append_column( GTK_TREE_VIEW(clist_field), column );
+	}
 
 	btn_vbox = gtk_vbox_new( FALSE, 0 );
 	gtk_box_pack_start( GTK_BOX( hbox ), btn_vbox, FALSE, FALSE, 0 );
@@ -785,8 +812,8 @@ static void imp_csv_page_fields( gint pageNum, gchar *pageLbl ) {
 
 	gtk_widget_show_all(vbox);
 
-	g_signal_connect( G_OBJECT(clist_field), "select_row",
-			  G_CALLBACK(imp_csv_field_list_selected), NULL );
+	g_signal_connect( G_OBJECT(clist_field), "button_press_event",
+			  G_CALLBACK(imp_csv_field_list_button_pressed), NULL );
 	g_signal_connect( G_OBJECT(up_btn), "clicked",
 			  G_CALLBACK(imp_csv_field_list_up), NULL );
 	g_signal_connect( G_OBJECT(down_btn), "clicked",
@@ -956,13 +983,12 @@ AddressBookFile *addressbook_imp_csv( AddressIndex *addrIndex ) {
 	gtk_entry_set_text( GTK_ENTRY(impcsv_dlg.name_entry), IMPORTCSV_GUESS_NAME );
 	gtk_entry_set_text( GTK_ENTRY(impcsv_dlg.file_entry), "" );
 	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(impcsv_dlg.comma_radiobtn), TRUE );
-	gtk_clist_clear( GTK_CLIST(impcsv_dlg.clist_field) );
+	gtk_list_store_clear( imp_csv_field_store() );
 	gtk_notebook_set_current_page( GTK_NOTEBOOK(impcsv_dlg.notebook), PAGE_FILE_INFO );
 	gtk_widget_set_sensitive( impcsv_dlg.btnPrev, FALSE );
 	gtk_widget_set_sensitive( impcsv_dlg.btnNext, TRUE );
 	gtk_button_set_label( GTK_BUTTON(impcsv_dlg.btnCancel), GTK_STOCK_CANCEL );
-	stock_pixmap_gdk( impcsv_dlg.window, STOCK_PIXMAP_MARK,
-			  &markxpm, &markxpmmask );
+	stock_pixbuf_gdk( impcsv_dlg.window, STOCK_PIXMAP_MARK, &markxpm );
 	imp_csv_message();
 	gtk_widget_grab_focus(impcsv_dlg.file_entry);
 

@@ -66,10 +66,6 @@ static void about_create(void)
 	GtkWidget *ok_button;
 	GtkTextBuffer *buffer;
 	GtkTextIter iter;
-	GtkStyle *style;
-	GdkColormap *cmap;
-	GdkColor uri_color[2] = {{0, 0, 0, 0xffff}, {0, 0xffff, 0, 0}};
-	gboolean success[2];
 
 #if HAVE_SYS_UTSNAME_H
 	struct utsname utsbuf;
@@ -182,18 +178,12 @@ static void about_create(void)
 	for (i = 1; i <= strlen(HOMEPAGE_URI); i++) buf[i] = '_';
 	strcpy(buf + i, " ");
 	gtk_label_set_pattern(GTK_LABEL(gtk_bin_get_child(GTK_BIN(button))), buf);
-	cmap = gdk_window_get_colormap(gtk_widget_get_window(window));
-	gdk_colormap_alloc_colors(cmap, uri_color, 2, FALSE, TRUE, success);
-	if (success[0] == TRUE && success[1] == TRUE) {
-		gtk_widget_ensure_style(gtk_bin_get_child(GTK_BIN(button)));
-		style = gtk_style_copy
-			(gtk_widget_get_style(gtk_bin_get_child(GTK_BIN(button))));
-		style->fg[GTK_STATE_NORMAL]   = uri_color[0];
-		style->fg[GTK_STATE_ACTIVE]   = uri_color[1];
-		style->fg[GTK_STATE_PRELIGHT] = uri_color[0];
-		gtk_widget_set_style(gtk_bin_get_child(GTK_BIN(button)), style);
-	} else
-		g_warning("about_create(): color allocation failed.\n");
+	/* link colours: blue, red while the button is pressed */
+	gtk_widget_set_name(gtk_bin_get_child(GTK_BIN(button)),
+			    "sylpheed-about-uri");
+	gtkut_css_set_rule("#sylpheed-about-uri", "color: #0000ff;");
+	gtkut_css_set_rule("button:active #sylpheed-about-uri",
+			   "color: #ff0000;");
 
 	scrolledwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwin),

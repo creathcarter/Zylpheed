@@ -29,6 +29,7 @@
 #include "filter.h"
 #include "procheader.h"
 #include "menu.h"
+#include "gtkutils.h"
 #include "addressbook.h"
 
 static const struct {
@@ -47,9 +48,8 @@ static const struct {
 	{QS_LAST30,	-1}
 };
 
-static GdkColor dim_color = {0, COLOR_DIM, COLOR_DIM, COLOR_DIM};
 
-static void menu_activated		(GtkWidget	*menuitem,
+static void menu_activated		(GtkWidget	*combo,
 					 QuickSearch	*qsearch);
 static gboolean entry_focus_in		(GtkWidget	*entry,
 					 GdkEventFocus	*event,
@@ -73,8 +73,6 @@ QuickSearch *quick_search_create(SummaryView *summaryview)
 	QuickSearch *qsearch;
 	GtkWidget *hbox;
 	GtkWidget *optmenu;
-	GtkWidget *menu;
-	GtkWidget *menuitem;
 	GtkWidget *hbox2;
 	GtkWidget *label;
 	GtkWidget *entry;
@@ -88,32 +86,29 @@ QuickSearch *quick_search_create(SummaryView *summaryview)
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 2);
 
-	optmenu = gtk_option_menu_new();
+	optmenu = menu_combo_new();
 	gtk_box_pack_start(GTK_BOX(hbox), optmenu, FALSE, FALSE, 0);
 
 #define COND_MENUITEM_ADD(str, action)					\
-{									\
-	MENUITEM_ADD(menu, menuitem, str, action);			\
-	g_signal_connect(G_OBJECT(menuitem), "activate",		\
-			 G_CALLBACK(menu_activated), qsearch);		\
-}
+	COMBOBOX_ADD(optmenu, str, action)
 
-	menu = gtk_menu_new();
 	COND_MENUITEM_ADD(_("All"), QS_ALL);
 	COND_MENUITEM_ADD(_("Unread"), QS_UNREAD);
 	COND_MENUITEM_ADD(_("Marked"), QS_MARK);
 	COND_MENUITEM_ADD(_("Have color label"), QS_CLABEL);
 	COND_MENUITEM_ADD(_("Have attachment"), QS_MIME);
-	MENUITEM_ADD(menu, menuitem, NULL, 0);
+	COMBOBOX_ADD(optmenu, NULL, 0);
 	COND_MENUITEM_ADD(_("Within 1 day"), QS_W1DAY);
 	COND_MENUITEM_ADD(_("Last 5 days"), QS_LAST5);
 	COND_MENUITEM_ADD(_("Last 7 days"), QS_LAST7);
 	COND_MENUITEM_ADD(_("Last 30 days"), QS_LAST30);
-	MENUITEM_ADD(menu, menuitem, NULL, 0);
+	COMBOBOX_ADD(optmenu, NULL, 0);
 	COND_MENUITEM_ADD(_("In addressbook"), QS_IN_ADDRESSBOOK);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(optmenu), menu);
 
 #undef COND_MENUITEM_ADD
+
+	g_signal_connect(G_OBJECT(optmenu), "changed",
+			 G_CALLBACK(menu_activated), qsearch);
 
 	hbox2 = gtk_hbox_new(FALSE, 0);
 	gtk_widget_set_size_request(hbox2, 8, -1);
@@ -168,7 +163,6 @@ QuickSearch *quick_search_create(SummaryView *summaryview)
 
 	qsearch->hbox = hbox;
 	qsearch->optmenu = optmenu;
-	qsearch->menu = menu;
 	qsearch->label = label;
 	qsearch->entry = entry;
 	qsearch->clear_btn = clear_btn;
@@ -279,7 +273,7 @@ GSList *quick_search_filter(QuickSearch *qsearch, QSearchCondType type,
 		for (i = 0; keys[i] != NULL; i++) {
 			cond_list = NULL;
 
-			if (keys[i] == '\0')
+			if (keys[i][0] == '\0')
 				continue;
 
 			cond = filter_cond_new(FLT_COND_HEADER, FLT_CONTAIN, 0,
@@ -373,8 +367,27 @@ GSList *quick_search_filter(QuickSearch *qsearch, QSearchCondType type,
 	return flt_mlist;
 }
 
-static void menu_activated(GtkWidget *menuitem, QuickSearch *qsearch)
+QSearchCondType quick_search_get_cond_type(QuickSearch *qsearch)
 {
+	return (QSearchCondType)menu_get_option_menu_active_index
+		(GTK_COMBO_BOX(qsearch->optmenu));
+}
+
+/* select a condition without running the search (as
+   gtk_option_menu_set_history() did) */
+void quick_search_set_cond_index(QuickSearch *qsearch, gint index)
+{
+	g_signal_handlers_block_by_func(G_OBJECT(qsearch->optmenu),
+					menu_activated, qsearch);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(qsearch->optmenu), index);
+	g_signal_handlers_unblock_by_func(G_OBJECT(qsearch->optmenu),
+					  menu_activated, qsearch);
+}
+
+static void menu_activated(GtkWidget *combo, QuickSearch *qsearch)
+{
+	if (gtk_combo_box_get_active(GTK_COMBO_BOX(combo)) < 0)
+		return;
 	summary_qsearch(qsearch->summaryview);
 }
 
@@ -384,7 +397,7 @@ static gboolean entry_focus_in(GtkWidget *entry, GdkEventFocus *event,
 	if (!qsearch->entry_entered) {
 		g_signal_handlers_block_by_func(entry, entry_changed, qsearch);
 		gtk_entry_set_text(GTK_ENTRY(entry), "");
-		gtk_widget_modify_text(entry, GTK_STATE_NORMAL, NULL);
+		gtkut_widget_remove_class(entry, GTKUT_CLASS_DIM);
 		g_signal_handlers_unblock_by_func(entry, entry_changed, qsearch);
 	}
 
@@ -396,7 +409,7 @@ static gboolean entry_focus_out(GtkWidget *entry, GdkEventFocus *event,
 {
 	if (!qsearch->entry_entered) {
 		g_signal_handlers_block_by_func(entry, entry_changed, qsearch);
-		gtk_widget_modify_text(entry, GTK_STATE_NORMAL, &dim_color);
+		gtkut_widget_add_class(entry, GTKUT_CLASS_DIM);
 		gtk_entry_set_text(GTK_ENTRY(entry), _("Search for Subject or From"));
 		g_signal_handlers_unblock_by_func(entry, entry_changed, qsearch);
 	}

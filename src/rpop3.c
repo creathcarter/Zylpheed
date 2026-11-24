@@ -345,7 +345,7 @@ static void rpop3_window_create(PrefsAccount *account)
 		   account->account_name ? account->account_name : "");
 	gtk_window_set_title(GTK_WINDOW(window), buf);
 	gtk_widget_set_size_request(window, 640 * gtkut_get_dpi_multiplier(), -1);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, TRUE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(window_deleted), NULL);
 	g_signal_connect(G_OBJECT(window), "key_press_event",
@@ -627,16 +627,12 @@ static void rpop3_clear_list(void)
 
 static gboolean rpop3_ping_cb(gpointer data)
 {
-	gdk_threads_enter();
-
 	if (rpop3_window.ping_tag > 0) {
 		g_source_remove(rpop3_window.ping_tag);
 		rpop3_window.ping_tag = 0;
 	}
 	if (rpop3_window.session->state == POP3_IDLE)
 		rpop3_noop_send(rpop3_window.session);
-
-	gdk_threads_leave();
 
 	return FALSE;
 }
@@ -826,8 +822,6 @@ static gint rpop3_session_recv_msg(Session *session, const gchar *msg)
 	gint val = PS_SUCCESS;
 	const gchar *body;
 
-	gdk_threads_enter();
-
 	body = msg;
 	if (pop3_session->state != POP3_GETRANGE_UIDL_RECV &&
 	    pop3_session->state != POP3_GETSIZE_LIST_RECV) {
@@ -835,16 +829,13 @@ static gint rpop3_session_recv_msg(Session *session, const gchar *msg)
 		if (val != PS_SUCCESS) {
 			if (val == PS_SOCKET) {
 				pop3_session->state = POP3_ERROR;
-				gdk_threads_leave();
 				return -1;
 			}
 			if (val != PS_NOTSUPPORTED) {
 				if (pop3_session->state != POP3_LOGOUT) {
 					if (pop3_logout_send(pop3_session) == PS_SUCCESS) {
-						gdk_threads_leave();
 						return 0;
 					} else {
-						gdk_threads_leave();
 						return -1;
 					}
 				}
@@ -968,8 +959,6 @@ static gint rpop3_session_recv_msg(Session *session, const gchar *msg)
 		break;
 	}
 
-	gdk_threads_leave();
-
 	if (val == PS_SUCCESS)
 		return 0;
 	else
@@ -982,8 +971,6 @@ static gint rpop3_session_recv_data_finished(Session *session, guchar *data,
         Pop3Session *pop3_session = POP3_SESSION(session);
         Pop3ErrorValue val = PS_SUCCESS;
 	gint ret = 0;
-
-	gdk_threads_enter();
 
         switch (pop3_session->state) {
         case POP3_GETRANGE_UIDL_RECV:
@@ -1023,8 +1010,6 @@ static gint rpop3_session_recv_data_finished(Session *session, guchar *data,
 		break;
 	}
 
-	gdk_threads_leave();
-
 	return ret;
 }
 
@@ -1033,8 +1018,6 @@ static gint rpop3_session_recv_data_as_file_finished(Session *session,
 {
         Pop3Session *pop3_session = POP3_SESSION(session);
 	gint ret = 0;
-
-	gdk_threads_enter();
 
         switch (pop3_session->state) {
 	case POP3_RETR_RECV:
@@ -1109,8 +1092,6 @@ static gint rpop3_session_recv_data_as_file_finished(Session *session,
 		ret = -1;
 		break;
 	}
-
-	gdk_threads_leave();
 
 	return ret;
 }

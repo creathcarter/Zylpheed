@@ -23,6 +23,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 #include "folder.h"
 
 typedef struct _FolderView	FolderView;
@@ -45,9 +47,9 @@ struct _FolderView
 	GtkWidget *imap_popup;
 	GtkWidget *news_popup;
 
-	GtkItemFactory *mail_factory;
-	GtkItemFactory *imap_factory;
-	GtkItemFactory *news_factory;
+	MenuFactory *mail_factory;
+	MenuFactory *imap_factory;
+	MenuFactory *news_factory;
 
 	GtkTreeRowReference *selected;
 	GtkTreeRowReference *opened;

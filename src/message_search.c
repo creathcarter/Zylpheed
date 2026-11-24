@@ -109,7 +109,7 @@ static void message_search_create(void)
 	gtk_window_set_title (GTK_WINDOW (window),
 			      _("Find in current message"));
 	gtk_widget_set_size_request (window, 450 * gtkut_get_dpi_multiplier(), -1);
-	gtk_window_set_policy(GTK_WINDOW(window), FALSE, TRUE, TRUE);
+	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (window), 8);
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(window_deleted), NULL);

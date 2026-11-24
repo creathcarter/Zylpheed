@@ -5,7 +5,7 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname='../bin/libsylpheed-plugin-0-1.dll'
+dlname='../bin/libsylpheed-plugin-0-6.dll'
 
 # Names of this library.
 library_names='libsylpheed-plugin-0.dll.a'
@@ -17,14 +17,14 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -lgtk-win32-2.0 -lgdk-win32-2.0 -limm32 -lshell32 -lole32 -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lgdi32 -lmsimg32 -latk-1.0 -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -lgio-2.0 /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/libsylph-0.la -lgobject-2.0 -lgmodule-2.0 -liconv -lws2_32 -lwinmm -L=C:/msys64/ucrt64/lib -lcompface -lssl -lcrypto -lonig -lgthread-2.0 -lglib-2.0 -lintl'
+dependency_libs=' -lgtkspell3-3 -lgtk-3 -lgdk-3 -lgdi32 -limm32 -lshell32 -lole32 -ldwmapi -lsetupapi -lcfgmgr32 -lhid -lwinspool -lcomctl32 -lcomdlg32 -lpangocairo-1.0 -lpangowin32-1.0 -lpango-1.0 -lcairo-gobject -lcairo -lharfbuzz -lgdk_pixbuf-2.0 -latk-1.0 -lgio-2.0 -lz -lenchant-2 /c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/libsylph-0.la -lgobject-2.0 -lgmodule-2.0 -liconv -lws2_32 -lwinmm -L=C:/msys64/ucrt64/lib -lcompface -lssl -lcrypto -lonig -lgthread-2.0 -lglib-2.0 -lintl'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
 
 # Version information for libsylpheed-plugin-0.
-current=5
-age=4
+current=6
+age=0
 revision=0
 
 # Is this an already installed library?

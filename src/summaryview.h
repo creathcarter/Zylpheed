@@ -24,6 +24,8 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 typedef struct _SummaryView		SummaryView;
 typedef struct _SummaryColumnState	SummaryColumnState;
 
@@ -73,7 +75,7 @@ struct _SummaryView
 	GtkWidget *popupmenu;
 	GtkWidget *colorlabel_menu;
 
-	GtkItemFactory *popupfactory;
+	MenuFactory *popupfactory;
 
 	GtkWidget *reedit_menuitem;
 	GtkWidget *reedit_separator;

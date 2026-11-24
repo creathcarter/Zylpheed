@@ -27,6 +27,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 typedef struct _TextView	TextView;
 
 #include "messageview.h"
@@ -39,7 +41,7 @@ struct _TextView
 	GtkWidget *text;
 
 	GtkWidget *popup_menu;
-	GtkItemFactory *popup_factory; /* not used */
+	MenuFactory *popup_factory; /* not used */
 
 	GtkTextTag *quote0_tag;
 	GtkTextTag *quote1_tag;

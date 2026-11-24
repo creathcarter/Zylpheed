@@ -63,14 +63,29 @@ void statusbar_puts(GtkStatusbar *statusbar, const gchar *str)
 	g_free(buf);
 }
 
+static gboolean statusbar_puts_all_idle(gpointer data)
+{
+	gchar *str = (gchar *)data;
+
+	statusbar_puts_all(str);
+	g_free(str);
+
+	return FALSE;
+}
+
 void statusbar_puts_all(const gchar *str)
 {
 	GList *cur;
 
-	gdk_threads_enter();
+	/* this is the log_show_status_func of libsylph, which can be called
+	   from a worker thread (log_message(), status_print()) */
+	if (!gtkut_is_main_thread()) {
+		g_idle_add(statusbar_puts_all_idle, g_strdup(str));
+		return;
+	}
+
 	for (cur = statusbar_list; cur != NULL; cur = cur->next)
 		statusbar_puts(GTK_STATUSBAR(cur->data), str);
-	gdk_threads_leave();
 }
 
 void statusbar_print(GtkStatusbar *statusbar, const gchar *format, ...)

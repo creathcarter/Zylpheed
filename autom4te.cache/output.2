@@ -672,6 +672,8 @@ GETTEXT_PACKAGE
 LTLIBICONV
 LIBICONV
 SYLPHEED_LIBS
+GTKMACINTEGRATION_LIBS
+GTKMACINTEGRATION_CFLAGS
 GTK_LIBS
 GTK_CFLAGS
 GLIB_COMPILE_RESOURCES
@@ -848,7 +850,6 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 enable_glibtest
-enable_gtktest
 enable_deprecated
 enable_rpath
 with_libiconv_prefix
@@ -894,6 +895,10 @@ GLIB_GENMARSHAL
 GOBJECT_QUERY
 GLIB_MKENUMS
 GLIB_COMPILE_RESOURCES
+GTK_CFLAGS
+GTK_LIBS
+GTKMACINTEGRATION_CFLAGS
+GTKMACINTEGRATION_LIBS
 OPENSSL_CFLAGS
 OPENSSL_LIBS'
 
@@ -1546,7 +1551,6 @@ Optional Features:
                           provide on AIX, @<:@default=aix@:>@.
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --disable-glibtest      do not try to compile and run a test GLIB program
-  --disable-gtktest       do not try to compile and run a test GTK+ program
   --disable-deprecated    Disable deprecated GTK functions. 
   --disable-rpath         do not hardcode runtime library paths
   --disable-gpgme         Disable GnuPG support using GPGME
@@ -1613,6 +1617,12 @@ Some influential environment variables:
   GLIB_COMPILE_RESOURCES 
               value of glib_compile_resources for gio-2.0, overriding
               pkg-config
+  GTK_CFLAGS  C compiler flags for GTK, overriding pkg-config
+  GTK_LIBS    linker flags for GTK, overriding pkg-config
+  GTKMACINTEGRATION_CFLAGS 
+              C compiler flags for GTKMACINTEGRATION, overriding pkg-config
+  GTKMACINTEGRATION_LIBS 
+              linker flags for GTKMACINTEGRATION, overriding pkg-config
   OPENSSL_CFLAGS 
               C compiler flags for OPENSSL, overriding pkg-config
   OPENSSL_LIBS 
@@ -4196,9 +4206,9 @@ printf '%s\n' "@%:@define DEVEL_VERSION 1" >>confdefs.h
 fi
 
 LT_RELEASE=$MAJOR_VERSION.$MINOR_VERSION
-LT_CURRENT=5
+LT_CURRENT=6
 LT_REVISION=0
-LT_AGE=4
+LT_AGE=0
 
 
 
@@ -16827,360 +16837,86 @@ fi
 
 
 
-@%:@ Check whether --enable-gtktest was given.
-if test ${enable_gtktest+y}
-then :
-  enableval=$enable_gtktest; 
-else case e in @%:@(
-  e) enable_gtktest=yes ;;
-esac
-fi
 
+pkg_failed=no
+{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for gtk+-3.0 >= 3.24.0" >&5
+printf %s "checking for gtk+-3.0 >= 3.24.0... " >&6; }
 
-  pkg_config_args=gtk+-2.0
-  for module in . 
-  do
-      case "$module" in
-         gthread) 
-             pkg_config_args="$pkg_config_args gthread-2.0"
-         ;;
-      esac
-  done
-
-  no_gtk=""
-
-  
-  
-
-
-
-
-
-
-if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
-	if test -n "$ac_tool_prefix"; then
-  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
-set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-printf %s "checking for $ac_word... " >&6; }
-if test ${ac_cv_path_PKG_CONFIG+y}
-then :
-  printf %s "(cached) " >&6
-else case e in @%:@(
-  e) case $PKG_CONFIG in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  case $as_dir in @%:@(((
-    '') as_dir=./ ;;
-    */) ;;
-    *) as_dir=$as_dir/ ;;
-  esac
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir$ac_word$ac_exec_ext"; then
-    ac_cv_path_PKG_CONFIG="$as_dir$ac_word$ac_exec_ext"
-    printf '%s\n' "$as_me:${as_lineno-$LINENO}: found $as_dir$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac ;;
-esac
-fi
-PKG_CONFIG=$ac_cv_path_PKG_CONFIG
-if test -n "$PKG_CONFIG"; then
-  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
-printf '%s\n' "$PKG_CONFIG" >&6; }
+if test -n "$GTK_CFLAGS"; then
+    pkg_cv_GTK_CFLAGS="$GTK_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtk+-3.0 >= 3.24.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtk+-3.0 >= 3.24.0") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTK_CFLAGS=`$PKG_CONFIG --cflags "gtk+-3.0 >= 3.24.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
 else
-  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GTK_LIBS"; then
+    pkg_cv_GTK_LIBS="$GTK_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtk+-3.0 >= 3.24.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtk+-3.0 >= 3.24.0") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTK_LIBS=`$PKG_CONFIG --libs "gtk+-3.0 >= 3.24.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+        { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf '%s\n' "no" >&6; }
-fi
-
-
-fi
-if test -z "$ac_cv_path_PKG_CONFIG"; then
-  ac_pt_PKG_CONFIG=$PKG_CONFIG
-  # Extract the first word of "pkg-config", so it can be a program name with args.
-set dummy pkg-config; ac_word=$2
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-printf %s "checking for $ac_word... " >&6; }
-if test ${ac_cv_path_ac_pt_PKG_CONFIG+y}
-then :
-  printf %s "(cached) " >&6
-else case e in @%:@(
-  e) case $ac_pt_PKG_CONFIG in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  case $as_dir in @%:@(((
-    '') as_dir=./ ;;
-    */) ;;
-    *) as_dir=$as_dir/ ;;
-  esac
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir$ac_word$ac_exec_ext"; then
-    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir$ac_word$ac_exec_ext"
-    printf '%s\n' "$as_me:${as_lineno-$LINENO}: found $as_dir$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac ;;
-esac
-fi
-ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
-if test -n "$ac_pt_PKG_CONFIG"; then
-  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKG_CONFIG" >&5
-printf '%s\n' "$ac_pt_PKG_CONFIG" >&6; }
+        
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
 else
-  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+                GTK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtk+-3.0 >= 3.24.0" 2>&1`
+        else
+                GTK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtk+-3.0 >= 3.24.0" 2>&1`
+        fi
+        # Put the nasty error message in config.log where it belongs
+        echo "$GTK_PKG_ERRORS" >&5
+
+        as_fn_error $? "Test for GTK+ 3 failed. See the 'INSTALL' for help." "$LINENO" 5
+elif test $pkg_failed = untried; then
+        { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf '%s\n' "no" >&6; }
-fi
-
-  if test "x$ac_pt_PKG_CONFIG" = x; then
-    PKG_CONFIG=""
-  else
-    case $cross_compiling:$ac_tool_warned in
-yes:)
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
-printf '%s\n' "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
-ac_tool_warned=yes ;;
-esac
-    PKG_CONFIG=$ac_pt_PKG_CONFIG
-  fi
+        as_fn_error $? "Test for GTK+ 3 failed. See the 'INSTALL' for help." "$LINENO" 5
 else
-  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
-fi
-
-fi
-if test -n "$PKG_CONFIG"; then
-	_pkg_min_version=0.7
-	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking pkg-config is at least version $_pkg_min_version" >&5
-printf %s "checking pkg-config is at least version $_pkg_min_version... " >&6; }
-	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+        GTK_CFLAGS=$pkg_cv_GTK_CFLAGS
+        GTK_LIBS=$pkg_cv_GTK_LIBS
+        { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf '%s\n' "yes" >&6; }
-	else
-		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf '%s\n' "no" >&6; }
-		PKG_CONFIG=""
-	fi
+        
 fi
-
-  min_gtk_version=2.24.0
-  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for GTK+ - version >= $min_gtk_version" >&5
-printf %s "checking for GTK+ - version >= $min_gtk_version... " >&6; }
-
-  if test x$PKG_CONFIG != xno ; then
-    ## don't try to run the test against uninstalled libtool libs
-    if $PKG_CONFIG --uninstalled $pkg_config_args; then
-	  echo "Will use uninstalled version of GTK+ found in PKG_CONFIG_PATH"
-	  enable_gtktest=no
-    fi
-
-    if $PKG_CONFIG --atleast-version $min_gtk_version $pkg_config_args; then
-	  :
-    else
-	  no_gtk=yes
-    fi
-  fi
-
-  if test x"$no_gtk" = x ; then
-    GTK_CFLAGS=`$PKG_CONFIG $pkg_config_args --cflags`
-    GTK_LIBS=`$PKG_CONFIG $pkg_config_args --libs`
-    gtk_config_major_version=`$PKG_CONFIG --modversion gtk+-2.0 | \
-           sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)/\1/'`
-    gtk_config_minor_version=`$PKG_CONFIG --modversion gtk+-2.0 | \
-           sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)/\2/'`
-    gtk_config_micro_version=`$PKG_CONFIG --modversion gtk+-2.0 | \
-           sed 's/\([0-9]*\).\([0-9]*\).\([0-9]*\)/\3/'`
-    if test "x$enable_gtktest" = "xyes" ; then
-      ac_save_CFLAGS="$CFLAGS"
-      ac_save_LIBS="$LIBS"
-      CFLAGS="$CFLAGS $GTK_CFLAGS"
-      LIBS="$GTK_LIBS $LIBS"
-      rm -f conf.gtktest
-      if test "$cross_compiling" = yes
-then :
-  echo $ac_n "cross compiling; assumed OK... $ac_c"
-else case e in @%:@(
-  e) cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <gtk/gtk.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-int 
-main ()
-{
-  int major, minor, micro;
-  char *tmp_version;
-
-  fclose (fopen ("conf.gtktest", "w"));
-
-  /* HP/UX 9 (%@#!) writes to sscanf strings */
-  tmp_version = g_strdup("$min_gtk_version");
-  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
-     printf("%s, bad version string\n", "$min_gtk_version");
-     exit(1);
-   }
-
-  if ((gtk_major_version != $gtk_config_major_version) ||
-      (gtk_minor_version != $gtk_config_minor_version) ||
-      (gtk_micro_version != $gtk_config_micro_version))
-    {
-      printf("\n*** 'pkg-config --modversion gtk+-2.0' returned %d.%d.%d, but GTK+ (%d.%d.%d)\n", 
-             $gtk_config_major_version, $gtk_config_minor_version, $gtk_config_micro_version,
-             gtk_major_version, gtk_minor_version, gtk_micro_version);
-      printf ("*** was found! If pkg-config was correct, then it is best\n");
-      printf ("*** to remove the old version of GTK+. You may also be able to fix the error\n");
-      printf("*** by modifying your LD_LIBRARY_PATH enviroment variable, or by editing\n");
-      printf("*** /etc/ld.so.conf. Make sure you have run ldconfig if that is\n");
-      printf("*** required on your system.\n");
-      printf("*** If pkg-config was wrong, set the environment variable PKG_CONFIG_PATH\n");
-      printf("*** to point to the correct configuration files\n");
-    } 
-  else if ((gtk_major_version != GTK_MAJOR_VERSION) ||
-	   (gtk_minor_version != GTK_MINOR_VERSION) ||
-           (gtk_micro_version != GTK_MICRO_VERSION))
-    {
-      printf("*** GTK+ header files (version %d.%d.%d) do not match\n",
-	     GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION);
-      printf("*** library (version %d.%d.%d)\n",
-	     gtk_major_version, gtk_minor_version, gtk_micro_version);
-    }
-  else
-    {
-      if ((gtk_major_version > major) ||
-        ((gtk_major_version == major) && (gtk_minor_version > minor)) ||
-        ((gtk_major_version == major) && (gtk_minor_version == minor) && (gtk_micro_version >= micro)))
-      {
-        return 0;
-       }
-     else
-      {
-        printf("\n*** An old version of GTK+ (%d.%d.%d) was found.\n",
-               gtk_major_version, gtk_minor_version, gtk_micro_version);
-        printf("*** You need a version of GTK+ newer than %d.%d.%d. The latest version of\n",
-	       major, minor, micro);
-        printf("*** GTK+ is always available from ftp://ftp.gtk.org.\n");
-        printf("***\n");
-        printf("*** If you have already installed a sufficiently new version, this error\n");
-        printf("*** probably means that the wrong copy of the pkg-config shell script is\n");
-        printf("*** being found. The easiest way to fix this is to remove the old version\n");
-        printf("*** of GTK+, but you can also set the PKG_CONFIG environment to point to the\n");
-        printf("*** correct copy of pkg-config. (In this case, you will have to\n");
-        printf("*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf\n");
-        printf("*** so that the correct libraries are found at run-time))\n");
-      }
-    }
-  return 1;
-}
-
-_ACEOF
-if ac_fn_c_try_run "$LINENO"
-then :
-  
-else case e in @%:@(
-  e) no_gtk=yes ;;
-esac
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext ;;
-esac
-fi
-
-       CFLAGS="$ac_save_CFLAGS"
-       LIBS="$ac_save_LIBS"
-     fi
-  fi
-  if test "x$no_gtk" = x ; then
-     { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes (version $gtk_config_major_version.$gtk_config_minor_version.$gtk_config_micro_version)" >&5
-printf '%s\n' "yes (version $gtk_config_major_version.$gtk_config_minor_version.$gtk_config_micro_version)" >&6; }
-     :     
-  else
-     { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf '%s\n' "no" >&6; }
-     if test "$PKG_CONFIG" = "no" ; then
-       echo "*** A new enough version of pkg-config was not found."
-       echo "*** See http://pkgconfig.sourceforge.net"
-     else
-       if test -f conf.gtktest ; then
-        :
-       else
-          echo "*** Could not run GTK+ test program, checking why..."
-	  ac_save_CFLAGS="$CFLAGS"
-	  ac_save_LIBS="$LIBS"
-          CFLAGS="$CFLAGS $GTK_CFLAGS"
-          LIBS="$LIBS $GTK_LIBS"
-          cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <gtk/gtk.h>
-#include <stdio.h>
-
-int
-main (void)
-{
- return ((gtk_major_version) || (gtk_minor_version) || (gtk_micro_version)); 
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-   echo "*** The test program compiled, but did not run. This usually means"
-          echo "*** that the run-time linker is not finding GTK+ or finding the wrong"
-          echo "*** version of GTK+. If it is not finding GTK+, you'll need to set your"
-          echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
-          echo "*** to the installed location  Also, make sure you have run ldconfig if that"
-          echo "*** is required on your system"
-	  echo "***"
-          echo "*** If you have an old version installed, it is best to remove it, although"
-          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH" 
-else case e in @%:@(
-  e)  echo "*** The test program failed to compile or link. See the file config.log for the"
-          echo "*** exact error that occured. This usually means GTK+ is incorrectly installed." ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-          CFLAGS="$ac_save_CFLAGS"
-          LIBS="$ac_save_LIBS"
-       fi
-     fi
-     GTK_CFLAGS=""
-     GTK_LIBS=""
-     as_fn_error $? "Test for Gtk failed. See the 'INSTALL' for help." "$LINENO" 5
-  fi
-  
-  
-  rm -f conf.gtktest
-
 
 GTK_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES"
 
 @%:@ Check whether --enable-deprecated was given.
 if test ${enable_deprecated+y}
 then :
-  enableval=$enable_deprecated; GTK_CFLAGS="$GTK_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED"
+  enableval=$enable_deprecated; if test "$enableval" = no; then
+		GTK_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
+	fi
 fi
 
 
@@ -17188,63 +16924,84 @@ fi
 
 
 if test "$os_osx" == yes; then
-	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for gtkosx_application_ready in -lgtkmacintegration" >&5
-printf %s "checking for gtkosx_application_ready in -lgtkmacintegration... " >&6; }
-if test ${ac_cv_lib_gtkmacintegration_gtkosx_application_ready+y}
-then :
-  printf %s "(cached) " >&6
-else case e in @%:@(
-  e) ac_check_lib_save_LIBS=$LIBS
-LIBS="-lgtkmacintegration  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
+	
+pkg_failed=no
+{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for gtk-mac-integration-gtk3" >&5
+printf %s "checking for gtk-mac-integration-gtk3... " >&6; }
 
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.
-   The 'extern "C"' is for builds by C++ compilers;
-   although this is not generally supported in C code supporting it here
-   has little cost and some practical benefit (sr 110532).  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char gtkosx_application_ready (void);
-int
-main (void)
-{
-return gtkosx_application_ready ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  ac_cv_lib_gtkmacintegration_gtkosx_application_ready=yes
-else case e in @%:@(
-  e) ac_cv_lib_gtkmacintegration_gtkosx_application_ready=no ;;
-esac
+if test -n "$GTKMACINTEGRATION_CFLAGS"; then
+    pkg_cv_GTKMACINTEGRATION_CFLAGS="$GTKMACINTEGRATION_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtk-mac-integration-gtk3\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtk-mac-integration-gtk3") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTKMACINTEGRATION_CFLAGS=`$PKG_CONFIG --cflags "gtk-mac-integration-gtk3" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
+else
+  pkg_failed=yes
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS ;;
-esac
+ else
+    pkg_failed=untried
 fi
-{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_gtkmacintegration_gtkosx_application_ready" >&5
-printf '%s\n' "$ac_cv_lib_gtkmacintegration_gtkosx_application_ready" >&6; }
-if test "x$ac_cv_lib_gtkmacintegration_gtkosx_application_ready" = xyes
-then :
-   ac_have_gtkmacintegration=yes 
-else case e in @%:@(
-  e)  ac_have_gtkmacintegration=no  ;;
-esac
+if test -n "$GTKMACINTEGRATION_LIBS"; then
+    pkg_cv_GTKMACINTEGRATION_LIBS="$GTKMACINTEGRATION_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtk-mac-integration-gtk3\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtk-mac-integration-gtk3") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GTKMACINTEGRATION_LIBS=`$PKG_CONFIG --libs "gtk-mac-integration-gtk3" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
 fi
 
+
+
+if test $pkg_failed = yes; then
+        { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf '%s\n' "no" >&6; }
+        
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+                GTKMACINTEGRATION_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtk-mac-integration-gtk3" 2>&1`
+        else
+                GTKMACINTEGRATION_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtk-mac-integration-gtk3" 2>&1`
+        fi
+        # Put the nasty error message in config.log where it belongs
+        echo "$GTKMACINTEGRATION_PKG_ERRORS" >&5
+
+        ac_have_gtkmacintegration=no
+elif test $pkg_failed = untried; then
+        { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf '%s\n' "no" >&6; }
+        ac_have_gtkmacintegration=no
+else
+        GTKMACINTEGRATION_CFLAGS=$pkg_cv_GTKMACINTEGRATION_CFLAGS
+        GTKMACINTEGRATION_LIBS=$pkg_cv_GTKMACINTEGRATION_LIBS
+        { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf '%s\n' "yes" >&6; }
+        ac_have_gtkmacintegration=yes
+fi
 	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking if gtkmacintegration is available" >&5
 printf %s "checking if gtkmacintegration is available... " >&6; }
 	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: $ac_have_gtkmacintegration" >&5
 printf '%s\n' "$ac_have_gtkmacintegration" >&6; }
 	if test "$ac_have_gtkmacintegration" = yes; then
-		SYLPHEED_LIBS="$SYLPHEED_LIBS -lgtkmacintegration"
+		GTK_CFLAGS="$GTK_CFLAGS $GTKMACINTEGRATION_CFLAGS"
+		SYLPHEED_LIBS="$SYLPHEED_LIBS $GTKMACINTEGRATION_LIBS"
 		
 printf '%s\n' "@%:@define USE_GTKMACINTEGRATION 1" >>confdefs.h
 
@@ -20656,24 +20413,11 @@ if test "$ac_cv_enable_gtkspell" = yes; then
 printf '%s\n' "yes" >&6; }
 	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking whether GtkSpell is available" >&5
 printf %s "checking whether GtkSpell is available... " >&6; }
-	if $PKG_CONFIG gtkspell-2.0 ; then
+	if $PKG_CONFIG --exists gtkspell3-3.0 enchant-2 ; then
 		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf '%s\n' "yes" >&6; }
-		CFLAGS="$CFLAGS `$PKG_CONFIG --cflags gtkspell-2.0`"
-		LIBS="$LIBS `$PKG_CONFIG --libs gtkspell-2.0`"
-		if $PKG_CONFIG --atleast-version 2.0.13 gtkspell-2.0 ; then
-			
-printf '%s\n' "@%:@define USE_ENCHANT 1" >>confdefs.h
-
-			LIBS="$LIBS `$PKG_CONFIG --libs enchant`"
-
-						if $PKG_CONFIG --atleast-version 1.4.2 enchant ; then
-				CFLAGS="$CFLAGS `$PKG_CONFIG --cflags dbus-glib-1`"
-				LIBS="$LIBS `$PKG_CONFIG --libs dbus-glib-1`"
-			fi
-		elif $PKG_CONFIG --atleast-version 2.0.12 gtkspell-2.0 ; then
-			LIBS="$LIBS -laspell"
-		fi
+		GTK_CFLAGS="$GTK_CFLAGS `$PKG_CONFIG --cflags gtkspell3-3.0 enchant-2`"
+		GTK_LIBS="$GTK_LIBS `$PKG_CONFIG --libs gtkspell3-3.0 enchant-2`"
 		
 printf '%s\n' "@%:@define USE_GTKSPELL 1" >>confdefs.h
 
@@ -20685,6 +20429,10 @@ printf '%s\n' "no" >&6; }
 else
 	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf '%s\n' "no" >&6; }		
+fi
+
+if test "$native_win32" = yes; then
+	GTK_LIBS=`echo " $GTK_LIBS " | sed -e 's/ -luuid / -Wl,-luuid /g'`
 fi
 
 @%:@ Check whether --enable-oniguruma was given.

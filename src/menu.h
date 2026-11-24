@@ -97,29 +97,75 @@
 #define menu_set_insensitive_all(menu_shell) \
 	menu_set_sensitive_all(menu_shell, FALSE);
 
+/*
+ * Menu factory: a small replacement for the subset of GtkItemFactory
+ * that Sylpheed uses (GtkItemFactory was removed in GTK+ 3).
+ *
+ * Entry tables, menu paths, accelerator paths ("<Main>/File/Exit") and
+ * callback conventions are the same as with GtkItemFactory:
+ *
+ *   callback_type 1: callback(callback_data, callback_action, widget)
+ *   callback_type 2: callback(widget, callback_data, callback_action)
+ *
+ * Supported item types: NULL / "" / "<Item>", "<Title>", "<CheckItem>",
+ * "<ToggleItem>", "<RadioItem>", "<Separator>", "<Tearoff>", "<Branch>",
+ * "<LastBranch>", and the path of a radio item to join its group.
+ */
+typedef struct _MenuFactory		MenuFactory;
+typedef struct _MenuFactoryEntry	MenuFactoryEntry;
+
+/* Unprototyped on purpose, like GtkItemFactoryCallback, so that the
+   existing entry tables need no casts. */
+typedef void (*MenuFactoryCallback)	();
+
+struct _MenuFactoryEntry
+{
+	gchar *path;
+	gchar *accelerator;
+	MenuFactoryCallback callback;
+	guint callback_action;
+	gchar *item_type;
+	gconstpointer extra_data;
+};
+
+MenuFactory *menu_factory_new		(GType			 container_type,
+					 const gchar		*path,
+					 GtkAccelGroup		*accel_group);
+void menu_factory_create_item		(MenuFactory		*factory,
+					 MenuFactoryEntry	*entry,
+					 gpointer		 callback_data,
+					 guint			 callback_type);
+void menu_factory_create_items		(MenuFactory		*factory,
+					 guint			 n_entries,
+					 MenuFactoryEntry	*entries,
+					 gpointer		 callback_data);
+MenuFactory *menu_factory_from_widget	(GtkWidget		*widget);
+GtkWidget *menu_factory_get_widget	(MenuFactory		*factory,
+					 const gchar		*path);
+GtkWidget *menu_factory_get_item	(MenuFactory		*factory,
+					 const gchar		*path);
+GtkAccelGroup *menu_factory_get_accel_group
+					(MenuFactory		*factory);
+void menu_factory_destroy		(MenuFactory		*factory);
+
 GtkWidget *menubar_create	(GtkWidget		*window,
-				 GtkItemFactoryEntry	*entries,
+				 MenuFactoryEntry	*entries,
 				 guint			 n_entries,
 				 const gchar		*path,
 				 gpointer		 data);
-GtkWidget *menu_create_items	(GtkItemFactoryEntry	*entries,
+GtkWidget *menu_create_items	(MenuFactoryEntry	*entries,
 				 guint			 n_entries,
 				 const gchar		*path,
-				 GtkItemFactory	       **factory,
+				 MenuFactory	       **factory,
 				 gpointer		 data);
 
-GString *menu_factory_get_rc	(const gchar		*path);
-void menu_factory_clear_rc	(const gchar		*rc_str);
-void menu_factory_copy_rc	(const gchar		*src_path,
-				 const gchar		*dest_path);
-
-void menu_set_sensitive		(GtkItemFactory		*ifactory,
+void menu_set_sensitive		(MenuFactory		*ifactory,
 				 const gchar		*path,
 				 gboolean		 sensitive);
 void menu_set_sensitive_all	(GtkMenuShell		*menu_shell,
 				 gboolean		 sensitive);
 
-void menu_set_active		(GtkItemFactory		*ifactory,
+void menu_set_active		(MenuFactory		*ifactory,
 				 const gchar		*path,
 				 gboolean		 is_active);
 
@@ -134,11 +180,47 @@ void menu_widget_position	(GtkMenu		*menu,
 				 gboolean		*push_in,
 				 gpointer		 user_data);
 
-gint menu_find_option_menu_index(GtkOptionMenu		*optmenu,
+/* Option combo box (replaces GtkOptionMenu); see menu.c */
+#define COMBOBOX_ADD(combo, label, data) \
+	menu_combo_append(GTK_COMBO_BOX(combo), label, GINT_TO_POINTER(data))
+
+GtkWidget *menu_combo_new	(void);
+gint menu_combo_append		(GtkComboBox		*combo,
+				 const gchar		*label,
+				 gpointer		 data);
+gint menu_combo_insert		(GtkComboBox		*combo,
+				 gint			 position,
+				 const gchar		*label,
+				 gpointer		 data);
+void menu_combo_remove		(GtkComboBox		*combo,
+				 gint			 index);
+void menu_combo_set_nth_extra	(GtkComboBox		*combo,
+				 gint			 index,
+				 gpointer		 extra);
+gpointer menu_combo_get_nth_extra
+				(GtkComboBox		*combo,
+				 gint			 index);
+void menu_combo_clear		(GtkComboBox		*combo);
+gint menu_combo_get_n_items	(GtkComboBox		*combo);
+gpointer menu_combo_get_nth_data(GtkComboBox		*combo,
+				 gint			 index);
+gpointer menu_combo_get_active_data
+				(GtkComboBox		*combo);
+gint menu_combo_set_active_data	(GtkComboBox		*combo,
+				 gpointer		 data);
+void menu_combo_set_item_sensitive
+				(GtkComboBox		*combo,
+				 gint			 index,
+				 gboolean		 sensitive);
+void menu_combo_set_sensitive_all
+				(GtkComboBox		*combo,
+				 gboolean		 sensitive);
+
+gint menu_find_option_menu_index(GtkComboBox		*combo,
 				 gpointer		 data,
 				 GCompareFunc		 func);
 
 gint menu_get_option_menu_active_index
-				(GtkOptionMenu		*optmenu);
+				(GtkComboBox		*combo);
 
 #endif /* __MENU_H__ */

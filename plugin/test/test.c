@@ -36,9 +36,9 @@ static SylPluginInfo info = {
 static void init_done_cb(GObject *obj, gpointer data);
 static void app_exit_cb(GObject *obj, gpointer data);
 
-static void folderview_menu_popup_cb(GObject *obj, GtkItemFactory *ifactory,
+static void folderview_menu_popup_cb(GObject *obj, gpointer ifactory,
 				     gpointer data);
-static void summaryview_menu_popup_cb(GObject *obj, GtkItemFactory *ifactory,
+static void summaryview_menu_popup_cb(GObject *obj, gpointer ifactory,
 				      gpointer data);
 
 static void textview_menu_popup_cb(GObject *obj, GtkMenu *menu,
@@ -157,21 +157,23 @@ static void app_exit_cb(GObject *obj, gpointer data)
 	g_print("test: %p: app will exit\n", obj);
 }
 
-static void folderview_menu_popup_cb(GObject *obj, GtkItemFactory *ifactory,
+static void folderview_menu_popup_cb(GObject *obj, gpointer ifactory,
 				     gpointer data)
 {
+	GtkWidget *item;
+
 	g_print("test: %p: folderview menu popup\n", obj);
+	/* ifactory is the opaque menu factory of the popup menu */
+	item = syl_plugin_menu_factory_get_item(ifactory, "/Properties...");
+	g_print("test: folderview popup: /Properties... is %s\n",
+		item ? G_OBJECT_TYPE_NAME(item) : "not found");
 }
 
-static void summaryview_menu_popup_cb(GObject *obj, GtkItemFactory *ifactory,
+static void summaryview_menu_popup_cb(GObject *obj, gpointer ifactory,
 				      gpointer data)
 {
-	GtkWidget *widget;
-
 	g_print("test: %p: summaryview menu popup\n", obj);
-	widget = gtk_item_factory_get_item(ifactory, "/Test Plug-in menu");
-	if (widget)
-		gtk_widget_set_sensitive(widget, TRUE);
+	syl_plugin_menu_set_sensitive("<SummaryView>/Test Plug-in menu", TRUE);
 }
 
 static void activate_menu_cb(GtkMenuItem *menuitem, gpointer data)

@@ -47,6 +47,10 @@
 #  include <gpgme.h>
 #endif
 
+#if defined(G_OS_WIN32) && USE_GTKSPELL
+#  include <enchant.h>
+#endif
+
 #include "main.h"
 #include "mainwindow.h"
 #include "folderview.h"
@@ -103,6 +107,9 @@
 
 #include "version.h"
 
+/* user style sheet in the configuration directory (replaces gtkrc) */
+#define USER_CSS	"gtk.css"
+
 gchar *prog_version;
 
 #ifdef G_OS_WIN32
@@ -113,10 +120,6 @@ static gint lock_socket = -1;
 static gint lock_socket_tag = 0;
 static GIOChannel *lock_ch = NULL;
 static gchar *instance_id = NULL;
-
-#if USE_THREADS
-static GThread *main_thread;
-#endif
 
 static struct RemoteCmd {
 	gboolean receive;
@@ -239,17 +242,23 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-#if USE_THREADS
-	gdk_threads_enter();
-#endif
-	gtk_set_locale();
 	gtk_init(&argc, &argv);
+
+#if defined(G_OS_WIN32) && USE_GTKSPELL
+	/* enchant locates its provider modules relative to its DLL only
+	   when that DLL is in a "bin" directory; in the installed layout
+	   the DLLs are next to sylpheed.exe, so point it there */
+	path = g_strconcat(get_startup_dir(), G_DIR_SEPARATOR_S "lib"
+			   G_DIR_SEPARATOR_S "enchant-2", NULL);
+	if (is_dir_exist(path))
+		enchant_set_prefix_dir(get_startup_dir());
+	g_free(path);
+#endif
 
 	syl_app = syl_app_create();
 
-	gdk_rgb_init();
-	gtk_widget_set_default_colormap(gdk_rgb_get_cmap());
-	gtk_widget_set_default_visual(gdk_rgb_get_visual());
+	/* gdk_rgb_init() and the RGB default colormap/visual were no-ops
+	   in GTK+ 2.24 (the system colormap is used); removed */
 
 	parse_gtkrc_files();
 	setup_rc_dir();
@@ -385,9 +394,6 @@ int main(int argc, char *argv[])
 #endif
 
 	gtk_main();
-#if USE_THREADS
-	gdk_threads_leave();
-#endif
 
 	return 0;
 }
@@ -748,32 +754,9 @@ static gint get_queued_message_num(void)
 }
 
 #if USE_THREADS
-/* enables recursive locking with gdk_thread_enter / gdk_threads_leave */
-static GStaticRecMutex syl_mutex = G_STATIC_REC_MUTEX_INIT;
-
-static void thread_enter_func(void)
-{
-	g_static_rec_mutex_lock(&syl_mutex);
-#if 0
-	syl_mutex_lock_count++;
-	if (syl_mutex_lock_count > 1)
-		g_print("enter: syl_mutex_lock_count: %d\n", syl_mutex_lock_count);
-#endif
-}
-
-static void thread_leave_func(void)
-{
-#if 0
-	syl_mutex_lock_count--;
-	if (syl_mutex_lock_count > 0)
-		g_print("leave: syl_mutex_lock_count: %d\n", syl_mutex_lock_count);
-#endif
-	g_static_rec_mutex_unlock(&syl_mutex);
-}
-
 static void event_loop_iteration_func(void)
 {
-	if (g_thread_self() != main_thread) {
+	if (!gtkut_is_main_thread()) {
 		g_fprintf(stderr, "event_loop_iteration_func called from non-main thread (%p)\n", g_thread_self());
 		g_usleep(10000);
 		return;
@@ -790,10 +773,9 @@ static void app_init(void)
 	if (!g_thread_supported())
 		g_error("g_thread is not supported by glib.");
 	else {
-		gdk_threads_set_lock_functions(thread_enter_func,
-					       thread_leave_func);
-		gdk_threads_init();
-		main_thread = g_thread_self();
+		/* GTK+ is only used from this thread; worker threads reach
+		   the UI through gtkut_main_thread_call_sync() / g_idle_add() */
+		gtkut_set_main_thread();
 	}
 #endif
 	syl_init();
@@ -812,17 +794,12 @@ static void parse_gtkrc_files(void)
 {
 	gchar *userrc;
 
-	/* parse gtkrc files */
-	userrc = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S, ".gtkrc-2.0",
+	/* GTK+ 3 has no gtkrc files. The application style sheet replaces
+	   them, plus an optional user style sheet in the configuration
+	   directory (GTK+ itself also reads the user's gtk-3.0/gtk.css) */
+	userrc = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, USER_CSS,
 			     NULL);
-	gtk_rc_parse(userrc);
-	g_free(userrc);
-	userrc = g_strconcat(get_home_dir(), G_DIR_SEPARATOR_S, ".gtk",
-			     G_DIR_SEPARATOR_S, "gtkrc-2.0", NULL);
-	gtk_rc_parse(userrc);
-	g_free(userrc);
-	userrc = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, "gtkrc", NULL);
-	gtk_rc_parse(userrc);
+	gtkut_css_init(userrc);
 	g_free(userrc);
 
 	userrc = g_strconcat(get_rc_dir(), G_DIR_SEPARATOR_S, MENU_RC, NULL);
@@ -1141,7 +1118,7 @@ static void default_log_func(const gchar *log_domain, GLogLevelFlags log_level,
 				  NULL);
 	else
 		str = g_strconcat(prefix, ": ", message_, "\n", NULL);
-	log_window_append(str, level);
+	log_window_append_deferred(str, level);
 	log_write(str, file_prefix);
 	g_free(str);
 
@@ -1186,11 +1163,28 @@ static void set_log_handlers(gboolean enable)
 
 #ifdef G_OS_WIN32
 
+static volatile gint ctrl_exit_done = 0;
+
+static gboolean ctrl_exit_idle(gpointer data)
+{
+	app_will_exit(TRUE);
+	g_atomic_int_set(&ctrl_exit_done, 1);
+
+	return FALSE;
+}
+
+/* The console control handler runs on a thread created by the system.
+   Hand the exit over to the main loop and wait for it (the process is
+   terminated when this returns for close/logoff/shutdown events). */
 static BOOL WINAPI
 ctrl_handler(DWORD dwctrltype)
 {
+	gint i;
+
 	log_print("ctrl_handler: received %lu\n", dwctrltype);
-	app_will_exit(TRUE);
+	g_idle_add(ctrl_exit_idle, NULL);
+	for (i = 0; i < 450 && !g_atomic_int_get(&ctrl_exit_done); i++)
+		Sleep(10);
 
 	return TRUE;
 }
@@ -1327,6 +1321,10 @@ static void plugin_init(void)
 	ADD_SYM(main_window_unlock);
 	ADD_SYM(main_window_get);
 	ADD_SYM(main_window_popup);
+
+	ADD_SYM(menu_factory_get_widget);
+	ADD_SYM(menu_factory_get_item);
+	ADD_SYM(menu_factory_create_item);
 
 	syl_plugin_add_symbol("main_window_menu_factory",
 			      mainwin->menu_factory);
@@ -1674,17 +1672,10 @@ static gboolean lock_socket_input_cb(GIOChannel *source, GIOCondition condition,
 	gint fd, sock;
 	gchar buf[BUFFSIZE];
 
-#if USE_THREADS
-	gdk_threads_enter();
-#endif
-
 	fd = g_io_channel_unix_get_fd(source);
 	sock = fd_accept(fd);
 	if (fd_gets(sock, buf, sizeof(buf)) <= 0) {
 		fd_close(sock);
-#if USE_THREADS
-		gdk_threads_leave();
-#endif
 		return TRUE;
 	}
 
@@ -1692,8 +1683,8 @@ static gboolean lock_socket_input_cb(GIOChannel *source, GIOCondition condition,
 #ifdef G_OS_WIN32
 		HWND hwnd;
 
-		hwnd = (HWND)gdk_win32_drawable_get_handle
-			(GDK_DRAWABLE(gtk_widget_get_window(mainwin->window)));
+		hwnd = (HWND)gdk_win32_window_get_handle
+			(gtk_widget_get_window(mainwin->window));
 		fd_write(sock, (gchar *)&hwnd, sizeof(hwnd));
 		if (mainwin->window_hidden)
 			main_window_popup(mainwin);
@@ -1743,9 +1734,6 @@ static gboolean lock_socket_input_cb(GIOChannel *source, GIOCondition condition,
 		strretchomp(buf);
 		if (strlen(buf) < 6 || buf[4] != ' ') {
 			fd_close(sock);
-#if USE_THREADS
-			gdk_threads_leave();
-#endif
 			return TRUE;
 		}
 		open_message(buf + 5);
@@ -1755,10 +1743,6 @@ static gboolean lock_socket_input_cb(GIOChannel *source, GIOCondition condition,
 	}
 
 	fd_close(sock);
-
-#if USE_THREADS
-	gdk_threads_leave();
-#endif
 
 	return TRUE;
 }

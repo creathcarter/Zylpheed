@@ -28,6 +28,8 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
+#include "menu.h"
+
 #include <stdlib.h>
 
 typedef struct _ComboButton	ComboButton;
@@ -37,7 +39,7 @@ struct _ComboButton
 	GtkWidget *arrow;
 	GtkWidget *button;
 	GtkWidget *menu;
-	GtkItemFactory *factory;
+	MenuFactory *factory;
 	gpointer data;
 };
 
@@ -47,28 +49,7 @@ struct _ComboButton
 		gtk_main_iteration(); \
 }
 
-#define PIXMAP_CREATE(widget, pixmap, mask, xpm_d) \
-{ \
-	if (!pixmap) { \
-		GtkStyle *style = gtk_widget_get_style(widget); \
-		pixmap = gdk_pixmap_create_from_xpm_d \
-			(gtk_widget_get_window(widget), &mask, \
-			 &style->bg[GTK_STATE_NORMAL], xpm_d); \
-	} \
-}
-
 #define GTK_WIDGET_PTR(wid)	(*(GtkWidget **)wid)
-
-#define GTKUT_CTREE_NODE_SET_ROW_DATA(node, d) \
-{ \
-	GTK_CTREE_ROW(node)->row.data = d; \
-}
-
-#define GTKUT_CTREE_NODE_GET_ROW_DATA(node) \
-	(GTK_CTREE_ROW(node)->row.data)
-
-#define GTKUT_CTREE_REFRESH(clist) \
-	GTK_CLIST_GET_CLASS(clist)->refresh(clist)
 
 gboolean gtkut_get_str_size		(GtkWidget	*widget,
 					 const gchar	*str,
@@ -80,6 +61,27 @@ gboolean gtkut_get_font_size		(GtkWidget	*widget,
 PangoFontDescription *gtkut_get_default_font_desc
 					(void);
 void gtkut_widget_set_small_font_size	(GtkWidget	*widget);
+
+/* Application style sheet. It replaces the gtkrc files and the GTK+ 2
+ * gtk_widget_modify_*() calls: widgets get one of the style classes below,
+ * or a widget name with a rule set by gtkut_css_set_rule(). */
+#define GTKUT_CLASS_TITLE	"sylpheed-title"	/* bold, 1.2 x size */
+#define GTKUT_CLASS_BOLD	"sylpheed-bold"
+#define GTKUT_CLASS_SMALL	"sylpheed-small"	/* PANGO_SCALE_SMALL */
+#define GTKUT_CLASS_READONLY	"sylpheed-readonly"	/* window background */
+#define GTKUT_CLASS_DIM		"sylpheed-dim"		/* dimmed text */
+#define GTKUT_CLASS_PART	"sylpheed-part"		/* MIME part button */
+#define GTKUT_CLASS_TEXTFONT	"sylpheed-textfont"	/* message text font */
+
+void gtkut_css_init			(const gchar	*user_css_file);
+void gtkut_css_set_rule			(const gchar	*selector,
+					 const gchar	*declarations);
+void gtkut_widget_add_class		(GtkWidget	*widget,
+					 const gchar	*class_name);
+void gtkut_widget_remove_class		(GtkWidget	*widget,
+					 const gchar	*class_name);
+void gtkut_widget_set_text_font		(GtkWidget	*widget,
+					 const gchar	*font_name);
 
 gboolean gtkut_font_can_load		(const gchar	*str);
 
@@ -103,20 +105,10 @@ void gtkut_box_set_reverse_order	(GtkBox		*box,
 					 gboolean	 reverse);
 
 ComboButton *gtkut_combo_button_create	(GtkWidget		*button,
-					 GtkItemFactoryEntry	*entries,
+					 MenuFactoryEntry	*entries,
 					 gint			 n_entries,
 					 const gchar		*path,
 					 gpointer		 data);
-
-/* CTree functions */
-
-gint gtkut_ctree_get_nth_from_node	(GtkCTree	*ctree,
-					 GtkCTreeNode	*node);
-void gtkut_ctree_set_focus_row		(GtkCTree	*ctree,
-					 GtkCTreeNode	*node);
-void gtkut_clist_set_focus_row		(GtkCList	*clist,
-					 gint		 row);
-void gtkut_clist_set_redraw		(GtkCList	*clist);
 
 /* TreeView functions */
 
@@ -163,10 +155,21 @@ void gtkut_tree_view_scroll_to_cell	(GtkTreeView	*treeview,
 					 GtkTreePath	*path,
 					 gboolean	 align_center);
 
+gint gtkut_list_view_get_selected_row	(GtkTreeView	*treeview);
+gboolean gtkut_list_view_select_row	(GtkTreeView	*treeview,
+					 gint		 row);
+void gtkut_list_view_remove_row		(GtkTreeView	*treeview,
+					 gint		 row);
+gint gtkut_list_view_move_selected_row	(GtkTreeView	*treeview,
+					 gint		 offset);
+gpointer gtkut_tree_model_get_nth_data	(GtkTreeModel	*model,
+					 gint		 row,
+					 gint		 column);
+
 void gtkut_tree_view_fast_clear		(GtkTreeView	*treeview,
 					 GtkTreeStore	*store);
 
-void gtkut_combo_set_items		(GtkCombo	*combo,
+void gtkut_combo_set_items		(GtkComboBoxText *combo,
 					 const gchar	*str1, ...);
 
 gchar *gtkut_editable_get_selection	(GtkEditable	*editable);
@@ -218,8 +221,21 @@ void gtkut_widget_get_uposition		(GtkWidget	*widget,
 					 gint		*px,
 					 gint		*py);
 void gtkut_widget_draw_now		(GtkWidget	*widget);
+void gtkut_widget_set_initial_size	(GtkWidget	*widget,
+					 gint		 width,
+					 gint		 height);
 void gtkut_widget_init			(void);
 
 void gtkut_events_flush			(void);
+
+/* GTK+ may only be used from the thread that runs the main loop.
+ * Worker threads (IMAP thread pool, async connect, query search, ...) reach
+ * the UI only through these. */
+typedef gpointer (*GtkutMainThreadFunc)	(gpointer	 data);
+
+void gtkut_set_main_thread		(void);
+gboolean gtkut_is_main_thread		(void);
+gpointer gtkut_main_thread_call_sync	(GtkutMainThreadFunc	 func,
+					 gpointer		 data);
 
 #endif /* __GTKUTILS_H__ */

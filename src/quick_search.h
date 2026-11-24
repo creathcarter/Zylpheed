@@ -44,7 +44,6 @@ struct _QuickSearch
 {
 	GtkWidget *hbox;
 	GtkWidget *optmenu;
-	GtkWidget *menu;
 	GtkWidget *label;
 	GtkWidget *entry;
 	GtkWidget *clear_btn;
@@ -58,6 +57,11 @@ struct _QuickSearch
 QuickSearch *quick_search_create(SummaryView		*summaryview);
 
 void quick_search_clear_entry	(QuickSearch		*qsearch);
+
+QSearchCondType quick_search_get_cond_type
+				(QuickSearch		*qsearch);
+void quick_search_set_cond_index(QuickSearch		*qsearch,
+				 gint			 index);
 
 GSList *quick_search_filter	(QuickSearch		*qsearch,
 				 QSearchCondType	 type,

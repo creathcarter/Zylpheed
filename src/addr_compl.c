@@ -38,6 +38,7 @@
 #include "addressbook.h"
 #include "main.h"
 #include "prefs_common.h"
+#include "gtkutils.h"
 
 /* How it works:
  *
@@ -560,10 +561,11 @@ static gboolean address_completion_complete_address_in_entry
 static void address_completion_create_completion_window	(GtkEntry    *entry,
 							 gboolean     select_next);
 
-static void completion_window_select_row(GtkCList	 *clist,
-					 gint		  row,
-					 gint		  col,
-					 GdkEvent	 *event,
+static void completion_window_select_row(GtkTreeSelection *selection,
+					 GtkWidget	**window);
+static gboolean completion_window_button_release
+					(GtkWidget	 *widget,
+					 GdkEventButton  *event,
 					 GtkWidget	**window);
 static gboolean completion_window_button_press
 					(GtkWidget	 *widget,
@@ -575,27 +577,25 @@ static gboolean completion_window_key_press
 					 GtkWidget	**window);
 
 
-static void completion_window_advance_to_row(GtkCList *clist, gint row)
+static void completion_window_advance_to_row(GtkTreeView *clist, gint row)
 {
 	g_return_if_fail(row < completion_count);
-	gtk_clist_select_row(clist, row, 0);
+	gtkut_list_view_select_row(clist, row);
 }
 
-static void completion_window_advance_selection(GtkCList *clist, gboolean forward)
+static void completion_window_advance_selection(GtkTreeView *clist, gboolean forward)
 {
 	int row;
 
 	g_return_if_fail(clist != NULL);
-	g_return_if_fail(clist->selection != NULL);
 
-	row = GPOINTER_TO_INT(clist->selection->data);
+	row = gtkut_list_view_get_selected_row(clist);
+	g_return_if_fail(row >= 0);
 
 	row = forward ? (row + 1) % completion_count :
 			(row - 1) < 0 ? completion_count - 1 : row - 1;
 
-	gtk_clist_freeze(clist);
 	completion_window_advance_to_row(clist, row);
-	gtk_clist_thaw(clist);
 
 #ifdef __APPLE__
 	/* workaround for a draw bug in OS X */
@@ -603,57 +603,31 @@ static void completion_window_advance_selection(GtkCList *clist, gboolean forwar
 #endif
 }
 
-#if 0
-/* completion_window_accept_selection() - accepts the current selection in the
- * clist, and destroys the window */
-static void completion_window_accept_selection(GtkWidget **window,
-					       GtkCList *clist,
-					       GtkEntry *entry)
-{
-	gchar *address = NULL, *text = NULL;
-	gint   cursor_pos, row;
-
-	g_return_if_fail(window != NULL);
-	g_return_if_fail(*window != NULL);
-	g_return_if_fail(clist != NULL);
-	g_return_if_fail(entry != NULL);
-	g_return_if_fail(clist->selection != NULL);
-
-	/* FIXME: I believe it's acceptable to access the selection member directly  */
-	row = GPOINTER_TO_INT(clist->selection->data);
-
-	/* we just need the cursor position */
-	address = get_address_from_edit(entry, &cursor_pos);
-	g_free(address);
-	gtk_clist_get_text(clist, row, 0, &text);
-	replace_address_in_edit(entry, text, cursor_pos);
-
-	clear_completion_cache();
-	gtk_widget_destroy(*window);
-	*window = NULL;
-}
-#endif
-
 /* completion_window_apply_selection() - apply the current selection in the
  * clist */
-static void completion_window_apply_selection(GtkCList *clist, GtkEntry *entry)
+static void completion_window_apply_selection(GtkTreeView *clist, GtkEntry *entry)
 {
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 	gchar *address = NULL, *text = NULL;
 	gint   cursor_pos, row;
 
 	g_return_if_fail(clist != NULL);
 	g_return_if_fail(entry != NULL);
-	g_return_if_fail(clist->selection != NULL);
 
-	row = GPOINTER_TO_INT(clist->selection->data);
+	row = gtkut_list_view_get_selected_row(clist);
+	g_return_if_fail(row >= 0);
 
 	address = get_address_from_edit(entry, &cursor_pos);
 	g_free(address);
-	gtk_clist_get_text(clist, row, 0, &text);
+	model = gtk_tree_view_get_model(clist);
+	gtk_tree_model_iter_nth_child(model, &iter, NULL, row);
+	gtk_tree_model_get(model, &iter, 0, &text, -1);
 	replace_address_in_edit(entry, text, cursor_pos);
+	g_free(text);
 }
 
-static void completion_window_apply_selection_address_only(GtkCList *clist, GtkEntry *entry)
+static void completion_window_apply_selection_address_only(GtkTreeView *clist, GtkEntry *entry)
 {
 	gchar *address = NULL;
 	address_entry *ae;
@@ -661,9 +635,9 @@ static void completion_window_apply_selection_address_only(GtkCList *clist, GtkE
 
 	g_return_if_fail(clist != NULL);
 	g_return_if_fail(entry != NULL);
-	g_return_if_fail(clist->selection != NULL);
 
-	row = GPOINTER_TO_INT(clist->selection->data);
+	row = gtkut_list_view_get_selected_row(clist);
+	g_return_if_fail(row >= 0);
 
 	ae = (address_entry *)g_slist_nth_data(completion_addresses, row - 1);
 	if (ae && ae->address) {
@@ -880,6 +854,8 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 {
 	gint x, y, width;
 	GtkWidget *scroll, *clist;
+	GtkListStore *store;
+	GtkTreeIter iter;
 	GtkRequisition r;
 	GtkAllocation allocation;
 	guint count = 0;
@@ -893,8 +869,17 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 	}
 
 	scroll = gtk_scrolled_window_new(NULL, NULL);
-	clist  = gtk_clist_new(1);
-	gtk_clist_set_selection_mode(GTK_CLIST(clist), GTK_SELECTION_SINGLE);
+	store = gtk_list_store_new(1, G_TYPE_STRING);
+	clist  = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(clist), FALSE);
+	gtk_tree_view_append_column
+		(GTK_TREE_VIEW(clist),
+		 gtk_tree_view_column_new_with_attributes
+			(NULL, gtk_cell_renderer_text_new(), "text", 0, NULL));
+	gtk_tree_selection_set_mode
+		(gtk_tree_view_get_selection(GTK_TREE_VIEW(clist)),
+		 GTK_SELECTION_SINGLE);
 	
 	completion_window = gtk_window_new(GTK_WINDOW_POPUP);
 
@@ -910,16 +895,21 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 	g_object_set_data(G_OBJECT(completion_window),
 			  WINDOW_DATA_COMPL_CLIST, clist);
 
-	g_signal_connect(G_OBJECT(clist), "select_row",
+	g_signal_connect(G_OBJECT(gtk_tree_view_get_selection
+				  (GTK_TREE_VIEW(clist))), "changed",
 			 G_CALLBACK(completion_window_select_row),
+			 &completion_window);
+	g_signal_connect(G_OBJECT(clist), "button-release-event",
+			 G_CALLBACK(completion_window_button_release),
 			 &completion_window);
 
 	for (count = 0; count < get_completion_count(); count++) {
-		gchar *text[] = {NULL, NULL};
+		gchar *text;
 
-		text[0] = get_complete_address(count);
-		gtk_clist_append(GTK_CLIST(clist), text);
-		g_free(text[0]);
+		text = get_complete_address(count);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, 0, text, -1);
+		g_free(text);
 	}
 
 	gdk_window_get_origin(gtk_widget_get_window(entry), &x, &y);
@@ -933,10 +923,11 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 	gtk_widget_set_size_request(completion_window, width, r.height);
 	gtk_widget_show_all(completion_window);
 	gtk_widget_size_request(clist, &r);
+	/* GtkTreeView may only know its row heights once shown */
+	gtk_widget_set_size_request(completion_window, width, r.height);
 
 	if ((y + r.height) > gdk_screen_height()) {
-		gtk_window_set_policy(GTK_WINDOW(completion_window),
-				      TRUE, FALSE, FALSE);
+		gtk_window_set_resizable(GTK_WINDOW(completion_window), FALSE);
 		gtk_widget_set_size_request(completion_window, width,
 					    gdk_screen_height () - y);
 	}
@@ -958,16 +949,14 @@ static void address_completion_create_completion_window(GtkEntry *entry_,
 	/* this gets rid of the irritating focus rectangle that doesn't
 	 * follow the selection */
 	gtk_widget_set_can_focus(clist, FALSE);
-	gtk_clist_select_row(GTK_CLIST(clist), select_next ? 1 : 0, 0);
+	gtkut_list_view_select_row(GTK_TREE_VIEW(clist), select_next ? 1 : 0);
 
 	debug_print("address_completion_create_completion_window done\n");
 }
 
 
-/* row selection sends completed address to entry.
- * note: event is NULL if selected by anything else than a mouse button. */
-static void completion_window_select_row(GtkCList *clist, gint row, gint col,
-					 GdkEvent *event,
+/* row selection sends completed address to entry. */
+static void completion_window_select_row(GtkTreeSelection *selection,
 					 GtkWidget **window)
 {
 	GtkEntry *entry;
@@ -975,18 +964,45 @@ static void completion_window_select_row(GtkCList *clist, gint row, gint col,
 	g_return_if_fail(window != NULL);
 	g_return_if_fail(*window != NULL);
 
+	/* GtkTreeView emits "changed" while it is being destroyed */
+	if (!gtk_widget_get_visible(*window))
+		return;
+	if (!gtk_tree_selection_get_selected(selection, NULL, NULL))
+		return;
+
 	entry = GTK_ENTRY(g_object_get_data(G_OBJECT(*window),
 					    WINDOW_DATA_COMPL_ENTRY));
 	g_return_if_fail(entry != NULL);
 
-	completion_window_apply_selection(clist, entry);
+	completion_window_apply_selection
+		(gtk_tree_selection_get_tree_view(selection), entry);
+}
 
-	if (!event || event->type != GDK_BUTTON_RELEASE)
-		return;
+/* a mouse click on a row accepts it and closes the window (GtkCList
+   emitted select_row with the button release event) */
+static gboolean completion_window_button_release(GtkWidget *widget,
+						 GdkEventButton *event,
+						 GtkWidget **window)
+{
+	GtkEntry *entry;
+
+	g_return_val_if_fail(window != NULL, FALSE);
+	g_return_val_if_fail(*window != NULL, FALSE);
+
+	if (gtkut_list_view_get_selected_row(GTK_TREE_VIEW(widget)) < 0)
+		return FALSE;
+
+	entry = GTK_ENTRY(g_object_get_data(G_OBJECT(*window),
+					    WINDOW_DATA_COMPL_ENTRY));
+	g_return_val_if_fail(entry != NULL, FALSE);
+
+	completion_window_apply_selection(GTK_TREE_VIEW(widget), entry);
 
 	clear_completion_cache();
 	gtk_widget_destroy(*window);
 	*window = NULL;
+
+	return TRUE;
 }
 
 /* completion_window_button_press() - check is mouse click is anywhere
@@ -1060,7 +1076,7 @@ static gboolean completion_window_key_press(GtkWidget *widget,
 	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down ||
 	    event->keyval == GDK_KEY_Page_Up || event->keyval == GDK_KEY_Page_Down) {
 		completion_window_advance_selection
-			(GTK_CLIST(clist),
+			(GTK_TREE_VIEW(clist),
 			 event->keyval == GDK_KEY_Down ||
 			 event->keyval == GDK_KEY_Page_Down ? TRUE : FALSE);
 		return FALSE;
@@ -1074,7 +1090,7 @@ static gboolean completion_window_key_press(GtkWidget *widget,
 		/* need to reset shift state if going up */
 		if (event->state & GDK_SHIFT_MASK)
 			event->state &= ~GDK_SHIFT_MASK;
-		completion_window_advance_selection(GTK_CLIST(clist), 
+		completion_window_advance_selection(GTK_TREE_VIEW(clist), 
 			event->keyval == GDK_KEY_Down ? TRUE : FALSE);
 		return FALSE;
 	}
@@ -1087,7 +1103,7 @@ static gboolean completion_window_key_press(GtkWidget *widget,
 		if (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK) ||
 		    prefs_common.always_add_address_only) {
 			completion_window_apply_selection_address_only
-				(GTK_CLIST(clist), GTK_ENTRY(entry));
+				(GTK_TREE_VIEW(clist), GTK_ENTRY(entry));
 		}
 		clear_completion_cache();
 		gtk_widget_destroy(*window);

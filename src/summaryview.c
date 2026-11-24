@@ -408,7 +408,7 @@ static GtkTargetEntry summary_drag_types[] =
 	{"text/uri-list", 0, DRAG_TYPE_URI_LIST}
 };
 
-static GtkItemFactoryEntry summary_popup_entries[] =
+static MenuFactoryEntry summary_popup_entries[] =
 {
 	{N_("/_Reply"),			NULL, summary_reply_cb,	COMPOSE_REPLY, NULL},
 	{N_("/Repl_y to"),		NULL, NULL,		0, "<Branch>"},
@@ -480,7 +480,7 @@ SummaryView *summary_create(void)
 	GtkWidget *toggle_eventbox;
 	GtkWidget *toggle_arrow;
 	GtkWidget *popupmenu;
-	GtkItemFactory *popupfactory;
+	MenuFactory *popupfactory;
 	gint n_entries;
 	GList *child;
 	GList *children;
@@ -497,7 +497,7 @@ SummaryView *summary_create(void)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwin),
 					    GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolledwin, TRUE, TRUE, 0);
-	gtk_widget_set_size_request(vbox,
+	gtkut_widget_set_initial_size(vbox,
 				    prefs_common.summaryview_width,
 				    prefs_common.summaryview_height);
 
@@ -559,15 +559,15 @@ SummaryView *summary_create(void)
 	summaryview->lock_count = 0;
 
 	summaryview->reedit_menuitem =
-		gtk_item_factory_get_widget(popupfactory, "/Re-edit");
+		menu_factory_get_widget(popupfactory, "/Re-edit");
 	children = gtk_container_get_children(GTK_CONTAINER(popupmenu));
 	child = g_list_find(children, summaryview->reedit_menuitem);
 	summaryview->reedit_separator = GTK_WIDGET(child->next->data);
 
 	summaryview->junk_menuitem =
-		gtk_item_factory_get_widget(popupfactory, "/Set as junk mail");
+		menu_factory_get_widget(popupfactory, "/Set as junk mail");
 	summaryview->nojunk_menuitem =
-		gtk_item_factory_get_widget(popupfactory,
+		menu_factory_get_widget(popupfactory,
 					    "/Set as not junk mail");
 	child = g_list_find(children, summaryview->nojunk_menuitem);
 	summaryview->junk_separator = GTK_WIDGET(child->next->data);
@@ -581,8 +581,6 @@ SummaryView *summary_create(void)
 void summary_init(SummaryView *summaryview)
 {
 	GtkWidget *pixmap;
-	PangoFontDescription *font_desc;
-	gint size;
 	TextView *textview;
 	GtkAdjustment *adj;
 
@@ -605,14 +603,9 @@ void summary_init(SummaryView *summaryview)
 	stock_pixbuf_gdk(summaryview->treeview, STOCK_PIXMAP_HTML,
 			 &html_pixbuf);
 
-	font_desc = pango_font_description_new();
-	size = pango_font_description_get_size
-		(gtk_widget_get_style(summaryview->statlabel_folder)->font_desc);
-	pango_font_description_set_size(font_desc, size * PANGO_SCALE_SMALL);
-	gtk_widget_modify_font(summaryview->statlabel_folder, font_desc);
-	gtk_widget_modify_font(summaryview->statlabel_select, font_desc);
-	gtk_widget_modify_font(summaryview->statlabel_msgs, font_desc);
-	pango_font_description_free(font_desc);
+	gtkut_widget_add_class(summaryview->statlabel_folder, GTKUT_CLASS_SMALL);
+	gtkut_widget_add_class(summaryview->statlabel_select, GTKUT_CLASS_SMALL);
+	gtkut_widget_add_class(summaryview->statlabel_msgs, GTKUT_CLASS_SMALL);
 
 	pixmap = stock_pixbuf_widget(summaryview->hbox,
 				     STOCK_PIXMAP_FOLDER_OPEN);
@@ -818,16 +811,13 @@ gboolean summary_show(SummaryView *summaryview, FolderItem *item,
 		QSearchCondType type = item->qsearch_cond_type;
 
 		index = menu_find_option_menu_index
-			(GTK_OPTION_MENU(summaryview->qsearch->optmenu),
+			(GTK_COMBO_BOX(summaryview->qsearch->optmenu),
 			 GINT_TO_POINTER(type), NULL);
 		if (index > 0) {
-			gtk_option_menu_set_history
-                		(GTK_OPTION_MENU(summaryview->qsearch->optmenu),
-				 index);
+			quick_search_set_cond_index(summaryview->qsearch,
+						    index);
 		} else {
-			gtk_option_menu_set_history
-                		(GTK_OPTION_MENU(summaryview->qsearch->optmenu),
-				 0);
+			quick_search_set_cond_index(summaryview->qsearch, 0);
 			type = QS_ALL;
 		}
 
@@ -958,7 +948,9 @@ static void summary_unset_sort_column_id(SummaryView *summaryview)
 		(GTK_TREE_SORTABLE(summaryview->store), &id, &order) &&
 	    id >= 0 && id < N_SUMMARY_VISIBLE_COLS) {
 		GtkTreeViewColumn *column = summaryview->columns[id];
-		column->sort_column_id = -1;
+		/* the sort indicator alone controls the header arrow; the
+		   sort_column_id field (sealed) was written here before, and
+		   its setter would also enable GTK+'s own sort on click */
 		gtk_tree_view_column_set_sort_indicator(column, FALSE);
 	}
 
@@ -1028,8 +1020,7 @@ static void summary_clear_list_full(SummaryView *summaryview,
 	summaryview->flt_new = summaryview->flt_unread = 0;
 	if (!is_refresh) {
 		quick_search_clear_entry(summaryview->qsearch);
-		gtk_option_menu_set_history
-			(GTK_OPTION_MENU(summaryview->qsearch->optmenu), 0);
+		quick_search_set_cond_index(summaryview->qsearch, 0);
 	}
 	summaryview->on_filter = FALSE;
 
@@ -1389,7 +1380,7 @@ static void summary_msgid_table_destroy(SummaryView *summaryview)
 
 static void summary_set_menu_sensitive(SummaryView *summaryview)
 {
-	GtkItemFactory *ifactory = summaryview->popupfactory;
+	MenuFactory *ifactory = summaryview->popupfactory;
 	SummarySelection selection;
 	GtkWidget *menuitem;
 	gboolean sens;
@@ -1470,7 +1461,7 @@ static void summary_set_menu_sensitive(SummaryView *summaryview)
 	menu_set_sensitive(ifactory, "/Print...",   TRUE);
 
 	summary_lock(summaryview);
-	menuitem = gtk_item_factory_get_widget(ifactory, "/View/All headers");
+	menuitem = menu_factory_get_widget(ifactory, "/View/All headers");
 	gtk_check_menu_item_set_active
 		(GTK_CHECK_MENU_ITEM(menuitem),
 		 summaryview->messageview->textview->show_all_headers);
@@ -2189,9 +2180,9 @@ static void summary_status_show(SummaryView *summaryview)
 	gint64 total_size;
 
 	if (!summaryview->folder_item) {
-		gtk_label_set(GTK_LABEL(summaryview->statlabel_folder), "");
-		gtk_label_set(GTK_LABEL(summaryview->statlabel_select), "");
-		gtk_label_set(GTK_LABEL(summaryview->statlabel_msgs),   "");
+		gtk_label_set_text(GTK_LABEL(summaryview->statlabel_folder), "");
+		gtk_label_set_text(GTK_LABEL(summaryview->statlabel_select), "");
+		gtk_label_set_text(GTK_LABEL(summaryview->statlabel_msgs),   "");
 		return;
 	}
 
@@ -2217,7 +2208,7 @@ static void summary_status_show(SummaryView *summaryview)
 		g_free(group);
 	} else
 		name = trim_string_before(summaryview->folder_item->path, 32);
-	gtk_label_set(GTK_LABEL(summaryview->statlabel_folder), name);
+	gtk_label_set_text(GTK_LABEL(summaryview->statlabel_folder), name);
 	g_free(name);
 
 	if (summaryview->on_filter) {
@@ -2247,7 +2238,7 @@ static void summary_status_show(SummaryView *summaryview)
 		g_string_append_printf(str, _("%s%d copied"),
 				       deleted || moved ? _(", ") : "", copied);
 
-	gtk_label_set(GTK_LABEL(summaryview->statlabel_select), str->str);
+	gtk_label_set_text(GTK_LABEL(summaryview->statlabel_select), str->str);
 	g_string_truncate(str, 0);
 
 	new = summaryview->folder_item->new;
@@ -2283,7 +2274,7 @@ static void summary_status_show(SummaryView *summaryview)
 		}
 	}
 
-	gtk_label_set(GTK_LABEL(summaryview->statlabel_msgs), str->str);
+	gtk_label_set_text(GTK_LABEL(summaryview->statlabel_msgs), str->str);
 	g_string_free(str, TRUE);
 
 	folderview_update_opened_msg_num(summaryview->folderview);
@@ -2329,13 +2320,11 @@ void summary_sort(SummaryView *summaryview,
 	if (prev_col_type != -1 && col_type != prev_col_type &&
 	    prev_col_type < N_SUMMARY_VISIBLE_COLS) {
 		column = summaryview->columns[prev_col_type];
-		column->sort_column_id = -1;
 		gtk_tree_view_column_set_sort_indicator(column, FALSE);
 	}
 	if (col_type != S_COL_MARK && col_type != S_COL_UNREAD &&
 	    col_type != S_COL_MIME && col_type < N_SUMMARY_VISIBLE_COLS) {
 		column = summaryview->columns[col_type];
-		column->sort_column_id = col_type;
 		gtk_tree_view_column_set_sort_indicator(column, TRUE);
 		gtk_tree_view_column_set_sort_order(column,
 						    (GtkSortType)sort_type);
@@ -5341,7 +5330,7 @@ static void summary_colorlabel_menu_create(SummaryView *summaryview)
 	GtkWidget *item;
 	gint i;
 
-	label_menuitem = gtk_item_factory_get_item(summaryview->popupfactory,
+	label_menuitem = menu_factory_get_item(summaryview->popupfactory,
 						   "/Color label");
 	g_signal_connect(G_OBJECT(label_menuitem), "activate",
 			 G_CALLBACK(summary_colorlabel_menu_item_activate_item_cb),
@@ -5355,7 +5344,7 @@ static void summary_colorlabel_menu_create(SummaryView *summaryview)
 	 * so we can always get back the SummaryView pointer. */
 
 	item = gtk_check_menu_item_new_with_label(_("None"));
-	gtk_menu_append(GTK_MENU(menu), item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	g_signal_connect(G_OBJECT(item), "activate",
 			 G_CALLBACK(summary_colorlabel_menu_item_activate_cb),
 			 GUINT_TO_POINTER(0));
@@ -5363,13 +5352,13 @@ static void summary_colorlabel_menu_create(SummaryView *summaryview)
 	gtk_widget_show(item);
 
 	item = gtk_menu_item_new();
-	gtk_menu_append(GTK_MENU(menu), item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	gtk_widget_show(item);
 
 	/* create pixmap/label menu items */
 	for (i = 0; i < N_COLOR_LABELS; i++) {
 		item = colorlabel_create_check_color_menu_item(i);
-		gtk_menu_append(GTK_MENU(menu), item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_signal_connect(G_OBJECT(item), "activate",
 				 G_CALLBACK(summary_colorlabel_menu_item_activate_cb),
 				 GUINT_TO_POINTER(i + 1));
@@ -5473,10 +5462,10 @@ static GtkWidget *summary_tree_view_create(SummaryView *summaryview)
 	/* gtk_tree_view_column_set_sort_column_id(column, col); */	\
 	gtk_tree_view_column_set_reorderable(column, TRUE);		\
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);	\
-	g_signal_connect(G_OBJECT(column->button), "clicked",		\
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "clicked",		\
 			 G_CALLBACK(summary_column_clicked),		\
 			 summaryview);					\
-	g_signal_connect(G_OBJECT(column->button), "size-allocate",	\
+	g_signal_connect(G_OBJECT(gtk_tree_view_column_get_button(column)), "size-allocate",	\
 			 G_CALLBACK(summary_col_resized), summaryview);	\
 }
 
@@ -5524,6 +5513,13 @@ static GtkWidget *summary_tree_view_create(SummaryView *summaryview)
 					       summary_column_drop_func,
 					       summaryview, NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+	/* the GTK+ 3 header button of the empty column must fit into a
+	   1-pixel allocation */
+	gtk_widget_set_name(gtk_tree_view_column_get_button(column),
+			    "sylpheed-summary-empty-column");
+	gtkut_css_set_rule("#sylpheed-summary-empty-column",
+			   "min-width: 0; padding: 0; border-width: 0;"
+			   " margin: 0;");
 
 	g_object_set_data(G_OBJECT(treeview), "user_data", summaryview);
 
@@ -5649,8 +5645,7 @@ void summary_qsearch_reset(SummaryView *summaryview)
 					0, 0, NULL, NULL, summaryview);
 
 	quick_search_clear_entry(summaryview->qsearch);
-	gtk_option_menu_set_history
-		(GTK_OPTION_MENU(summaryview->qsearch->optmenu), 0);
+	quick_search_set_cond_index(summaryview->qsearch, 0);
 	summaryview->folder_item->qsearch_cond_type = QS_ALL;
 
 	selected_msgnum = summary_get_msgnum(summaryview,
@@ -5706,7 +5701,6 @@ void summary_qsearch_clear_entry(SummaryView *summaryview)
 void summary_qsearch(SummaryView *summaryview)
 {
 	QSearchCondType type;
-	GtkWidget *menuitem;
 	const gchar *key = NULL;
 	GSList *flt_mlist;
 	guint selected_msgnum = 0;
@@ -5717,9 +5711,7 @@ void summary_qsearch(SummaryView *summaryview)
 
 	if (summary_is_read_locked(summaryview)) return;
 
-	menuitem = gtk_menu_get_active(GTK_MENU(summaryview->qsearch->menu));
-	type = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(menuitem), MENU_VAL_ID));
+	type = quick_search_get_cond_type(summaryview->qsearch);
 	summaryview->folder_item->qsearch_cond_type = type;
 
 	if (!summaryview->all_mlist)
@@ -6216,7 +6208,6 @@ static gboolean summary_display_msg_idle_func(gpointer data)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
-	gdk_threads_enter();
 	path = gtk_tree_row_reference_get_path(summaryview->selected);
 	if (path) {
 		gtk_tree_model_get_iter(GTK_TREE_MODEL(summaryview->store),
@@ -6225,7 +6216,6 @@ static gboolean summary_display_msg_idle_func(gpointer data)
 		summary_display_msg(summaryview, &iter);
 		summary_mark_displayed_read(summaryview, &iter);
 	}
-	gdk_threads_leave();
 
 	return FALSE;
 }
@@ -6294,7 +6284,7 @@ static void summary_col_resized(GtkWidget *widget, GtkAllocation *allocation,
 	SummaryColumnType type;
 
 	for (type = 0; type < N_SUMMARY_VISIBLE_COLS; type++) {
-		if (summaryview->columns[type]->button == widget) {
+		if (gtk_tree_view_column_get_button(summaryview->columns[type]) == widget) {
 			prefs_common.summary_col_size[type] = allocation->width;
 			break;
 		}
@@ -6347,7 +6337,7 @@ static void summary_column_clicked(GtkWidget *button, SummaryView *summaryview)
 	SummaryColumnType type;
 
 	for (type = 0; type < N_SUMMARY_VISIBLE_COLS; type++) {
-		if (summaryview->columns[type]->button == button) {
+		if (gtk_tree_view_column_get_button(summaryview->columns[type]) == button) {
 			summary_sort_by_column_click(summaryview, type);
 			break;
 		}
