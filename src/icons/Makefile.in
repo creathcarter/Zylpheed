@@ -337,6 +337,17 @@ BUILT_SOURCES = \
 	stock_outbox.h \
 	stock_person.h \
 	stock_book.h \
+	stock_remote-mailbox.h \
+	stock_next.h \
+	stock_prev.h \
+	stock_search.h \
+	stock_print.h \
+	stock_stop.h \
+	stock_execute.h \
+	stock_common-prefs.h \
+	stock_account-prefs.h \
+	stock_save.h \
+	stock_editor.h \
 	stock_spam.h \
 	stock_spam_16.h \
 	stock_notspam.h \
@@ -351,7 +362,27 @@ BUILT_SOURCES = \
 	folder-noselect.h \
 	folder-search.h \
 	group.h \
-	html.h
+	html.h \
+	address.h \
+	category.h \
+	clip.h \
+	complete.h \
+	continue.h \
+	deleted.h \
+	error.h \
+	forwarded.h \
+	interface.h \
+	jpilot.h \
+	ldap.h \
+	linewrap.h \
+	mark.h \
+	new.h \
+	replied.h \
+	unread.h \
+	vcard.h \
+	online.h \
+	offline.h \
+	mail.h
 
 EXTRA_DIST = \
 	stock_addressbook.png \
@@ -374,6 +405,17 @@ EXTRA_DIST = \
 	stock_outbox.png \
 	stock_person.png \
 	stock_book.png \
+	stock_remote-mailbox.png \
+	stock_next.png \
+	stock_prev.png \
+	stock_search.png \
+	stock_print.png \
+	stock_stop.png \
+	stock_execute.png \
+	stock_common-prefs.png \
+	stock_account-prefs.png \
+	stock_save.png \
+	stock_editor.png \
 	stock_spam.png \
 	stock_spam_16.png \
 	stock_notspam.png \
@@ -389,28 +431,27 @@ EXTRA_DIST = \
 	folder-search.png \
 	group.png \
 	html.png \
-	clip.xpm \
-	deleted.xpm \
-	forwarded.xpm \
-	mark.xpm \
-	new.xpm \
-	offline.xpm \
-	online.xpm \
-	replied.xpm \
-	unread.xpm \
-	linewrap.xpm \
-	continue.xpm \
-	complete.xpm \
-	error.xpm \
-	address.xpm \
-	book.xpm \
-	category.xpm \
-	interface.xpm \
-	jpilot.xpm \
-	ldap.xpm \
-	vcard.xpm \
-	mail.xpm \
-	sylpheed.ico \
+	clip.png \
+	deleted.png \
+	forwarded.png \
+	mark.png \
+	new.png \
+	offline.png \
+	online.png \
+	replied.png \
+	unread.png \
+	linewrap.png \
+	continue.png \
+	complete.png \
+	error.png \
+	address.png \
+	category.png \
+	interface.png \
+	jpilot.png \
+	ldap.png \
+	vcard.png \
+	mail.png \
+	zylpheed.ico \
 	$(BUILT_SOURCES)
 
 all: $(BUILT_SOURCES)
@@ -614,7 +655,7 @@ uninstall-am:
 
 
 %.h: %.png
-	gdk-pixbuf-csource --name=`echo $(*F)|sed s/-/_/g` $< > $@
+	gdk-pixbuf-csource --name=icon_`echo $(*F)|sed s/-/_/g` $< > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

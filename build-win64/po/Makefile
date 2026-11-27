@@ -12,9 +12,9 @@
 # - Modified by jacob berkman <jacob@ximian.com> to install
 #   Makefile.in.in and po2tbl.sed.in for use with glib-gettextize
 
-GETTEXT_PACKAGE = sylpheed
-PACKAGE = sylpheed
-VERSION = 3.8.0beta1
+GETTEXT_PACKAGE = zylpheed
+PACKAGE = zylpheed
+VERSION = 0.1.0
 
 SHELL = /bin/sh
 

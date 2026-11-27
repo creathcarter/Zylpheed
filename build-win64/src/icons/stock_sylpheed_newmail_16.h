@@ -1,12 +1,12 @@
 /* GdkPixbuf RGBA C-Source image dump 1-byte-run-length-encoded */
 
 #ifdef __SUNPRO_C
-#pragma align 4 (stock_sylpheed_newmail_16)
+#pragma align 4 (icon_stock_sylpheed_newmail_16)
 #endif
 #ifdef __GNUC__
-static const guint8 stock_sylpheed_newmail_16[] __attribute__ ((__aligned__ (4))) = 
+static const guint8 icon_stock_sylpheed_newmail_16[] __attribute__ ((__aligned__ (4))) = 
 #else
-static const guint8 stock_sylpheed_newmail_16[] = 
+static const guint8 icon_stock_sylpheed_newmail_16[] = 
 #endif
 { ""
   /* Pixbuf magic (0x47646b50) */

@@ -74,10 +74,10 @@ am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
 am__rm_f = rm -f $(am__rm_f_notfound)
 am__rm_rf = rm -rf $(am__rm_f_notfound)
-pkgdatadir = $(datadir)/sylpheed
-pkgincludedir = $(includedir)/sylpheed
-pkglibdir = $(libdir)/sylpheed
-pkglibexecdir = $(libexecdir)/sylpheed
+pkgdatadir = $(datadir)/zylpheed
+pkgincludedir = $(includedir)/zylpheed
+pkglibdir = $(libdir)/zylpheed
+pkglibexecdir = $(libexecdir)/zylpheed
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -93,7 +93,7 @@ POST_UNINSTALL = :
 build_triplet = x86_64-w64-mingw32
 host_triplet = x86_64-w64-mingw32
 target_triplet = x86_64-w64-mingw32
-bin_PROGRAMS = sylpheed$(EXEEXT) syl-auth-helper$(EXEEXT)
+bin_PROGRAMS = zylpheed$(EXEEXT) zyl-auth-helper$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/ac/aclocal-include.m4 \
@@ -105,7 +105,7 @@ DIST_COMMON = $(srcdir)/Makefile.am \
 	$(libsylpheed_plugin_0include_HEADERS) $(am__DIST_COMMON)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = version.h sylpheed.rc
+CONFIG_CLEAN_FILES = version.h zylpheed.rc
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(libsylpheed_plugin_0includedir)"
@@ -151,12 +151,12 @@ libsylpheed_plugin_0_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(AM_CFLAGS) $(CFLAGS) $(libsylpheed_plugin_0_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_syl_auth_helper_OBJECTS = syl-auth-helper.$(OBJEXT)
-syl_auth_helper_OBJECTS = $(am_syl_auth_helper_OBJECTS)
-syl_auth_helper_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+am_zyl_auth_helper_OBJECTS = syl-auth-helper.$(OBJEXT)
+zyl_auth_helper_OBJECTS = $(am_zyl_auth_helper_OBJECTS)
+zyl_auth_helper_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	../libsylph/libsylph-0.la
-am_sylpheed_OBJECTS = main.$(OBJEXT) mainwindow.$(OBJEXT) \
+am_zylpheed_OBJECTS = main.$(OBJEXT) mainwindow.$(OBJEXT) \
 	folderview.$(OBJEXT) summaryview.$(OBJEXT) \
 	messageview.$(OBJEXT) headerview.$(OBJEXT) textview.$(OBJEXT) \
 	imageview.$(OBJEXT) mimeview.$(OBJEXT) quick_search.$(OBJEXT) \
@@ -192,9 +192,9 @@ am_sylpheed_OBJECTS = main.$(OBJEXT) mainwindow.$(OBJEXT) \
 	plugin_manager.$(OBJEXT) update_check.$(OBJEXT) \
 	quote_fmt_lex.$(OBJEXT) quote_fmt_parse.$(OBJEXT) \
 	sylpheed-marshal.$(OBJEXT) notificationwindow.$(OBJEXT)
-sylpheed_OBJECTS = $(am_sylpheed_OBJECTS)
-am__DEPENDENCIES_2 = sylpheed.res
-sylpheed_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+zylpheed_OBJECTS = $(am_zylpheed_OBJECTS)
+am__DEPENDENCIES_2 = zylpheed.res
+zylpheed_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) libsylpheed-plugin-0.la \
@@ -305,9 +305,9 @@ am__v_YACC_ = $(am__v_YACC_$(AM_DEFAULT_VERBOSITY))
 am__v_YACC_0 = @echo "  YACC    " $@;
 am__v_YACC_1 = 
 SOURCES = $(libsylpheed_plugin_0_la_SOURCES) \
-	$(syl_auth_helper_SOURCES) $(sylpheed_SOURCES)
+	$(zyl_auth_helper_SOURCES) $(zylpheed_SOURCES)
 DIST_SOURCES = $(libsylpheed_plugin_0_la_SOURCES) \
-	$(syl_auth_helper_SOURCES) $(sylpheed_SOURCES)
+	$(zyl_auth_helper_SOURCES) $(zylpheed_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -348,8 +348,8 @@ am__define_uniq_tagged_files = \
     if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
   done | $(am__uniquify_input)`
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/sylpheed.rc.in \
-	$(srcdir)/version.h.in $(top_srcdir)/depcomp \
+am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/version.h.in \
+	$(srcdir)/zylpheed.rc.in $(top_srcdir)/depcomp \
 	$(top_srcdir)/mkinstalldirs $(top_srcdir)/ylwrap \
 	quote_fmt_lex.c quote_fmt_parse.c quote_fmt_parse.h
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -412,10 +412,10 @@ ECHO_T =
 EGREP = /usr/bin/grep -E
 ETAGS = etags
 EXEEXT = .exe
-EXTRA_VERSION = beta1
+EXTRA_VERSION = 
 FGREP = /usr/bin/grep -F
 FILECMD = file
-GETTEXT_PACKAGE = sylpheed
+GETTEXT_PACKAGE = zylpheed
 GLIB_CFLAGS = -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include
 GLIB_COMPILE_RESOURCES = C:/msys64/ucrt64/bin/glib-compile-resources
 GLIB_GENMARSHAL = C:/msys64/ucrt64/bin/glib-genmarshal.exe
@@ -459,15 +459,15 @@ LTLIBICONV = -liconv
 LTLIBOBJS = 
 LT_AGE = 0
 LT_CURRENT = 6
-LT_RELEASE = 3.8
+LT_RELEASE = 0.1
 LT_REVISION = 0
 LT_SYS_LIBRARY_PATH = 
 MAINT = #
-MAJOR_VERSION = 3
+MAJOR_VERSION = 0
 MAKEINFO = ${SHELL} '/c/_projects/code/sylpheed/Zylpheed/missing' makeinfo
 MANIFEST_TOOL = :
 MICRO_VERSION = 0
-MINOR_VERSION = 8
+MINOR_VERSION = 1
 MKDIR_P = /usr/bin/mkdir -p
 MKINSTALLDIRS = ..//mkinstalldirs
 MSGFMT = /ucrt64/bin/msgfmt
@@ -480,7 +480,7 @@ OPENSSL_CFLAGS =
 OPENSSL_LIBS = -lssl -lcrypto
 OTOOL = 
 OTOOL64 = 
-PACKAGE = sylpheed
+PACKAGE = zylpheed
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = 
 PACKAGE_STRING = 
@@ -502,7 +502,7 @@ SHELL = /bin/sh
 STRIP = strip
 SYLPHEED_LIBS = -lole32 -Wl,-luuid
 USE_NLS = yes
-VERSION = 3.8.0beta1
+VERSION = 0.1.0
 WINDRES = windres
 XGETTEXT = /ucrt64/bin/xgettext
 YACC = bison -y
@@ -571,7 +571,7 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ../..
 SUBDIRS = icons
-sylpheed_SOURCES = \
+zylpheed_SOURCES = \
 	version.h \
 	main.c main.h \
 	mainwindow.c mainwindow.h \
@@ -665,7 +665,7 @@ sylpheed_SOURCES = \
 	sylpheed-marshal.c sylpheed-marshal.h \
 	notificationwindow.c notificationwindow.h
 
-syl_auth_helper_SOURCES = syl-auth-helper.c
+zyl_auth_helper_SOURCES = syl-auth-helper.c
 BUILT_SOURCES = \
 	quote_fmt_lex.c \
 	quote_fmt_parse.c \
@@ -701,8 +701,8 @@ EXTRA_DIST = \
 	sylpheed-marshal.list \
 	plugin-marshal.list \
 	version.h.in \
-	sylpheed.rc.in \
-	sylpheed.exe.manifest \
+	zylpheed.rc.in \
+	zylpheed.exe.manifest \
 	libsylpheed-plugin-0.def
 
 INCLUDES = \
@@ -713,8 +713,8 @@ INCLUDES = \
 	$(GPGME_CFLAGS)
 
 #SYLPHEED_RES = 
-SYLPHEED_RES = sylpheed.res
-sylpheed_LDADD = \
+SYLPHEED_RES = zylpheed.res
+zylpheed_LDADD = \
 	$(INTLLIBS) \
 	$(GTK_LIBS) \
 	$(GLIB_LIBS) \
@@ -726,7 +726,7 @@ sylpheed_LDADD = \
 	../libsylph/libsylph-0.la \
 	$(SYLPHEED_RES)
 
-syl_auth_helper_LDADD = \
+zyl_auth_helper_LDADD = \
 	$(GLIB_LIBS) \
 	$(LIBICONV) \
 	$(CURL_LIBS) \
@@ -778,7 +778,7 @@ $(ACLOCAL_M4): # $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 version.h: $(top_builddir)/config.status $(srcdir)/version.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-sylpheed.rc: $(top_builddir)/config.status $(srcdir)/sylpheed.rc.in
+zylpheed.rc: $(top_builddir)/config.status $(srcdir)/zylpheed.rc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -861,16 +861,16 @@ clean-libLTLIBRARIES:
 libsylpheed-plugin-0.la: $(libsylpheed_plugin_0_la_OBJECTS) $(libsylpheed_plugin_0_la_DEPENDENCIES) $(EXTRA_libsylpheed_plugin_0_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libsylpheed_plugin_0_la_LINK) -rpath $(libdir) $(libsylpheed_plugin_0_la_OBJECTS) $(libsylpheed_plugin_0_la_LIBADD) $(LIBS)
 
-syl-auth-helper$(EXEEXT): $(syl_auth_helper_OBJECTS) $(syl_auth_helper_DEPENDENCIES) $(EXTRA_syl_auth_helper_DEPENDENCIES) 
-	@rm -f syl-auth-helper$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(syl_auth_helper_OBJECTS) $(syl_auth_helper_LDADD) $(LIBS)
+zyl-auth-helper$(EXEEXT): $(zyl_auth_helper_OBJECTS) $(zyl_auth_helper_DEPENDENCIES) $(EXTRA_zyl_auth_helper_DEPENDENCIES) 
+	@rm -f zyl-auth-helper$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(zyl_auth_helper_OBJECTS) $(zyl_auth_helper_LDADD) $(LIBS)
 quote_fmt_parse.h: quote_fmt_parse.c
 	@if test ! -f $@; then rm -f quote_fmt_parse.c; else :; fi
 	@if test ! -f $@; then $(MAKE) $(AM_MAKEFLAGS) quote_fmt_parse.c; else :; fi
 
-sylpheed$(EXEEXT): $(sylpheed_OBJECTS) $(sylpheed_DEPENDENCIES) $(EXTRA_sylpheed_DEPENDENCIES) 
-	@rm -f sylpheed$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(sylpheed_OBJECTS) $(sylpheed_LDADD) $(LIBS)
+zylpheed$(EXEEXT): $(zylpheed_OBJECTS) $(zylpheed_DEPENDENCIES) $(EXTRA_zylpheed_DEPENDENCIES) 
+	@rm -f zylpheed$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(zylpheed_OBJECTS) $(zylpheed_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1515,7 +1515,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 
 .PRECIOUS: Makefile
 
-sylpheed.res: sylpheed.rc icons/sylpheed.ico sylpheed.exe.manifest
+zylpheed.res: zylpheed.rc icons/zylpheed.ico zylpheed.exe.manifest
 	$(WINDRES) --include-dir=$(srcdir) $< -O coff -o $@
 
 sylpheed-marshal.h: sylpheed-marshal.list

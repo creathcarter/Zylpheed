@@ -65,7 +65,7 @@ LogWindow *log_window_create(void)
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Protocol log"));
-	gtk_window_set_wmclass(GTK_WINDOW(window), "log_window", "Sylpheed");
+	gtk_window_set_wmclass(GTK_WINDOW(window), "log_window", "Zylpheed");
 	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_window_set_default_size(GTK_WINDOW(window), 520 * gtkut_get_dpi_multiplier(),
 				    400 * gtkut_get_dpi_multiplier());

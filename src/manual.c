@@ -28,85 +28,39 @@
 
 #include "prefs_common.h"
 #include "manual.h"
+#include "alertpanel.h"
 #include "utils.h"
 
-static gchar *get_lang_str(ManualLang lang);
+/* The local manual and FAQ describe Sylpheed 3.x; open the Sylpheed web
+   site instead. */
+#define SYLPHEED_MANUAL_URI	"https://sylpheed.sraoss.jp/"
+#define SYLPHEED_FAQ_URI	"https://sylpheed.sraoss.jp/"
 
-static gchar *get_lang_str(ManualLang lang)
+static void manual_notice(void);
+
+static void manual_notice(void)
 {
-	switch (lang) {
-	case MANUAL_LANG_DE:
-		return "de";
-	case MANUAL_LANG_EN:
-		return "en";
-	case MANUAL_LANG_ES:
-		return "es";
-	case MANUAL_LANG_FR:
-		return "fr";
-	case MANUAL_LANG_IT:
-		return "it";
-	case MANUAL_LANG_JA:
-		return "ja";
-	default:
-		return NULL;
-	}
+	static gboolean shown = FALSE;
+
+	if (shown) return;
+	shown = TRUE;
+
+	/* not translated */
+	alertpanel_notice("%s", "The Sylpheed manual and FAQ describe "
+			  "Sylpheed 3.x. Zylpheed differs in places; see the "
+			  "README at https://github.com/creathcarter/zylpheed.");
 }
 
 void manual_open(ManualLang lang)
 {
-	gchar *lang_str;
-	gchar *file_uri;
-
-	lang_str = get_lang_str(lang);
-	if (!lang_str) return;
-
-	file_uri = g_strconcat("file://",
-#ifdef G_OS_WIN32
-			       get_startup_dir(),
-			       G_DIR_SEPARATOR_S "doc" G_DIR_SEPARATOR_S
-			       "manual",
-#elif defined(__APPLE__)
-			       get_startup_dir(),
-			       G_DIR_SEPARATOR_S "Contents" G_DIR_SEPARATOR_S
-			       "Resources" G_DIR_SEPARATOR_S
-			       "share" G_DIR_SEPARATOR_S
-			       "sylpheed" G_DIR_SEPARATOR_S
-			       "manual",
-#else
-			       MANUALDIR,
-#endif
-			       G_DIR_SEPARATOR_S, lang_str, G_DIR_SEPARATOR_S,
-			       MANUAL_HTML_INDEX, NULL);
-	debug_print("Opening manual: %s\n", file_uri);
-	open_uri(file_uri, prefs_common.uri_cmd);
-	g_free(file_uri);
+	manual_notice();
+	debug_print("Opening manual: %s\n", SYLPHEED_MANUAL_URI);
+	open_uri(SYLPHEED_MANUAL_URI, prefs_common.uri_cmd);
 }
 
 void faq_open(ManualLang lang)
 {
-	gchar *lang_str;
-	gchar *file_uri;
-
-	lang_str = get_lang_str(lang);
-	if (!lang_str) return;
-
-	file_uri = g_strconcat("file://",
-#ifdef G_OS_WIN32
-			       get_startup_dir(),
-			       G_DIR_SEPARATOR_S "doc" G_DIR_SEPARATOR_S "faq",
-#elif defined(__APPLE__)
-			       get_startup_dir(),
-			       G_DIR_SEPARATOR_S "Contents" G_DIR_SEPARATOR_S
-			       "Resources" G_DIR_SEPARATOR_S
-			       "share" G_DIR_SEPARATOR_S
-			       "sylpheed" G_DIR_SEPARATOR_S
-			       "faq",
-#else
-			       FAQDIR,
-#endif
-			       G_DIR_SEPARATOR_S, lang_str, G_DIR_SEPARATOR_S,
-			       FAQ_HTML_INDEX, NULL);
-	debug_print("Opening FAQ: %s\n", file_uri);
-	open_uri(file_uri, prefs_common.uri_cmd);
-	g_free(file_uri);
+	manual_notice();
+	debug_print("Opening FAQ: %s\n", SYLPHEED_FAQ_URI);
+	open_uri(SYLPHEED_FAQ_URI, prefs_common.uri_cmd);
 }

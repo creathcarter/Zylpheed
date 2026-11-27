@@ -20,13 +20,13 @@
 #ifndef __VERSION_H__
 #define __VERSION_H__
 
-#define PACKAGE			"sylpheed"
-#define VERSION			"3.8.0beta1"
-#define MAJOR_VERSION		3
-#define MINOR_VERSION		8
+#define PACKAGE			"zylpheed"
+#define VERSION			"0.1.0"
+#define MAJOR_VERSION		0
+#define MINOR_VERSION		1
 #define MICRO_VERSION		0
-#define EXTRA_VERSION		"beta1"
-#define PROG_VERSION		"Sylpheed " VERSION
+#define EXTRA_VERSION		""
+#define PROG_VERSION		"Zylpheed " VERSION
 
 #define BUILD_REVISION		1187
 

@@ -619,7 +619,7 @@ static void addressbook_create(void)
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Address book"));
-	gtk_window_set_wmclass(GTK_WINDOW(window), "addressbook", "Sylpheed");
+	gtk_window_set_wmclass(GTK_WINDOW(window), "addressbook", "Zylpheed");
 	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_widget_set_size_request(window, 620 * gtkut_get_dpi_multiplier(), 360 * gtkut_get_dpi_multiplier());
 	gtk_window_set_default_size(GTK_WINDOW(window),

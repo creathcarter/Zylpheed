@@ -71,10 +71,10 @@ am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
 am__rm_f = rm -f $(am__rm_f_notfound)
 am__rm_rf = rm -rf $(am__rm_f_notfound)
-pkgdatadir = $(datadir)/sylpheed
-pkgincludedir = $(includedir)/sylpheed
-pkglibdir = $(libdir)/sylpheed
-pkglibexecdir = $(libexecdir)/sylpheed
+pkgdatadir = $(datadir)/zylpheed
+pkgincludedir = $(includedir)/zylpheed
+pkglibdir = $(libdir)/zylpheed
+pkglibexecdir = $(libexecdir)/zylpheed
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -158,10 +158,10 @@ ECHO_T =
 EGREP = /usr/bin/grep -E
 ETAGS = etags
 EXEEXT = .exe
-EXTRA_VERSION = beta1
+EXTRA_VERSION = 
 FGREP = /usr/bin/grep -F
 FILECMD = file
-GETTEXT_PACKAGE = sylpheed
+GETTEXT_PACKAGE = zylpheed
 GLIB_CFLAGS = -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include
 GLIB_COMPILE_RESOURCES = C:/msys64/ucrt64/bin/glib-compile-resources
 GLIB_GENMARSHAL = C:/msys64/ucrt64/bin/glib-genmarshal.exe
@@ -205,15 +205,15 @@ LTLIBICONV = -liconv
 LTLIBOBJS = 
 LT_AGE = 0
 LT_CURRENT = 6
-LT_RELEASE = 3.8
+LT_RELEASE = 0.1
 LT_REVISION = 0
 LT_SYS_LIBRARY_PATH = 
 MAINT = #
-MAJOR_VERSION = 3
+MAJOR_VERSION = 0
 MAKEINFO = ${SHELL} '/c/_projects/code/sylpheed/Zylpheed/missing' makeinfo
 MANIFEST_TOOL = :
 MICRO_VERSION = 0
-MINOR_VERSION = 8
+MINOR_VERSION = 1
 MKDIR_P = /usr/bin/mkdir -p
 MKINSTALLDIRS = ..//mkinstalldirs
 MSGFMT = /ucrt64/bin/msgfmt
@@ -226,7 +226,7 @@ OPENSSL_CFLAGS =
 OPENSSL_LIBS = -lssl -lcrypto
 OTOOL = 
 OTOOL64 = 
-PACKAGE = sylpheed
+PACKAGE = zylpheed
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = 
 PACKAGE_STRING = 
@@ -248,7 +248,7 @@ SHELL = /bin/sh
 STRIP = strip
 SYLPHEED_LIBS = -lole32 -Wl,-luuid
 USE_NLS = yes
-VERSION = 3.8.0beta1
+VERSION = 0.1.0
 WINDRES = windres
 XGETTEXT = /ucrt64/bin/xgettext
 YACC = bison -y
@@ -337,6 +337,17 @@ BUILT_SOURCES = \
 	stock_outbox.h \
 	stock_person.h \
 	stock_book.h \
+	stock_remote-mailbox.h \
+	stock_next.h \
+	stock_prev.h \
+	stock_search.h \
+	stock_print.h \
+	stock_stop.h \
+	stock_execute.h \
+	stock_common-prefs.h \
+	stock_account-prefs.h \
+	stock_save.h \
+	stock_editor.h \
 	stock_spam.h \
 	stock_spam_16.h \
 	stock_notspam.h \
@@ -351,7 +362,27 @@ BUILT_SOURCES = \
 	folder-noselect.h \
 	folder-search.h \
 	group.h \
-	html.h
+	html.h \
+	address.h \
+	category.h \
+	clip.h \
+	complete.h \
+	continue.h \
+	deleted.h \
+	error.h \
+	forwarded.h \
+	interface.h \
+	jpilot.h \
+	ldap.h \
+	linewrap.h \
+	mark.h \
+	new.h \
+	replied.h \
+	unread.h \
+	vcard.h \
+	online.h \
+	offline.h \
+	mail.h
 
 EXTRA_DIST = \
 	stock_addressbook.png \
@@ -374,6 +405,17 @@ EXTRA_DIST = \
 	stock_outbox.png \
 	stock_person.png \
 	stock_book.png \
+	stock_remote-mailbox.png \
+	stock_next.png \
+	stock_prev.png \
+	stock_search.png \
+	stock_print.png \
+	stock_stop.png \
+	stock_execute.png \
+	stock_common-prefs.png \
+	stock_account-prefs.png \
+	stock_save.png \
+	stock_editor.png \
 	stock_spam.png \
 	stock_spam_16.png \
 	stock_notspam.png \
@@ -389,28 +431,27 @@ EXTRA_DIST = \
 	folder-search.png \
 	group.png \
 	html.png \
-	clip.xpm \
-	deleted.xpm \
-	forwarded.xpm \
-	mark.xpm \
-	new.xpm \
-	offline.xpm \
-	online.xpm \
-	replied.xpm \
-	unread.xpm \
-	linewrap.xpm \
-	continue.xpm \
-	complete.xpm \
-	error.xpm \
-	address.xpm \
-	book.xpm \
-	category.xpm \
-	interface.xpm \
-	jpilot.xpm \
-	ldap.xpm \
-	vcard.xpm \
-	mail.xpm \
-	sylpheed.ico \
+	clip.png \
+	deleted.png \
+	forwarded.png \
+	mark.png \
+	new.png \
+	offline.png \
+	online.png \
+	replied.png \
+	unread.png \
+	linewrap.png \
+	continue.png \
+	complete.png \
+	error.png \
+	address.png \
+	category.png \
+	interface.png \
+	jpilot.png \
+	ldap.png \
+	vcard.png \
+	mail.png \
+	zylpheed.ico \
 	$(BUILT_SOURCES)
 
 all: $(BUILT_SOURCES)
@@ -614,7 +655,7 @@ uninstall-am:
 
 
 %.h: %.png
-	gdk-pixbuf-csource --name=`echo $(*F)|sed s/-/_/g` $< > $@
+	gdk-pixbuf-csource --name=icon_`echo $(*F)|sed s/-/_/g` $< > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

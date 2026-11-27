@@ -370,7 +370,7 @@ static GtkWidget *filesel_create(const gchar *title,
 				GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_window_set_wmclass
-		(GTK_WINDOW(dialog), "file_selection", "Sylpheed");
+		(GTK_WINDOW(dialog), "file_selection", "Zylpheed");
 	gtk_dialog_set_default_response
 		(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 

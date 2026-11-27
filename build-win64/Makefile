@@ -72,10 +72,10 @@ am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
 am__rm_f = rm -f $(am__rm_f_notfound)
 am__rm_rf = rm -rf $(am__rm_f_notfound)
-pkgdatadir = $(datadir)/sylpheed
-pkgincludedir = $(includedir)/sylpheed
-pkglibdir = $(libdir)/sylpheed
-pkglibexecdir = $(libexecdir)/sylpheed
+pkgdatadir = $(datadir)/zylpheed
+pkgincludedir = $(includedir)/zylpheed
+pkglibdir = $(libdir)/zylpheed
+pkglibexecdir = $(libexecdir)/zylpheed
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -104,7 +104,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = sylpheed.spec
+CONFIG_CLEAN_FILES = zylpheed.spec
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
@@ -189,7 +189,7 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(srcdir)/sylpheed.spec.in ABOUT-NLS AUTHORS COPYING \
+	$(srcdir)/zylpheed.spec.in ABOUT-NLS AUTHORS COPYING \
 	COPYING.LIB ChangeLog INSTALL NEWS README TODO compile \
 	config.guess config.rpath config.sub install-sh ltmain.sh \
 	missing mkinstalldirs ylwrap
@@ -273,10 +273,10 @@ ECHO_T =
 EGREP = /usr/bin/grep -E
 ETAGS = etags
 EXEEXT = .exe
-EXTRA_VERSION = beta1
+EXTRA_VERSION = 
 FGREP = /usr/bin/grep -F
 FILECMD = file
-GETTEXT_PACKAGE = sylpheed
+GETTEXT_PACKAGE = zylpheed
 GLIB_CFLAGS = -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include
 GLIB_COMPILE_RESOURCES = C:/msys64/ucrt64/bin/glib-compile-resources
 GLIB_GENMARSHAL = C:/msys64/ucrt64/bin/glib-genmarshal.exe
@@ -320,15 +320,15 @@ LTLIBICONV = -liconv
 LTLIBOBJS = 
 LT_AGE = 0
 LT_CURRENT = 6
-LT_RELEASE = 3.8
+LT_RELEASE = 0.1
 LT_REVISION = 0
 LT_SYS_LIBRARY_PATH = 
 MAINT = #
-MAJOR_VERSION = 3
+MAJOR_VERSION = 0
 MAKEINFO = ${SHELL} '/c/_projects/code/sylpheed/Zylpheed/missing' makeinfo
 MANIFEST_TOOL = :
 MICRO_VERSION = 0
-MINOR_VERSION = 8
+MINOR_VERSION = 1
 MKDIR_P = /usr/bin/mkdir -p
 MKINSTALLDIRS = ..//mkinstalldirs
 MSGFMT = /ucrt64/bin/msgfmt
@@ -341,7 +341,7 @@ OPENSSL_CFLAGS =
 OPENSSL_LIBS = -lssl -lcrypto
 OTOOL = 
 OTOOL64 = 
-PACKAGE = sylpheed
+PACKAGE = zylpheed
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = 
 PACKAGE_STRING = 
@@ -363,7 +363,7 @@ SHELL = /bin/sh
 STRIP = strip
 SYLPHEED_LIBS = -lole32 -Wl,-luuid
 USE_NLS = yes
-VERSION = 3.8.0beta1
+VERSION = 0.1.0
 WINDRES = windres
 XGETTEXT = /ucrt64/bin/xgettext
 YACC = bison -y
@@ -445,23 +445,23 @@ EXTRA_DIST = config.rpath  \
 	LICENSE \
 	PLUGIN.txt \
 	PLUGIN.ja.txt \
-	sylpheed.desktop \
-	sylpheed.spec \
-	sylpheed.spec.in \
-	sylpheed.png \
-	sylpheed-128x128.png \
-	sylpheed-64x64.png \
+	zylpheed.desktop \
+	zylpheed.spec \
+	zylpheed.spec.in \
+	zylpheed.png \
+	zylpheed-128x128.png \
+	zylpheed-64x64.png \
 	autogen.sh \
 	makeosx.sh \
 	makewin32.sh \
 	mime.types \
-	sylpheed-mailto-protocol_admin.reg \
-	sylpheed-mailto-protocol_user.reg \
+	zylpheed-mailto-protocol_admin.reg \
+	zylpheed-mailto-protocol_user.reg \
 	oauth2.ini.sample
 
 BZIP2_ENV = 
 XZ_ENV = 
-desktop_DATA = sylpheed.desktop
+desktop_DATA = zylpheed.desktop
 desktopdir = $(datadir)/applications
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -515,7 +515,7 @@ $(srcdir)/config.h.in: # $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-sylpheed.spec: $(top_builddir)/config.status $(srcdir)/sylpheed.spec.in
+zylpheed.spec: $(top_builddir)/config.status $(srcdir)/zylpheed.spec.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
@@ -991,13 +991,13 @@ uninstall-am: uninstall-desktopDATA
 release: distdir
 	-chmod -R a+r $(distdir)
 	GZIP=$(GZIP_ENV) $(AMTAR) chozf $(distdir).tar.gz $(distdir)
-	rm -f $(distdir)/sylpheed.spec
-	sed '/^Source:/s/\.tar\.gz$$/\.tar\.bz2/' sylpheed.spec \
-	  > $(distdir)/sylpheed.spec
+	rm -f $(distdir)/zylpheed.spec
+	sed '/^Source:/s/\.tar\.gz$$/\.tar\.bz2/' zylpheed.spec \
+	  > $(distdir)/zylpheed.spec
 	BZIP2=$(BZIP2_ENV) $(AMTAR) --bzip2 -chof $(distdir).tar.bz2 $(distdir)
-	rm -f $(distdir)/sylpheed.spec
-	sed '/^Source:/s/\.tar\.gz$$/\.tar\.xz/' sylpheed.spec \
-	  > $(distdir)/sylpheed.spec
+	rm -f $(distdir)/zylpheed.spec
+	sed '/^Source:/s/\.tar\.gz$$/\.tar\.xz/' zylpheed.spec \
+	  > $(distdir)/zylpheed.spec
 	XZ_OPT=$(XZ_ENV) $(AMTAR) --xz -chof $(distdir).tar.xz $(distdir)
 	-rm -rf $(distdir)
 
@@ -1006,7 +1006,7 @@ release: distdir
 install-data-local:
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps; \
-	$(INSTALL_DATA) $(srcdir)/sylpheed-64x64.png $(DESTDIR)$(datadir)/pixmaps/sylpheed.png;
+	$(INSTALL_DATA) $(srcdir)/zylpheed-64x64.png $(DESTDIR)$(datadir)/pixmaps/zylpheed.png;
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

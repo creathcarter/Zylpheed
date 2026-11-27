@@ -11,7 +11,7 @@
 #define ENABLE_NLS 1
 
 /* Define text domain. */
-#define GETTEXT_PACKAGE "sylpheed"
+#define GETTEXT_PACKAGE "zylpheed"
 
 /* Define if time_t is 64-bit */
 #define HAVE_64BIT_TIME_T 1
@@ -317,10 +317,10 @@
 #define USE_THREADS 1
 
 /* Define if you want update check feature. */
-#define USE_UPDATE_CHECK 1
+/* #undef USE_UPDATE_CHECK */
 
 /* Define if you want update check plugin feature. */
-#define USE_UPDATE_CHECK_PLUGIN 1
+/* #undef USE_UPDATE_CHECK_PLUGIN */
 
 /* Define to 1 if 'lex' declares 'yytext' as a 'char *' by default, not a
    'char[]'. */

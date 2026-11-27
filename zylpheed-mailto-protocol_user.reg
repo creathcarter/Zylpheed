@@ -1,0 +1,49 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes\.eml]
+@="Zylpheed.EML"
+
+[HKEY_CURRENT_USER\Software\Classes\mailto]
+@="URL:MailTo Protocol"
+"FriendlyTypeName"="Zylpheed MailTo"
+"URL Protocol"=""
+"EditFlags"=dword:00000002
+
+[HKEY_CURRENT_USER\Software\Classes\mailto\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\mailto\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\" --compose \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Zylpheed.EML]
+@="Zylpheed Message"
+"EditFlags"=dword:00000002
+"FriendlyTypeName"="Zylpheed Message"
+
+[HKEY_CURRENT_USER\Software\Classes\Zylpheed.EML\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Zylpheed.EML\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\" --open \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\Zylpheed.Url.MailTo]
+@="URL:MailTo Protocol"
+"EditFlags"=dword:00000002
+"FriendlyTypeName"="Zylpheed MailTo"
+"URL Protocol"=""
+
+[HKEY_CURRENT_USER\Software\Classes\Zylpheed.Url.MailTo\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\Zylpheed.Url.MailTo\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\" --compose \"%1\""
+
+[HKEY_CURRENT_USER\Software\Clients\Mail]
+@="Zylpheed"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\Shell\Associations\URLAssociations\MAILTO\UserChoice]
+"Progid"="Zylpheed.Url.MailTo"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.eml\UserChoice]
+"Progid"="Zylpheed.EML"
+

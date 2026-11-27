@@ -2251,7 +2251,7 @@ const gchar *get_home_dir(void)
 	if (!home_dir) {
 		home_dir = g_get_home_dir();
 		if (!home_dir)
-			home_dir = "C:\\Sylpheed";
+			home_dir = "C:\\Zylpheed";
 	}
 
 	return home_dir;

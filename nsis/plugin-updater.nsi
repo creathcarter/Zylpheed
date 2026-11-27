@@ -5,7 +5,7 @@
 ; usage: plugin-updater.exe /ini 'path\to\some-install-options.ini'
 ;--------------------------------
 
-!include "sylpheed-defs.nsh"
+!include "zylpheed-defs.nsh"
 
 SetCompressor /SOLID lzma
 
@@ -99,7 +99,7 @@ Section "Components"
     ;DetailPrint "Field $field URL=$URL"
     ;DetailPrint "Field $field basename=$basename"
     ;DetailPrint "Field $field name=$name"
-    StrCpy $archive "$TEMP\sylpheed-plugin-$basename.zip"
+    StrCpy $archive "$TEMP\zylpheed-plugin-$basename.zip"
 
     DetailPrint "$name:"
     DetailPrint "Downloading from $URL"

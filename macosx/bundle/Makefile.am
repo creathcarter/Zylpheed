@@ -1,8 +1,8 @@
 EXTRA_DIST = \
-	Info-sylpheed.plist \
+	Info-zylpheed.plist \
 	Makefile.am \
 	README.txt \
 	gtkrc \
 	launcher.sh \
-	sylpheed.bundle \
-	sylpheed.icns
+	zylpheed.bundle \
+	zylpheed.icns

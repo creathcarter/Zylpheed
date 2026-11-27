@@ -702,7 +702,8 @@ PrefsAccount *setup_account(void)
 	setupac.dialog = dialog;
 
 	setupac.prev_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_GO_BACK, GTK_RESPONSE_REJECT);
-	setupac.next_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_GO_FORWARD, GTK_RESPONSE_ACCEPT);
+	/* "Next", as in GtkAssistant; the translation comes from GTK */
+	setupac.next_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), g_dgettext("gtk30", "_Next"), GTK_RESPONSE_ACCEPT);
 	setupac.cancel_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
 	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);

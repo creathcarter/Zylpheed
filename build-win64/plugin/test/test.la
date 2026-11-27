@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/sylpheed/plugins'
+libdir='/c/_projects/code/sylpheed/Zylpheed/build-win64/dist/lib/zylpheed/plugins'

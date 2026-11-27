@@ -36,7 +36,7 @@ export PANGO_RC_FILE="$bundle_etc/pango/pangorc"
 export PANGO_LIBDIR="$bundle_lib"
 export PANGO_SYSCONFDIR="$bundle_etc"
 
-APP=sylpheed
+APP=zylpheed
 I18NDIR="$bundle_data/locale"
 # Set the locale-related variables appropriately:
 unset LANG LC_MESSAGES LC_MONETARY LC_COLLATE

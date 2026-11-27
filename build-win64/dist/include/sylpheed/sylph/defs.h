@@ -41,9 +41,9 @@
 #define TRASH_DIR		"trash"
 #define JUNK_DIR		"junk"
 #if defined(G_OS_WIN32) || defined(__APPLE__)
-#  define RC_DIR		"Sylpheed"
+#  define RC_DIR		"Zylpheed"
 #else
-#  define RC_DIR		".sylpheed-2.0"
+#  define RC_DIR		".zylpheed"
 #endif
 #define OLD_RC_DIR		".sylpheed"
 #define NEWS_CACHE_DIR		"newscache"
@@ -81,7 +81,7 @@
 #define SEARCH_CACHE_VERSION	1
 
 #ifdef G_OS_WIN32
-#  define REMOTE_CMD_PORT	50215
+#  define REMOTE_CMD_PORT	50225
 #endif
 
 #ifdef G_OS_WIN32

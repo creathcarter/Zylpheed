@@ -940,7 +940,7 @@ MainWindow *main_window_create(SeparateType type)
 		gtk_window_set_default_size(GTK_WINDOW(window),
 					    prefs_common.mainwin_width,
 					    prefs_common.mainwin_height);
-	gtk_window_set_wmclass(GTK_WINDOW(window), "main_window", "Sylpheed");
+	gtk_window_set_wmclass(GTK_WINDOW(window), "main_window", "Zylpheed");
 	gtk_widget_add_events(window, GDK_VISIBILITY_NOTIFY_MASK);
 	g_signal_connect(G_OBJECT(window), "key_press_event",
 			 G_CALLBACK(main_window_key_pressed), mainwin);
@@ -2371,7 +2371,7 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 		gtk_window_set_title(GTK_WINDOW(folderwin),
 				     _("Sylpheed - Folder View"));
 		gtk_window_set_wmclass(GTK_WINDOW(folderwin),
-				       "folder_view", "Sylpheed");
+				       "folder_view", "Zylpheed");
 		gtk_window_set_resizable(GTK_WINDOW(folderwin), TRUE);
 		gtk_window_set_default_size(GTK_WINDOW(folderwin),
 					    prefs_common.folderview_width,
@@ -2393,7 +2393,7 @@ static void main_window_set_widgets(MainWindow *mainwin, LayoutType layout,
 		gtk_window_set_title(GTK_WINDOW(messagewin),
 				     _("Sylpheed - Message View"));
 		gtk_window_set_wmclass(GTK_WINDOW(messagewin),
-				       "message_view", "Sylpheed");
+				       "message_view", "Zylpheed");
 		gtk_window_set_resizable(GTK_WINDOW(messagewin), TRUE);
 		gtk_window_set_default_size(GTK_WINDOW(messagewin),
 					    use_vlayout

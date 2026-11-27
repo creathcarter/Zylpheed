@@ -122,7 +122,7 @@ gint notification_window_open(const gchar *message, const gchar *submessage,
 
 	window = gtk_window_new(GTK_WINDOW_POPUP);
 	gtk_window_set_title(GTK_WINDOW(window), _("Notification"));
-	gtk_window_set_wmclass(GTK_WINDOW(window), "notification", "Sylpheed");
+	gtk_window_set_wmclass(GTK_WINDOW(window), "notification", "Zylpheed");
 	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
 	gtk_widget_set_events(window, GDK_EXPOSURE_MASK|GDK_BUTTON_MOTION_MASK|GDK_POINTER_MOTION_MASK|GDK_POINTER_MOTION_HINT_MASK|GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK|GDK_ENTER_NOTIFY_MASK|GDK_LEAVE_NOTIFY_MASK);
 	gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), TRUE);

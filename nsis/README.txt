@@ -1,11 +1,11 @@
-NSIS scripts for Sylpheed installer (64-bit Windows, GTK 3)
+NSIS scripts for Zylpheed installer (64-bit Windows, GTK 3)
 ===========================================================
 
-The installer packages a self-contained Sylpheed folder (program, all DLLs,
+The installer packages a self-contained Zylpheed folder (program, all DLLs,
 GTK 3 run-time data, plug-ins). Both steps run in MSYS2 (UCRT64); see
 BUILD-WIN64.md in the top directory for the build itself.
 
-1. Build and install Sylpheed (BUILD-WIN64.md, section 5):
+1. Build and install Zylpheed (BUILD-WIN64.md, section 5):
 
      cd build-win64 && make && make install
 
@@ -22,14 +22,14 @@ BUILD-WIN64.md in the top directory for the build itself.
 
      pacman -S mingw-w64-ucrt-x86_64-nsis
 
-   No third-party NSIS plug-ins are needed for sylpheed.nsi.
+   No third-party NSIS plug-ins are needed for zylpheed.nsi.
 
 4. Build the installer:
 
      nsis/make-installer-win64.sh <dist folder> [<output folder>] [-D...]
 
    or, from cmd.exe, "compile.bat <dist folder> [<output folder>]".
-   The result is Sylpheed-<version>-x64_setup.exe. The script generates the
+   The result is Zylpheed-<version>-x64_setup.exe. The script generates the
    uninstaller's file list from the dist folder, so the uninstaller removes
    exactly the files it installed.
 
@@ -40,18 +40,25 @@ BUILD-WIN64.md in the top directory for the build itself.
 
 Differences from the official 32-bit installer:
 
+- Product name Zylpheed: installs to Program Files\Zylpheed, uninstall entry
+  "Zylpheed <version>", start menu folder Zylpheed, App Paths zylpheed.exe,
+  ProgIDs Zylpheed.EML and Zylpheed.Url.MailTo, Clients\Mail\Zylpheed.
+  Nothing of an installed Sylpheed (keys, files, shortcuts, profile) is read,
+  changed or removed; both can be installed side by side.
 - 64-bit only: Program Files (not "Program Files (x86)"), 64-bit registry
-  view, uninstall entry "Sylpheed <version> (64-bit)". A 32-bit Sylpheed is
-  detected and left installed (warning only); both use the same profile.
+  view.
 - Files come from the dist folder recursively instead of per-DLL lists.
-- "Sylpheed is running" is detected through Sylpheed's own single-instance
-  mutex (System plug-in) instead of the nsProcess plug-in; the uninstaller
-  asks the user to quit Sylpheed instead of killing it.
+- "Zylpheed is running" is detected through Zylpheed's own single-instance
+  mutex "Zylpheed" (System plug-in) instead of the nsProcess plug-in; the
+  uninstaller asks the user to quit Zylpheed instead of killing it.
 - Dropped: Quick Launch shortcut (no Quick Launch in Windows 10/11), writing
-  the UserChoice keys for mailto:/.eml (protected since Windows 8; choose
-  Sylpheed in Settings > Apps > Default apps), README-win32*.txt.
+  the UserChoice keys for mailto:/.eml (protected since Windows 8), and
+  writing the shared keys Software\Classes\mailto, Software\Classes\.eml and
+  the HKCU Software\Clients\Mail default (they may belong to another mail
+  client); choose Zylpheed in Settings > Apps > Default apps. Also dropped:
+  README-win32*.txt.
 - Optional, off unless their folders are provided: sylfilter
   (-DHAVE_SYLFILTER, folder sylfilter\), bsfilter (-DHAVE_BSFILTER, folder
-  bsfilter\), autoenc (-DHAVE_AUTOENC_PLUGIN), Sylpheed Pro (-DSYLPHEED_PRO).
+  bsfilter\), autoenc (-DHAVE_AUTOENC_PLUGIN).
 - plugin-updater.nsi and update-manager.nsi (helpers for the official update
   service) are not built; they need the nsisunz and nsProcess plug-ins.

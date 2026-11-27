@@ -530,7 +530,7 @@ configure:7032: $? = 0
 configure:7046: result: none needed
 configure:7062: checking for library containing yywrap
 configure:7098: gcc -o conftest.exe -g -O2 -std=gnu17  -D__EXTERN_C__=1  conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccQeIeUy.o: in function `main':
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccwJhDWx.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:24:(.text.startup+0xa): undefined reference to `yywrap'
 collect2.exe: error: ld returned 1 exit status
 configure:7098: $? = 1
@@ -916,7 +916,7 @@ configure:17546: checking for the common suffixes of directories in the library 
 configure:17623: result: lib,lib,lib
 configure:18155: checking for iconv
 configure:18180: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccswULJQ.o: in function `main':
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cc6wE9G2.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:29:(.text.startup+0x15): undefined reference to `libiconv_open'
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:30:(.text.startup+0x31): undefined reference to `libiconv'
 C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:31:(.text.startup+0x39): undefined reference to `libiconv_close'
@@ -974,7 +974,7 @@ configure:18432: $? = 0
 configure:18443: result: yes
 configure:18473: checking for bind_textdomain_codeset
 configure:18473: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccyOeQGb.o: in function `main':
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccWdNOHc.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:51:(.text.startup+0xa): undefined reference to `bind_textdomain_codeset'
 collect2.exe: error: ld returned 1 exit status
 configure:18473: $? = 1
@@ -1069,7 +1069,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | /* end confdefs.h.  */
 | #include <locale.h>
@@ -1111,7 +1111,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | /* end confdefs.h.  */
 | #include <CoreFoundation/CFPreferences.h>
@@ -1153,7 +1153,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | /* end confdefs.h.  */
 | #include <CoreFoundation/CFLocale.h>
@@ -1171,7 +1171,7 @@ configure:18626: $? = 0
 configure:18626: result: yes
 configure:18635: checking for ngettext in libc
 configure:18654: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows   conftest.c  >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccWHxEEv.o: in function `main':
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cc0elJU8.o: in function `main':
 C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:32:(.text.startup+0x1a): undefined reference to `libintl_ngettext'
 collect2.exe: error: ld returned 1 exit status
 configure:18654: $? = 1
@@ -1198,7 +1198,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | /* end confdefs.h.  */
 | 
@@ -1325,7 +1325,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1385,7 +1385,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1445,7 +1445,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1505,7 +1505,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1548,13 +1548,13 @@ configure:20857: result: yes
 configure:20903: checking whether struct dirent has d_type member
 configure:20921: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:44:19: error: 'struct dirent' has no member named 'd_type'
-   44 | struct dirent d; d.d_type = DT_REG;
+conftest.c:42:19: error: 'struct dirent' has no member named 'd_type'
+   42 | struct dirent d; d.d_type = DT_REG;
       |                   ^
-conftest.c:44:29: error: 'DT_REG' undeclared (first use in this function)
-   44 | struct dirent d; d.d_type = DT_REG;
+conftest.c:42:29: error: 'DT_REG' undeclared (first use in this function)
+   42 | struct dirent d; d.d_type = DT_REG;
       |                             ^~~~~~
-conftest.c:44:29: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:42:29: note: each undeclared identifier is reported only once for each function it appears in
 configure:20921: $? = 1
 configure: failed program was:
 | /* confdefs.h */
@@ -1579,7 +1579,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1593,8 +1593,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | /* end confdefs.h.  */
 | #include <dirent.h>
 | int
@@ -1607,8 +1605,8 @@ configure: failed program was:
 configure:20933: result: no
 configure:20941: checking for lockfile.h
 configure:20941: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:68:10: fatal error: lockfile.h: No such file or directory
-   68 | #include <lockfile.h>
+conftest.c:66:10: fatal error: lockfile.h: No such file or directory
+   66 | #include <lockfile.h>
       |          ^~~~~~~~~~~~
 compilation terminated.
 configure:20941: $? = 1
@@ -1635,7 +1633,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1649,8 +1647,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | /* end confdefs.h.  */
 | #include <stddef.h>
 | #ifdef HAVE_STDIO_H
@@ -1710,7 +1706,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1724,8 +1720,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | /* end confdefs.h.  */
 | 
 | /* Override any GCC internal prototype to avoid an error.
@@ -1758,8 +1752,8 @@ configure:21189: checking for egrep
 configure:21259: result: /usr/bin/grep -E
 configure:21267: checking for sys/wait.h that is POSIX.1 compatible
 configure:21294: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:42:10: fatal error: sys/wait.h: No such file or directory
-   42 | #include <sys/wait.h>
+conftest.c:40:10: fatal error: sys/wait.h: No such file or directory
+   40 | #include <sys/wait.h>
       |          ^~~~~~~~~~~~
 compilation terminated.
 configure:21294: $? = 1
@@ -1786,7 +1780,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1800,8 +1794,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | /* end confdefs.h.  */
 | #include <sys/types.h>
@@ -1835,8 +1827,8 @@ configure:21315: checking for unistd.h
 configure:21315: result: yes
 configure:21315: checking for paths.h
 configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:72:10: fatal error: paths.h: No such file or directory
-   72 | #include <paths.h>
+conftest.c:70:10: fatal error: paths.h: No such file or directory
+   70 | #include <paths.h>
       |          ^~~~~~~~~
 compilation terminated.
 configure:21315: $? = 1
@@ -1863,7 +1855,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1877,8 +1869,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -1916,8 +1906,8 @@ configure: failed program was:
 configure:21315: result: no
 configure:21315: checking for  sys/param.h
 configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:72:10: fatal error:  sys/param.h: No such file or directory
-   72 | #include < sys/param.h>
+conftest.c:70:10: fatal error:  sys/param.h: No such file or directory
+   70 | #include < sys/param.h>
       |          ^~~~~~~~~~~~~~
 compilation terminated.
 configure:21315: $? = 1
@@ -1944,7 +1934,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -1958,8 +1948,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -1997,8 +1985,8 @@ configure: failed program was:
 configure:21315: result: no
 configure:21315: checking for sys/utsname.h
 configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:72:10: fatal error: sys/utsname.h: No such file or directory
-   72 | #include <sys/utsname.h>
+conftest.c:70:10: fatal error: sys/utsname.h: No such file or directory
+   70 | #include <sys/utsname.h>
       |          ^~~~~~~~~~~~~~~
 compilation terminated.
 configure:21315: $? = 1
@@ -2025,7 +2013,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2039,8 +2027,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2078,8 +2064,8 @@ configure: failed program was:
 configure:21315: result: no
 configure:21315: checking for sys/select.h
 configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:72:10: fatal error: sys/select.h: No such file or directory
-   72 | #include <sys/select.h>
+conftest.c:70:10: fatal error: sys/select.h: No such file or directory
+   70 | #include <sys/select.h>
       |          ^~~~~~~~~~~~~~
 compilation terminated.
 configure:21315: $? = 1
@@ -2106,7 +2092,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2120,8 +2106,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2159,8 +2143,8 @@ configure: failed program was:
 configure:21315: result: no
 configure:21315: checking for  netdb.h
 configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:72:10: fatal error:  netdb.h: No such file or directory
-   72 | #include < netdb.h>
+conftest.c:70:10: fatal error:  netdb.h: No such file or directory
+   70 | #include < netdb.h>
       |          ^~~~~~~~~~
 compilation terminated.
 configure:21315: $? = 1
@@ -2187,7 +2171,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2201,8 +2185,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2244,8 +2226,8 @@ configure:21315: $? = 0
 configure:21315: result: yes
 configure:21315: checking for sys/mman.h
 configure:21315: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:73:10: fatal error: sys/mman.h: No such file or directory
-   73 | #include <sys/mman.h>
+conftest.c:71:10: fatal error: sys/mman.h: No such file or directory
+   71 | #include <sys/mman.h>
       |          ^~~~~~~~~~~~
 compilation terminated.
 configure:21315: $? = 1
@@ -2272,7 +2254,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2286,8 +2268,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2333,8 +2313,8 @@ configure:21408: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/
 configure:21408: $? = 0
 configure:21408: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:76:20: error: expected expression before ')' token
-   76 | if (sizeof ((off_t)))
+conftest.c:74:20: error: expected expression before ')' token
+   74 | if (sizeof ((off_t)))
       |                    ^
 configure:21408: $? = 1
 configure: failed program was:
@@ -2360,7 +2340,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2374,8 +2354,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2424,8 +2402,8 @@ configure:21420: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/
 configure:21420: $? = 0
 configure:21420: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:77:20: error: expected expression before ')' token
-   77 | if (sizeof ((pid_t)))
+conftest.c:75:20: error: expected expression before ')' token
+   75 | if (sizeof ((pid_t)))
       |                    ^
 configure:21420: $? = 1
 configure: failed program was:
@@ -2451,7 +2429,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2465,8 +2443,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2516,8 +2492,8 @@ configure:21458: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/
 configure:21458: $? = 0
 configure:21458: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:76:21: error: expected expression before ')' token
-   76 | if (sizeof ((size_t)))
+conftest.c:74:21: error: expected expression before ')' token
+   74 | if (sizeof ((size_t)))
       |                     ^
 configure:21458: $? = 1
 configure: failed program was:
@@ -2543,7 +2519,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2557,8 +2533,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2608,32 +2582,32 @@ configure:21490: $? = 0
 configure:21500: result: time.h
 configure:21516: checking for gcc option to support large files
 configure:21551: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
-conftest.c:53:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+conftest.c:51:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   51 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                       ^~
-conftest.c:54:23: note: in expansion of macro 'LARGE_FTYPE'
-   54 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
+conftest.c:52:23: note: in expansion of macro 'LARGE_FTYPE'
+   52 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
       |                       ^~~~~~~~~~~
-conftest.c:53:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+conftest.c:51:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   51 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                                                     ^~
-conftest.c:54:23: note: in expansion of macro 'LARGE_FTYPE'
-   54 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
+conftest.c:52:23: note: in expansion of macro 'LARGE_FTYPE'
+   52 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
       |                       ^~~~~~~~~~~
-conftest.c:53:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+conftest.c:51:39: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   51 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                       ^~
-conftest.c:55:27: note: in expansion of macro 'LARGE_FTYPE'
-   55 |                        && LARGE_FTYPE % 2147483647 == 1)
+conftest.c:53:27: note: in expansion of macro 'LARGE_FTYPE'
+   53 |                        && LARGE_FTYPE % 2147483647 == 1)
       |                           ^~~~~~~~~~~
-conftest.c:53:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
-   53 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+conftest.c:51:69: warning: result of '-2147483648 << 31' requires 63 bits to represent, but 'long int' only has 32 bits [-Wshift-overflow=]
+   51 | #define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
       |                                                                     ^~
-conftest.c:55:27: note: in expansion of macro 'LARGE_FTYPE'
-   55 |                        && LARGE_FTYPE % 2147483647 == 1)
+conftest.c:53:27: note: in expansion of macro 'LARGE_FTYPE'
+   53 |                        && LARGE_FTYPE % 2147483647 == 1)
       |                           ^~~~~~~~~~~
-conftest.c:54:7: error: variably modified 'FTYPE_is_large' at file scope
-   54 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
+conftest.c:52:7: error: variably modified 'FTYPE_is_large' at file scope
+   52 |   int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
       |       ^~~~~~~~~~~~~~
 configure:21551: $? = 1
 configure: failed program was:
@@ -2659,7 +2633,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2673,8 +2647,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2710,10 +2682,10 @@ configure:21761: result: yes
 configure:21777: checking for u32 typedef
 configure:21798: gcc -c -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include  conftest.c >&5
 conftest.c: In function 'main':
-conftest.c:54:20: error: 'u32' undeclared (first use in this function)
-   54 |     int a = sizeof(u32);
+conftest.c:52:20: error: 'u32' undeclared (first use in this function)
+   52 |     int a = sizeof(u32);
       |                    ^~~
-conftest.c:54:20: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:52:20: note: each undeclared identifier is reported only once for each function it appears in
 configure:21798: $? = 1
 configure: failed program was:
 | /* confdefs.h */
@@ -2738,7 +2710,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2752,8 +2724,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2807,8 +2777,8 @@ configure:21939: $? = 0
 configure:21949: result: 8
 configure:21966: checking for working alloca.h
 configure:21984: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:53:10: fatal error: alloca.h: No such file or directory
-   53 | #include <alloca.h>
+conftest.c:51:10: fatal error: alloca.h: No such file or directory
+   51 | #include <alloca.h>
       |          ^~~~~~~~~~
 compilation terminated.
 configure:21984: $? = 1
@@ -2835,7 +2805,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2849,8 +2819,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2881,8 +2849,8 @@ configure:22039: $? = 0
 configure:22048: result: yes
 configure:22121: checking for gethostname
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccgM45OC.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:81:(.text.startup+0xa): undefined reference to `gethostname'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccGE3YwS.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:79:(.text.startup+0xa): undefined reference to `gethostname'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -2908,7 +2876,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -2922,8 +2890,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -2981,8 +2947,8 @@ configure:22121: $? = 0
 configure:22121: result: yes
 configure:22121: checking for socket
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cciGbeXu.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:83:(.text.startup+0xa): undefined reference to `socket'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccgaj4ph.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:81:(.text.startup+0xa): undefined reference to `socket'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3008,7 +2974,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3022,8 +2988,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3075,28 +3039,28 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for strstr
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:72:6: warning: conflicting types for built-in function 'strstr'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
-   72 | char strstr (void);
+conftest.c:70:6: warning: conflicting types for built-in function 'strstr'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+   70 | char strstr (void);
       |      ^~~~~~
-conftest.c:64:1: note: 'strstr' is declared in header '<string.h>'
-   63 | #include <limits.h>
-   64 | #undef strstr
+conftest.c:62:1: note: 'strstr' is declared in header '<string.h>'
+   61 | #include <limits.h>
+   62 | #undef strstr
 configure:22121: $? = 0
 configure:22121: result: yes
 configure:22121: checking for strchr
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:73:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
-   73 | char strchr (void);
+conftest.c:71:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
+   71 | char strchr (void);
       |      ^~~~~~
-conftest.c:65:1: note: 'strchr' is declared in header '<string.h>'
-   64 | #include <limits.h>
-   65 | #undef strchr
+conftest.c:63:1: note: 'strchr' is declared in header '<string.h>'
+   62 | #include <limits.h>
+   63 | #undef strchr
 configure:22121: $? = 0
 configure:22121: result: yes
 configure:22121: checking for  uname
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:78:21: error: missing binary operator before token 'uname'
-   78 | #if defined __stub_ uname || defined __stub___ uname
+conftest.c:76:21: error: missing binary operator before token 'uname'
+   76 | #if defined __stub_ uname || defined __stub___ uname
       |                     ^~~~~
 configure:22121: $? = 1
 configure: failed program was:
@@ -3122,7 +3086,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3136,8 +3100,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3191,8 +3153,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for flock
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccClEuZy.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `flock'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cckkxy86.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:83:(.text.startup+0xa): undefined reference to `flock'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3218,7 +3180,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3232,8 +3194,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3287,8 +3247,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for lockf
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccmtaJ04.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `lockf'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cc8ug9ud.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:83:(.text.startup+0xa): undefined reference to `lockf'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3314,7 +3274,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3328,8 +3288,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3383,8 +3341,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for inet_aton
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccg3oRzo.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `inet_aton'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccUju0YJ.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:83:(.text.startup+0xa): undefined reference to `inet_aton'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3410,7 +3368,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3424,8 +3382,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3479,8 +3435,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for inet_addr
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\cc8kmdNY.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:85:(.text.startup+0xa): undefined reference to `inet_addr'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccC8aVB6.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:83:(.text.startup+0xa): undefined reference to `inet_addr'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3506,7 +3462,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3520,8 +3476,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3575,8 +3529,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for  fchmod
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-conftest.c:78:21: error: missing binary operator before token 'fchmod'
-   78 | #if defined __stub_ fchmod || defined __stub___ fchmod
+conftest.c:76:21: error: missing binary operator before token 'fchmod'
+   76 | #if defined __stub_ fchmod || defined __stub___ fchmod
       |                     ^~~~~~
 configure:22121: $? = 1
 configure: failed program was:
@@ -3602,7 +3556,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3616,8 +3570,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3675,8 +3627,8 @@ configure:22121: $? = 0
 configure:22121: result: yes
 configure:22121: checking for getuid
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccaSsBkc.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `getuid'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccULufr7.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `getuid'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3702,7 +3654,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3716,8 +3668,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3772,8 +3722,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for regcomp
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccGN65kk.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `regcomp'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccl74gDl.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `regcomp'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3799,7 +3749,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3813,8 +3763,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3869,8 +3817,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for mlock
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccccD5fT.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `mlock'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccYGR1Ey.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `mlock'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3896,7 +3844,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -3910,8 +3858,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -3966,8 +3912,8 @@ configure: failed program was:
 configure:22121: result: no
 configure:22121: checking for fsync
 configure:22121: gcc -o conftest.exe -g -O2 -std=gnu17 -mms-bitfields -mwindows  -IC:/msys64/ucrt64/include -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include   conftest.c -lcompface  -lssl -lcrypto -LC:/msys64/ucrt64/lib -lonig -lgthread-2.0 -lglib-2.0 -lintl >&5
-C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccYegyNt.o: in function `main':
-C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:86:(.text.startup+0xa): undefined reference to `fsync'
+C:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\msys64\tmp\ccmrTplV.o: in function `main':
+C:/_projects/code/sylpheed/Zylpheed/build-win64/conftest.c:84:(.text.startup+0xa): undefined reference to `fsync'
 collect2.exe: error: ld returned 1 exit status
 configure:22121: $? = 1
 configure: failed program was:
@@ -3993,7 +3939,7 @@ configure: failed program was:
 | #define LT_OBJDIR ".libs/"
 | #define HAVE_ICONV 1
 | #define ICONV_CONST 
-| #define GETTEXT_PACKAGE "sylpheed"
+| #define GETTEXT_PACKAGE "zylpheed"
 | #define HAVE_LOCALE_H 1
 | #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 | #define HAVE_GETTEXT 1
@@ -4007,8 +3953,6 @@ configure: failed program was:
 | #define USE_ONIGURUMA 1
 | #define USE_THREADS 1
 | #define INET6 1
-| #define USE_UPDATE_CHECK 1
-| #define USE_UPDATE_CHECK_PLUGIN 1
 | #define HAVE_DIRENT_H 1
 | #define HAVE_FCNTL_H 1
 | #define HAVE_SYS_FILE_H 1
@@ -4080,47 +4024,47 @@ generated by GNU Autoconf 2.73.  Invocation command line was
 
 on nomadAtelier
 
-config.status:1239: creating Makefile
-config.status:1239: creating sylpheed.spec
-config.status:1239: creating ac/Makefile
-config.status:1239: creating libsylph/Makefile
-config.status:1239: creating src/version.h
-config.status:1239: creating src/sylpheed.rc
-config.status:1239: creating src/Makefile
-config.status:1239: creating src/icons/Makefile
-config.status:1239: creating plugin/Makefile
-config.status:1239: creating plugin/attachment_tool/Makefile
-config.status:1239: creating plugin/test/Makefile
-config.status:1239: creating po/Makefile.in
-config.status:1239: creating faq/Makefile
-config.status:1239: creating faq/de/Makefile
-config.status:1239: creating faq/en/Makefile
-config.status:1239: creating faq/es/Makefile
-config.status:1239: creating faq/fr/Makefile
-config.status:1239: creating faq/it/Makefile
-config.status:1239: creating manual/Makefile
-config.status:1239: creating manual/en/Makefile
-config.status:1239: creating manual/ja/Makefile
-config.status:1239: creating nsis/Makefile
-config.status:1239: creating macosx/Makefile
-config.status:1239: creating macosx/bundle/Makefile
-config.status:1239: creating config.h
-config.status:1405: config.h is unchanged
-config.status:1453: executing depfiles commands
-config.status:1528: cd libsylph       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1237: creating Makefile
+config.status:1237: creating zylpheed.spec
+config.status:1237: creating ac/Makefile
+config.status:1237: creating libsylph/Makefile
+config.status:1237: creating src/version.h
+config.status:1237: creating src/zylpheed.rc
+config.status:1237: creating src/Makefile
+config.status:1237: creating src/icons/Makefile
+config.status:1237: creating plugin/Makefile
+config.status:1237: creating plugin/attachment_tool/Makefile
+config.status:1237: creating plugin/test/Makefile
+config.status:1237: creating po/Makefile.in
+config.status:1237: creating faq/Makefile
+config.status:1237: creating faq/de/Makefile
+config.status:1237: creating faq/en/Makefile
+config.status:1237: creating faq/es/Makefile
+config.status:1237: creating faq/fr/Makefile
+config.status:1237: creating faq/it/Makefile
+config.status:1237: creating manual/Makefile
+config.status:1237: creating manual/en/Makefile
+config.status:1237: creating manual/ja/Makefile
+config.status:1237: creating nsis/Makefile
+config.status:1237: creating macosx/Makefile
+config.status:1237: creating macosx/bundle/Makefile
+config.status:1237: creating config.h
+config.status:1403: config.h is unchanged
+config.status:1451: executing depfiles commands
+config.status:1526: cd libsylph       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1535: $? = 0
-config.status:1528: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1533: $? = 0
+config.status:1526: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1535: $? = 0
-config.status:1528: cd plugin/attachment_tool       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1533: $? = 0
+config.status:1526: cd plugin/attachment_tool       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1535: $? = 0
-config.status:1528: cd plugin/test       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1533: $? = 0
+config.status:1526: cd plugin/test       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1535: $? = 0
-config.status:1453: executing libtool commands
-config.status:1453: executing default-1 commands
+config.status:1533: $? = 0
+config.status:1451: executing libtool commands
+config.status:1451: executing default-1 commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -4139,8 +4083,7 @@ ac_cv_enable_ldap=no
 ac_cv_enable_libcurl=yes
 ac_cv_enable_oniguruma=yes
 ac_cv_enable_ssl=yes
-ac_cv_enable_updatecheck=yes
-ac_cv_enable_updatecheckplugin=yes
+ac_cv_enable_updatecheck=no
 ac_cv_env_CC_set=
 ac_cv_env_CC_value=
 ac_cv_env_CFLAGS_set=
@@ -4422,10 +4365,10 @@ ECHO_T=''
 EGREP='/usr/bin/grep -E'
 ETAGS='etags'
 EXEEXT='.exe'
-EXTRA_VERSION='beta1'
+EXTRA_VERSION=''
 FGREP='/usr/bin/grep -F'
 FILECMD='file'
-GETTEXT_PACKAGE='sylpheed'
+GETTEXT_PACKAGE='zylpheed'
 GLIB_CFLAGS='-IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include'
 GLIB_COMPILE_RESOURCES='C:/msys64/ucrt64/bin/glib-compile-resources'
 GLIB_GENMARSHAL='C:/msys64/ucrt64/bin/glib-genmarshal.exe'
@@ -4468,17 +4411,17 @@ LTLIBICONV='-liconv'
 LTLIBOBJS=''
 LT_AGE='0'
 LT_CURRENT='6'
-LT_RELEASE='3.8'
+LT_RELEASE='0.1'
 LT_REVISION='0'
 LT_SYS_LIBRARY_PATH=''
 MAINT='#'
 MAINTAINER_MODE_FALSE=''
 MAINTAINER_MODE_TRUE='#'
-MAJOR_VERSION='3'
+MAJOR_VERSION='0'
 MAKEINFO='${SHELL} '\''/c/_projects/code/sylpheed/Zylpheed/missing'\'' makeinfo'
 MANIFEST_TOOL=':'
 MICRO_VERSION='0'
-MINOR_VERSION='8'
+MINOR_VERSION='1'
 MKDIR_P='/usr/bin/mkdir -p'
 MKINSTALLDIRS='..//mkinstalldirs'
 MSGFMT='/ucrt64/bin/msgfmt'
@@ -4493,7 +4436,7 @@ OPENSSL_CFLAGS=''
 OPENSSL_LIBS='-lssl -lcrypto'
 OTOOL64=''
 OTOOL=''
-PACKAGE='sylpheed'
+PACKAGE='zylpheed'
 PACKAGE_BUGREPORT=''
 PACKAGE_NAME=''
 PACKAGE_STRING=''
@@ -4515,7 +4458,7 @@ SHELL='/bin/sh'
 STRIP='strip'
 SYLPHEED_LIBS='-lole32 -Wl,-luuid'
 USE_NLS='yes'
-VERSION='3.8.0beta1'
+VERSION='0.1.0'
 WINDRES='windres'
 XGETTEXT='/ucrt64/bin/xgettext'
 YACC='bison -y'
@@ -4607,7 +4550,7 @@ themedir='share/icons'
 #define LT_OBJDIR ".libs/"
 #define HAVE_ICONV 1
 #define ICONV_CONST 
-#define GETTEXT_PACKAGE "sylpheed"
+#define GETTEXT_PACKAGE "zylpheed"
 #define HAVE_LOCALE_H 1
 #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 #define HAVE_GETTEXT 1
@@ -4621,8 +4564,6 @@ themedir='share/icons'
 #define USE_ONIGURUMA 1
 #define USE_THREADS 1
 #define INET6 1
-#define USE_UPDATE_CHECK 1
-#define USE_UPDATE_CHECK_PLUGIN 1
 #define HAVE_DIRENT_H 1
 #define HAVE_FCNTL_H 1
 #define HAVE_SYS_FILE_H 1
@@ -4644,3 +4585,54 @@ themedir='share/icons'
 #define HAVE_TRUNCATE 1
 
 configure: exit 
+
+## ---------------------- ##
+## Running config.status. ##
+## ---------------------- ##
+
+This file was extended by config.status, which was
+generated by GNU Autoconf 2.73.  Invocation command line was
+
+  CONFIG_FILES    = 
+  CONFIG_HEADERS  = 
+  CONFIG_LINKS    = 
+  CONFIG_COMMANDS = 
+  $ ./config.status src/icons/Makefile
+
+on nomadAtelier
+
+config.status:1237: creating src/icons/Makefile
+
+## ---------------------- ##
+## Running config.status. ##
+## ---------------------- ##
+
+This file was extended by config.status, which was
+generated by GNU Autoconf 2.73.  Invocation command line was
+
+  CONFIG_FILES    = 
+  CONFIG_HEADERS  = 
+  CONFIG_LINKS    = 
+  CONFIG_COMMANDS = 
+  $ ./config.status src/icons/Makefile
+
+on nomadAtelier
+
+config.status:1237: creating src/icons/Makefile
+
+## ---------------------- ##
+## Running config.status. ##
+## ---------------------- ##
+
+This file was extended by config.status, which was
+generated by GNU Autoconf 2.73.  Invocation command line was
+
+  CONFIG_FILES    = 
+  CONFIG_HEADERS  = 
+  CONFIG_LINKS    = 
+  CONFIG_COMMANDS = 
+  $ ./config.status src/zylpheed.rc
+
+on nomadAtelier
+
+config.status:1237: creating src/zylpheed.rc

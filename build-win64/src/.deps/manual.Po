@@ -122,8 +122,9 @@ manual.o: ../../src/manual.c ../config.h ../../libsylph/defs.h \
  C:/msys64/ucrt64/include/corecrt_wstdio.h \
  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
  C:/msys64/ucrt64/include/_mingw_off_t.h ../../src/manual.h \
- ../../libsylph/utils.h C:/msys64/ucrt64/include/unistd.h \
- C:/msys64/ucrt64/include/io.h C:/msys64/ucrt64/include/corecrt_wio.h \
+ ../../src/alertpanel.h ../../libsylph/utils.h \
+ C:/msys64/ucrt64/include/unistd.h C:/msys64/ucrt64/include/io.h \
+ C:/msys64/ucrt64/include/corecrt_wio.h \
  C:/msys64/ucrt64/include/process.h \
  C:/msys64/ucrt64/include/corecrt_startup.h \
  C:/msys64/ucrt64/include/corecrt_wprocess.h \
@@ -266,6 +267,7 @@ C:/msys64/ucrt64/include/corecrt_wstdio.h:
 C:/msys64/ucrt64/include/corecrt_stdio_config.h:
 C:/msys64/ucrt64/include/_mingw_off_t.h:
 ../../src/manual.h:
+../../src/alertpanel.h:
 ../../libsylph/utils.h:
 C:/msys64/ucrt64/include/unistd.h:
 C:/msys64/ucrt64/include/io.h:

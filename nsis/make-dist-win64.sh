@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# make-dist-win64.sh - assemble a self-contained, relocatable Sylpheed folder
+# make-dist-win64.sh - assemble a self-contained, relocatable Zylpheed folder
 # for 64-bit Windows from an MSYS2 UCRT64 build.
 #
 # Run from an MSYS2 UCRT64 shell after "make" and "make install" in the build
@@ -10,31 +10,33 @@
 #
 #   BUILD_DIR  configured build directory (default: build-win64 in the source
 #              tree); its "make install" prefix must be BUILD_DIR/dist.
-#   DEST_DIR   output folder (default: BUILD_DIR/Sylpheed). It is deleted and
+#   DEST_DIR   output folder (default: BUILD_DIR/Zylpheed). It is deleted and
 #              recreated.
 #
 # Layout of the result (everything relative, nothing refers to MSYS2):
 #
-#   sylpheed.exe, syl-auth-helper.exe, every DLL they need (found by walking
+#   zylpheed.exe, zyl-auth-helper.exe, every DLL they need (found by walking
 #   the PE import tables recursively), gspawn-win64-helper*.exe,
 #   gpgme-w32spawn.exe, curl.exe
-#   plugins\                 in-tree plug-ins (attachment_tool, test)
+#   plugins\                 in-tree plug-ins (attachment_tool; also the
+#                            "test" demo plug-in with WITH_TEST_PLUGIN=1)
+#   zylpheed.ini             makes the folder portable: the profile is
+#                            kept in profiles\ beside zylpheed.exe
 #   etc\gtk-3.0\settings.ini GTK defaults for Windows
 #   etc\ssl\certs\certs.crt  CA bundle (read by libsylph/ssl.c and
-#                            syl-auth-helper.exe)
+#                            zyl-auth-helper.exe)
 #   lib\gdk-pixbuf-2.0\      image loaders + loaders.cache (relative paths)
 #   lib\enchant-2\           spell checker providers (winspell, hunspell)
 #   share\glib-2.0\schemas\  compiled GSettings schemas (GTK file chooser etc.)
 #   share\icons\             Adwaita, AdwaitaLegacy, hicolor (also THEMEDIR)
-#   share\locale\            Sylpheed + GTK/GLib/gtkspell/iso-codes catalogs
-#   share\sylpheed\          manual and FAQ
+#   share\locale\            Zylpheed + GTK/GLib/gtkspell/iso-codes catalogs
 #   share\xml\iso-codes\     language/country names for gtkspell
-#   doc\                     Sylpheed licence and the licences of the bundled
+#   doc\                     Zylpheed licence and the licences of the bundled
 #                            MSYS2 packages, plus PACKAGES.txt (versions)
 #
 # GTK, GLib, gdk-pixbuf, enchant and fontconfig find their data relative to
 # the directory of their DLL (a trailing "bin" is stripped), so DLLs live next
-# to sylpheed.exe and the data directories are siblings, as in the official
+# to zylpheed.exe and the data directories are siblings, as in the official
 # Sylpheed for Windows layout.
 
 set -e
@@ -43,7 +45,7 @@ set -o pipefail
 SRCDIR=$(cd "$(dirname "$0")/.." && pwd)
 BUILD=${1:-$SRCDIR/build-win64}
 BUILD=$(cd "$BUILD" && pwd)
-DEST=${2:-$BUILD/Sylpheed}
+DEST=${2:-$BUILD/Zylpheed}
 PREFIX=$BUILD/dist
 MINGW=${MINGW_PREFIX:-/ucrt64}
 OBJDUMP=$MINGW/bin/objdump.exe
@@ -53,7 +55,7 @@ die() { echo "make-dist-win64: $*" >&2; exit 1; }
 note() { echo "make-dist-win64: $*"; }
 
 [ "$MSYSTEM" = UCRT64 ] || note "warning: MSYSTEM is '$MSYSTEM', expected UCRT64"
-[ -x "$PREFIX/bin/sylpheed.exe" ] || die "$PREFIX/bin/sylpheed.exe not found; run make install first"
+[ -x "$PREFIX/bin/zylpheed.exe" ] || die "$PREFIX/bin/zylpheed.exe not found; run make install first"
 [ -x "$OBJDUMP" ] || die "$OBJDUMP not found (install $MINGW_PACKAGE_PREFIX-binutils)"
 command -v pacman >/dev/null || die "pacman not found; run from an MSYS2 shell"
 
@@ -80,27 +82,30 @@ cp_mingw() {
 }
 
 # ---------------------------------------------------------------------------
-# Sylpheed itself
+# Zylpheed itself
 
-cp "$PREFIX/bin/sylpheed.exe" "$PREFIX/bin/syl-auth-helper.exe" "$DEST/"
+cp "$PREFIX/bin/zylpheed.exe" "$PREFIX/bin/zyl-auth-helper.exe" "$DEST/"
 
 # Plug-ins: "make install" does not install them; take the freshly built
 # DLLs from the build tree. On Windows they are loaded from <configdir>\plugins
-# and from plugins\ beside sylpheed.exe (src/main.c, plugin_init()).
+# and from plugins\ beside zylpheed.exe (src/main.c, plugin_init()).
 mkdir -p "$DEST/plugins" "$DEST/doc/plugins"
-for p in attachment_tool test; do
+# The "test" plug-in is a developer demo (it pops up a notification at
+# every start and adds demo menus): only with WITH_TEST_PLUGIN=1.
+for p in attachment_tool ${WITH_TEST_PLUGIN:+test}; do
 	dll=$BUILD/plugin/$p/.libs/$p.dll
 	[ -f "$dll" ] || die "$dll not found; run make in $BUILD/plugin/$p"
 	cp "$dll" "$DEST/plugins/"
 	cp "$SRCDIR/plugin/$p/README" "$DEST/doc/plugins/README.$p.txt"
 done
 
-# Message catalogs, manual, FAQ (LOCALEDIR=share/locale is relative).
+# Message catalogs (LOCALEDIR=share/locale is relative). The manual and FAQ
+# that make install puts in share/zylpheed are not shipped; Help > Manual and
+# Help > FAQ open the Sylpheed web site instead.
 mkdir -p "$DEST/share"
 cp -r "$PREFIX/share/locale" "$DEST/share/"
-cp -r "$PREFIX/share/sylpheed" "$DEST/share/"
 
-# Documentation and licence of Sylpheed itself.
+# Documentation and licence of Zylpheed itself.
 mkdir -p "$DEST/doc"
 for f in COPYING COPYING.LIB LICENSE README README.ja NEWS; do
 	[ -f "$SRCDIR/$f" ] && cp "$SRCDIR/$f" "$DEST/doc/$f.txt"
@@ -119,6 +124,12 @@ cp_mingw bin/curl.exe curl.exe
 # Run-time modules (loaded with LoadLibrary, not in any import table)
 
 for f in "$MINGW"/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll; do
+	# HEIF and WMF loaders come with ImageMagick's dependencies (libheif,
+	# libwmf; needed only for src/icons/resize-icons.sh) and pull in large codec
+	# libraries. Zylpheed does not need them.
+	case "${f##*/}" in
+	libpixbufloader-heif.dll|io-wmf.dll) continue ;;
+	esac
 	cp_mingw "${f#$MINGW/}" "${f#$MINGW/}"
 done
 # Spell checking: winspell uses the Windows spell checker (no dictionaries to
@@ -212,7 +223,7 @@ done
 "$MINGW/bin/glib-compile-schemas.exe" "$DEST/share/glib-2.0/schemas"
 
 # Icon themes. Adwaita 4x/5x inherits AdwaitaLegacy (old stock-style icons)
-# and hicolor. share\icons is also Sylpheed's THEMEDIR; Sylpheed only looks
+# and hicolor. share\icons is also Zylpheed's THEMEDIR; Zylpheed only looks
 # for flat <name>.png overrides there, so the theme subdirectories do not
 # interfere.
 for t in Adwaita AdwaitaLegacy hicolor; do
@@ -230,7 +241,7 @@ for f in iso_639.xml iso_3166.xml; do
 	cp_mingw share/xml/iso-codes/$f share/xml/iso-codes/$f
 done
 
-# Library message catalogs for the languages Sylpheed ships.
+# Library message catalogs for the languages Zylpheed ships.
 # (gtk30-properties only translates property descriptions for GTK Inspector
 # and UI designers; left out, it is 7 MB.)
 for d in "$PREFIX"/share/locale/*/; do
@@ -251,12 +262,14 @@ fi
 # GTK settings for Windows (see BUILD-WIN64.md, "Portable folder").
 mkdir -p "$DEST/etc/gtk-3.0"
 cat > "$DEST/etc/gtk-3.0/settings.ini" <<'EOF'
-# GTK 3 defaults for the Windows build of Sylpheed.
+# GTK 3 defaults for the Windows build of Zylpheed.
 # Per-user overrides: %LOCALAPPDATA%\gtk-3.0\settings.ini
 [Settings]
 # Adwaita (built into GTK) rather than the unmaintained built-in "win32"
-# theme. Light variant: GTK 3 does not follow the Windows dark mode setting.
+# theme. GTK 3 does not follow the Windows dark mode setting.
 gtk-theme-name=Adwaita
+# Zylpheed defaults to the dark variant. Set this to 0 for the light one.
+gtk-application-prefer-dark-theme=1
 gtk-icon-theme-name=Adwaita
 # No gtk-font-name: GDK takes the Windows message font (normally Segoe UI 9)
 # and the DPI from the system, so scaling follows Windows' display settings.
@@ -268,7 +281,7 @@ EOF
 # libsylph/ssl.c (ssl_init) looks, on Windows, for <configdir>\certs\ and
 # <configdir>\{ca-certificates,ca-bundle,ca-root,certs}.crt / cert.pem, then
 # for the directory <exe>\etc\ssl\certs\ and the same file names in it, then
-# in <exe>\etc\ssl and <exe>\etc. syl-auth-helper.exe (OAuth2 token request)
+# in <exe>\etc\ssl and <exe>\etc. zyl-auth-helper.exe (OAuth2 token request)
 # only uses <exe>\etc\ssl\certs\certs.crt and switches peer verification OFF
 # if that file is missing. So the bundle is installed under exactly that name.
 cp_mingw etc/ssl/certs/ca-bundle.crt etc/ssl/certs/certs.crt
@@ -323,24 +336,35 @@ fi
 [ -z "$NOLIC" ] || note "no licence text found for:$NOLIC"
 
 # ---------------------------------------------------------------------------
+# Portable mode: zylpheed.exe reads zylpheed.ini beside itself at startup
+# (src/main.c, read_ini_file()). A relative configdir is taken relative to
+# the folder of zylpheed.exe. The installer does not install this file, so
+# an installed Zylpheed keeps its profile in %APPDATA%\Zylpheed.
+
+sed 's/$/\r/' > "$DEST/zylpheed.ini" <<'EOF'
+[Zylpheed]
+configdir=profiles
+EOF
+
+# ---------------------------------------------------------------------------
 # Optional test launcher (TEST_LAUNCHER=1): runs the folder with a minimal
 # PATH, a profile inside the folder and its own instance id and IPC port, so
-# that it never talks to an installed Sylpheed or its profile. The installer
-# script excludes run-test.bat and profile\.
+# that it never talks to an installed Zylpheed or Sylpheed, or their
+# profiles. The installer script excludes run-test.bat and profile\.
 
 if [ -n "$TEST_LAUNCHER" ]; then
 	sed 's/$/\r/' > "$DEST/run-test.bat" <<'EOF'
 @echo off
-rem Test launcher for this portable Sylpheed folder.
+rem Test launcher for this portable Zylpheed folder.
 rem Uses only Windows' own directories on PATH (nothing from MSYS2), the
-rem profile folder next to this file, IPC port 50297 and a separate instance
-rem id, so it does not interfere with an installed Sylpheed.
+rem profiles folder next to this file, IPC port 50296 and a separate instance
+rem id, so it does not interfere with an installed Zylpheed or Sylpheed.
 rem Extra arguments are passed on, e.g. "run-test.bat --debug" or
 rem "run-test.bat --exit".
 setlocal
 set "HERE=%~dp0"
 set "PATH=%SystemRoot%\System32;%SystemRoot%"
-"%HERE%sylpheed.exe" --configdir "%HERE%profile" --ipcport 50297 --instance-id SylpheedGtk3Portable %*
+"%HERE%zylpheed.exe" --configdir "%HERE%profiles" --ipcport 50296 --instance-id ZylpheedPortableTest %*
 EOF
 fi
 

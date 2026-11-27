@@ -179,7 +179,7 @@ static gboolean spawn_update_manager(void)
 		g_warning("update-manager.exe not found.");
 		goto finish;
 	}
-	dest = g_strconcat(g_get_tmp_dir(), G_DIR_SEPARATOR_S, "sylpheed-update-manager.exe", NULL);
+	dest = g_strconcat(g_get_tmp_dir(), G_DIR_SEPARATOR_S, "zylpheed-update-manager.exe", NULL);
 	if (copy_file(src, dest, FALSE) < 0) {
 		g_warning("Couldn't copy update-manager.exe");
 		goto finish;
@@ -590,7 +590,7 @@ static gboolean write_plugin_updater_ini(GSList *list)
 
 	debug_print("write_plugin_updater_ini:\n%s\n", ini->str);
 
-	plugin_updater_ini = g_strconcat(g_get_tmp_dir(), G_DIR_SEPARATOR_S, "sylpheed-plugin-updater.ini", NULL);
+	plugin_updater_ini = g_strconcat(g_get_tmp_dir(), G_DIR_SEPARATOR_S, "zylpheed-plugin-updater.ini", NULL);
 	if (str_write_to_file(ini->str, plugin_updater_ini) < 0) {
 		g_free(plugin_updater_ini);
 		plugin_updater_ini = NULL;

@@ -19,4 +19,3 @@ C:\msys64\usr\bin\bash.exe -lc "./make-installer-win64.sh '%~1' '%~2' %3 %4 %5 %
 rem The helper installers of the official 32-bit build (not built here):
 rem makensis plugin-updater.nsi   (needs the nsisunz plug-in)
 rem makensis update-manager.nsi   (needs the nsProcess plug-in)
-rem makensis /DSYLPHEED_PRO sylpheed.nsi

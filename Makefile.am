@@ -13,18 +13,18 @@ EXTRA_DIST = config.rpath  \
 	LICENSE \
 	PLUGIN.txt \
 	PLUGIN.ja.txt \
-	sylpheed.desktop \
-	sylpheed.spec \
-	sylpheed.spec.in \
-	sylpheed.png \
-	sylpheed-128x128.png \
-	sylpheed-64x64.png \
+	zylpheed.desktop \
+	zylpheed.spec \
+	zylpheed.spec.in \
+	zylpheed.png \
+	zylpheed-128x128.png \
+	zylpheed-64x64.png \
 	autogen.sh \
 	makeosx.sh \
 	makewin32.sh \
 	mime.types \
-	sylpheed-mailto-protocol_admin.reg \
-	sylpheed-mailto-protocol_user.reg \
+	zylpheed-mailto-protocol_admin.reg \
+	zylpheed-mailto-protocol_user.reg \
 	oauth2.ini.sample
 
 BZIP2_ENV =
@@ -33,13 +33,13 @@ XZ_ENV =
 release: distdir
 	-chmod -R a+r $(distdir)
 	GZIP=$(GZIP_ENV) $(AMTAR) chozf $(distdir).tar.gz $(distdir)
-	rm -f $(distdir)/sylpheed.spec
-	sed '/^Source:/s/\.tar\.gz$$/\.tar\.bz2/' sylpheed.spec \
-	  > $(distdir)/sylpheed.spec
+	rm -f $(distdir)/zylpheed.spec
+	sed '/^Source:/s/\.tar\.gz$$/\.tar\.bz2/' zylpheed.spec \
+	  > $(distdir)/zylpheed.spec
 	BZIP2=$(BZIP2_ENV) $(AMTAR) --bzip2 -chof $(distdir).tar.bz2 $(distdir)
-	rm -f $(distdir)/sylpheed.spec
-	sed '/^Source:/s/\.tar\.gz$$/\.tar\.xz/' sylpheed.spec \
-	  > $(distdir)/sylpheed.spec
+	rm -f $(distdir)/zylpheed.spec
+	sed '/^Source:/s/\.tar\.gz$$/\.tar\.xz/' zylpheed.spec \
+	  > $(distdir)/zylpheed.spec
 	XZ_OPT=$(XZ_ENV) $(AMTAR) --xz -chof $(distdir).tar.xz $(distdir)
 	-rm -rf $(distdir)
 
@@ -48,7 +48,7 @@ release: distdir
 install-data-local:
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps; \
-	$(INSTALL_DATA) $(srcdir)/sylpheed-64x64.png $(DESTDIR)$(datadir)/pixmaps/sylpheed.png;
+	$(INSTALL_DATA) $(srcdir)/zylpheed-64x64.png $(DESTDIR)$(datadir)/pixmaps/zylpheed.png;
 
-desktop_DATA = sylpheed.desktop
+desktop_DATA = zylpheed.desktop
 desktopdir = $(datadir)/applications

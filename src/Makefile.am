@@ -1,8 +1,8 @@
 SUBDIRS = icons
 
-bin_PROGRAMS = sylpheed syl-auth-helper
+bin_PROGRAMS = zylpheed zyl-auth-helper
 
-sylpheed_SOURCES = \
+zylpheed_SOURCES = \
 	version.h \
 	main.c main.h \
 	mainwindow.c mainwindow.h \
@@ -96,7 +96,7 @@ sylpheed_SOURCES = \
 	sylpheed-marshal.c sylpheed-marshal.h \
 	notificationwindow.c notificationwindow.h
 
-syl_auth_helper_SOURCES = syl-auth-helper.c
+zyl_auth_helper_SOURCES = syl-auth-helper.c
 
 BUILT_SOURCES = \
 	quote_fmt_lex.c \
@@ -137,8 +137,8 @@ EXTRA_DIST = \
 	sylpheed-marshal.list \
 	plugin-marshal.list \
 	version.h.in \
-	sylpheed.rc.in \
-	sylpheed.exe.manifest \
+	zylpheed.rc.in \
+	zylpheed.exe.manifest \
 	libsylpheed-plugin-0.def
 
 INCLUDES = \
@@ -149,14 +149,14 @@ INCLUDES = \
 	$(GPGME_CFLAGS)
 
 if NATIVE_WIN32
-SYLPHEED_RES = sylpheed.res
-sylpheed.res: sylpheed.rc icons/sylpheed.ico sylpheed.exe.manifest
+SYLPHEED_RES = zylpheed.res
+zylpheed.res: zylpheed.rc icons/zylpheed.ico zylpheed.exe.manifest
 	$(WINDRES) --include-dir=$(srcdir) $< -O coff -o $@
 else
 SYLPHEED_RES = 
 endif
 
-sylpheed_LDADD = \
+zylpheed_LDADD = \
 	$(INTLLIBS) \
 	$(GTK_LIBS) \
 	$(GLIB_LIBS) \
@@ -168,7 +168,7 @@ sylpheed_LDADD = \
 	../libsylph/libsylph-0.la \
 	$(SYLPHEED_RES)
 
-syl_auth_helper_LDADD = \
+zyl_auth_helper_LDADD = \
 	$(GLIB_LIBS) \
 	$(LIBICONV) \
 	$(CURL_LIBS) \

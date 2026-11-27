@@ -1,0 +1,73 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\mailto]
+@="URL:MailTo Protocol"
+"URL Protocol"=""
+"EditFlags"=dword:00000002
+"FriendlyTypeName"="Zylpheed MailTo"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\mailto\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\mailto\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\" --compose \"%1\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Zylpheed.EML]
+@="Zylpheed Message"
+"EditFlags"=dword:00000002
+"FriendlyTypeName"="Zylpheed Message"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Zylpheed.EML\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Zylpheed.EML\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\" --open \"%1\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Zylpheed.Url.MailTo]
+@="URL:MailTo Protocol"
+"EditFlags"=dword:00000002
+"FriendlyTypeName"="Zylpheed MailTo"
+"URL Protocol"=""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Zylpheed.Url.MailTo\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Zylpheed.Url.MailTo\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\" --compose \"%1\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed]
+@="Zylpheed"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\Capabilities]
+"ApplicationName"="Zylpheed"
+"ApplicationIcon"="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+"ApplicationDescription"="Zylpheed - lightweight and user-friendly e-mail client"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\Capabilities\FileAssociations]
+".eml"="Zylpheed.EML"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\Capabilities\StartMenu]
+"Mail"="Zylpheed"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\Capabilities\URLAssociations]
+"mailto"="Zylpheed.Url.MailTo"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\Protocols\mailto]
+@="URL:MailTo Protocol"
+"URL Protocol"=""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\Protocols\mailto\DefaultIcon]
+@="C:\\Program Files\\Zylpheed\\zylpheed.exe,0"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\Protocols\mailto\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\" --compose \"%1\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\Mail\Zylpheed\shell\open\command]
+@="\"C:\\Program Files\\Zylpheed\\zylpheed.exe\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\RegisteredApplications]
+"Zylpheed"="SOFTWARE\\Clients\\Mail\\Zylpheed\\Capabilities"
+

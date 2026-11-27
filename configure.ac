@@ -1,15 +1,15 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.50)
 AC_INIT(src/main.c)
-PACKAGE=sylpheed
+PACKAGE=zylpheed
 
 dnl version number
-MAJOR_VERSION=3
-MINOR_VERSION=8
+MAJOR_VERSION=0
+MINOR_VERSION=1
 MICRO_VERSION=0
 INTERFACE_AGE=0
 BINARY_AGE=0
-EXTRA_VERSION=beta1
+EXTRA_VERSION=
 BUILD_REVISION=1187
 VERSION=$MAJOR_VERSION.$MINOR_VERSION.$MICRO_VERSION$EXTRA_VERSION
 
@@ -149,7 +149,7 @@ AC_CHECK_FUNCS(bind_textdomain_codeset)
 
 dnl for gettext
 ALL_LINGUAS="be bg cs da de el es et eu fi fr gl he hr hu it ja ko lt nl pl pt_BR ro ru sk sl sr sv tr uk vi zh_CN zh_TW"
-GETTEXT_PACKAGE=sylpheed
+GETTEXT_PACKAGE=zylpheed
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Define text domain.])
 
@@ -406,7 +406,7 @@ if test x"$use_threads" = xyes ; then
 		LIBS="$LIBS `$PKG_CONFIG --libs gthread-2.0`"
 		AC_DEFINE(USE_THREADS, 1, Whether to use multithread or not)
 	else
-		AC_MSG_ERROR([Sylpheed requires GThread from GLib to enable threading.])
+		AC_MSG_ERROR([Zylpheed requires GThread from GLib to enable threading.])
 	fi
 else
 	AC_MSG_RESULT(no)
@@ -522,11 +522,11 @@ AC_CHECK_FUNCS(gethostname mkdir mktime socket strstr strchr \
 
 AC_OUTPUT([
 Makefile
-sylpheed.spec
+zylpheed.spec
 ac/Makefile
 libsylph/Makefile
 src/version.h
-src/sylpheed.rc
+src/zylpheed.rc
 src/Makefile
 src/icons/Makefile
 plugin/Makefile

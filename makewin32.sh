@@ -14,6 +14,6 @@ export C_INCLUDE_PATH=$C_INCLUDE_PATH:/target/include:/usr/local/include
   && make \
   && make install-strip \
   && (cd plugin/attachment_tool; make install-plugin) \
-  && strip $HOME/dist/lib/sylpheed/plugins/attachment_tool.dll
+  && strip $HOME/dist/lib/zylpheed/plugins/attachment_tool.dll
 
-) 2>&1 | tee sylpheed-build.log
+) 2>&1 | tee zylpheed-build.log

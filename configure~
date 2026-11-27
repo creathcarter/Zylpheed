@@ -3164,7 +3164,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-PACKAGE=sylpheed
+PACKAGE=zylpheed
 
 MAJOR_VERSION=3
 MINOR_VERSION=8
@@ -18479,7 +18479,7 @@ fi
 
 
 ALL_LINGUAS="be bg cs da de el es et eu fi fr gl he hr hu it ja ko lt nl pl pt_BR ro ru sk sl sr sv tr uk vi zh_CN zh_TW"
-GETTEXT_PACKAGE=sylpheed
+GETTEXT_PACKAGE=zylpheed
 
 
 printf '%s\n' "#define GETTEXT_PACKAGE \"$GETTEXT_PACKAGE\"" >>confdefs.h
@@ -20416,8 +20416,8 @@ printf %s "checking whether GtkSpell is available... " >&6; }
 	if $PKG_CONFIG --exists gtkspell3-3.0 enchant-2 ; then
 		{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf '%s\n' "yes" >&6; }
-		CFLAGS="$CFLAGS `$PKG_CONFIG --cflags gtkspell3-3.0 enchant-2`"
-		LIBS="$LIBS `$PKG_CONFIG --libs gtkspell3-3.0 enchant-2`"
+		GTK_CFLAGS="$GTK_CFLAGS `$PKG_CONFIG --cflags gtkspell3-3.0 enchant-2`"
+		GTK_LIBS="$GTK_LIBS `$PKG_CONFIG --libs gtkspell3-3.0 enchant-2`"
 
 printf '%s\n' "#define USE_GTKSPELL 1" >>confdefs.h
 
@@ -20429,6 +20429,10 @@ printf '%s\n' "no" >&6; }
 else
 	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf '%s\n' "no" >&6; }
+fi
+
+if test "$native_win32" = yes; then
+	GTK_LIBS=`echo " $GTK_LIBS " | sed -e 's/ -luuid / -Wl,-luuid /g'`
 fi
 
 # Check whether --enable-oniguruma was given.
@@ -20762,7 +20766,7 @@ printf '%s\n' "yes" >&6; }
 printf '%s\n' "#define USE_THREADS 1" >>confdefs.h
 
 	else
-		as_fn_error $? "Sylpheed requires GThread from GLib to enable threading." "$LINENO" 5
+		as_fn_error $? "Zylpheed requires GThread from GLib to enable threading." "$LINENO" 5
 	fi
 else
 	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
@@ -20871,7 +20875,7 @@ if test ${enable_updatecheck+y}
 then :
   enableval=$enable_updatecheck; ac_cv_enable_updatecheck=$enableval
 else case e in #(
-  e) ac_cv_enable_updatecheck=yes ;;
+  e) ac_cv_enable_updatecheck=no ;;
 esac
 fi
 
@@ -22125,7 +22129,7 @@ fi
 
 done
 
-ac_config_files="$ac_config_files  Makefile sylpheed.spec ac/Makefile libsylph/Makefile src/version.h src/sylpheed.rc src/Makefile src/icons/Makefile plugin/Makefile plugin/attachment_tool/Makefile plugin/test/Makefile po/Makefile.in faq/Makefile faq/de/Makefile faq/en/Makefile faq/es/Makefile faq/fr/Makefile faq/it/Makefile manual/Makefile manual/en/Makefile manual/ja/Makefile nsis/Makefile macosx/Makefile macosx/bundle/Makefile"
+ac_config_files="$ac_config_files  Makefile zylpheed.spec ac/Makefile libsylph/Makefile src/version.h src/zylpheed.rc src/Makefile src/icons/Makefile plugin/Makefile plugin/attachment_tool/Makefile plugin/test/Makefile po/Makefile.in faq/Makefile faq/de/Makefile faq/en/Makefile faq/es/Makefile faq/fr/Makefile faq/it/Makefile manual/Makefile manual/en/Makefile manual/ja/Makefile nsis/Makefile macosx/Makefile macosx/bundle/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -23127,11 +23131,11 @@ do
     "default-1") CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
     "") CONFIG_FILES="$CONFIG_FILES " ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "sylpheed.spec") CONFIG_FILES="$CONFIG_FILES sylpheed.spec" ;;
+    "zylpheed.spec") CONFIG_FILES="$CONFIG_FILES zylpheed.spec" ;;
     "ac/Makefile") CONFIG_FILES="$CONFIG_FILES ac/Makefile" ;;
     "libsylph/Makefile") CONFIG_FILES="$CONFIG_FILES libsylph/Makefile" ;;
     "src/version.h") CONFIG_FILES="$CONFIG_FILES src/version.h" ;;
-    "src/sylpheed.rc") CONFIG_FILES="$CONFIG_FILES src/sylpheed.rc" ;;
+    "src/zylpheed.rc") CONFIG_FILES="$CONFIG_FILES src/zylpheed.rc" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "src/icons/Makefile") CONFIG_FILES="$CONFIG_FILES src/icons/Makefile" ;;
     "plugin/Makefile") CONFIG_FILES="$CONFIG_FILES plugin/Makefile" ;;

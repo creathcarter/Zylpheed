@@ -717,17 +717,12 @@ stock_pixmap.o: ../../src/stock_pixmap.c \
  C:/msys64/ucrt64/include/glib-2.0/glib/gstdio.h \
  C:/msys64/ucrt64/include/glib-2.0/glib/gprintf.h \
  C:/msys64/ucrt64/include/sys/stat.h \
- C:/msys64/ucrt64/include/_mingw_stat64.h ../../src/icons/address.xpm \
- ../../src/icons/category.xpm ../../src/icons/clip.xpm \
- ../../src/icons/complete.xpm ../../src/icons/continue.xpm \
- ../../src/icons/deleted.xpm ../../src/icons/error.xpm \
- ../../src/icons/forwarded.xpm ../../src/icons/interface.xpm \
- ../../src/icons/jpilot.xpm ../../src/icons/ldap.xpm \
- ../../src/icons/linewrap.xpm ../../src/icons/mark.xpm \
- ../../src/icons/new.xpm ../../src/icons/replied.xpm \
- ../../src/icons/unread.xpm ../../src/icons/vcard.xpm \
- ../../src/icons/online.xpm ../../src/icons/offline.xpm \
- ../../src/icons/mail.xpm icons/stock_inbox.h icons/stock_outbox.h \
+ C:/msys64/ucrt64/include/_mingw_stat64.h icons/address.h \
+ icons/category.h icons/clip.h icons/complete.h icons/continue.h \
+ icons/deleted.h icons/error.h icons/forwarded.h icons/interface.h \
+ icons/jpilot.h icons/ldap.h icons/linewrap.h icons/mark.h icons/new.h \
+ icons/replied.h icons/unread.h icons/vcard.h icons/online.h \
+ icons/offline.h icons/mail.h icons/stock_inbox.h icons/stock_outbox.h \
  icons/stock_mail.h icons/stock_attach.h icons/stock_mail-compose.h \
  icons/stock_mail-compose_16.h icons/stock_mail-forward.h \
  icons/stock_mail-receive.h icons/stock_mail_receive_all.h \
@@ -740,7 +735,11 @@ stock_pixmap.o: ../../src/stock_pixmap.c \
  icons/stock_sylpheed_newmail.h icons/stock_sylpheed_newmail_16.h \
  icons/sylpheed-logo.h icons/stock_person.h icons/stock_book.h \
  icons/folder-close.h icons/folder-open.h icons/folder-noselect.h \
- icons/folder-search.h icons/group.h icons/html.h
+ icons/folder-search.h icons/group.h icons/html.h \
+ icons/stock_remote-mailbox.h icons/stock_next.h icons/stock_prev.h \
+ icons/stock_search.h icons/stock_print.h icons/stock_stop.h \
+ icons/stock_execute.h icons/stock_common-prefs.h \
+ icons/stock_account-prefs.h icons/stock_save.h icons/stock_editor.h
 C:/msys64/ucrt64/include/glib-2.0/glib.h:
 C:/msys64/ucrt64/include/glib-2.0/glib/galloca.h:
 C:/msys64/ucrt64/include/glib-2.0/glib/gtypes.h:
@@ -1469,26 +1468,26 @@ C:/msys64/ucrt64/include/glib-2.0/glib/gstdio.h:
 C:/msys64/ucrt64/include/glib-2.0/glib/gprintf.h:
 C:/msys64/ucrt64/include/sys/stat.h:
 C:/msys64/ucrt64/include/_mingw_stat64.h:
-../../src/icons/address.xpm:
-../../src/icons/category.xpm:
-../../src/icons/clip.xpm:
-../../src/icons/complete.xpm:
-../../src/icons/continue.xpm:
-../../src/icons/deleted.xpm:
-../../src/icons/error.xpm:
-../../src/icons/forwarded.xpm:
-../../src/icons/interface.xpm:
-../../src/icons/jpilot.xpm:
-../../src/icons/ldap.xpm:
-../../src/icons/linewrap.xpm:
-../../src/icons/mark.xpm:
-../../src/icons/new.xpm:
-../../src/icons/replied.xpm:
-../../src/icons/unread.xpm:
-../../src/icons/vcard.xpm:
-../../src/icons/online.xpm:
-../../src/icons/offline.xpm:
-../../src/icons/mail.xpm:
+icons/address.h:
+icons/category.h:
+icons/clip.h:
+icons/complete.h:
+icons/continue.h:
+icons/deleted.h:
+icons/error.h:
+icons/forwarded.h:
+icons/interface.h:
+icons/jpilot.h:
+icons/ldap.h:
+icons/linewrap.h:
+icons/mark.h:
+icons/new.h:
+icons/replied.h:
+icons/unread.h:
+icons/vcard.h:
+icons/online.h:
+icons/offline.h:
+icons/mail.h:
 icons/stock_inbox.h:
 icons/stock_outbox.h:
 icons/stock_mail.h:
@@ -1524,3 +1523,14 @@ icons/folder-noselect.h:
 icons/folder-search.h:
 icons/group.h:
 icons/html.h:
+icons/stock_remote-mailbox.h:
+icons/stock_next.h:
+icons/stock_prev.h:
+icons/stock_search.h:
+icons/stock_print.h:
+icons/stock_stop.h:
+icons/stock_execute.h:
+icons/stock_common-prefs.h:
+icons/stock_account-prefs.h:
+icons/stock_save.h:
+icons/stock_editor.h:

@@ -37,7 +37,7 @@ static SylPluginInfo info = {
 	"Attachment Tool Plug-in",
 	"0.1.0",
 	"Hiroyuki Yamamoto",
-	"Attachment processing plug-in for Sylpheed"
+	"Attachment processing plug-in for Zylpheed"
 };
 
 static void remove_attachment_cb(void);

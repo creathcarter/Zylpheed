@@ -463,7 +463,7 @@ MessageView *messageview_create_with_new_window(void)
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("Message View - Sylpheed"));
-	gtk_window_set_wmclass(GTK_WINDOW(window), "message_view", "Sylpheed");
+	gtk_window_set_wmclass(GTK_WINDOW(window), "message_view", "Zylpheed");
 	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_window_set_default_size(GTK_WINDOW(window), prefs_common.msgwin_width,
 				    prefs_common.msgwin_height);
@@ -586,7 +586,7 @@ gint messageview_show(MessageView *messageview, MsgInfo *msginfo,
 	if (messageview->window && msginfo->subject) {
 		gchar *title;
 
-		title = g_strconcat(msginfo->subject, " - Sylpheed", NULL);
+		title = g_strconcat(msginfo->subject, " - Zylpheed", NULL);
 		gtk_window_set_title(GTK_WINDOW(messageview->window), title);
 		g_free(title);
 	}

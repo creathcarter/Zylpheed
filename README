@@ -1,6 +1,9 @@
-	Sylpheed - lightweight and user-friendly e-mail client
+	Zylpheed - lightweight and user-friendly e-mail client
 
-   Copyright(C) 1999-2022 Hiroyuki Yamamoto <hiro-y@kcn.ne.jp>
+   Zylpheed is a fork of Sylpheed.
+
+   Sylpheed: Copyright(C) 1999-2022 Hiroyuki Yamamoto <hiro-y@kcn.ne.jp>
+   GTK3 / 64-bit port: Creath and Claude, 2026
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,23 +16,54 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software Foundation, 
+   along with this program; if not, write to the Free Software Foundation,
    Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
    For more details see the file COPYING.
 
 
-What's Sylpheed
+What's Zylpheed
 ===============
 
-Sylpheed is an e-mail client based on GTK+ GUI toolkit.
-Sylpheed runs on Unix-like systems such as Linux, BSD and Mac OS X, or
-Microsoft Windows (XP or later).
+Zylpheed is a 64-bit port of the Sylpheed email client based on GTK3 GUI toolkit.
+It is developed and tested on 64-bit Microsoft Windows 10 and 11.
 
-Sylpheed is a free software distributed under the GNU GPL (the library part
+Zylpheed is an independent fork. It is not produced or supported by the
+Sylpheed project, so please do not report Zylpheed problems there
+(see "Information" below).
+
+Zylpheed is a free software distributed under the GNU GPL (the library part
 LibSylph is GNU LGPL).
 
-Sylpheed has the following features:
+Current status
+--------------
+
+    * The port is new and has had little real-world testing.
+    * No security review of this fork has been done yet. Treat it as
+      pre-release software.
+    * Platforms: 64-bit Windows 10 and 11 are the only platforms built and
+      tested so far. Linux, BSD and macOS are planned targets; they are not
+      yet built or tested with this port.
+    * 32-bit Windows and Windows 7/8 are not supported.
+
+Differences from Sylpheed
+-------------------------
+
+    * GTK+ 3.24 instead of GTK+ 2. GTK2 themes and gtkrc files are not
+      used. An optional gtk.css in the configuration directory can be used
+      to adjust the appearance.
+    * Zylpheed keeps its own configuration directory, so it can be installed
+      beside Sylpheed. It does not read or migrate a Sylpheed profile.
+      The files inside the directory keep Sylpheed's names and formats
+      (sylpheedrc, accountrc, folderlist.xml, ...).
+    * Plug-ins built for Sylpheed (GTK2) cannot be loaded. They have to be
+      ported and rebuilt; see PLUGIN.txt.
+    * The update check is disabled.
+    * Spell checking uses GtkSpell 3 with Enchant 2.
+    * OpenPGP needs a separately installed GnuPG (for example Gpg4win),
+      as with Sylpheed.
+
+Zylpheed has the following features:
 
     * Simple, beautiful, and well-polished user interface
     * Comfortable operationality which is built in detail
@@ -40,7 +74,7 @@ Sylpheed has the following features:
     * High-level Japanese processing
     * Various protocols support
     * Multi-thread support
-    * Security feature (GnuPG, SSL/TLSv1)
+    * Security feature (GnuPG, SSL/TLS)
     * Powerful filtering and search
     * Junk mail control
     * Flexible cooperation with external commands
@@ -49,7 +83,7 @@ Sylpheed has the following features:
 The appearance and interface are similar to some popular e-mail clients for
 Windows, such as Outlook or Becky!. Many commands are accessible with
 the keyboard like the Emacs-based mailers such as Mew and Wanderlust.
-So you will be able to migrate to Sylpheed without much discomfort, even if
+So you will be able to migrate to Zylpheed without much discomfort, even if
 you are accustomed to other mailers.
 
 The messages are managed by MH format, and you will be able to use it together
@@ -67,7 +101,7 @@ Supported protocols
 	o IMAP4rev1
 	o SMTP
 	o NNTP
-	o SSL/TLSv1 (POP3, SMTP, IMAP4rev1, NNTP)
+	o SSL/TLS (POP3, SMTP, IMAP4rev1, NNTP)
 	o IPv6
 	o SOCKS4/5
 
@@ -86,8 +120,8 @@ Features
 	o CRAM-MD5 authentication (SMTP AUTH / IMAP4rev1)
 	o APOP authentication (POP3)
 	o OAuth2 authentication (POP3 / IMAP4 / SMTP)
-	o PGP signature / encryption (requires GPGME)
-	o spell checking (requires GtkSpell)
+	o PGP signature / encryption (requires GPGME and GnuPG)
+	o spell checking (requires GtkSpell 3)
 	o SOCKS4/5 proxy support
 	o X-Face display
 	o user-defined headers
@@ -96,6 +130,7 @@ Features
 	o multiple MH folder support
 	o mbox and eml import / export
 	o action function to work with external commands
+	  (not available on Windows)
 	o external editor
 	o message queueing
 	o automatic mail checking
@@ -114,6 +149,7 @@ Features
 	o remote operation by command line
 	o per-folder configuration
 	o LDAP, vCard, and JPilot support in address book
+	  (LDAP and JPilot are not built on Windows)
 	o CSV, LDIF file import in address book
 	o auto-registration of recipient's addresses to address book
 	o auto-completion of addresses
@@ -127,13 +163,18 @@ and more.
 Installation
 ============
 
-See INSTALL for installation instructions.
+For 64-bit Windows, see BUILD-WIN64.md. It describes the MSYS2 build
+environment, the build itself, and how to make the portable folder and
+the installer.
+
+INSTALL is the original Sylpheed document. It describes the GTK2 build
+and has not been updated for Zylpheed.
 
 Usage
 =====
 
-Preparation before running
---------------------------
+Preparation before running (Unix-like systems)
+----------------------------------------------
 
 If you are using a character encoding other than UTF-8 for filename,
 you must set the following environmental variable (it will not work if
@@ -161,23 +202,35 @@ If you don't want translated messages, set LC_MESSAGES to "C"
 How to run
 ----------
 
-Input `sylpheed' on a command line, or double-click the icon in a file
+Input `zylpheed' on a command line, or double-click the icon in a file
 manager to execute.
 
 Initial startup
 ---------------
 
-When Sylpheed is executed for the first time, it automatically creates the
-configuration files under ~/.sylpheed-2.0/, and asks you the location of
-mailbox. The default is ~/Mail. If some files, which are non-MH format,
-already exist on the directory, you will have to specify another location.
+When Zylpheed is executed for the first time, it automatically creates the
+configuration files and asks you the location of mailbox. If some files,
+which are non-MH format, already exist on the directory, you will have to
+specify another location.
 
-If ~/.sylpheed-2.0/ doesn't exist, but the previous version of configuration
-exists in ~/.sylpheed/, migration will be made automatically after the
-confirmation.
+The configuration directory is:
 
-If the locale encoding is not UTF-8 and the environmental variable
-G_FILENAME_ENCODING is not set, an alert dialog will be displayed.
+	Windows			%APPDATA%\Zylpheed
+	Mac OS X		~/Library/Application Support/Zylpheed
+	other Unix-like systems	~/.zylpheed
+
+A different directory can be given with the --configdir command line
+option.
+
+Zylpheed does not use the configuration directory of Sylpheed
+(%APPDATA%\Sylpheed or ~/.sylpheed-2.0) and does not migrate it. If you
+want to reuse Sylpheed settings, copy the contents of that directory into
+the Zylpheed one while neither program is running. Be aware that the copy
+includes the account settings and any stored passwords.
+
+On Unix-like systems, if the locale encoding is not UTF-8 and the
+environmental variable G_FILENAME_ENCODING is not set, an alert dialog
+will be displayed.
 
 Required settings
 -----------------
@@ -188,15 +241,17 @@ accounts). The configuration dialog will be shown by clicking
 "Configuration -> Create new account..." in the menu, or "Account" on
 the toolbar. Then, fill the required settings.
 
-Refer to the manual supplied with this program for the general usage.
+The manual supplied with this program is the Sylpheed manual. It describes
+the general usage, and still refers to the program as Sylpheed.
 
 Hidden settings
 ---------------
 
-You can configure most of the features in Sylpheed through the preferences
+You can configure most of the features in Zylpheed through the preferences
 dialog, but there are a few parameters which don't have user interface
-(you don't need to modify them in normal use). You must edit
-~/.sylpheed-2.0/sylpheedrc by an editor while Sylpheed is not running.
+(you don't need to modify them in normal use). You must edit the file
+sylpheedrc in the configuration directory by an editor while Zylpheed is
+not running. (The file keeps the name used by Sylpheed.)
 
 allow_jisx0201_kana		allow JIS X 0201 Kana (half-width kana) on
 				sending
@@ -224,68 +279,55 @@ mark_as_read_on_new_window	only mark messages as read when they are
 				opened with new window
 				0: off  1: on   [default: 0]
 
-Unlike 1.0.x, this version doesn't allow direct modification of the menu
-shortcuts by default. You can use the following methods to configure them:
+Menu shortcuts cannot be changed directly in the menus (GTK3 no longer
+supports that). You can use the following methods to configure them:
 
-1. Using GNOME 2.8 or later
-   Run gconf-editor from 'Applications - System Tools - Configuration Editor'.
-   Select 'desktop - gnome - interface' and check 'can-change-accels' in it.
+1. Choose one of the key binding presets in the common preferences.
 
-2. Using GNOME before 2.8, or other environments
-   Add gtk-can-change-accels = 1 to the file ~/.gtkrc-2.0 (or create a new
-   one, if it doesn't exist).
-
-3. When Sylpheed is not running, directly edit ~/.sylpheed-2.0/menurc with
-   an editor.
+2. When Zylpheed is not running, directly edit the file menurc in the
+   configuration directory with an editor.
 
 Information
 ===========
 
-You can check the newest version and information about Sylpheed at:
+The source code and the issue tracker of Zylpheed are at:
+
+	https://github.com/creathcarter/zylpheed
+
+Please report bugs in Zylpheed there, not to the Sylpheed project.
+
+Zylpheed is based on Sylpheed 3.8.0beta1. Information about Sylpheed,
+the original program, is at:
 
 	https://sylpheed.sraoss.jp/
-
-You can also download files from the OSDN project page:
-
-	https://ja.osdn.net/projects/sylpheed/
-
-The bug tracking system of Sylpheed is:
-
-	https://sylpheed.sraoss.jp/redmine/projects/sylpheed
 
 The Sylpheed documentation in English and several other languages can be
 obtained from:
 
 	http://sylpheeddoc.sourceforge.net/
 
+It was written for Sylpheed, and most of it applies to Zylpheed as well.
+
+README.es and README.ja are the original Sylpheed documents and have not
+been updated for Zylpheed.
+
 Feedback
 ========
 
 Comments, ideas and (most of all) bug reports (and especially patches) are
-very welcome.
+very welcome at the GitHub address above.
 
-Subversion
-==========
+Source code
+===========
 
-You can get the newest source code from the Subversion repository.
+You can get the newest source code from the Git repository:
 
-Move to an appropriate directory, and with the command:
+	git clone https://github.com/creathcarter/zylpheed.git
 
-	svn checkout svn://sylpheed-svn.sraoss.jp/sylpheed/trunk
+Credits
+=======
 
-a source tree named 'trunk' is created under the current directory.
+Sylpheed was written by Hiroyuki Yamamoto <hiro-y@kcn.ne.jp> and
+contributors; see AUTHORS.
 
-The subdirectory of sylpheed is divided as following:
-
-    * trunk/     Main tree
-    * branches/  Miscellaneous experimental branches
-    * tags/      Release-tagged branches
-
-To update to the newest source tree, run the command:
-
-	svn update
-
-at the target directory.
-
--- 
-Hiroyuki Yamamoto <hiro-y@kcn.ne.jp>
+Ported to GTK3 and 64-bit Windows by Creath and Claude.

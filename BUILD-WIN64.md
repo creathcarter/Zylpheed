@@ -1,4 +1,4 @@
-# Building Sylpheed for 64-bit Windows (MSYS2 UCRT64)
+# Building Zylpheed for 64-bit Windows (MSYS2 UCRT64)
 
 This describes how to reproduce the 64-bit Windows build of this tree from a clean
 Windows 10/11 machine. The current tree builds against **GTK+ 3.24** (phase 4 of
@@ -76,6 +76,16 @@ For the installer (section 10) also install NSIS:
 pacman -S --needed --noconfirm mingw-w64-ucrt-x86_64-nsis
 ```
 
+To regenerate the program icons (section 11) also install ImageMagick:
+
+```
+pacman -S --needed --noconfirm mingw-w64-ucrt-x86_64-imagemagick
+```
+
+ImageMagick's dependencies add two gdk-pixbuf loaders (HEIF from libheif, WMF from
+libwmf) to `/ucrt64/lib/gdk-pixbuf-2.0`; `nsis/make-dist-win64.sh` leaves them out of
+the portable folder.
+
 `gtk2` is only needed to build the GTK+ 2 reference state (section 9). `iso-codes` is
 used by gtkspell3 for language names; without it gtkspell prints warnings about
 `iso_639.xml` / `iso_3166.xml`. Spell checking uses enchant-2; on Windows its
@@ -110,6 +120,7 @@ Versions used for the reference build:
 | gtkspell3 / enchant | 3.0.10-4 / 2.8.21-3 |
 | ca-certificates (bundled CA list) | 20260816-6 |
 | nsis (installer only) | 3.13-2 |
+| imagemagick (icons only) | 7.1.2.36-1 |
 
 Not packaged in MSYS2:
 
@@ -150,7 +161,7 @@ link against it too; when only a static archive exists, libtool silently builds
 cannot be built or loaded. (Check: the build log must not contain "cannot link to static
 lib archive", and `build-win64/src/.libs/` must contain `libsylpheed-plugin-0-6.dll`.)
 
-`libcompface-1.dll` must be shipped next to `sylpheed.exe`. These three files are not
+`libcompface-1.dll` must be shipped next to `zylpheed.exe`. These three files are not
 owned by pacman; remove them by hand if you want to uninstall.
 
 ## 5. Configure and build
@@ -198,8 +209,8 @@ Notes:
   then `./config.status` (or configure) in the build directory.
 - The plug-ins are built but not installed by `make install`. To install one, run
   `make install-plugin` in `build-win64/plugin/attachment_tool` (or `plugin/test`).
-  On Windows, Sylpheed loads plug-ins from `<configdir>\plugins` and from
-  `plugins\` next to `sylpheed.exe`, not from `lib\sylpheed\plugins`; copy the DLL to
+  On Windows, Zylpheed loads plug-ins from `<configdir>\plugins` and from
+  `plugins\` next to `zylpheed.exe`, not from `lib\zylpheed\plugins`; copy the DLL to
   one of those to test it.
 - `configure` requires GTK+ 3.24 (`pkg-config gtk+-3.0`) and compiles with
   `-DGTK_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES`, so only
@@ -220,8 +231,8 @@ Notes:
 - `makewin32.sh` passed `-mthreads -mtune=core2 -static-libgcc`; these are not needed
   with the UCRT64 toolchain and were not used.
 
-The result is `build-win64/dist/bin/sylpheed.exe` (PE32+ x86-64 GUI binary) plus
-`libsylph-0-6.dll`, `libsylpheed-plugin-0-6.dll` and `syl-auth-helper.exe`.
+The result is `build-win64/dist/bin/zylpheed.exe` (PE32+ x86-64 GUI binary) plus
+`libsylph-0-6.dll`, `libsylpheed-plugin-0-6.dll` and `zyl-auth-helper.exe`.
 
 ## 6. Running the build
 
@@ -231,23 +242,30 @@ finds its data (Adwaita icons, GSettings schemas, gdk-pixbuf loaders) under
 `C:\msys64\ucrt64\share` and `lib`. To run without MSYS2, make the portable folder
 described in section 10.
 
-Appearance: GTK 3 has no gtkrc files. Sylpheed installs its own style sheet and, if it
+Appearance: GTK 3 has no gtkrc files. Zylpheed installs its own style sheet and, if it
 exists, loads `gtk.css` from the configuration directory (in place of the old `gtkrc`
 there) with user priority. GTK itself also reads `%LOCALAPPDATA%\gtk-3.0\gtk.css` and
 `settings.ini`. `menurc` (accelerators) is loaded and saved as before.
 
-**Always test with a throwaway profile.** Sylpheed's single-instance check on Windows
-uses a named mutex (`Sylpheed`) and TCP port 50215 on localhost. If another Sylpheed is
+**Always test with a throwaway profile.** Zylpheed's single-instance check on Windows
+uses a named mutex (`Zylpheed`) and TCP port 50225 on localhost. If another Zylpheed is
 running, a new instance with default settings hands its command line to the running
 one over that port and exits. Use a separate instance id, port and configuration
 directory:
 
 ```
-sylpheed.exe --configdir C:\path\to\scratch\profile --ipcport 50299 --instance-id SylpheedTest
+zylpheed.exe --configdir C:\path\to\scratch\profile --ipcport 50299 --instance-id ZylpheedTest
 ```
 
-`--configdir` replaces the default `%APPDATA%\Sylpheed`. A `sylpheed.ini` next to
-`sylpheed.exe` can set `configdir` and `ipcport` as well (section `[Sylpheed]`).
+`--configdir` replaces the default `%APPDATA%\Zylpheed`. A `zylpheed.ini` next to
+`zylpheed.exe` can set `configdir` and `ipcport` as well (section `[Zylpheed]`).
+
+Zylpheed is a separate program from Sylpheed: an installed Sylpheed (mutex `Sylpheed`,
+port 50215, profile `%APPDATA%\Sylpheed`) and Zylpheed do not see each other, and
+Zylpheed never reads or migrates a Sylpheed profile. The files inside the profile keep
+Sylpheed's names and formats (`sylpheedrc`, `accountrc`, `folderlist.xml`, ...), so a
+copy of a Sylpheed profile made by hand can be used with `--configdir` or copied to
+`%APPDATA%\Zylpheed`.
 
 On a fresh profile the main window opens with the "Mailbox setting" dialog, followed by
 "New account setup".
@@ -318,21 +336,21 @@ started with `run-test.bat` there (throwaway profile in its `profile` folder, IP
 without MSYS2. Run it in a UCRT64 shell after `make` and `make install`:
 
 ```
-nsis/make-dist-win64.sh build-win64 /c/path/to/Sylpheed
+nsis/make-dist-win64.sh build-win64 /c/path/to/Zylpheed
 ```
 
-(Default output: `build-win64/Sylpheed`. The folder is deleted and recreated.) Optional
+(Default output: `build-win64/Zylpheed`. The folder is deleted and recreated.) Optional
 environment variables: `TEST_LAUNCHER=1` writes `run-test.bat` (see below);
 `COMPFACE_SRC=<unpacked compface source>` copies compface's licence notice.
 
 What it puts in the folder:
 
-- `sylpheed.exe`, `syl-auth-helper.exe` and every DLL they need. The DLLs are found by
+- `zylpheed.exe`, `zyl-auth-helper.exe` and every DLL they need. The DLLs are found by
   walking the PE import tables (`objdump -p`) of every `.exe`/`.dll` in the folder,
   including the run-time modules below, until nothing new turns up. A DLL that is in
   neither `dist/bin`, `/ucrt64/bin` nor `System32` stops the script. The stale GTK 2
   `-0-1` libraries in `dist/bin` are never picked up, because nothing imports them.
-- `plugins\attachment_tool.dll` and `plugins\test.dll` from the build tree (`make
+- `plugins\attachment_tool.dll` (and `plugins\test.dll` with `WITH_TEST_PLUGIN=1`) from the build tree (`make
   install` does not install plug-ins; on Windows they load from `plugins\` beside the
   exe, see `plugin_init()` in `src/main.c`), plus their READMEs in `doc\plugins`.
 - `gspawn-win64-helper.exe` / `-console.exe` (GLib spawning), `gpgme-w32spawn.exe`, and
@@ -346,31 +364,32 @@ What it puts in the folder:
 - `share\glib-2.0\schemas\gschemas.compiled` compiled from GTK's own schemas
   (`org.gtk.Settings.*`; used by the file chooser).
 - `share\icons\Adwaita`, `AdwaitaLegacy` (old stock-style icons; Adwaita inherits from
-  it) and `hicolor`, with icon caches regenerated. `share\icons` is also Sylpheed's
-  `THEMEDIR`; Sylpheed only looks for flat `<name>.png` overrides there.
+  it) and `hicolor`, with icon caches regenerated. `share\icons` is also Zylpheed's
+  `THEMEDIR`; Zylpheed only looks for flat `<name>.png` overrides there.
 - `share\themes\{Default,Emacs}\gtk-3.0` (key themes), `share\xml\iso-codes\iso_639.xml`
   and `iso_3166.xml` (language names in the gtkspell menu), `share\enchant-2`.
-- `share\locale`: Sylpheed's catalogs and, for the same languages, those of GTK, GLib,
+- `share\locale`: Zylpheed's catalogs (`zylpheed.mo`) and, for the same languages, those of GTK, GLib,
   gdk-pixbuf, gtkspell3, iso-codes and at-spi2-core (`gtk30-properties` is left out: it
   only translates property descriptions for GTK Inspector, 7 MB).
-- `share\sylpheed` (manual, FAQ), `etc\fonts` (fontconfig is linked in through
-  pango/cairo), `etc\gtk-3.0\settings.ini` (below).
+- `etc\fonts` (fontconfig is linked in through pango/cairo), `etc\gtk-3.0\settings.ini`
+  (below). The manual and FAQ that `make install` puts in `share\zylpheed` are not
+  shipped; Help > Manual and Help > FAQ open the Sylpheed web site instead.
 - `etc\ssl\certs\certs.crt` and `curl-ca-bundle.crt` (CA certificates, below).
-- `doc\`: Sylpheed's `COPYING`, `COPYING.LIB`, `LICENSE`, `README`, `NEWS`;
+- `doc\`: Zylpheed's `COPYING`, `COPYING.LIB`, `LICENSE`, `README`, `NEWS`;
   `doc\licenses\<package>\` from MSYS2's `share/licenses` for every bundled package
   (found with `pacman -Qo`), and `doc\PACKAGES.txt` with package versions and declared
   licences. MSYS2 ships no licence text for atk, ca-certificates, libidn2 and oniguruma;
   `PACKAGES.txt` says so.
 
-Layout: everything sits next to `sylpheed.exe`, as in the official Windows builds. GTK,
+Layout: everything sits next to `zylpheed.exe`, as in the official Windows builds. GTK,
 GLib, gdk-pixbuf and fontconfig find their data relative to their DLL directory (a
-trailing `bin` is stripped if present), and Sylpheed relative to the exe
+trailing `bin` is stripped if present), and Zylpheed relative to the exe
 (`LOCALEDIR=share/locale`, `THEMEDIR=share/icons`).
 
 enchant is the exception: it only relocates when its DLL is in a `bin` directory and
 otherwise looks in `/ucrt64/lib/enchant-2`, so spell checking found no dictionaries.
 `src/main.c` therefore calls `enchant_set_prefix_dir(<exe dir>)` on Windows when
-`<exe dir>\lib\enchant-2` exists (so running `dist/bin/sylpheed.exe` against MSYS2 is
+`<exe dir>\lib\enchant-2` exists (so running `dist/bin/zylpheed.exe` against MSYS2 is
 unaffected).
 
 Size with the reference package set: 104 MB, about 3250 files, 69 DLLs.
@@ -380,7 +399,7 @@ certificate store. On Windows it looks for a `certs` directory in the configurat
 directory, else for the directory `<exe>\etc\ssl\certs\`; then for one of
 `ca-certificates.crt`, `ca-bundle.crt`, `ca-root.crt`, `certs.crt`, `cert.pem` in the
 configuration directory, in that certs directory, in `<exe>\etc\ssl` and in `<exe>\etc`.
-`syl-auth-helper.exe` (OAuth2 token request, libcurl) only uses
+`zyl-auth-helper.exe` (OAuth2 token request, libcurl) only uses
 `<exe>\etc\ssl\certs\certs.crt` and turns peer verification **off** if that file is
 missing. The script therefore installs MSYS2's `ca-bundle.crt` (package
 ca-certificates, Mozilla's list) as `etc\ssl\certs\certs.crt`. `curl.exe` (update
@@ -391,19 +410,19 @@ is a snapshot: rebuild the folder to update it. A user can override it with
 holds the certificates accepted by the user.
 
 **GTK settings.** `etc\gtk-3.0\settings.ini` (GKeyFile syntax, `#` comments) sets
-`gtk-theme-name=Adwaita` and `gtk-icon-theme-name=Adwaita`, so the light Adwaita theme
-is used instead of GTK's built-in, little-maintained `win32` theme. No dark variant is
-forced (GTK 3 does not follow the Windows dark mode setting; a user can set
-`gtk-application-prefer-dark-theme=1` in `%LOCALAPPDATA%\gtk-3.0\settings.ini`). No
+`gtk-theme-name=Adwaita` and `gtk-icon-theme-name=Adwaita`, so the Adwaita theme is
+used instead of GTK's built-in, little-maintained `win32` theme, in its dark variant
+(see "Dark theme" below). No
 font is set: GDK takes the Windows message font (normally Segoe UI 9 pt) and the system
 DPI, so text follows the Windows display settings.
 
 **Test launcher.** With `TEST_LAUNCHER=1`, `run-test.bat` in the folder starts
-`sylpheed.exe` with `PATH` reduced to `%SystemRoot%\System32;%SystemRoot%`,
-`--configdir <folder>\profile`, `--ipcport 50297` and `--instance-id
-SylpheedGtk3Portable`; extra arguments (`--debug`, `--exit`) are passed on. It runs in
+`zylpheed.exe` with `PATH` reduced to `%SystemRoot%\System32;%SystemRoot%`,
+`--configdir <folder>\profiles`, `--ipcport 50296` and `--instance-id
+ZylpheedPortableTest`; extra arguments (`--debug`, `--exit`) are passed on. It runs in
 the foreground of its console window, which then also shows the `--debug` output. The
-current snapshot is `C:\_projects\code\sylpheed\snapshots\gtk3-portable\`.
+current snapshot is `C:\_projects\code\sylpheed\snapshots\zylpheed-portable\` (the
+older `gtk3-portable` snapshot is the same build before the rename to Zylpheed).
 
 Checked with `PATH` set to `C:\Windows\System32;C:\Windows` only and throwaway profiles:
 the first-run "Mailbox setting" dialog appears; with a prepared profile the main and
@@ -416,20 +435,139 @@ GTK prints no warnings (no missing icons or pixbuf loaders).
 
 NSIS 3.13 from MSYS2 (section 3) builds only native 64-bit installers
 (`amd64-unicode`). `nsis/make-installer-win64.sh` generates the uninstaller's file
-list from the portable folder and runs `makensis` on `nsis/sylpheed.nsi`:
+list from the portable folder and runs `makensis` on `nsis/zylpheed.nsi`:
 
 ```
-nsis/make-installer-win64.sh /c/path/to/Sylpheed /c/path/to/output
+nsis/make-installer-win64.sh /c/path/to/Zylpheed /c/path/to/output
 ```
 
 (or `nsis\compile.bat <folder> [<output>]` from cmd.exe). The result is
-`Sylpheed-<version>-x64_setup.exe` (about 28 MB). It installs to
-`%ProgramFiles%\Sylpheed`, uses the 64-bit registry view, keeps the start menu and
-desktop shortcuts, the `mailto:`/`.eml` registration and the language selection
-(English, Spanish, Japanese), and needs no third-party NSIS plug-ins. See
-`nsis/README.txt` for options and for what was dropped from the official 32-bit
-installer.
+`Zylpheed-<version>-x64_setup.exe` (about 28 MB). It installs to
+`%ProgramFiles%\Zylpheed`, uses the 64-bit registry view, keeps the start menu and
+desktop shortcuts, the `mailto:`/`.eml` registration (Zylpheed's own ProgIDs and
+`Clients\Mail\Zylpheed` capabilities; the default handler is chosen in Windows
+Settings) and the language selection (English, Spanish, Japanese), and needs no
+third-party NSIS plug-ins. See `nsis/README.txt` for options and for what was dropped
+from the official 32-bit installer.
 
-Do not test the installer on a machine with a Sylpheed installation and profile you
-care about: the installed program uses `%APPDATA%\Sylpheed` like the official one, and
-the `HKLM\Software\Classes` association keys are shared with a 32-bit installation.
+The installer, the installed program and its profile (`%APPDATA%\Zylpheed`) share no
+name, key, file, mutex or port with an official Sylpheed installation. The installer
+has still not been run on a test machine.
+
+### Everything in one step
+
+```
+bash nsis/build-all-win64.sh [OUT_DIR]
+```
+
+runs `make` and `make install` in `build-win64`, then makes the portable folder
+(`OUT_DIR/zylpheed-portable`, with `run-test.bat`), the installer and the single-file
+portable `.exe` described below. `OUT_DIR` defaults to `../snapshots` beside the source
+tree. The folder is first made as `zylpheed-portable.new` and then put in place of the
+old one; the old folder's profile (`profiles/`, or `profile/` from older builds) is
+carried over as `profiles/`. If Zylpheed is running from the old folder, that folder is
+left alone and the new one stays as `zylpheed-portable.new`.
+
+### Where the portable builds keep the profile
+
+The portable folder contains `zylpheed.ini`:
+
+```
+[Zylpheed]
+configdir=profiles
+```
+
+`zylpheed.exe` reads it at startup (`read_ini_file()` in `src/main.c`); a relative
+`configdir` is relative to the folder of `zylpheed.exe`. So the portable folder keeps
+its profile in `profiles\` beside the program and does not use `%APPDATA%`. The
+installer leaves `zylpheed.ini` out: an installed Zylpheed (in `Program Files`, where
+users cannot write) keeps using `%APPDATA%\Zylpheed`. `--configdir` on the command line
+overrides both.
+
+The portable builds use the same single-instance name and IPC port as an installed
+Zylpheed, so only one of them runs at a time.
+
+### Single-file portable .exe
+
+```
+nsis/make-portable-win64.sh DIST_DIR [OUT_DIR]
+```
+
+packs the portable folder into `Zylpheed-<version>-x64_portable.exe` with NSIS
+(`nsis/zylpheed-portable.nsi`). It is a launcher, not an installer. When started it
+
+1. unpacks the program to `%TEMP%\Zylpheed-portable-<build stamp>` (first start of
+   that build only; a small "Preparing" banner is shown meanwhile), and removes the
+   folders that older builds unpacked;
+2. starts `zylpheed.exe` from there with `--configdir <folder of the .exe>\profiles`,
+   passing its own arguments on.
+
+The profile therefore travels with the `.exe`; the unpacked program files in `%TEMP%`
+are a cache that can be deleted at any time while Zylpheed is not running. Nothing is
+written to the registry or `%APPDATA%`.
+
+### Dark theme
+
+`etc\gtk-3.0\settings.ini` in the folder sets `gtk-application-prefer-dark-theme=1`:
+Zylpheed defaults to the dark variant of Adwaita in all three packages. For the light
+variant set it to `0` there, or in the per-user file
+`%LOCALAPPDATA%\gtk-3.0\settings.ini`. (GTK 3 does not follow the Windows setting,
+and the Windows title bar is not themed.)
+
+### The "test" plug-in
+
+`plugin/test` is a developer demo: it shows a notification at every start and adds demo
+menus. It is built but not put in the portable folder unless `make-dist-win64.sh` is run
+with `WITH_TEST_PLUGIN=1` (the installer then also needs `-DWITH_TEST_PLUGIN`).
+
+## 11. Icons
+
+The icons are compiled into the program at fixed pixel sizes. The artwork is kept as
+large PNGs (256x256, transparent background) in `src/icons_new/`, and
+`src/icons/resize-icons.sh` makes the sized files in `src/icons/` from it. It needs
+ImageMagick 7 (`magick`, section 3).
+
+| Working file | Generated |
+|---|---|
+| `src/icons_new/toolbar/NAME.png` | `src/icons/stock_NAME.png` (24x24, or 16x16; some have both, e.g. `stock_delete.png` and `stock_delete_16.png`) |
+| `src/icons_new/folders/NAME.png` | `src/icons/NAME.png` (16x16) |
+| `src/icons_new/status/NAME.png` | `src/icons/NAME.png` (16x16; `linewrap` 24x24) |
+| `src/icons_new/app/NAME.png` | `src/icons/NAME.png`, see below |
+
+To change an icon, replace or edit its PNG in `src/icons_new/`, then in a UCRT64
+shell, from the top of the source tree, run:
+
+```
+sh src/icons/resize-icons.sh --build --preview
+```
+
+- `--build` runs `make` and `make install` in `build-win64` afterwards. (Without it,
+  do that by hand; `make` regenerates the `.h` files in `build-win64/src/icons`.)
+  Then make the portable folder as in section 10.
+- `--preview` writes `src/icons_new/_preview.png`: all generated line icons, enlarged,
+  on a light and a dark background.
+
+The exact size of every icon is in the table at the top of the script. A working file
+that is missing is skipped and the existing icon is kept. Do not edit the PNGs in
+`src/icons/` by hand; the script overwrites them.
+
+**Line art and colour.** The icons in `toolbar/`, `folders/` and `status/` are
+single-colour line art. Only the shape (alpha channel) is used: the program paints
+them in the text colour of the GTK theme when it loads them
+(`stock_pixbuf_tint()` in `src/stock_pixmap.c`), so they are visible on light and dark
+themes. The colour in the PNG itself does not matter. For the 16x16 icons the script
+thickens the strokes a little before scaling (`dilate_for` in the script), otherwise
+thin lines fade to grey.
+
+**`app/`** holds full-colour images that are used as they are:
+
+| Working file | Generated |
+|---|---|
+| `stock_sylpheed.png` (program icon) | `src/icons/stock_sylpheed.png` (48), `stock_sylpheed_32.png`, `stock_sylpheed_16.png` (window and taskbar icons); `src/icons/zylpheed.ico` (16 to 256, the `zylpheed.exe` icon, see `src/zylpheed.rc.in`); `zylpheed.png` (48), `zylpheed-64x64.png` (installed as `share/pixmaps/zylpheed.png` for `zylpheed.desktop`) and `zylpheed-128x128.png` in the top directory |
+| `stock_sylpheed_newmail.png` (tray icon with new mail) | 48 and 16. Not supplied yet: the icon in `src/icons/` is still the Sylpheed one |
+| `sylpheed-logo.png` (About dialog banner) | scaled to 46 pixels high, width follows |
+
+Not generated: `macosx/bundle/zylpheed.icns`.
+
+ImageMagick writes every size of the `.ico` uncompressed (about 370 KB); that size ends
+up in `zylpheed.exe`.

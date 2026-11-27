@@ -1747,7 +1747,8 @@ static void textview_show_header(TextView *textview, GPtrArray *headers)
 		if (prefs_common.enable_color &&
 		    (!strncmp(header->name, "X-Mailer", 8) ||
 		     !strncmp(header->name, "X-Newsreader", 12)) &&
-		    strstr(header->body, "Sylpheed") != NULL) {
+		    (strstr(header->body, "Sylpheed") != NULL ||
+		     strstr(header->body, "Zylpheed") != NULL)) {
 			gtk_text_buffer_insert_with_tags_by_name
 				(buffer, &iter, header->body, -1,
 				 "header", "emphasis", NULL);

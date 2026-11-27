@@ -39,11 +39,24 @@
 #include "utils.h"
 #include "version.h"
 
+#ifdef G_OS_WIN32
+#  include <windows.h>
+#endif
+
+/* the upstream version this fork is based on */
+#define SYLPHEED_BASE_VERSION	"3.8.0beta1"
+#define ZYLPHEED_HOMEPAGE_URI	"https://github.com/creathcarter/zylpheed"
+
+/* The licence text box keeps at least this height (the height it had in
+   Sylpheed's dialog), so that it is apparent that the text scrolls. */
+#define ABOUT_TEXT_MIN_HEIGHT	96
+
 static GtkWidget *window;
 
 static void about_create(void);
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event);
 static void about_uri_clicked(GtkButton *button, gpointer data);
+static void about_fork_uri_clicked(GtkButton *button, gpointer data);
 
 void about_show(void)
 {
@@ -52,6 +65,44 @@ void about_show(void)
 	else
 		gtk_window_present(GTK_WINDOW(window));
 }
+
+#ifdef G_OS_WIN32
+/* "Windows 11 (64-bit)". GetVersionEx() reports Windows 8 to a program
+   without a matching manifest, so the real version is taken from ntdll. */
+static void about_get_os_name(gchar *buf, gsize len)
+{
+	typedef LONG (WINAPI *RtlGetVersionFunc)(OSVERSIONINFOEXW *);
+	RtlGetVersionFunc rtl_get_version = NULL;
+	OSVERSIONINFOEXW info;
+	HMODULE ntdll;
+	const gchar *bits = sizeof(gpointer) == 8 ? "64-bit" : "32-bit";
+
+	memset(&info, 0, sizeof(info));
+	info.dwOSVersionInfoSize = sizeof(info);
+
+	ntdll = GetModuleHandleW(L"ntdll.dll");
+	if (ntdll)
+		rtl_get_version = (RtlGetVersionFunc)(gpointer)
+			GetProcAddress(ntdll, "RtlGetVersion");
+	if (!rtl_get_version || rtl_get_version(&info) != 0) {
+		g_snprintf(buf, len, "Windows (%s)", bits);
+		return;
+	}
+
+	if (info.wProductType != VER_NT_WORKSTATION)
+		g_snprintf(buf, len, "Windows Server %lu.%lu (%s)",
+			   (gulong)info.dwMajorVersion,
+			   (gulong)info.dwMinorVersion, bits);
+	else if (info.dwMajorVersion == 10 && info.dwBuildNumber >= 22000)
+		g_snprintf(buf, len, "Windows 11 (%s)", bits);
+	else if (info.dwMajorVersion == 10)
+		g_snprintf(buf, len, "Windows 10 (%s)", bits);
+	else
+		g_snprintf(buf, len, "Windows %lu.%lu (%s)",
+			   (gulong)info.dwMajorVersion,
+			   (gulong)info.dwMinorVersion, bits);
+}
+#endif /* G_OS_WIN32 */
 
 static void about_create(void)
 {
@@ -71,12 +122,15 @@ static void about_create(void)
 	struct utsname utsbuf;
 #endif
 	gchar buf[1024];
+#ifdef G_OS_WIN32
+	gchar os_name[64];
+#endif
 	gint i;
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), _("About"));
 	gtk_container_set_border_width(GTK_CONTAINER(window), 8);
-	gtk_widget_set_size_request(window, 518 * gtkut_get_dpi_multiplier(), 358 * gtkut_get_dpi_multiplier());
+	gtk_widget_set_size_request(window, 518 * gtkut_get_dpi_multiplier(), 420 * gtkut_get_dpi_multiplier());
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	g_signal_connect(G_OBJECT(window), "delete_event",
 			 G_CALLBACK(gtk_widget_hide_on_delete), NULL);
@@ -104,12 +158,13 @@ static void about_create(void)
 		   glib_major_version, glib_minor_version, glib_micro_version,
 		   utsbuf.sysname, utsbuf.release, utsbuf.machine);
 #elif defined(G_OS_WIN32)
+	about_get_os_name(os_name, sizeof(os_name));
 	g_snprintf(buf, sizeof(buf),
 		   "GTK+ %d.%d.%d / GLib %d.%d.%d\n"
 		   "Operating System: %s",
 		   gtk_major_version, gtk_minor_version, gtk_micro_version,
 		   glib_major_version, glib_minor_version, glib_micro_version,
-		   "Win32");
+		   os_name);
 #else
 	g_snprintf(buf, sizeof(buf),
 		   "GTK+ %d.%d.%d / GLib %d.%d.%d\n"
@@ -123,6 +178,29 @@ static void about_create(void)
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
 	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
+	/* this fork */
+	label = gtk_label_new("Forked from Sylpheed " SYLPHEED_BASE_VERSION
+			      " by Creath and Claude, 2026");
+	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label(" "ZYLPHEED_HOMEPAGE_URI" ");
+	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, FALSE, 0);
+	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+	g_signal_connect(G_OBJECT(button), "clicked",
+			 G_CALLBACK(about_fork_uri_clicked), NULL);
+	buf[0] = ' ';
+	for (i = 1; i <= strlen(ZYLPHEED_HOMEPAGE_URI); i++) buf[i] = '_';
+	strcpy(buf + i, " ");
+	gtk_label_set_pattern(GTK_LABEL(gtk_bin_get_child(GTK_BIN(button))), buf);
+	/* same link colours as the Sylpheed homepage button below */
+	gtk_widget_set_name(gtk_bin_get_child(GTK_BIN(button)),
+			    "sylpheed-about-uri");
+
+	/* from here on: the original About information of Sylpheed */
 	g_snprintf(buf, sizeof(buf),
 		   "Compiled-in features:%s",
 #if USE_THREADS
@@ -190,6 +268,13 @@ static void about_create(void)
 				       GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwin),
 					    GTK_SHADOW_IN);
+	/* a real scrollbar beside the text, not the GTK3 overlay one that is
+	   only shown while the pointer moves over the text */
+	gtk_scrolled_window_set_overlay_scrolling
+		(GTK_SCROLLED_WINDOW(scrolledwin), FALSE);
+	gtk_scrolled_window_set_min_content_height
+		(GTK_SCROLLED_WINDOW(scrolledwin),
+		 ABOUT_TEXT_MIN_HEIGHT * gtkut_get_dpi_multiplier());
 	gtk_box_pack_start(GTK_BOX(vbox), scrolledwin, TRUE, TRUE, 0);
 
 	text = gtk_text_view_new();
@@ -251,4 +336,9 @@ static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event)
 static void about_uri_clicked(GtkButton *button, gpointer data)
 {
 	open_uri(HOMEPAGE_URI, prefs_common.uri_cmd);
+}
+
+static void about_fork_uri_clicked(GtkButton *button, gpointer data)
+{
+	open_uri(ZYLPHEED_HOMEPAGE_URI, prefs_common.uri_cmd);
 }

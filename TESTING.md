@@ -11,7 +11,7 @@ version, display scaling. Mark each item **pass**, **fail** (with a note or issu
 ## 0. Preparation
 
 - [ ] Use a **throwaway profile**, never a real one. Start with
-      `sylpheed.exe --configdir <scratch dir> --ipcport 50299 --instance-id SylpheedTest`
+      `zylpheed.exe --configdir <scratch dir> --ipcport 50299 --instance-id ZylpheedTest`
       (see `BUILD-WIN64.md`, section 6). Keep a second scratch profile that is a copy of a
       realistic old profile (several accounts, a few thousand messages, filters, address
       book, templates) for the upgrade checks in section 1.
@@ -40,10 +40,10 @@ version, display scaling. Mark each item **pass**, **fail** (with a note or issu
       (summary/mark caches written by this build are accepted).
 - [ ] Window size, position, pane sizes and column widths are remembered across restarts.
 - [ ] `--safe-mode` starts without plug-ins.
-- [ ] `sylpheed.ini` next to the executable with `configdir=` is honoured.
+- [ ] `zylpheed.ini` (section `[Zylpheed]`) next to the executable with `configdir=` is honoured.
 - [ ] Exit via File > Exit, via window close button and via `--exit` from a second process;
       configuration is saved in each case (change a setting, exit, restart, check).
-- [ ] Log window (Tools > Log window) shows protocol logs; `sylpheed.log` is written.
+- [ ] Log window (Tools > Log window) shows protocol logs; `zylpheed.log` is written.
 
 ## 2. Accounts and connections
 
@@ -59,11 +59,11 @@ For each of POP3, IMAP4, NNTP and SMTP:
       APOP for POP3).
 - [ ] Wrong password: clear error, password prompt, no hang.
 - [ ] Password not stored: prompted once per session.
-- [ ] OAuth2 (Gmail / Microsoft): `syl-auth-helper.exe` opens the browser, the token is
+- [ ] OAuth2 (Gmail / Microsoft): `zyl-auth-helper.exe` opens the browser, the token is
       obtained, refreshed after expiry, and IMAP/SMTP log in with XOAUTH2.
 - [ ] SOCKS4/SOCKS5 proxy (with and without authentication) for receive and send.
 - [ ] IPv6 server address (if available).
-- [ ] Network drop during a transfer: error is reported, Sylpheed stays responsive,
+- [ ] Network drop during a transfer: error is reported, Zylpheed stays responsive,
       the next check works.
 - [ ] Multiple accounts; default account; account selector in compose; per-account
       signature and SMTP server.
@@ -192,7 +192,7 @@ For each of POP3, IMAP4, NNTP and SMTP:
 - [ ] Encrypt to a recipient; recipient decrypts it.
 - [ ] Sign and encrypt; inline (non-MIME) signing if offered.
 - [ ] Incoming signed message: good, bad and unknown-key signatures are shown correctly.
-- [ ] Incoming encrypted message: passphrase prompt (pinentry or Sylpheed dialog),
+- [ ] Incoming encrypted message: passphrase prompt (pinentry or Zylpheed dialog),
       decrypted display, wrong passphrase handling.
 - [ ] Key selection dialog when several keys match.
 
@@ -226,7 +226,7 @@ For each of POP3, IMAP4, NNTP and SMTP:
 ## 16. Plug-ins
 
 - [ ] Plug-in manager lists loaded plug-ins (Tools > Plug-in manager).
-- [ ] `attachment_tool` plug-in: placed in `plugins\` next to `sylpheed.exe` (or in
+- [ ] `attachment_tool` plug-in: placed in `plugins\` next to `zylpheed.exe` (or in
       `<configdir>\plugins`), it loads (`--debug` prints "attachment_tool plug-in loading
       done") and its menu item works on a message with attachments.
 - [ ] `test` plug-in: loads; its menu items, toolbar button and callbacks (message view,
@@ -260,7 +260,7 @@ With an instance running (same `--configdir`, `--ipcport` and `--instance-id`):
 - [ ] `--open folderid/msgnum` and `--open file.eml`
 - [ ] `--exit`
 - [ ] Running a second instance without arguments brings the first one to the front.
-- [ ] `mailto:` handler: after registering with `sylpheed-mailto-protocol_user.reg`,
+- [ ] `mailto:` handler: after registering with `zylpheed-mailto-protocol_user.reg`,
       clicking a mailto link in a browser opens a compose window.
 
 ## 20. Windows integration
@@ -270,7 +270,7 @@ With an instance running (same `--configdir`, `--ipcport` and `--instance-id`):
 - [ ] Native file chooser dialogs (open, save, select folder) work with non-ASCII paths.
 - [ ] Profile and mailbox paths containing non-ASCII characters and spaces.
 - [ ] Suspend/resume (sleep the machine during an IMAP connection): reconnects cleanly.
-- [ ] Log off / shut down with Sylpheed running: configuration is saved.
+- [ ] Log off / shut down with Zylpheed running: configuration is saved.
 - [ ] High-DPI: 100 %, 150 %, 200 % scaling; text and icons readable, dialogs fit.
 - [ ] Multi-monitor: windows reopen on the right monitor.
 - [ ] Dark mode (from phase 4): readable in light and dark Windows themes.

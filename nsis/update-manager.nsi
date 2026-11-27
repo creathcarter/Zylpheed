@@ -1,6 +1,6 @@
 ;--------------------------------
 
-!include "sylpheed-defs.nsh"
+!include "zylpheed-defs.nsh"
 
 SetCompressor /SOLID lzma
 
@@ -29,7 +29,7 @@ SetCompressor /SOLID lzma
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
-;!define MUI_FINISHPAGE_RUN "$INSTDIR\sylpheed.exe"
+;!define MUI_FINISHPAGE_RUN "$INSTDIR\zylpheed.exe"
 ;!define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.txt"
 ;!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README-win32.txt"
@@ -72,8 +72,8 @@ Section "Download"
   ${GetOptions} "$R0" "/uri" $1
 
   StrCmp "$1" "" 0 uri_option_found
-    DetailPrint "usage: update-manager.exe /uri 'http://example.com/Sylpheed-VER_setup.exe'"
-    DetailPrint "or update-manager.exe /uri path\to\Sylpheed-VER_setup.exe"
+    DetailPrint "usage: update-manager.exe /uri 'http://example.com/Zylpheed-VER_setup.exe'"
+    DetailPrint "or update-manager.exe /uri path\to\Zylpheed-VER_setup.exe"
     Abort
   uri_option_found:
 
@@ -97,21 +97,21 @@ Section "Download"
 SectionEnd
 
 Section "Exec Installer"
-  ${nsProcess::FindProcess} "sylpheed.exe" $R0
+  ${nsProcess::FindProcess} "zylpheed.exe" $R0
   StrCmp $R0 "0" 0 +3
   MessageBox MB_ICONQUESTION|MB_YESNO "$(kill_and_update_confirm)" /SD IDYES IDYES +2
   Abort
 
-  ExecWait "$INSTDIR\sylpheed.exe --exit" $R0
+  ExecWait "$INSTDIR\zylpheed.exe --exit" $R0
 
-  ; Wait for sylpheed.exe quit completely
-  ${nsProcess::FindProcess} "sylpheed.exe" $R0
+  ; Wait for zylpheed.exe quit completely
+  ${nsProcess::FindProcess} "zylpheed.exe" $R0
   StrCmp $R0 "0" 0 wait_done
   Sleep 1000
-  ${nsProcess::FindProcess} "sylpheed.exe" $R0
+  ${nsProcess::FindProcess} "zylpheed.exe" $R0
   StrCmp $R0 "0" 0 wait_done
   Sleep 1000
-  ${nsProcess::FindProcess} "sylpheed.exe" $R0
+  ${nsProcess::FindProcess} "zylpheed.exe" $R0
   StrCmp $R0 "0" 0 wait_done
   Sleep 1000
 

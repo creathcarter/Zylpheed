@@ -9,6 +9,6 @@ EXTRA_DIST = \
 	make-installer-win64.sh \
 	plugin-updater.nsi \
 	spanish.nsh \
-	sylpheed-defs.nsh \
-	sylpheed.nsi \
+	zylpheed-defs.nsh \
+	zylpheed.nsi \
 	update-manager.nsi

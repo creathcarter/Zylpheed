@@ -180,10 +180,6 @@ static gboolean lock_socket_input_cb	(GIOChannel	*source,
 
 static void remote_command_exec		(void);
 
-#if !defined(G_OS_WIN32) && !defined(__APPLE__)
-static void migrate_old_config		(void);
-#endif
-
 static void open_compose_new		(const gchar	*address,
 					 GPtrArray	*attach_files);
 static void open_message		(const gchar	*path);
@@ -237,7 +233,7 @@ int main(int argc, char *argv[])
 	if (lock_socket < 0) return 0;
 
 	if (cmd.status || cmd.status_full) {
-		puts("0 Sylpheed not running.");
+		puts("0 Zylpheed not running.");
 		lock_socket_remove();
 		return 0;
 	}
@@ -247,7 +243,7 @@ int main(int argc, char *argv[])
 #if defined(G_OS_WIN32) && USE_GTKSPELL
 	/* enchant locates its provider modules relative to its DLL only
 	   when that DLL is in a "bin" directory; in the installed layout
-	   the DLLs are next to sylpheed.exe, so point it there */
+	   the DLLs are next to zylpheed.exe, so point it there */
 	path = g_strconcat(get_startup_dir(), G_DIR_SEPARATOR_S "lib"
 			   G_DIR_SEPARATOR_S "enchant-2", NULL);
 	if (is_dir_exist(path))
@@ -263,11 +259,11 @@ int main(int argc, char *argv[])
 	parse_gtkrc_files();
 	setup_rc_dir();
 
-	if (is_file_exist("sylpheed.log")) {
-		if (rename_force("sylpheed.log", "sylpheed.log.bak") < 0)
-			FILE_OP_ERROR("sylpheed.log", "rename");
+	if (is_file_exist("zylpheed.log")) {
+		if (rename_force("zylpheed.log", "zylpheed.log.bak") < 0)
+			FILE_OP_ERROR("zylpheed.log", "rename");
 	}
-	set_log_file("sylpheed.log");
+	set_log_file("zylpheed.log");
 
 	set_ui_update_func(gtkut_events_flush);
 	set_progress_func(main_window_progress_show);
@@ -441,7 +437,7 @@ static void read_ini_file(void)
 	static gchar *confdir = NULL;
 
 	static PrefParam param[] = {
-		{"ipcport", "50215", &ipcport, P_USHORT},
+		{"ipcport", G_STRINGIFY(REMOTE_CMD_PORT), &ipcport, P_USHORT},
 		{"configdir", NULL, &confdir, P_STRING},
 
 		{NULL, NULL, NULL, P_OTHER}
@@ -449,14 +445,14 @@ static void read_ini_file(void)
 
 	gchar *file;
 
-	file = g_strconcat(get_startup_dir(), G_DIR_SEPARATOR_S, "sylpheed.ini",
+	file = g_strconcat(get_startup_dir(), G_DIR_SEPARATOR_S, "zylpheed.ini",
 			   NULL);
 	if (!is_file_exist(file)) {
 		g_free(file);
 		return;
 	}
 
-	prefs_read_config(param, "Sylpheed", file,
+	prefs_read_config(param, "Zylpheed", file,
 			  conv_get_locale_charset_str());
 	g_free(file);
 
@@ -593,7 +589,7 @@ static void parse_cmd_opt(int argc, char *argv[])
 		} else if (!strncmp(argv[i], "--send", 6)) {
 			cmd.send = TRUE;
 		} else if (!strncmp(argv[i], "--version", 9)) {
-			puts("Sylpheed version " VERSION);
+			puts("Zylpheed version " VERSION);
 			exit(0);
 		} else if (!strncmp(argv[i], "--status-full", 13)) {
 			const gchar *p = argv[i + 1];
@@ -818,7 +814,7 @@ static void setup_rc_dir(void)
 			FILE_OP_ERROR(RC_DIR, "rename");
 	}
 
-	/* migration from ~/.sylpheed to ~/.sylpheed-2.0 */
+	/* create ~/.zylpheed (a Sylpheed configuration is never migrated) */
 	if (!cmd.configdir && !is_dir_exist(RC_DIR)) {
 		const gchar *envstr;
 		AlertValue val;
@@ -846,8 +842,6 @@ static void setup_rc_dir(void)
 
 		if (make_dir(RC_DIR) < 0)
 			exit(1);
-		if (is_dir_exist(OLD_RC_DIR))
-			migrate_old_config();
 	}
 #endif /* !G_OS_WIN32 && !__APPLE__ */
 
@@ -883,6 +877,15 @@ static void app_restart(void)
 					  get_debug_mode() ? " --debug" : "");
 	}
 #endif
+	if (instance_id) {
+		gchar *quoted, *tmp;
+
+		quoted = g_shell_quote(instance_id);
+		tmp = g_strconcat(cmdline, " --instance-id ", quoted, NULL);
+		g_free(quoted);
+		g_free(cmdline);
+		cmdline = tmp;
+	}
 	if (!g_spawn_command_line_async(cmdline, &error)) {
 		alertpanel_error("restart failed\n'%s'\n%s", cmdline, error->message);
 		g_error_free(error);
@@ -1239,7 +1242,7 @@ static void register_system_events(void)
 	debug_print("register_system_events(): RegisterClass\n");
 
 	memset(&wclass, 0, sizeof(WNDCLASS));
-	wclass.lpszClassName = "sylpheed-observer";
+	wclass.lpszClassName = "zylpheed-observer";
 	wclass.lpfnWndProc   = wndproc;
 	wclass.hInstance     = hmodule;
 
@@ -1461,7 +1464,7 @@ static void plugin_init(void)
 			   "Contents" G_DIR_SEPARATOR_S
 			   "Resources" G_DIR_SEPARATOR_S
 			   "lib" G_DIR_SEPARATOR_S
-			   "sylpheed" G_DIR_SEPARATOR_S
+			   "zylpheed" G_DIR_SEPARATOR_S
 			   PLUGIN_DIR,
 			   NULL);
 	syl_plugin_load_all(path);
@@ -1480,7 +1483,7 @@ static gchar *get_socket_name(void)
 	if (filename == NULL) {
 		filename = g_strdup_printf("%s%c%s-%d",
 					   g_get_tmp_dir(), G_DIR_SEPARATOR,
-					   instance_id ? instance_id : "sylpheed",
+					   instance_id ? instance_id : "zylpheed",
 #if HAVE_GETUID
 					   getuid());
 #else
@@ -1497,7 +1500,7 @@ static gint prohibit_duplicate_launch(void)
 
 #ifdef G_OS_WIN32
 	HANDLE hmutex;
-	const gchar *ins_id = instance_id ? instance_id : "Sylpheed";
+	const gchar *ins_id = instance_id ? instance_id : "Zylpheed";
 	gushort port = cmd.ipcport ? cmd.ipcport : REMOTE_CMD_PORT;
 
 	debug_print("prohibit_duplicate_launch: checking mutex: %s\n", ins_id);
@@ -1805,86 +1808,6 @@ static void remote_command_exec(void)
 		app_will_exit(TRUE);
 	}
 }
-
-#if !defined(G_OS_WIN32) && !defined(__APPLE__)
-static void migrate_old_config(void)
-{
-	GDir *dir;
-	const gchar *dir_name;
-	GPatternSpec *pspec;
-
-	if (alertpanel(_("Migration of configuration"),
-		       _("The previous version of configuration found.\n"
-			 "Do you want to migrate it?"),
-		       GTK_STOCK_YES, GTK_STOCK_NO, NULL) != G_ALERTDEFAULT)
-		return;
-
-	debug_print("Migrating old configuration...\n");
-
-#define COPY_FILE(rcfile)						\
-	if (is_file_exist(OLD_RC_DIR G_DIR_SEPARATOR_S rcfile)) {	\
-		conv_copy_file(OLD_RC_DIR G_DIR_SEPARATOR_S rcfile,	\
-			       RC_DIR G_DIR_SEPARATOR_S rcfile,		\
-			       conv_get_locale_charset_str());		\
-	}
-
-	COPY_FILE(ACCOUNT_RC);
-	COPY_FILE(ACTIONS_RC);
-	COPY_FILE(COMMON_RC);
-	COPY_FILE(CUSTOM_HEADER_RC);
-	COPY_FILE(DISPLAY_HEADER_RC);
-	COPY_FILE(FILTER_HEADER_RC);
-	COPY_FILE(COMMAND_HISTORY);
-
-#undef COPY_FILE
-
-	if (is_file_exist(OLD_RC_DIR G_DIR_SEPARATOR_S FILTER_LIST))
-		copy_file(OLD_RC_DIR G_DIR_SEPARATOR_S FILTER_LIST,
-			  RC_DIR G_DIR_SEPARATOR_S FILTER_LIST, FALSE);
-	if (is_file_exist(OLD_RC_DIR G_DIR_SEPARATOR_S FOLDER_LIST))
-		copy_file(OLD_RC_DIR G_DIR_SEPARATOR_S FOLDER_LIST,
-			  RC_DIR G_DIR_SEPARATOR_S FOLDER_LIST, FALSE);
-	if (is_file_exist(OLD_RC_DIR G_DIR_SEPARATOR_S "mime.types"))
-		copy_file(OLD_RC_DIR G_DIR_SEPARATOR_S "mime.types",
-			  RC_DIR G_DIR_SEPARATOR_S "mime.types", FALSE);
-
-	if (is_dir_exist(OLD_RC_DIR G_DIR_SEPARATOR_S TEMPLATE_DIR))
-		conv_copy_dir(OLD_RC_DIR G_DIR_SEPARATOR_S TEMPLATE_DIR,
-			      RC_DIR G_DIR_SEPARATOR_S TEMPLATE_DIR,
-			      conv_get_locale_charset_str());
-	if (is_dir_exist(OLD_RC_DIR G_DIR_SEPARATOR_S UIDL_DIR))
-		copy_dir(OLD_RC_DIR G_DIR_SEPARATOR_S UIDL_DIR,
-			 RC_DIR G_DIR_SEPARATOR_S UIDL_DIR);
-
-	if (!is_file_exist(OLD_RC_DIR G_DIR_SEPARATOR_S ADDRESSBOOK_INDEX_FILE))
-		return;
-
-	if ((dir = g_dir_open(OLD_RC_DIR, 0, NULL)) == NULL) {
-		g_warning("failed to open directory: %s\n", OLD_RC_DIR);
-		return;
-	}
-
-	pspec = g_pattern_spec_new("addrbook-*.xml");
-
-	while ((dir_name = g_dir_read_name(dir)) != NULL) {
-		if (g_pattern_match_string(pspec, dir_name)) {
-			gchar *old_file;
-			gchar *new_file;
-
-			old_file = g_strconcat(OLD_RC_DIR G_DIR_SEPARATOR_S,
-					       dir_name, NULL);
-			new_file = g_strconcat(RC_DIR G_DIR_SEPARATOR_S,
-					       dir_name, NULL);
-			copy_file(old_file, new_file, FALSE);
-			g_free(new_file);
-			g_free(old_file);
-		}
-	}
-
-	g_pattern_spec_free(pspec);
-	g_dir_close(dir);
-}
-#endif /* !G_OS_WIN32 && !__APPLE__ */
 
 static void open_compose_new(const gchar *address, GPtrArray *attach_files)
 {

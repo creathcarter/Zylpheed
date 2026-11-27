@@ -465,7 +465,10 @@ void syl_plugin_unload_all(void)
 {
 	GSList *cur;
 
-	g_return_if_fail(plugin_obj != NULL);
+	/* nothing to unload if the plug-in system was never initialised
+	   (exit during the first-run setup) */
+	if (!plugin_obj)
+		return;
 
 	for (cur = module_list; cur != NULL; cur = cur->next) {
 		GModule *module = (GModule *)cur->data;

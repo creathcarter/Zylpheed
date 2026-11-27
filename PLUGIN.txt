@@ -328,7 +328,7 @@ Emitted when application exits.
 void (* app_force_exit) (GObject *obj)
 
 Emitted when application is forced to exit (no confirmation).
-(ex: sylpheed --exit)
+(ex: zylpheed --exit)
 -------------------------------------------------------------------------
 void (* add_msg) (GObject *obj, FolderItem *item, const gchar *file, guint num)
 
@@ -403,10 +403,23 @@ See plugin/attachment_tool/README for the details.
 Porting plugins to the GTK3 build
 =================================
 
-This version of Sylpheed is built with GTK+ 3.24. GTK+ 2 and GTK+ 3 cannot
-be loaded into the same process, so every plug-in built for an earlier
-version has to be rebuilt against GTK+ 3 and this version of
+Zylpheed (this fork of Sylpheed) is built with GTK+ 3.24. GTK+ 2 and
+GTK+ 3 cannot be loaded into the same process, so every plug-in built for
+an earlier version has to be rebuilt against GTK+ 3 and this version of
 libsylpheed-plugin-0.
+
+Program name
+------------
+
+The program is called Zylpheed (zylpheed.exe, configuration directory
+%APPDATA%\Zylpheed on Windows, ~/.zylpheed on Unix, ~/Library/Application
+Support/Zylpheed on macOS). The plug-in API is not renamed: the library
+names (libsylph-0, libsylpheed-plugin-0), the installed header directory
+(include/sylpheed), every syl_plugin_* function, the signals and
+SYL_PLUGIN_INTERFACE_VERSION are the same as described above.
+Plug-ins are loaded from <configdir>/plugins and, on Windows, from
+plugins\ next to zylpheed.exe; on Unix from lib/zylpheed/plugins under the
+installation prefix (configure --with-plugindir).
 
 Interface version and library names
 -----------------------------------
